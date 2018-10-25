@@ -1,0 +1,16 @@
+Accession Number;Accession No.
+Scientific Name;Scientific Name
+Country;Country
+ProvinceState;Province/State
+Location;Location
+Web_Latitude;Latitude
+Web_Longitude;Longitude
+Grid Ref.;Grid Reference
+Habitat;Habitat
+Microhabitat;Microhabitat
+Altitude;Altitude
+Date Collected;Date Collected
+L_Collectors;Collector(s)
+Collector Number;Collection No.
+Determined by;Determined by
+Field Notes;Notes

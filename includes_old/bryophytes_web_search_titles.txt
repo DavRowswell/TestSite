@@ -1,0 +1,11 @@
+Accession Number;Accession No.
+Genus;Genus
+Species;Species
+Subspecies;Subspecies
+Variety;Variety
+Country;Country
+ProvinceState;Province/State
+Location;Location
+Date;Date
+L_Collectors;Collector(s)
+Number;Collection No.

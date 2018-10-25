@@ -1,0 +1,17 @@
+Accession Number;Accession No.
+
+Family_Genus list::Family;Family
+
+Scientific Name;Scientific Name
+
+Country;Country
+
+ProvinceState;Province/State
+
+Location;Location
+
+Date;Date
+
+L_Collectors;Collector(s)
+
+Number;Collection No.

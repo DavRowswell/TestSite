@@ -1,0 +1,8 @@
+Accession Number;Accession No.
+Scientific Name;Scientific Name
+Country;Country
+ProvinceState;Province/State
+Location;Location
+Date Collected;Date Collected
+L_Collectors;Collector(s)
+Collector Number;Collection No.

@@ -1,0 +1,20 @@
+Accession Number;Accession No.
+Family;Family
+Scientific Name;Scientific Name
+Country;Country
+ProvinceState;Province/State
+Location;Location
+Web_Latitude;Latitude
+Web_Longitude;Longitude
+UTM; UTM
+Grid Ref.;Grid Reference
+Datum;Datum
+Habitat;Habitat
+Host Substratum;Host Substratum
+Altitude;Altitude
+Date Collected;Date Collected
+L_Collectors;Collector(s)
+Collector Number;Collection No.
+L_Determined by;Determined by
+Field Notes;Notes
+PreviousIdentifications;Previous Identifications

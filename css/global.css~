@@ -1,0 +1,35 @@
+/* - - - - - - CSS Document - - - - - - - - - */
+
+body { 
+	font: 75% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+}
+
+table { 
+	font: 97% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+	width: 800px;
+}
+
+th { 
+	font: 97% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+	padding: 3px; background-color: #CCCCCC; text-align: center;
+}
+
+td {
+	font: 97% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+	padding: 3px;
+}
+
+a, a:visited {
+	font: 97% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+	color: blue;
+	text-decoration: none;
+	font-weight:bold;
+	display: block;
+}
+
+a:hover, a:active {
+	color: blue;
+	text-decoration:
+	underline;
+	font-weight:bold;
+}

@@ -15,6 +15,7 @@ If(FileMaker::isError($connected)){
         foreach($connected as $i){
                 echo $i . "<br>";
         }
+        echo "crystal is here <br>";
 }
 
 ?>

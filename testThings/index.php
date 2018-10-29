@@ -2,10 +2,7 @@
 require_once ('FileMaker.php');
 
 $fm = new FileMaker();
-$fm->setProperty('database', 'Avian Research Collection.fmp12');
-$fm->setProperty('hostspec', 'https://collections.zoology.ubc.ca');
-$fm->setProperty('username', 'admin');
-$fm->setProperty('password', 'admin');
+include('db.php');
 
 $connected = $fm->listLayouts();
 If(FileMaker::isError($connected)){

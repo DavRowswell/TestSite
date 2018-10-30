@@ -13,6 +13,7 @@ If(FileMaker::isError($connected)){
                 echo $i . "<br>";
         }
         echo "crystal is here <br>";
+        echo "david is here <br>";
 }
 
 ?>

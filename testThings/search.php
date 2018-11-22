@@ -37,7 +37,8 @@ identificationID: <?php echo $_GET["name"]; ?><br>
 <!-- Your email address is: <?php // echo $_GET["email"]; ?> -->
 <?php 
 $findCommand = $fm->newFindCommand($layouts[0]);
-$findCommand->addFindCriterion('identificationID', $_GET["name"]);
+$identificationID = $_GET["name"];
+$findCommand->addFindCriterion('identificationID', $identificationID);
 $result = $findCommand->execute(); 
 $findAllRec = $result->getRecords();
 If(FileMaker::isError($layouts)){
@@ -46,7 +47,7 @@ If(FileMaker::isError($layouts)){
     $recFields = $result->getFields();
     // echo "connected <br>";
     foreach($findAllRec as $i){
-        if (strlen($i.getField("identificationID")) == $_GET["name"]) {
+        if (strlen($_GET['name']) == strlen($i->getField('identificationID'))) {
             foreach($recFields as $j){
                 echo $i->getField($j) . " ";
             }

@@ -45,6 +45,12 @@ If(FileMaker::isError($layouts)){
     echo "out of luck ".$layouts;
 } else {
     $recFields = $result->getFields();
+
+    foreach($recFields as $l){
+        echo $l . " ";
+    }
+    echo "<br>";
+
     // echo "connected <br>";
     foreach($findAllRec as $i){
         if (strlen($_GET['name']) == strlen($i->getField('identificationID'))) {

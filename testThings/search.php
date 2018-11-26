@@ -5,7 +5,7 @@ require_once ('db.php');
 // $fm = new FileMaker();
 // require_once 'db.php';
 
-$fm = new FileMaker(FM_FILE, FM_HOST, FM_USER, FM_PASS);
+$fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
 $layouts = $fm->listLayouts();
 // $findAllObject = $fm->newFindAllCommand($layouts[0]);
@@ -36,7 +36,9 @@ $layouts = $fm->listLayouts();
 identificationID: <?php echo $_GET["name"]; ?><br>
 <!-- Your email address is: <?php // echo $_GET["email"]; ?> -->
 <?php 
-$findCommand = $fm->newFindCommand($layouts[0]);
+
+
+$findCommand = $fm->newFindCommand($layouts[2]);
 $identificationID = $_GET["name"];
 $findCommand->addFindCriterion('identificationID', $identificationID);
 $result = $findCommand->execute(); 

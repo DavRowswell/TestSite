@@ -10,5 +10,4 @@ $identificationID = $_GET["name"];
 $findCommand->addFindCriterion('Accession No.', $identificationID);
 $result = $findCommand->execute(); 
 $findAllRec = $result->getRecords();
-
 ?>

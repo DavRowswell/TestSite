@@ -4,12 +4,14 @@ require_once ('partials/header.php');
 ?>
 
 <body class="container">
-
-<form action="search.php" method="get">
-identificationID: <input type="text" name="name"><br>
-<!-- E-mail: <input type="text" name="email"><br> -->
-<input class="btn btn-primary" type="submit">
-</form>
-
+  <form action="render.php" method="get">
+    <div class="form-group">
+      <label>Accession No.</label>
+      <input type="text" name="name"><br>
+      <label>Scientific Name</label>
+      <input type="text" name="Scientific Name"><br>
+      <input class="btn btn-primary" type="submit">
+    </div>
+  </form>
 </body>
 </html>

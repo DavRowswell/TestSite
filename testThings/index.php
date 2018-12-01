@@ -5,14 +5,38 @@ require_once ('partials/header.php');
 <body class="container">
   <form action="render.php" method="get">
     <div class="form-group">
+    <div class="row">
+      <div class="col-sm-2">
       <label>Accession No.</label>
-      <input type="text" name="Accession No."><br>
+      </div>
+      <div class="col-sm-2">
+      <input type="text" name="AccessionNo">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
       <label>Genus</label>
-      <input type="text" name="Genus"><br>
+      </div>
+      <div class="col-sm-2">
+      <input type="text" name="Genus">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
       <label>Species</label>
-      <input type="text" name="Species"><br>
+      </div>
+      <div class="col-sm-2">
+      <input type="text" name="Species">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
       <label>Location</label>
-      <input type="text" name="Location"><br>
+      </div>
+      <div class="col-sm-2">
+      <input type="text" name="Location">
+      </div>
+    </div>
       <input class="btn btn-primary" type="submit">
     </div>
   </form>

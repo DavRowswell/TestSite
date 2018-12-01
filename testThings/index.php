@@ -6,7 +6,7 @@ require_once ('partials/header.php');
   <form action="render.php" method="get">
     <div class="form-group">
       <label>Accession No.</label>
-      <input type="text" name="Accession No."><br>
+      <input type="text" name="AccessionNo"><br>
       <label>Genus</label>
       <input type="text" name="Genus"><br>
       <label>Species</label>

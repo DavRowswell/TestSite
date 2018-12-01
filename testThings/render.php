@@ -12,8 +12,8 @@ require_once ('functions.php');
 
   <?php
   // Check if layout exists, and get fields of layout
-  If(FileMaker::isError($layouts)){
-    echo "out of luck ".$layouts;
+  If(FileMaker::isError($result)){
+    echo $result;
   } else {
     $recFields = $result->getFields();
   ?>
@@ -29,14 +29,13 @@ require_once ('functions.php');
     </thead>
     <tbody>
       <?php foreach($findAllRec as $i){
-        if (strlen($_GET['name']) == strlen($i->getField('Accession No.'))) {
       ?>
       <tr>
         <?php foreach($recFields as $j){?>
           <td><?php echo $i->getField($j) ?></td>
         <?php }?>
       </tr>
-      <?php }}?>
+      <?php }?>
     </tbody>
   </table>
     

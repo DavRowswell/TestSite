@@ -2,38 +2,46 @@
 require_once ('FileMaker.php');
 require_once ('db.php');
 
-$fm = new FileMaker(FM_FILE, FM_HOST, FM_USER, FM_PASS);
+$fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
 $layouts = $fm->listLayouts();
 
 // CompoundFind on all inputs with values
-// $compoundFind = $fm->newCompoundFindCommand($layouts[2]);
-
-// $accessionFindRequest = $fm->newFindRequest($layouts[2]);
-// $accessionFindRequest->addFindCriterion('Accession No.', '=='.$_GET['Accession No.']);
-
-// $genusFindRequest = $fm->newFindRequest($layouts[2]);
-// $genusFindRequest->addFindCriterion('Genus', '=='.$_GET['Genus']);
-
-// $speciesFindRequest = $fm->newFindRequest($layouts[2]);
-// $speciesFindRequest->addFindCriterion('Species', '=='.$_GET['Species']);
-
-// $locationFindRequest = $fm->newFindRequest($layouts[2]);
-// $locationFindRequest->addFindCriterion('Location', '=='.$_GET['Location']);
-
-// $compoundFind->add($accessionFindRequest);
-// $compoundFind->add($genusFindRequest);
-// $compoundFind->add($speciesFindRequest);
-// $compoundFind->add($locationFindRequest);
-
-// $compoundFind->addSortRule('Accession No.', 1, FILEMAKER_SORT_DESCEND);
 $findCommand = $fm->newFindCommand($layouts[2]);
-if (isset($_GET['Genus'])) {
-    $identificationID = $_GET['Genus'];
+
+if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
+    // echo "accession";
+    $findCommand->addFindCriterion('Accession No.', $_GET['AccessionNo']);
 }
-$findCommand->addFindCriterion('Accession No.', $identificationID);
+if (isset($_GET['Genus']) && $_GET['Genus'] !== '') {
+    // echo "genus";
+    $findCommand->addFindCriterion('Genus', $_GET['Genus']);
+}
+if (isset($_GET['Species']) && $_GET['Species'] !== '') {
+    // echo "species";
+    $findCommand->addFindCriterion('Species', $_GET['Species']);
+}
+if (isset($_GET['Location']) && $_GET['Location'] !== '') {
+    // echo "location";
+    $findCommand->addFindCriterion('Location', $_GET['Location']);
+}
+
 $result = $findCommand->execute();
 
+// $findCommand = $fm->newFindCommand($layouts[2]);
+// echo $layouts[2];
+// if (isset($_GET['Genus'])) {
+//     $identificationID = $_GET['Genus'];
+// }
+// echo $identificationID;
+// $findCommand->addFindCriterion('Genus', $identificationID);
+// $result = $findCommand->execute();
+if(FileMaker::isError($result)) {
+    // echo "nothing found";
+    $findAllRec = [];
+} else {
+    $findAllRec = $result->getRecords();
+}
+
 // $result = $compoundFind->execute(); 
-$findAllRec = $result->getRecords();
 ?>

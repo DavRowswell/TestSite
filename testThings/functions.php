@@ -1,5 +1,8 @@
 <?php 
 require_once ('FileMaker.php');
+
+// GET db
+// require appropriate db.php
 require_once ('db.php');
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);

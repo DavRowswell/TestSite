@@ -39,22 +39,13 @@ if(FileMaker::isError($result)) {
 
   <!-- construct table for given layout and fields -->
   <table class="table">
-    <thead>
+    <tbody>
         <?php foreach($recFields as $i){?>
       <tr>
           <th scope="col"><?php echo $i ?></th>
+          <td><?php echo $findAllRec[0]->getField($i) ?></td>
       </tr>
         <?php }?>
-    </thead>
-    <tbody>
-      <?php foreach($findAllRec as $i){
-      ?>
-      <tr>
-        <?php foreach($recFields as $j){?>
-          <td><?php echo $i->getField($j) ?></td>
-        <?php }?>
-      </tr>
-      <?php }?>
     </tbody>
   </table>
     

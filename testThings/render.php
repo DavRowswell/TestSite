@@ -31,9 +31,14 @@ require_once ('functions.php');
       <?php foreach($findAllRec as $i){
       ?>
       <tr>
-        <?php foreach($recFields as $j){?>
-          <td><?php echo $i->getField($j) ?></td>
-        <?php }?>
+        <?php foreach($recFields as $j){
+          if($j == 'Accession No.'){
+            echo '<td><a href=\'details.php?AccessionNo='.$i->getField($j).'\'>'.$i->getField($j).'</a></td>';
+          } 
+          else {
+            echo '<td>'.$i->getField($j).'</td>';
+          }
+        }?>
       </tr>
       <?php }?>
     </tbody>

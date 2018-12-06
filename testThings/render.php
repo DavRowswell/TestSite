@@ -2,7 +2,6 @@
 
 <?php
 require_once ('FileMaker.php');
-require_once ('db.php');
 require_once ('partials/header.php');
 require_once ('functions.php');
 ?>

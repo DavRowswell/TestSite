@@ -7,22 +7,22 @@ require_once ('FileMaker.php');
 $db = $_GET['Database'];
 switch ($db) {
     case 'MIW':
-        require_once ('db.php');
+        require_once ('databases/db.php');
         break;
     case 'Bryophytes':
-        require_once ('bryodb.php');
+        require_once ('databases/bryodb.php');
         break; 
     case 'Fungi':
-        require_once ('fungidb.php');
+        require_once ('databases/fungidb.php');
         break;
     case 'Lichen':
-        require_once ('lichendb.php');
+        require_once ('databases/lichendb.php');
         break;
     case 'Algae':
-        require_once ('algaedb.php');
+        require_once ('databases/algaedb.php');
         break;
     case 'Vascular':
-        require_once ('vascdb.php');
+        require_once ('databases/vascdb.php');
         break;
 }
 

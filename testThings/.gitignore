@@ -1,10 +1,5 @@
 #exclude the database information,images and FTP folder
-db.php
-fungidb.php
-bryodb.php
-lichendb.php
-vascdb.php
-algaedb.php
+databases/
 images/
 FTP/
 

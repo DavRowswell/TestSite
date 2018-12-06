@@ -3,7 +3,28 @@ require_once ('FileMaker.php');
 
 // GET db
 // require appropriate db.php
-require_once ('db.php');
+
+$db = $_GET['Database'];
+switch ($db) {
+    case 'MIW':
+        require_once ('db.php');
+        break;
+    case 'Bryophytes':
+        require_once ('bryodb.php');
+        break; 
+    case 'Fungi':
+        require_once ('fungidb.php');
+        break;
+    case 'Lichen':
+        require_once ('lichendb.php');
+        break;
+    case 'Algae':
+        require_once ('algaedb.php');
+        break;
+    case 'Vascular':
+        require_once ('vascdb.php');
+        break;
+}
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 

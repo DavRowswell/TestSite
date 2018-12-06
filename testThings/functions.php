@@ -44,20 +44,10 @@ if (isset($_GET['Location']) && $_GET['Location'] !== '') {
 
 $result = $findCommand->execute();
 
-// $findCommand = $fm->newFindCommand($layouts[2]);
-// echo $layouts[2];
-// if (isset($_GET['Genus'])) {
-//     $identificationID = $_GET['Genus'];
-// }
-// echo $identificationID;
-// $findCommand->addFindCriterion('Genus', $identificationID);
-// $result = $findCommand->execute();
 if(FileMaker::isError($result)) {
-    // echo "nothing found";
     $findAllRec = [];
 } else {
     $findAllRec = $result->getRecords();
 }
 
-// $result = $compoundFind->execute(); 
 ?>

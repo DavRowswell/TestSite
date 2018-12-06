@@ -1,34 +1,26 @@
 <?php 
 require_once ('FileMaker.php');
 
-// GET db
-// require appropriate db.php
-
 $db = $_GET['Database'];
-switch ($db) {
-    case 'MIW':
-        require_once ('databases/db.php');
-        break;
-    case 'Bryophytes':
-        require_once ('databases/bryodb.php');
-        break; 
-    case 'Fungi':
-        require_once ('databases/fungidb.php');
-        break;
-    case 'Lichen':
-        require_once ('databases/lichendb.php');
-        break;
-    case 'Algae':
-        require_once ('databases/algaedb.php');
-        break;
-    case 'Vascular':
-        require_once ('databases/vascdb.php');
-        break;
+
+if ($db == 'MIW') {
+    require_once ('databases/db.php');
+} else {
+    require_once ('databases/herbdb.php');
 }
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
+echo $FM_HOST . "<br>";
+echo $FM_FILE . "<br>";
+echo $FM_USER . "<br>";
+echo $FM_PASS . "<br>";
+
 $layouts = $fm->listLayouts();
+
+if (FileMaker::isError($layouts)) {
+    echo $layouts;
+}
 
 // CompoundFind on all inputs with values
 $findCommand = $fm->newFindCommand($layouts[2]);

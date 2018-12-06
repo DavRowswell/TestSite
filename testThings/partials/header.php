@@ -15,11 +15,11 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="index.php?db=MIW">Home</a></li>
-      <li><a href="index.php?db=Bryophytes">Bryophytes</a></li>
-      <li><a href="index.php?db=Fungi">Fungi</a></li>
-      <li><a href="index.php?db=Lichen">Lichen</a></li>
-      <li><a href="index.php?db=Algae">Algae</a></li>
-      <li><a href="index.php?db=Vascular">Vascular Plants</a></li>
+      <li><a href="index.php?db=bryophytes">Bryophytes</a></li>
+      <li><a href="index.php?db=fungi">Fungi</a></li>
+      <li><a href="index.php?db=lichen">Lichen</a></li>
+      <li><a href="index.php?db=algae">Algae</a></li>
+      <li><a href="index.php?db=vwsp">Vascular Plants</a></li>
     </ul>
   </div>
 </nav>

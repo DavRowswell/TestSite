@@ -6,7 +6,7 @@ require_once ('partials/header.php');
   <form action="render.php" method="get">
     <div class="form-group">
       <input type="text" name="Database" style="display:none;" 
-      value=<?php echo $_GET['db'] ?>>
+      value=<?php if (isset($_GET['db'])) echo $_GET['db'] ?>>
     </div>
     <div class="row">
       <div class="col-sm-2">

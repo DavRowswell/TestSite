@@ -1,13 +1,6 @@
 <?php 
 require_once ('FileMaker.php');
-
-$db = $_GET['Database'];
-
-if ($db == 'MIW') {
-    require_once ('databases/db.php');
-} else {
-    require_once ('databases/herbdb.php');
-}
+require_once ('databases/db.php');
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 

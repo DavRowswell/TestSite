@@ -11,9 +11,6 @@ $result = $findCommand->execute();
 $findAllRec = $result->getRecords();
 $recFields = $result->getFields();
 
-// foreach ($recFields as $rf) {
-//   echo $rf . " ";
-// }
 ?>
 
 <body class="container">
@@ -32,30 +29,6 @@ $recFields = $result->getFields();
       </div>
     </div> 
     <?php } ?>
-    <!-- <div class="row">
-      <div class="col-sm-2">
-      <label>Genus</label>
-      </div>
-      <div class="col-sm-2">
-      <input type="text" name="Genus">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">
-      <label>Species</label>
-      </div>
-      <div class="col-sm-2">
-      <input type="text" name="Species">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">
-      <label>Location</label>
-      </div>
-      <div class="col-sm-2">
-      <input type="text" name="Location">
-      </div>
-    </div> -->
       <input class="btn btn-primary" type="submit">
     </div>
   </form>

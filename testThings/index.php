@@ -6,7 +6,15 @@ require_once ('databases/db.php');
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
 $layouts = $fm->listLayouts();
-$findCommand = $fm->newFindCommand($layouts[2]);
+$layout = $layouts[0];
+
+foreach ($layouts as $l) {
+  if (strpos($l, 'search') !== false) {
+    $layout = $l;
+  }
+}
+
+$findCommand = $fm->newFindCommand($layout);
 $result = $findCommand->execute();
 $findAllRec = $result->getRecords();
 $recFields = $result->getFields();

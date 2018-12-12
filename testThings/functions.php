@@ -5,7 +5,14 @@ require_once ('databases/db.php');
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
 $layouts = $fm->listLayouts();
-$findCommand = $fm->newFindCommand($layouts[2]);
+$layout = "";
+foreach ($layouts as $l) {
+    if (strpos($l, 'search') !== false) {
+        $layout = $l;
+      }
+}
+
+$findCommand = $fm->newFindCommand($layout);
 $result = $findCommand->execute();
 $findAllRec = $result->getRecords();
 $recFields = $result->getFields();
@@ -15,7 +22,7 @@ if (FileMaker::isError($layouts)) {
 }
 
 // CompoundFind on all inputs with values
-$findCommand = $fm->newFindCommand($layouts[2]);
+$findCommand = $fm->newFindCommand($layout);
 
 foreach ($recFields as $rf) {
     $field = explode(' ',trim($rf))[0];

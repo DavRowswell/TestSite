@@ -382,7 +382,7 @@ $Vd1fc8eaf = $this->_eliminateXMLHeader($Vd1fc8eaf);
  if($V70106d0d == 52){
  return new FileMaker_Error($this, 'Communication Error: (' . $V70106d0d . ') ' . curl_error($Vd88fc6ed) . ' - The Web Publishing Core and/or FileMaker Server services are not running.', $V70106d0d);
 }else if($V70106d0d == 22){	
- if (stristr("50", curl_error($Vd88fc6ed))) {
+ if (stristr(curl_error($Vd88fc6ed), "50")) {
  return new FileMaker_Error($this, 'Communication Error: (' . $V70106d0d . ') ' . curl_error($Vd88fc6ed) . ' - The Web Publishing Core and/or FileMaker Server services are not running.', $V70106d0d);
 }else{
  return new FileMaker_Error($this, 'Communication Error: (' . $V70106d0d . ') ' . curl_error($Vd88fc6ed) . ' - This can be due to an invalid username or password, or if the FMPHP privilege is not enabled for that user.', $V70106d0d);

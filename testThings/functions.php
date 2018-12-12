@@ -12,10 +12,13 @@ foreach ($layouts as $l) {
       }
 }
 
-$findCommand = $fm->newFindCommand($layout);
-$result = $findCommand->execute();
-$findAllRec = $result->getRecords();
-$recFields = $result->getFields();
+$fmLayout = $fm->getLayout($layout);
+$layoutFields = $fmLayout->listFields();
+
+// $findCommand = $fm->newFindCommand($layout);
+// $result = $findCommand->execute();
+// $findAllRec = $result->getRecords();
+// $recFields = $result->getFields();
 
 if (FileMaker::isError($layouts)) {
     echo $layouts;
@@ -24,7 +27,7 @@ if (FileMaker::isError($layouts)) {
 // CompoundFind on all inputs with values
 $findCommand = $fm->newFindCommand($layout);
 
-foreach ($recFields as $rf) {
+foreach ($layoutFields as $rf) {
     $field = explode(' ',trim($rf))[0];
     if (isset($_GET[$field]) && $_GET[$field] !== '') {
     // echo "accession";

@@ -13,11 +13,8 @@ foreach ($layouts as $l) {
     $layout = $l;
   }
 }
-
-$findCommand = $fm->newFindCommand($layout);
-$result = $findCommand->execute();
-$findAllRec = $result->getRecords();
-$recFields = $result->getFields();
+$fmLayout = $fm->getLayout($layout);
+$layoutFields = $fmLayout->listFields();
 
 ?>
 
@@ -27,7 +24,7 @@ $recFields = $result->getFields();
       <input type="text" name="Database" style="display:none;" 
       value=<?php if (isset($_GET['db'])) echo $_GET['db']; ?>>
     </div>
-    <?php foreach ($recFields as $rf) { ?>
+    <?php foreach ($layoutFields as $rf) { ?>
     <div class="row">
       <div class="col-sm-2">
       <label><?php echo $rf ?></label>

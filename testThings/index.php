@@ -22,7 +22,7 @@ $layoutFields = $fmLayout->listFields();
   <form action="render.php" method="get">
     <div class="form-group">
       <input type="text" name="Database" style="display:none;" 
-      value=<?php if (isset($_GET['db'])) echo $_GET['db']; ?>>
+      value=<?php if (isset($_GET['Database'])) echo $_GET['Database']; ?>>
     </div>
     <?php foreach ($layoutFields as $rf) { ?>
     <div class="row">

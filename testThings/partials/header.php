@@ -14,12 +14,12 @@
       <a class="navbar-brand" href="#">HerbariumDB</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="index.php?db=MIW">Home</a></li>
-      <li><a href="index.php?db=bryophytes">Bryophytes</a></li>
-      <li><a href="index.php?db=fungi">Fungi</a></li>
-      <li><a href="index.php?db=lichen">Lichen</a></li>
-      <li><a href="index.php?db=algae">Algae</a></li>
-      <li><a href="index.php?db=vwsp">Vascular Plants</a></li>
+      <li class="active"><a href="index.php?Database=miw">Home</a></li>
+      <li><a href="index.php?Database=bryophytes">Bryophytes</a></li>
+      <li><a href="index.php?Database=fungi">Fungi</a></li>
+      <li><a href="index.php?Database=lichen">Lichen</a></li>
+      <li><a href="index.php?Database=algae">Algae</a></li>
+      <li><a href="index.php?Database=vwsp">Vascular Plants</a></li>
     </ul>
   </div>
 </nav>

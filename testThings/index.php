@@ -1,7 +1,7 @@
 <?php 
 require_once ('FileMaker.php');
 require_once ('partials/header.php');
-require_once ('databases/db.php');
+require_once ('db.php');
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 

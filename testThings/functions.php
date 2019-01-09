@@ -29,8 +29,8 @@ foreach ($layoutFields as $rf) {
     }
 }
 
-if (isset($_GET['skip'])) {
-    $findCommand->setRange($_GET['skip'], 100);
+if (isset($_GET['Skip'])) {
+    $findCommand->setRange($_GET['Skip'], 100);
 } else {
     $findCommand->setRange(0, 100);
 }

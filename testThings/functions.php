@@ -30,9 +30,15 @@ $findCommand = $fm->newFindCommand($layout);
 foreach ($layoutFields as $rf) {
     $field = explode(' ',trim($rf))[0];
     if (isset($_GET[$field]) && $_GET[$field] !== '') {
-    // echo "accession";
-    $findCommand->addFindCriterion($rf, $_GET[$field]);
+        // echo "accession";
+        $findCommand->addFindCriterion($rf, $_GET[$field]);
+    }
 }
+
+if (isset($_GET['skip'])) {
+    $findCommand->setRange($_GET['skip'], 100);
+} else {
+    $findCommand->setRange(0, 100);
 }
 
 $result = $findCommand->execute();

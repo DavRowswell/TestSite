@@ -5,7 +5,17 @@ require_once ('databases/db.php');
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
+echo "FM_FILE: $FM_FILE <br>
+      FM_HOST: $FM_HOST <br>
+      FM_USER: $FM_USER <br>
+      FM_PASS: $FM_PASS <br>";
+
 $layouts = $fm->listLayouts();
+
+if (FileMaker::isError($layouts)) {
+  echo $layouts;
+}
+
 $layout = $layouts[0];
 
 foreach ($layouts as $l) {

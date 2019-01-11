@@ -16,7 +16,8 @@ $fmLayout = $fm->getLayout($layout);
 $layoutFields = $fmLayout->listFields();
 
 if (FileMaker::isError($layouts)) {
-    echo $layouts;
+    echo $layouts->message;
+    exit;
 }
 
 // Find on all inputs with values
@@ -29,8 +30,8 @@ foreach ($layoutFields as $rf) {
     }
 }
 
-if (isset($_GET['Skip'])) {
-    $findCommand->setRange($_GET['Skip'], 100);
+if (isset($_GET['Page'])) {
+    $findCommand->setRange(($_GET['Page'] - 1) * 100, 100);
 } else {
     $findCommand->setRange(0, 100);
 }

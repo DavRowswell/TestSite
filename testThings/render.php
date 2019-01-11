@@ -12,7 +12,8 @@ require_once ('functions.php');
   <?php
   // Check if layout exists, and get fields of layout
   If(FileMaker::isError($result)){
-    echo $result;
+    echo $result->message;
+    exit;
   } else {
     $recFields = $result->getFields();
     require_once ('partials/pageController.php');

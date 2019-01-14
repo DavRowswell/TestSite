@@ -20,6 +20,8 @@
       <li><a href="index.php?Database=lichen">Lichen</a></li>
       <li><a href="index.php?Database=algae">Algae</a></li>
       <li><a href="index.php?Database=vwsp">Vascular Plants</a></li>
+      <li><a href="index.php?Database=avian">Avian</a></li>
+      
     </ul>
   </div>
 </nav>

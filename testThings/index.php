@@ -26,6 +26,18 @@ foreach ($layouts as $l) {
 $fmLayout = $fm->getLayout($layout);
 $layoutFields = $fmLayout->listFields();
 
+function mapField($field) {
+  return $field;
+}
+
+function formatField($field) {
+  $colonPosition = strrpos($field, ":");
+  if ($colonPosition) {
+    $field = substr($field, $colonPosition + 1);
+  }
+  return mapField($field);
+}
+
 ?>
 
 <body class="container">
@@ -37,7 +49,7 @@ $layoutFields = $fmLayout->listFields();
     <?php foreach ($layoutFields as $rf) { ?>
     <div class="row">
       <div class="col-sm-2">
-      <label><?php echo $rf ?></label>
+      <label><?php echo formatField($rf) ?></label>
       </div>
       <div class="col-sm-2">
       <input type="text" name=<?php echo $rf ?>>

@@ -17,6 +17,17 @@ require_once ('functions.php');
   } else {
     $recFields = $result->getFields();
     require_once ('partials/pageController.php');
+    function mapField($field) {
+      return $field;
+    }
+    
+    function formatField($field) {
+      $colonPosition = strrpos($field, ":");
+      if ($colonPosition) {
+        $field = substr($field, $colonPosition + 1);
+      }
+      return mapField($field);
+    }
   ?>
 
   <!-- construct table for given layout and fields -->
@@ -24,7 +35,7 @@ require_once ('functions.php');
     <thead>
       <tr>
         <?php foreach($recFields as $i){?>
-          <th scope="col"><?php echo $i ?></th>
+          <th scope="col"><?php echo formatField($i) ?></th>
         <?php }?>
       </tr>
     </thead>

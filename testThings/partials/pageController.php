@@ -25,8 +25,8 @@
             <?php
         }
         ?>
-    <input type="number" name="Page"><br>
-    <input type="submit" value="Submit">
+    <input type="number" name="Page" min="1" max=<?php echo $pages?>><br>
+    <input type="submit" value="Navigate to Page">
 </form>
 
 <?php

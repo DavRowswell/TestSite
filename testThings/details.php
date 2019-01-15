@@ -14,7 +14,12 @@ $findCommand = $fm->newFindCommand($layouts[2]);
 
 if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
     // echo "accession";
-    $findCommand->addFindCriterion('Accession No.', '=='.$_GET['AccessionNo']);
+    if ($_GET['Database'] == 'vwsp'){
+      $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
+    }
+    else {
+      $findCommand->addFindCriterion('Accession No.', '=='.$_GET['AccessionNo']);
+    }
 }
 
 $result = $findCommand->execute();
@@ -25,6 +30,19 @@ if(FileMaker::isError($result)) {
 } else {
     $findAllRec = $result->getRecords();
 }
+
+function mapField($field) {
+  return $field;
+}
+
+function formatField($field) {
+  $colonPosition = strrpos($field, ":");
+  if ($colonPosition) {
+    $field = substr($field, $colonPosition + 1);
+  }
+  return mapField($field);
+}
+
 ?>
 
 <html>
@@ -32,7 +50,7 @@ if(FileMaker::isError($result)) {
   <?php
   // Check if layout exists, and get fields of layout
   If(FileMaker::isError($result)){
-    echo $result;
+    echo $result->getMessage();
   } else {
     $recFields = $result->getFields();
   ?>
@@ -42,7 +60,7 @@ if(FileMaker::isError($result)) {
     <tbody>
         <?php foreach($recFields as $i){?>
       <tr>
-          <th scope="col"><?php echo $i ?></th>
+          <th scope="col"><?php echo formatField($i) ?></th>
           <td><?php echo $findAllRec[0]->getField($i) ?></td>
       </tr>
         <?php }?>

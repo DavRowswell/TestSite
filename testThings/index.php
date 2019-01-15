@@ -25,7 +25,6 @@ foreach ($layouts as $l) {
 }
 $fmLayout = $fm->getLayout($layout);
 $layoutFields = $fmLayout->listFields();
-
 function mapField($field) {
   return $field;
 }

@@ -31,7 +31,9 @@ require_once ('functions.php');
   ?>
 
   <!-- construct table for given layout and fields -->
-  <table class="table">
+  <div style="overflow-x:auto;">
+  <table class="table table-hover table-striped 
+          table-condensed tasks-table">
     <thead>
       <tr>
         <?php foreach($recFields as $i){?>
@@ -55,6 +57,7 @@ require_once ('functions.php');
       <?php }?>
     </tbody>
   </table>
+  </div>
     
   <?php
   }

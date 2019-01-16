@@ -8,7 +8,7 @@
 
     echo "$found records found <br>";
 
-    $pages = ceil($found / 100);
+    $pages = ceil($found / $numRes);
     $page = 1;
     if (isset($_GET['Page'])) {
         $page = $_GET['Page'];
@@ -45,7 +45,7 @@
         echo "<a href=$nexturi>Next Page</a>";
       }
     } else { 
-        if ($found > 100){
+        if ($found > $numRes){
             array_push($parts, 'Page=2');
             $nexturi = implode('&', $parts);
             echo "<a href=$nexturi>Next Page</a>";

@@ -4,6 +4,7 @@ require_once ('db.php');
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
+$numRes = 50;
 $layouts = $fm->listLayouts();
 $layout = "";
 foreach ($layouts as $l) {
@@ -31,9 +32,9 @@ foreach ($layoutFields as $rf) {
 }
 
 if (isset($_GET['Page'])) {
-    $findCommand->setRange(($_GET['Page'] - 1) * 100, 100);
+    $findCommand->setRange(($_GET['Page'] - 1) * $numRes, $numRes);
 } else {
-    $findCommand->setRange(0, 100);
+    $findCommand->setRange(0, $numRes);
 }
 
 $result = $findCommand->execute();

@@ -21,6 +21,7 @@
       <li><a href="index.php?Database=algae">Algae</a></li>
       <li><a href="index.php?Database=vwsp">Vascular Plants</a></li>
       <li><a href="index.php?Database=avian">Avian</a></li>
+      <li><a href="index.php?Database=fish">Fish</a></li>
       
     </ul>
   </div>

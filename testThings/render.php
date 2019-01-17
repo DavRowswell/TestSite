@@ -46,7 +46,7 @@ require_once ('functions.php');
       ?>
       <tr>
         <?php foreach($recFields as $j){
-          if($j == 'Accession No.' || $j == 'Accession Number'){
+          if($j == 'Accession No.' || $j == 'Accession Number'  || $j == 'ID'){
             echo '<td><a href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.$i->getField($j).'</a></td>';
           } 
           else {

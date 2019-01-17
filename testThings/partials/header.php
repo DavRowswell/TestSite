@@ -32,6 +32,7 @@
       <li class="<?php echo(active("index.php?Database=algae"))?>"><a href="index.php?Database=algae">Algae</a></li>
       <li class="<?php echo(active("index.php?Database=vwsp"))?>"><a href="index.php?Database=vwsp">Vascular Plants</a></li>
       <li class="<?php echo(active("index.php?Database=avian"))?>"><a href="index.php?Database=avian">Avian</a></li>
+      <li class="<?php echo(active("index.php?Database=fish"))?>"><a href="index.php?Database=fish">Fish</a></li>
     </ul>
   </div>
 </nav>

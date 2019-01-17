@@ -8,14 +8,26 @@ require_once ('db.php');
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
 $layouts = $fm->listLayouts();
+$layout = $layouts[0];
 
-// CompoundFind on all inputs with values
-$findCommand = $fm->newFindCommand($layouts[2]);
+foreach ($layouts as $l) {
+  if (strpos($l, 'search') !== false) {
+    $layout = $l;
+  }
+} 
+
+$findCommand = $fm->newFindCommand($layout);
 
 if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
     // echo "accession";
+   
     if ($_GET['Database'] == 'vwsp'){
       $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
+    }
+    else if ($_GET['Database'] == 'fish'){
+      
+      $findCommand->addFindCriterion('ID', '=='.$_GET['AccessionNo']);
+  
     }
     else {
       $findCommand->addFindCriterion('Accession No.', '=='.$_GET['AccessionNo']);

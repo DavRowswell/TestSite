@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
 
 <?php
 require_once ('FileMaker.php');
@@ -31,9 +31,8 @@ require_once ('functions.php');
   ?>
 
   <!-- construct table for given layout and fields -->
-  <div style="overflow-x:auto;">
   <table class="table table-hover table-striped 
-          table-condensed tasks-table">
+          table-condensed tasks-table table-responsive">
     <thead>
       <tr>
         <?php foreach($recFields as $i){?>
@@ -57,7 +56,6 @@ require_once ('functions.php');
       <?php }?>
     </tbody>
   </table>
-  </div>
     
   <?php
   }

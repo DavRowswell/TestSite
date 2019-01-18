@@ -94,7 +94,7 @@ function formatField($field) {
 
 ?>
 
-<body class="container">
+<body class="container-fluid">
   <form action="render.php" method="get">
     <div class="form-group">
       <input type="text" name="Database" style="display:none;" 

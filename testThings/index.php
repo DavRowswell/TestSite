@@ -26,7 +26,62 @@ foreach ($layouts as $l) {
 $fmLayout = $fm->getLayout($layout);
 $layoutFields = $fmLayout->listFields();
 function mapField($field) {
-  return $field;
+  switch( strtolower($field)) {
+    case 'specificepithet':  
+      return 'Specific Epithet';
+      break;
+    case 'infraspecificepithet':
+      return 'Infraspecific Epithet';
+      break;
+    case 'taxonrank': 
+      return 'Taxon Rank';
+      break;
+    case 'provincestate':
+      return 'Province/State';
+      break;
+    case 'stateprovince':
+      return 'Province/State';
+      break;
+    case 'verbatimelevation':
+      return 'Elevation';
+      break;
+    case 'verbatimdepth':
+      return 'Depth';
+      break;
+    case 'decimallongitude':
+      return 'Decimal Longitude';
+      break;
+    case 'decimallatitude':
+      return 'Decimal Latitude';
+      break;
+    case 'verbatimeventdate':
+      return 'Collection Date';
+      break;
+    case 'identifiedby':
+      return 'Identified By';
+      break;
+    case 'typestatus':
+      return 'Type Status';
+      break;
+    case 'occurrenceremarks':
+      return 'Field Notes';
+      break;
+      case 'fieldnotes':
+      return 'Field Notes';
+      break;
+    case 'recordnumber':
+      return 'Record Number';
+      break;
+    case 'previousidentifications':
+      return 'Previous Identifications';
+      break;
+    case 'mushroomobserver':
+      return 'Mushroom Observer';
+      break;
+    default:
+      return ucwords($field);
+      break;
+    }
 }
 
 function formatField($field) {

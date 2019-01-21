@@ -73,7 +73,7 @@ function mapField($field) {
     return mapField($field);
   }
 
-$numRes = 50;
+$numRes = 100;
 $layouts = $fm->listLayouts();
 $layout = "";
 foreach ($layouts as $l) {
@@ -98,6 +98,10 @@ foreach ($layoutFields as $rf) {
     if (isset($_GET[$field]) && $_GET[$field] !== '') {
         $findCommand->addFindCriterion($rf, $_GET[$field]);
     }
+}
+
+if (isset($_GET['Sort'])) {
+    $findCommand->addSortRule($_GET['Sort'], 1);
 }
 
 if (isset($_GET['Page']) && $_GET['Page'] != '') {

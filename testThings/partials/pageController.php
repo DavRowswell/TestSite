@@ -39,7 +39,7 @@
         echo "<a href=$lasturi>Last Page</a>";
       }
 
-      if ($_GET['Page'] < $pages) {
+      if ($_GET['Page'] < $pages && $_GET['Page'] != '') {
         $parts[sizeof($parts)-1] = 'Page='.($_GET['Page'] + 1);
         $nexturi = implode('&', $parts);
         echo "<a href=$nexturi>Next Page</a>";

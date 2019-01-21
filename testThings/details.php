@@ -3,6 +3,7 @@
 <?php
 require_once ('FileMaker.php');
 require_once ('partials/header.php');
+require_once ('functions.php');
 require_once ('db.php');
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
@@ -25,6 +26,9 @@ if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
     $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'ubcalgae'){
       $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
     }
+    else if ($_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammals') {
+      $findCommand->addFindCriterion('catalogNumber', '=='.$_GET['AccessionNo']);
+    }
     else if ($_GET['Database'] == 'fish'){
       
       $findCommand->addFindCriterion('ID', '=='.$_GET['AccessionNo']);
@@ -42,18 +46,6 @@ if(FileMaker::isError($result)) {
     $findAllRec = [];
 } else {
     $findAllRec = $result->getRecords();
-}
-
-function mapField($field) {
-  return $field;
-}
-
-function formatField($field) {
-  $colonPosition = strrpos($field, ":");
-  if ($colonPosition) {
-    $field = substr($field, $colonPosition + 1);
-  }
-  return mapField($field);
 }
 
 ?>

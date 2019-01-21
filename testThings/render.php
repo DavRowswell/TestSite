@@ -17,17 +17,6 @@ require_once ('functions.php');
   } else {
     $recFields = $result->getFields();
     require_once ('partials/pageController.php');
-    function mapField($field) {
-      return $field;
-    }
-    
-    function formatField($field) {
-      $colonPosition = strrpos($field, ":");
-      if ($colonPosition) {
-        $field = substr($field, $colonPosition + 1);
-      }
-      return mapField($field);
-    }
   ?>
 
   <!-- construct table for given layout and fields -->
@@ -45,7 +34,7 @@ require_once ('functions.php');
       ?>
       <tr>
         <?php foreach($recFields as $j){
-          if($j == 'Accession No.' || $j == 'Accession Number' || $j == 'ID'){
+          if(formatField($j) == 'Accession No.' || formatField($j) == 'Accession Number' || $j == 'ID'){
             echo '<td><a href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.$i->getField($j).'</a></td>';
           } 
           else {

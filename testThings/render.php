@@ -25,7 +25,8 @@ require_once ('functions.php');
     <thead>
       <tr>
         <?php foreach($recFields as $i){?>
-          <th scope="col"><?php echo formatField($i) ?></th>
+          <th scope="col"><a href=<?php echo replaceURIElement('Sort', replaceSpace($i)); ?>>
+          <?php echo formatField($i) ?></a></th>
         <?php }?>
       </tr>
     </thead>

@@ -4,6 +4,27 @@ require_once ('db.php');
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
+function replaceURIElement($element, $input) {
+  // if (isset($_GET[$element])) return "http://localhost/TestSite/testThings/";
+  if (isset($_GET[$element])) {
+    $elementLeft = strpos($_SERVER['REQUEST_URI'], $element);
+    $elementRight = strpos($_SERVER['REQUEST_URI'], '&', $elementLeft);
+    $stringRight = "";
+    if ($elementRight) {
+      $stringRight = substr($_SERVER['REQUEST_URI'], $elementRight, strlen($_SERVER['REQUEST_URI']));
+    }
+    return substr($_SERVER['REQUEST_URI'], 0, $elementLeft) 
+    . 
+    $element . '=' . $input . $stringRight;
+  } else {
+    return $_SERVER['REQUEST_URI'] . '&' . $element . '=' . $input;
+  }
+}
+
+function replaceSpace($element) {
+  return str_replace(" ", "+", $element);
+}
+
 function mapField($field) {
     switch( strtolower($field)) {
       case 'specificepithet':  
@@ -24,7 +45,7 @@ function mapField($field) {
       case 'verbatimelevation':
         return 'Elevation';
         break;
-      case 'verbatimDepth':
+      case 'verbatimdepth':
         return 'Depth';
         break;
       case 'decimallongitude':
@@ -101,7 +122,8 @@ foreach ($layoutFields as $rf) {
 }
 
 if (isset($_GET['Sort'])) {
-    $findCommand->addSortRule($_GET['Sort'], 1);
+    echo $_GET['Sort'];
+    $findCommand->addSortRule(str_replace('+', ' ', $_GET['Sort']), 1, FILEMAKER_SORT_ASCEND);
 }
 
 if (isset($_GET['Page']) && $_GET['Page'] != '') {

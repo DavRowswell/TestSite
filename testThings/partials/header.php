@@ -39,7 +39,6 @@
          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Vertebrates <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li class="<?php echo(active("index.php?Database=avian"))?>"><a href="index.php?Database=avian">Avian</a></li>
-              <li class="<?php echo(active("index.php?Database=fish"))?>"><a href="index.php?Database=fish">Fish</a></li>
               <li class="<?php echo(active("index.php?Database=herpetology"))?>"><a href="index.php?Database=herpetology">Herpetology</a></li>
               <li class="<?php echo(active("index.php?Database=mammal"))?>"><a href="index.php?Database=mammal">Mammal</a></li>
             </ul>
@@ -47,7 +46,15 @@
         <li class="nav-item dropdown">
          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Invertebrates <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                   <li class="<?php echo(active("index.php?Database=miw"))?>"><a href="index.php?Database=miw">Marine Invertebrates</a></li>
+                   <li class="<?php echo(active("index.php?Database=miw"))?>"><a href="index.php?Database=miw"> Wet Marine Invertebrates</a></li>
+                   <li class="<?php echo(active("index.php?Database=mi"))?>"><a href="index.php?Database=mi">Dry Marine Invertebrates</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Bones <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="<?php echo(active("index.php?Database=fish"))?>"><a href="index.php?Database=fish">Fish</a></li>
+              <li class="<?php echo(active("index.php?Database=fossil"))?>"><a href="index.php?Database=fossil">Fossils</a></li>            
             </ul>
         </li>
       </li>

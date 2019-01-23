@@ -26,7 +26,7 @@ if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
     $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'ubcalgae'){
       $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
     }
-    else if ($_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammals') {
+    else if ($_GET['Database'] == 'fossils' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammals') {
       $findCommand->addFindCriterion('catalogNumber', '=='.$_GET['AccessionNo']);
     }
     else if ($_GET['Database'] == 'fish'){

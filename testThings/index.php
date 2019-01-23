@@ -20,7 +20,15 @@ if (FileMaker::isError($layouts)) {
 $layout = $layouts[0];
 
 foreach ($layouts as $l) {
-  if (strpos($l, 'search') !== false) {
+  //get current database name
+  $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
+  if ($page == 'mi') {
+    if (strpos($l, 'search') !== false) {
+      $layout = $l;
+      break;
+    }
+  }
+  else if (strpos($l, 'search') !== false) {
     $layout = $l;
   }
 }

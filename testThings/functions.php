@@ -4,20 +4,20 @@ require_once ('db.php');
 
 $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
-function replaceURIElement($element, $input) {
+function replaceURIElement($URI, $element, $input) {
   // if (isset($_GET[$element])) return "http://localhost/TestSite/testThings/";
   if (isset($_GET[$element])) {
-    $elementLeft = strpos($_SERVER['REQUEST_URI'], $element);
-    $elementRight = strpos($_SERVER['REQUEST_URI'], '&', $elementLeft);
+    $elementLeft = strpos($URI, $element);
+    $elementRight = strpos($URI, '&', $elementLeft);
     $stringRight = "";
     if ($elementRight) {
-      $stringRight = substr($_SERVER['REQUEST_URI'], $elementRight, strlen($_SERVER['REQUEST_URI']));
+      $stringRight = substr($URI, $elementRight, strlen($URI));
     }
-    return substr($_SERVER['REQUEST_URI'], 0, $elementLeft) 
+    return substr($URI, 0, $elementLeft) 
     . 
     $element . '=' . $input . $stringRight;
   } else {
-    return $_SERVER['REQUEST_URI'] . '&' . $element . '=' . $input;
+    return $URI . '&' . $element . '=' . $input;
   }
 }
 
@@ -115,6 +115,7 @@ if (FileMaker::isError($layouts)) {
 $findCommand = $fm->newFindCommand($layout);
 
 foreach ($layoutFields as $rf) {
+  // echo $rf;
     $field = explode(' ',trim($rf))[0];
     if (isset($_GET[$field]) && $_GET[$field] !== '') {
         $findCommand->addFindCriterion($rf, $_GET[$field]);
@@ -122,10 +123,15 @@ foreach ($layoutFields as $rf) {
 }
 
 if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
-    // echo $_GET['Sort'];
-    $findCommand->addFindCriterion($_GET['Sort'], '*');
+    $sortField = str_replace('+', ' ', $_GET['Sort']);
+    $fieldSplit = explode(' ', $sortField);
+    if (!isset($_GET[$fieldSplit[0]]) || $_GET[$fieldSplit[0]] == '') {
+      $findCommand->addFindCriterion($sortField, '*');
+    }
     $findCommand->addSortRule(str_replace('+', ' ', $_GET['Sort']), 1, FILEMAKER_SORT_ASCEND);
 }
+
+
 
 if (isset($_GET['Page']) && $_GET['Page'] != '') {
     $findCommand->setRange(($_GET['Page'] - 1) * $numRes, $numRes);

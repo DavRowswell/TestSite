@@ -121,8 +121,9 @@ foreach ($layoutFields as $rf) {
     }
 }
 
-if (isset($_GET['Sort'])) {
-    echo $_GET['Sort'];
+if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
+    // echo $_GET['Sort'];
+    $findCommand->addFindCriterion($_GET['Sort'], '*');
     $findCommand->addSortRule(str_replace('+', ' ', $_GET['Sort']), 1, FILEMAKER_SORT_ASCEND);
 }
 

@@ -20,10 +20,10 @@
 <form action="render.php" method="get">
     <?php
         foreach ($qsparts as $part) {
-            if (strpos($part, "Page") === 0) continue;
             $keyVal = explode('=', $part);
+            if (strpos($part, "Page") === 0 || $keyVal[1] == '') continue;
             ?>
-            <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo $keyVal[1]?>" />
+            <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo str_replace('%2B', '+', $keyVal[1])?>" />
             <?php
         }
         ?>
@@ -34,7 +34,7 @@
 <?php
     echo "Page $page / $pages <br>";
 
-    if (isset($_GET['Page'])) {
+    if (isset($_GET['Page']) && $_GET['Page'] != '') {
       if ($_GET['Page'] > 1) {
         $parts[sizeof($parts)-1] = 'Page='.($_GET['Page'] - 1);
         $lasturi = implode('&', $parts);

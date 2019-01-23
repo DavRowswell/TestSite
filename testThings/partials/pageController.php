@@ -1,4 +1,6 @@
 <?php
+    require_once ('functions.php');
+
     $qs = $_SERVER['QUERY_STRING'];
     $uri = $_SERVER['REQUEST_URI'];
     $parts = explode('&', $uri);
@@ -10,7 +12,7 @@
 
     $pages = ceil($found / $numRes);
     $page = 1;
-    if (isset($_GET['Page'])) {
+    if (isset($_GET['Page']) && $_GET['Page'] != '') {
         $page = $_GET['Page'];
     }
     // echo explode('?', $qs)[0];
@@ -18,7 +20,7 @@
 <form action="render.php" method="get">
     <?php
         foreach ($qsparts as $part) {
-            if (strpos($part, "Page")) continue;
+            if (strpos($part, "Page") === 0) continue;
             $keyVal = explode('=', $part);
             ?>
             <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo $keyVal[1]?>" />

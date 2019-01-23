@@ -33,6 +33,8 @@
       <li class="<?php echo(active("index.php?Database=vwsp"))?>"><a href="index.php?Database=vwsp">Vascular Plants</a></li>
       <li class="<?php echo(active("index.php?Database=avian"))?>"><a href="index.php?Database=avian">Avian</a></li>
       <li class="<?php echo(active("index.php?Database=fish"))?>"><a href="index.php?Database=fish">Fish</a></li>
+      <li class="<?php echo(active("index.php?Database=herpetology"))?>"><a href="index.php?Database=herpetology">Herpetology</a></li>
+      <li class="<?php echo(active("index.php?Database=mammal"))?>"><a href="index.php?Database=mammal">Mammal</a></li>
     </ul>
   </div>
 </nav>

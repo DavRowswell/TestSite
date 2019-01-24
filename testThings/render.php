@@ -7,6 +7,13 @@ require_once ('functions.php');
 ?>
 
 <html>
+  <head>
+    <style>
+        #column_headings {
+          font-size: 14px;
+        }
+    </style>
+  </head>
   <body>
 
   <?php
@@ -30,8 +37,8 @@ require_once ('functions.php');
     <thead>
       <tr>
         <?php foreach($recFields as $i){?>
-          <th scope="col"><a href=<?php echo replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i)), 'Page', '1'); ?>>
-          <?php echo formatField($i) ?></a></th>
+          <th id = "column_headings" scope="col"><?php echo formatField($i) ?><a href=<?php echo replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i)), 'Page', '1'); ?>>
+            <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a></th>
         <?php }?>
       </tr>
     </thead>

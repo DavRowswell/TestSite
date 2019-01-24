@@ -22,7 +22,7 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="?">HerbariumDB</a>
+      <a class="navbar-brand" href="home.php">HerbariumDB</a>
     </div>
     <ul class="nav navbar-nav">
       <li class="nav-item dropdown">
@@ -62,4 +62,3 @@
   </div>
 </nav>
 
-<body> Home Page </body>

@@ -17,6 +17,34 @@
     }
     // echo explode('?', $qs)[0];
 ?>
+
+<style>
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.round {
+  border-radius: 50%;
+}
+</style>
+
 <form action="render.php" method="get">
     <?php
         foreach ($qsparts as $part) {
@@ -36,21 +64,24 @@
 
     if (isset($_GET['Page']) && $_GET['Page'] != '') {
       if ($_GET['Page'] > 1) {
+        // echo "<br>";
         $parts[sizeof($parts)-1] = 'Page='.($_GET['Page'] - 1);
         $lasturi = implode('&', $parts);
-        echo "<a href=$lasturi>Last Page</a>";
+        echo '<a href=' . $lasturi . ' class="previous round">&#8249</a>';
       }
-
       if ($_GET['Page'] < $pages && $_GET['Page'] != '') {
         $parts[sizeof($parts)-1] = 'Page='.($_GET['Page'] + 1);
         $nexturi = implode('&', $parts);
-        echo "<a href=$nexturi>Next Page</a>";
+        echo '<a href=' . $nexturi . ' class="next round">&#8250</a>';
       }
+    //   if($_GET['Page'] > 1 && $_GET['Page'] < $pages) echo "<br>";
+    // echo "Page $page / $pages <br>";
+
     } else { 
         if ($found > $numRes){
             array_push($parts, 'Page=2');
             $nexturi = implode('&', $parts);
-            echo "<a href=$nexturi>Next Page</a>";
+            echo '<a href=' . $nexturi . ' class="next round">&#8250</a>';
         }
     }
 ?>

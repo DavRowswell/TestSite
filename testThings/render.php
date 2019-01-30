@@ -64,7 +64,21 @@ if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
     if (!isset($_GET[$fieldSplit[0]]) || $_GET[$fieldSplit[0]] == '') {
       $findCommand->addFindCriterion($sortField, '*');
     }
-    $findCommand->addSortRule(str_replace('+', ' ', $_GET['Sort']), 1, FILEMAKER_SORT_ASCEND);
+    $sortBy = $_GET['Sort'];
+    if (mapField($sortBy) === 'Accession Number') {
+      $sortBy = 'SortNum';
+      $findCommand->addFindCriterion($sortBy, '*');
+      if ($_GET['Database'] === 'avian') {
+        $findCommand->addFindCriterion('catalogNumber', '=B*');
+      }
+    }
+    if ($_GET['SortOrder'] === 'Descend') {
+      // echo 'Descending';
+      $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_DESCEND);
+    } else {
+      // echo 'Ascending';
+      $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_ASCEND);
+    }
 }
 
 
@@ -95,16 +109,57 @@ if(FileMaker::isError($result)) {
     $recFields = $result->getFields();
     require_once ('partials/pageController.php');
   ?>
-
+<?php 
+// if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') {
+//   replaceURIElement(
+//     replaceURIElement(
+//       replaceURIElement(
+//         $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
+//         , 'Page', '1')
+//         , 'SortOrder', 'Ascend');
+//   // replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', 
+//   // replaceSpace($i)), 'Page', '1');
+// } else {
+//   replaceURIElement(
+//     replaceURIElement(
+//       replaceURIElement(
+//         $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
+//         , 'Page', '1')
+//         , 'SortOrder', 'Descend');
+// }
+?>
   <!-- construct table for given layout and fields -->
   <table class="table table-hover table-striped 
           table-condensed tasks-table table-responsive">
     <thead>
       <tr>
-        <?php foreach($recFields as $i){?>
+        <?php foreach($recFields as $i){
+          // if ($i === 'SortNum') continue;?>
+          
           <th id = "column_headings" class = "d-inline-block" scope="col"><span id = "headers"><?php echo formatField($i) ?> 
-          </span><a id = icons href=<?php echo replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', 
-          replaceSpace($i)), 'Page', '1'); ?>>
+          </span><a id = icons href=<?php 
+          if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
+            echo replaceURIElement(
+              replaceURIElement(
+                replaceURIElement(
+                  $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
+                  , 'Page', '1')
+                  , 'SortOrder', 'Ascend');
+            // replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', 
+            // replaceSpace($i)), 'Page', '1');
+          } else {
+            echo replaceURIElement(
+              replaceURIElement(
+                replaceURIElement(
+                  $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
+                  , 'Page', '1')
+                  , 'SortOrder', 'Descend');
+          }
+          
+          // echo replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', 
+          // replaceSpace($i)), 'Page', '1'); 
+          
+          ?>>
             <span id = "icon" class="glyphicon glyphicon-sort" aria-hidden="true"></span></a></th>
         <?php }?>
       </tr>
@@ -114,6 +169,7 @@ if(FileMaker::isError($result)) {
       ?>
       <tr>
         <?php foreach($recFields as $j){
+          // if ($i === 'SortNum') continue;
           if(formatField($j) == 'Accession No.' || formatField($j) == 'Accession Number' || $j == 'ID'){
             echo '<td><a href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.$i->getField($j).'</a></td>';
           }

@@ -12,21 +12,10 @@ require_once ('functions.php');
         #column_headings {
           font-size: 12px;
         }
-
         #icons {
-          position: relative;
+
           float:right;
-          vertical-align:
         }
-        #headers {
-        
-          padding: 0;
-          float:left;
-          margin: 0px; 
-          width: 45%;
-          word-wrap: break-word;
-        }
-        
     </style>
   </head>
   <body>
@@ -44,7 +33,6 @@ require_once ('functions.php');
     $recFields = $result->getFields();
     require_once ('partials/pageController.php');
   ?>
-  
 
   <!-- construct table for given layout and fields -->
   <table class="table table-hover table-striped 
@@ -52,8 +40,10 @@ require_once ('functions.php');
     <thead>
       <tr>
         <?php foreach($recFields as $i){?>
-          <th id = "column_headings" scope="col"><span id = "headers"><?php echo formatField($i) ?> </span><a id = icons href=<?php echo replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i)), 'Page', '1'); ?>>
-            <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a></th>
+          <th id = "column_headings" class = "d-inline-block" scope="col"><span id = "headers"><?php echo formatField($i) ?> 
+          </span><a id = icons href=<?php echo replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', 
+          replaceSpace($i)), 'Page', '1'); ?>>
+            <span id = "icon" class="glyphicon glyphicon-sort" aria-hidden="true"></span></a></th>
         <?php }?>
       </tr>
     </thead>

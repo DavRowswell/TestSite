@@ -28,33 +28,33 @@
       <li class="nav-item dropdown">
          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Herbarium <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li class="<?php echo(active("index.php?Database=algae"))?>"><a href="index.php?Database=algae">Algae</a></li>
-              <li class="<?php echo(active("index.php?Database=bryophytes"))?>"><a href="index.php?Database=bryophytes">Bryophytes</a></li>
-              <li class="<?php echo(active("index.php?Database=fungi"))?>"><a href="index.php?Database=fungi">Fungi</a></li>
-              <li class="<?php echo(active("index.php?Database=lichen"))?>"><a href="index.php?Database=lichen">Lichen</a></li>
-              <li class="<?php echo(active("index.php?Database=vwsp"))?>"><a href="index.php?Database=vwsp">Vascular Plants</a></li>
+              <li class="<?php echo(active("search.php?Database=algae"))?>"><a href="search.php?Database=algae">Algae</a></li>
+              <li class="<?php echo(active("search.php?Database=bryophytes"))?>"><a href="search.php?Database=bryophytes">Bryophytes</a></li>
+              <li class="<?php echo(active("search.php?Database=fungi"))?>"><a href="search.php?Database=fungi">Fungi</a></li>
+              <li class="<?php echo(active("search.php?Database=lichen"))?>"><a href="search.php?Database=lichen">Lichen</a></li>
+              <li class="<?php echo(active("search.php?Database=vwsp"))?>"><a href="search.php?Database=vwsp">Vascular Plants</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Vertebrates <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li class="<?php echo(active("index.php?Database=avian"))?>"><a href="index.php?Database=avian">Avian</a></li>
-              <li class="<?php echo(active("index.php?Database=herpetology"))?>"><a href="index.php?Database=herpetology">Herpetology</a></li>
-              <li class="<?php echo(active("index.php?Database=mammal"))?>"><a href="index.php?Database=mammal">Mammal</a></li>
+              <li class="<?php echo(active("search.php?Database=avian"))?>"><a href="search.php?Database=avian">Avian</a></li>
+              <li class="<?php echo(active("search.php?Database=herpetology"))?>"><a href="search.php?Database=herpetology">Herpetology</a></li>
+              <li class="<?php echo(active("search.php?Database=mammal"))?>"><a href="search.php?Database=mammal">Mammal</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Invertebrates <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                   <li class="<?php echo(active("index.php?Database=miw"))?>"><a href="index.php?Database=miw"> Wet Marine Invertebrates</a></li>
-                   <li class="<?php echo(active("index.php?Database=mi"))?>"><a href="index.php?Database=mi">Dry Marine Invertebrates</a></li>
+                   <li class="<?php echo(active("search.php?Database=miw"))?>"><a href="search.php?Database=miw"> Wet Marine Invertebrates</a></li>
+                   <li class="<?php echo(active("search.php?Database=mi"))?>"><a href="search.php?Database=mi">Dry Marine Invertebrates</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Bones <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li class="<?php echo(active("index.php?Database=fish"))?>"><a href="index.php?Database=fish">Fish</a></li>
-              <li class="<?php echo(active("index.php?Database=fossil"))?>"><a href="index.php?Database=fossil">Fossils</a></li>            
+              <li class="<?php echo(active("search.php?Database=fish"))?>"><a href="search.php?Database=fish">Fish</a></li>
+              <li class="<?php echo(active("search.php?Database=fossil"))?>"><a href="search.php?Database=fossil">Fossils</a></li>            
             </ul>
         </li>
       </li>

@@ -11,11 +11,24 @@ $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 $layouts = $fm->listLayouts();
 $layout = $layouts[0];
 
+// foreach ($layouts as $l) {
+//   if (strpos($l, 'search') !== false) {
+//     $layout = $l;
+//   }
+// } 
+
 foreach ($layouts as $l) {
-  if (strpos($l, 'search') !== false) {
+
+  if ($_GET['Database'] === 'mi') {
+    if (strpos($l, 'details') !== false) {
+      $layout = $l;
+      break;
+    }
+  }
+  else if (strpos($l, 'details') !== false) {
     $layout = $l;
   }
-} 
+}
 
 $findCommand = $fm->newFindCommand($layout);
 

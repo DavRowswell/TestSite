@@ -21,6 +21,68 @@ require_once ('functions.php');
   <body>
 
   <?php
+
+  
+$numRes = 100;
+$layouts = $fm->listLayouts();
+$layout = "";
+foreach ($layouts as $l) {
+
+  if ($_GET['Database'] === 'mi') {
+    if (strpos($l, 'results') !== false) {
+      $layout = $l;
+      break;
+    }
+  }
+  else if (strpos($l, 'results') !== false) {
+    $layout = $l;
+  }
+}
+
+$fmLayout = $fm->getLayout($layout);
+$layoutFields = $fmLayout->listFields();
+
+if (FileMaker::isError($layouts)) {
+    echo $layouts->message;
+    exit;
+}
+
+// Find on all inputs with values
+$findCommand = $fm->newFindCommand($layout);
+
+foreach ($layoutFields as $rf) {
+  // echo $rf;
+    $field = explode(' ',trim($rf))[0];
+    if (isset($_GET[$field]) && $_GET[$field] !== '') {
+        $findCommand->addFindCriterion($rf, $_GET[$field]);
+    }
+}
+
+if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
+    $sortField = str_replace('+', ' ', $_GET['Sort']);
+    $fieldSplit = explode(' ', $sortField);
+    if (!isset($_GET[$fieldSplit[0]]) || $_GET[$fieldSplit[0]] == '') {
+      $findCommand->addFindCriterion($sortField, '*');
+    }
+    $findCommand->addSortRule(str_replace('+', ' ', $_GET['Sort']), 1, FILEMAKER_SORT_ASCEND);
+}
+
+
+
+if (isset($_GET['Page']) && $_GET['Page'] != '') {
+    $findCommand->setRange(($_GET['Page'] - 1) * $numRes, $numRes);
+} else {
+    $findCommand->setRange(0, $numRes);
+}
+
+$result = $findCommand->execute();
+
+if(FileMaker::isError($result)) {
+    $findAllRec = [];
+} else {
+    $findAllRec = $result->getRecords();
+}
+
   // echo __LINE__;
   // Check if layout exists, and get fields of layout
   If(FileMaker::isError($result)){

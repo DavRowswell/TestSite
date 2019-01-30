@@ -31,7 +31,8 @@ function mapField($field) {
         return 'Specific Epithet';
         break;
       case 'infraspecificepithet':
-        return 'Infraspecific Epithet';
+        return 'Infraspecies';
+        //return 'Infraspecific Epithet';
         break;
       case 'taxonrank': 
         return 'Taxon Rank';

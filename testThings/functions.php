@@ -99,10 +99,21 @@ $numRes = 100;
 $layouts = $fm->listLayouts();
 $layout = "";
 foreach ($layouts as $l) {
-    if (strpos($l, 'search') !== false) {
-        $layout = $l;
+
+  // $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
+  if ($_GET['Database'] === 'mi') {
+    if (strpos($l, 'results') !== false) {
+      $layout = $l;
+      break;
     }
+  }
+  else if (strpos($l, 'results') !== false) {
+    $layout = $l;
+  }
 }
+    // if (strpos($l, 'results') !== false) {
+    //     $layout = $l;
+    // }
 
 $fmLayout = $fm->getLayout($layout);
 $layoutFields = $fmLayout->listFields();

@@ -9,18 +9,13 @@ require_once ('functions.php');
 <html>
   <head>
     <style>
-        #column_headings {
-          font-size: 12px;
+       th {
+         font-size: 14px;
+       }
+        span {
+          text-indent:-0.6em;
         }
-        #icons {
-
-          float:right;
-        }
-        #icon {
-          float:right;
-          font-size: 10px;
-          margin-left: -10px;
-          }
+       }
     </style>
   </head>
   <body>
@@ -136,13 +131,14 @@ if(FileMaker::isError($result)) {
 
   <!-- construct table for given layout and fields -->
   <table class="table table-hover table-striped 
-          table-condensed tasks-table table-responsive">
+          table-condensed tasks-table">
     <thead>
       <tr>
         <?php foreach($recFields as $i){
           // if ($i === 'SortNum') continue;?>
           
-          <th id = "column_headings" class = "col-md-1" scope="col"><?php echo formatField($i) ?><a href=<?php 
+          <th id = <?php echo formatField($i) ?> scope="col">
+            <?php echo formatField($i) ?> </span> --> <a style="padding: 0px;" href=<?php 
           if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
             echo replaceURIElement(
               replaceURIElement(
@@ -165,7 +161,7 @@ if(FileMaker::isError($result)) {
           // replaceSpace($i)), 'Page', '1'); 
           
           ?>>
-            <span id = "icon" class="glyphicon glyphicon-sort" aria-hidden="true"></span></a></th>
+            <span id = "icon" class="fas fa-sort"><?php echo formatField($i) ?> </span></a></th>
         <?php }?>
       </tr>
     </thead>
@@ -176,7 +172,7 @@ if(FileMaker::isError($result)) {
         <?php foreach($recFields as $j){
           // if ($i === 'SortNum') continue;
           if(formatField($j) == 'Accession No.' || formatField($j) == 'Accession Number' || $j == 'ID'){
-            echo '<td><a href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.$i->getField($j).'</a></td>';
+            echo '<td id="data"><a style="padding: 0px;" href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.trim($i->getField($j)).'</a></td>';
           }
           else {
             echo '<td id="data">'.$i->getField($j).'</td>';

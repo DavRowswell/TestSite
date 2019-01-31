@@ -16,6 +16,11 @@ require_once ('functions.php');
 
           float:right;
         }
+        #icon {
+          float:right;
+          font-size: 10px;
+          margin-left: -10px;
+          }
     </style>
   </head>
   <body>
@@ -128,6 +133,7 @@ if(FileMaker::isError($result)) {
 //         , 'SortOrder', 'Descend');
 // }
 ?>
+
   <!-- construct table for given layout and fields -->
   <table class="table table-hover table-striped 
           table-condensed tasks-table table-responsive">
@@ -136,8 +142,7 @@ if(FileMaker::isError($result)) {
         <?php foreach($recFields as $i){
           // if ($i === 'SortNum') continue;?>
           
-          <th id = "column_headings" class = "d-inline-block" scope="col"><span id = "headers"><?php echo formatField($i) ?> 
-          </span><a id = icons href=<?php 
+          <th id = "column_headings" class = "col-md-1" scope="col"><?php echo formatField($i) ?><a href=<?php 
           if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
             echo replaceURIElement(
               replaceURIElement(

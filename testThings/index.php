@@ -35,7 +35,7 @@ require_once ('db.php');
     <h1> <b>Home Page </b> </h1>
     <h2 id = "herbarium"> <b>Herbarium Databases</b> </h2>
     <hr align = "left">
-    <a role="button" class="btn btn-danger d-flex" href="search.php?Database=algae">Algae</a>
+    <a role="button" class="btn btn-danger" href="search.php?Database=algae">Algae</a>
     <a role="button" class="btn btn-danger" href="search.php?Database=bryophytes">Bryophytes</a>
     <a role="button" class="btn btn-danger" href="search.php?Database=fungi">Fungi</a>
     <a role="button" class="btn btn-danger" href="search.php?Database=lichen">Lichen</a>

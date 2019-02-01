@@ -138,7 +138,7 @@ if(FileMaker::isError($result)) {
           // if ($i === 'SortNum') continue;?>
           
           <th id = <?php echo formatField($i) ?> scope="col">
-            <?php echo formatField($i) ?> </span> --> <a style="padding: 0px;" href=<?php 
+            <a style="padding: 0px;" href=<?php 
           if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
             echo replaceURIElement(
               replaceURIElement(

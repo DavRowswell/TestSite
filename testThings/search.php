@@ -1,42 +1,44 @@
-<?php 
-require_once ('FileMaker.php');
-require_once ('partials/header.php');
-require_once ('db.php');
-require_once ('functions.php');
+<!DOCTYPE html>
+<html>
+<head>
+  <?php
+    require_once ('FileMaker.php');
+    require_once ('partials/header.php');
+    require_once ('db.php');
+    require_once ('functions.php');
 
-$fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+    // echo "FM_FILE: $FM_FILE <br>
+    //       FM_HOST: $FM_HOST <br>
+    //       FM_USER: $FM_USER <br>
+    //       FM_PASS: $FM_PASS <br>";
 
-// echo "FM_FILE: $FM_FILE <br>
-//       FM_HOST: $FM_HOST <br>
-//       FM_USER: $FM_USER <br>
-//       FM_PASS: $FM_PASS <br>";
+    $layouts = $fm->listLayouts();
 
-$layouts = $fm->listLayouts();
-
-if (FileMaker::isError($layouts)) {
-  echo $layouts;
-}
-
-$layout = $layouts[0];
-
-foreach ($layouts as $l) {
-  //get current database name
-  $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
-  if ($page == 'mi') {
-    if (strpos($l, 'search') !== false) {
-      $layout = $l;
-      break;
+    if (FileMaker::isError($layouts)) {
+      echo $layouts;
     }
-  }
-  else if (strpos($l, 'search') !== false) {
-    $layout = $l;
-  }
-}
-$fmLayout = $fm->getLayout($layout);
-$layoutFields = $fmLayout->listFields();
-?>
 
+    $layout = $layouts[0];
+
+    foreach ($layouts as $l) {
+      //get current database name
+      $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
+      if ($page == 'mi') {
+        if (strpos($l, 'search') !== false) {
+          $layout = $l;
+          break;
+        }
+      }
+      else if (strpos($l, 'search') !== false) {
+        $layout = $l;
+      }
+    }
+    $fmLayout = $fm->getLayout($layout);
+    $layoutFields = $fmLayout->listFields();
+  ?>
+</head>
 <body class="container-fluid">
+  <?php require_once ('partials/navbar.php'); ?>
   <form action="render.php" method="get">
     <div class="form-group">
       <input type="text" name="Database" style="display:none;" 
@@ -56,3 +58,4 @@ $layoutFields = $fmLayout->listFields();
     </div>
   </form>
 </body>
+</html>

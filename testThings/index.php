@@ -1,10 +1,10 @@
-<?php
-require_once ('FileMaker.php');
-require_once ('partials/header.php');
-require_once ('functions.php');
-require_once ('db.php');
-?>
+<!DOCTYTPE html>
+<html>
 <head>
+    <?php
+    require_once ('FileMaker.php');
+    require_once ('partials/header.php');
+    ?>
     <style>
         hr {
             border: 1px solid grey;
@@ -30,8 +30,8 @@ require_once ('db.php');
         }
     </style>
 </head>
-
-<body> 
+<body>
+    <?php require_once ('partials/navbar.php'); ?>
     <h1> <b>Home Page </b> </h1>
     <h2 id = "herbarium"> <b>Herbarium Databases</b> </h2>
     <hr align = "left">
@@ -57,3 +57,4 @@ require_once ('db.php');
     <a role="button" class="btn btn-danger" href="search.php?Database=fish">Fish</a>
     <a role="button" class="btn btn-danger" href="search.php?Database=fossil">Fossils</a>
 </body>
+</html>

@@ -63,7 +63,6 @@
   } else {
     $recFields = $result->getFields();
   ?>
-
   <!-- construct table for given layout and fields -->
   <table class="table">
     <tbody>

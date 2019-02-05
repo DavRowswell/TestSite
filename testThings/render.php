@@ -119,8 +119,6 @@
                     $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
                     , 'Page', '1')
                     , 'SortOrder', 'Ascend');
-              // replaceURIElement(replaceURIElement($_SERVER['REQUEST_URI'], 'Sort', 
-              // replaceSpace($i)), 'Page', '1');
             } else {
               echo replaceURIElement(
                 replaceURIElement(

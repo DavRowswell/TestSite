@@ -27,7 +27,7 @@ function replaceSpace($element) {
 function mapField($field) {
     switch( strtolower($field)) {
       case 'specificepithet':  
-        return 'Specific Epithet';
+        return 'Species';
         break;
       case 'infraspecificepithet':
         return 'Infraspecies';
@@ -49,10 +49,10 @@ function mapField($field) {
         return 'Depth';
         break;
       case 'decimallongitude':
-        return 'Decimal Longitude';
+        return 'Longitude';
         break;
       case 'decimallatitude':
-        return 'Decimal Latitude';
+        return 'Latitude';
         break;
       case 'verbatimeventdate':
         return 'Collection Date';
@@ -70,7 +70,7 @@ function mapField($field) {
         return 'Field Notes';
         break;
       case 'recordnumber':
-        return 'Record Number';
+        return 'Collection Number';
         break;
       case 'previousidentifications':
         return 'Previous Identifications';

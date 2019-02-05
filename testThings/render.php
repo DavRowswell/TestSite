@@ -49,6 +49,8 @@
         $sortBy = $_GET['Sort'];
         if (mapField($sortBy) === 'Accession Number') {
           $sortBy = 'SortNum';
+          if ($_GET['Database'] === 'fish') $sortBy = 'ID';
+          // echo $sortBy;
           $findCommand->addFindCriterion($sortBy, '*');
           if ($_GET['Database'] === 'avian') {
             $findCommand->addFindCriterion('catalogNumber', '=B*');

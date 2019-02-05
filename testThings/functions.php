@@ -33,6 +33,8 @@ function mapField($field) {
         return 'Infraspecies';
         //return 'Infraspecific Epithet';
         break;
+      case 'id':
+        return 'Accession Number';
       case 'taxonrank': 
         return 'Taxon Rank';
         break;
@@ -80,6 +82,12 @@ function mapField($field) {
         break;
       case 'catalognumber':
         return 'Accession Number';
+      case 'associatedreferences':
+        return 'Associated References';
+      case 'associatedsequences':
+        return 'Associated Sequences';
+      case 'reproductivecondition':
+        return 'Reproductive Condition';
       default:
         return ucwords($field);
         break;

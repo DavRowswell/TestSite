@@ -20,13 +20,18 @@
     }
   }
 
+  // echo $_GET['AccessionNo'];
+
   $findCommand = $fm->newFindCommand($layout);
   if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
       if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
       $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'ubcalgae'){
         $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
       }
-      else if ($_GET['Database'] == 'fossils' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammals') {
+      else if ($_GET['Database'] == 'fossil' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
+        
+      // echo $_GET['AccessionNo'];
+
         $findCommand->addFindCriterion('catalogNumber', '=='.$_GET['AccessionNo']);
       }
       else if ($_GET['Database'] == 'fish'){
@@ -40,6 +45,7 @@
   }
 
   $result = $findCommand->execute();
+
   if(FileMaker::isError($result)) {
       $findAllRec = [];
   } else {

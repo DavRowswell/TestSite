@@ -49,12 +49,12 @@ a:hover {
     <?php
         foreach ($qsparts as $part) {
             $keyVal = explode('=', $part);
-            if (strpos($part, "Page") === 0 || $keyVal[1] == '') continue;
+            if (strpos($part, "Page") === 0 || $keyVal[1] == '' ) continue;
             ?>
-            <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo str_replace('%2B', '+', $keyVal[1])?>" />
+            <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo str_replace('%3A', ':', str_replace('%2B', '+', $keyVal[1]))?>" />
             <?php
         }
-        ?>
+        ?> 
     <input type="number" name="Page" min="1" max=<?php echo $pages?>><br>
     <input type="submit" value="Navigate to Page">
 </form>

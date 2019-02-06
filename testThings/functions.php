@@ -28,58 +28,40 @@ function mapField($field) {
     switch( strtolower($field)) {
       case 'specificepithet':  
         return 'Species';
-        break;
       case 'infraspecificepithet':
         return 'Infraspecies';
-        //return 'Infraspecific Epithet';
-        break;
       case 'id':
         return 'Accession Number';
       case 'taxonrank': 
         return 'Taxon Rank';
-        break;
       case 'provincestate':
         return 'Province/State';
-        break;
       case 'stateprovince':
         return 'Province/State';
-        break;
       case 'verbatimelevation':
         return 'Elevation';
-        break;
       case 'verbatimdepth':
         return 'Depth';
-        break;
       case 'decimallongitude':
         return 'Longitude';
-        break;
       case 'decimallatitude':
         return 'Latitude';
-        break;
       case 'verbatimeventdate':
         return 'Collection Date';
-        break;
       case 'identifiedby':
         return 'Identified By';
-        break;
       case 'typestatus':
         return 'Type Status';
-        break;
       case 'occurrenceremarks':
         return 'Field Notes';
-        break;
-        case 'fieldnotes':
+      case 'fieldnotes':
         return 'Field Notes';
-        break;
       case 'recordnumber':
         return 'Collection Number';
-        break;
       case 'previousidentifications':
         return 'Previous Identifications';
-        break;
       case 'mushroomobserver':
         return 'Mushroom Observer';
-        break;
       case 'catalognumber':
         return 'Accession Number';
       case 'associatedreferences':
@@ -90,7 +72,6 @@ function mapField($field) {
         return 'Reproductive Condition';
       default:
         return ucwords($field);
-        break;
       }
   }
   

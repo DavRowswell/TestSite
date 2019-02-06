@@ -140,7 +140,7 @@
       <tr>
         <?php foreach($recFields as $j){
           if ($j === 'SortNum') continue;
-          if(formatField($j) == 'Accession No.' || formatField($j) == 'Accession Number' || $j == 'ID'){
+          if(formatField($j) == 'Accession Number'){
             echo '<td id="data"><a style="padding: 0px;" href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.trim($i->getField($j)).'</a></td>';
           }
           else {

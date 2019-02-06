@@ -29,8 +29,6 @@
         $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
       }
       else if ($_GET['Database'] == 'fossil' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
-        
-      // echo $_GET['AccessionNo'];
 
         $findCommand->addFindCriterion('catalogNumber', '=='.$_GET['AccessionNo']);
       }

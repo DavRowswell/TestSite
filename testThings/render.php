@@ -21,6 +21,12 @@
       }
     }
 
+    function shouldDescend($field) {
+      if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return true;
+      if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
+      return false;
+    }
+
     $fmLayout = $fm->getLayout($layout);
     $layoutFields = $fmLayout->listFields();
 
@@ -49,8 +55,6 @@
         $sortBy = $_GET['Sort'];
         if (mapField($sortBy) === 'Accession Number') {
           $sortBy = 'SortNum';
-          if ($_GET['Database'] === 'fish') $sortBy = 'ID';
-          // echo $sortBy;
           $findCommand->addFindCriterion($sortBy, '*');
           if ($_GET['Database'] === 'avian') {
             $findCommand->addFindCriterion('catalogNumber', '=B*');
@@ -113,20 +117,26 @@
         <th id = <?php echo formatField($i) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
-            if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
-              echo replaceURIElement(
-                replaceURIElement(
-                  replaceURIElement(
-                    $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
-                    , 'Page', '1')
-                    , 'SortOrder', 'Ascend');
-            } else {
+          
+          // function shouldDescend($field) {
+          //   if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return true;
+          //   if (isset($_GET['Sort']) && $_GET['Sort'] === $field) return true;
+          // }
+            // if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
+            if (shouldDescend($i)) {
               echo replaceURIElement(
                 replaceURIElement(
                   replaceURIElement(
                     $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
                     , 'Page', '1')
                     , 'SortOrder', 'Descend');
+            } else {
+              echo replaceURIElement(
+                replaceURIElement(
+                  replaceURIElement(
+                    $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
+                    , 'Page', '1')
+                    , 'SortOrder', 'Ascend');
             }
           ?>>
           <span id = "icon" class="fas fa-sort"><?php echo formatField($i) ?> </span>

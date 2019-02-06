@@ -108,7 +108,8 @@
   <table class="table table-hover table-striped table-condensed tasks-table">
     <thead>
       <tr>
-        <?php foreach($recFields as $i){?>
+        <?php foreach($recFields as $i){
+          if ($i === 'SortNum') continue;?>
         <th id = <?php echo formatField($i) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
@@ -138,7 +139,8 @@
       <?php foreach($findAllRec as $i){?>
       <tr>
         <?php foreach($recFields as $j){
-          if(formatField($j) == 'Accession No.' || formatField($j) == 'Accession Number' || $j == 'ID'){
+          if ($j === 'SortNum') continue;
+          if(formatField($j) == 'Accession Number'){
             echo '<td id="data"><a style="padding: 0px;" href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.trim($i->getField($j)).'</a></td>';
           }
           else {

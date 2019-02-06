@@ -117,15 +117,15 @@
                 replaceURIElement(
                   replaceURIElement(
                     $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
-                    , 'Page', '1')
-                    , 'SortOrder', 'Ascend');
+                    , 'SortOrder', 'Ascend') 
+                    , 'Page', '1');
             } else {
               echo replaceURIElement(
                 replaceURIElement(
                   replaceURIElement(
                     $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
-                    , 'Page', '1')
-                    , 'SortOrder', 'Descend');
+                    , 'SortOrder', 'Descend')
+                    , 'Page', '1');
             }
           ?>>
           <span id = "icon" class="fas fa-sort"><?php echo formatField($i) ?> </span>

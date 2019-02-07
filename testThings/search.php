@@ -43,7 +43,8 @@
       <input type="text" name="Database" style="display:none;" 
       value=<?php if (isset($_GET['Database'])) echo $_GET['Database']; ?>>
     </div>
-    <?php foreach ($layoutFields as $rf) { ?>
+    <?php foreach ($layoutFields as $rf) {
+      if ($rf === 'SortNum') continue; ?>
     <div class="row">
       <div class="col-sm-2">
       <label><?php echo formatField($rf) ?></label>

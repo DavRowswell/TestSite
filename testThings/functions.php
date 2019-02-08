@@ -26,16 +26,17 @@ function replaceSpace($element) {
 
 function mapField($field) {
     switch( strtolower($field)) {
+      case 'accession no.':
+      case 'catalognumber':
+      case 'id':
+        return 'Accession Number';
       case 'specificepithet':  
         return 'Species';
       case 'infraspecificepithet':
         return 'Infraspecies';
-      case 'id':
-        return 'Accession Number';
       case 'taxonrank': 
         return 'Taxon Rank';
       case 'provincestate':
-        return 'Province/State';
       case 'stateprovince':
         return 'Province/State';
       case 'verbatimelevation':
@@ -53,7 +54,6 @@ function mapField($field) {
       case 'typestatus':
         return 'Type Status';
       case 'occurrenceremarks':
-        return 'Field Notes';
       case 'fieldnotes':
         return 'Field Notes';
       case 'recordnumber':
@@ -62,8 +62,6 @@ function mapField($field) {
         return 'Previous Identifications';
       case 'mushroomobserver':
         return 'Mushroom Observer';
-      case 'catalognumber':
-        return 'Accession Number';
       case 'associatedreferences':
         return 'Associated References';
       case 'associatedsequences':

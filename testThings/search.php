@@ -37,8 +37,8 @@
   ?>
 </head>
 <body class="container-fluid">
-  <?php require_once ('partials/navbar.php'); ?>
-  <form action="render.php" method="get">
+ <?php require_once ('partials/navbar.php'); ?>
+  <form action="render.php" method="get" id = "submit-form">
     <div class="form-group">
       <input type="text" name="Database" style="display:none;" 
       value=<?php if (isset($_GET['Database'])) echo $_GET['Database']; ?>>
@@ -54,8 +54,9 @@
       </div>
     </div> 
     <?php } ?>
-      <input class="btn btn-primary" type="submit">
+    <input id = "form" class="btn btn-primary" type = "button" value = "Submit" onclick="Process()">    
     </div>
   </form>
+  <script src="process.js"> </script>
 </body>
 </html>

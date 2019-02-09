@@ -54,9 +54,9 @@
       </div>
     </div> 
     <?php } ?>
-    <input id = "form" class="btn btn-primary" type = "button" value = "Submit" onclick="Process()">    
+    <input id = "form" class="btn btn-primary" type = "button" value = "Submit" onclick="Process(clearURL())">    
     </div>
   </form>
-  <script src="process.js"> </script>
+  <script src="js/process.js"> </script>
 </body>
 </html>

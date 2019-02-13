@@ -32,13 +32,16 @@ function mapField($field) {
         return 'Accession Number';
       case 'specificepithet':  
         return 'Species';
+      case 'sub sp.':
+        return 'Subspecies';
       case 'infraspecificepithet':
         return 'Infraspecies';
       case 'taxonrank': 
         return 'Taxon Rank';
       case 'provincestate':
       case 'stateprovince':
-        return 'Province/State';
+      case 'prov/st';
+        return 'Province or State';
       case 'verbatimelevation':
         return 'Elevation';
       case 'verbatimdepth':
@@ -53,6 +56,7 @@ function mapField($field) {
         return 'Identified By';
       case 'typestatus':
         return 'Type Status';
+      case 'comments':
       case 'occurrenceremarks':
       case 'fieldnotes':
         return 'Field Notes';
@@ -60,6 +64,8 @@ function mapField($field) {
         return 'Collection Number';
       case 'previousidentifications':
         return 'Previous Identifications';
+      case 'det by':
+        return 'Determined By';
       case 'mushroomobserver':
         return 'Mushroom Observer';
       case 'associatedreferences':

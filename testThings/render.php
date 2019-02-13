@@ -119,7 +119,7 @@
     <thead>
       <tr>
         <?php foreach($recFields as $i){
-          if ($i === 'SortNum') continue;?>
+          if ($i === 'SortNum' || $i === 'Accession Numerical') continue;?>
         <th id = <?php echo formatField($i) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 

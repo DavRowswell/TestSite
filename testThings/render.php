@@ -45,21 +45,27 @@
             $findCommand->addFindCriterion($rf, $_GET[$field]);
         }
     }
-
-    if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
+     if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
         $sortField = str_replace('+', ' ', $_GET['Sort']);
         $fieldSplit = explode(' ', $sortField);
         if (!isset($_GET[$fieldSplit[0]]) || $_GET[$fieldSplit[0]] == '') {
           $findCommand->addFindCriterion($sortField, '*');
         }
         $sortBy = $_GET['Sort'];
-        if (mapField($sortBy) === 'Accession Number') {
-          $sortBy = 'SortNum';
-          $findCommand->addFindCriterion($sortBy, '*');
-          if ($_GET['Database'] === 'avian') {
-            $findCommand->addFindCriterion('catalogNumber', '=B*');
+        if (mapField($sortBy) === 'Accession Number') { 
+          if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+              $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae') {
+            $sortBy = 'Accession Numerical';
+            $findCommand->addFindCriterion('Accession Number', '*');
           }
-        }
+          else {
+            $sortBy = 'sortNum';
+            $findCommand->addFindCriterion($sortBy, '*');
+            if ($_GET['Database'] === 'avian') {
+              $findCommand->addFindCriterion('catalogNumber', '=B*');
+            }
+          }
+        } 
         if ($_GET['SortOrder'] === 'Descend') {
           // echo 'Descending';
           $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_DESCEND);
@@ -149,7 +155,7 @@
       <?php foreach($findAllRec as $i){?>
       <tr>
         <?php foreach($recFields as $j){
-          if ($j === 'SortNum') continue;
+          if ($j === 'SortNum' || $j === 'Accession Numerical') continue;
           if(formatField($j) == 'Accession Number'){
             echo '<td id="data"><a style="padding: 0px;" href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.trim($i->getField($j)).'</a></td>';
           }

@@ -25,7 +25,7 @@
   $findCommand = $fm->newFindCommand($layout);
   if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
       if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-      $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'ubcalgae'){
+      $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae'){
         $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
       }
       else if ($_GET['Database'] == 'fossil' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {

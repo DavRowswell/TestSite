@@ -14,7 +14,8 @@
     $layouts = $fm->listLayouts();
 
     if (FileMaker::isError($layouts)) {
-      echo $layouts;
+      echo $layouts->getMessage();
+      exit();
     }
 
     $layout = $layouts[0];

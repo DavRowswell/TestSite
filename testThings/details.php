@@ -2,6 +2,7 @@
 <html>
 <head>
 <?php
+// session_start();
   require_once ('FileMaker.php');
   require_once ('partials/header.php');
   require_once ('functions.php');
@@ -72,7 +73,8 @@
       <?php }?>
     </tbody>
   </table>   
-  <?php } ?>
+  <?php } 
+// echo $_SESSION['results'];?>
 </div>
 </body>
 </html>

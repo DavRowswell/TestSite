@@ -2,6 +2,8 @@
 <html>
 <head>
   <?php
+    session_start();
+    set_time_limit(0);
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
     require_once ('functions.php');
@@ -128,7 +130,7 @@
           //   if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return true;
           //   if (isset($_GET['Sort']) && $_GET['Sort'] === $field) return true;
           // }
-            // if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
+          // if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
             if (shouldDescend($i)) {
               echo replaceURIElement(
                 replaceURIElement(
@@ -172,4 +174,68 @@
   ?>
 </div>
 </body>
+<?php 
+    $layouts = $fm->listLayouts();
+    $layout = "";
+    foreach ($layouts as $l) {
+      if ($_GET['Database'] === 'mi') {
+        if (strpos($l, 'results') !== false) {
+          $layout = $l;
+          break;
+        }
+      }
+      else if (strpos($l, 'results') !== false) {
+        $layout = $l;
+      }
+    }
+
+    $fmLayout = $fm->getLayout($layout);
+    $layoutFields = $fmLayout->listFields();
+
+    if (FileMaker::isError($layouts)) {
+        echo $layouts->message;
+        exit;
+    }
+
+    // Find on all inputs with values
+    $findCommand = $fm->newFindCommand($layout);
+    // echo $layout;
+    foreach ($layoutFields as $rf) {
+      // echo $rf;
+        $field = explode(' ',trim($rf))[0];
+        if (isset($_GET[$field]) && $_GET[$field] !== '') {
+            // echo $_GET[$field];
+            // echo $rf;
+            $findCommand->addFindCriterion($rf, $_GET[$field]);
+        }
+    }
+
+    $findCommand->setRange(0, $found - 2000);
+
+    $AllResults = $findCommand->execute();
+
+    if (FileMaker::isError($AllResults)) {
+      $error = 'FileMaker Find Error  (' . $AllResults->getMessage() . ')';
+      echo $error;                          
+    }
+
+    $recFields = $AllResults->getFields();
+
+    $allRecords = $AllResults->getRecords();
+
+    $recordMatrix = [];
+    foreach ($allRecords as $record) {
+      // echo "hello";
+      $recordInfo = [];
+      foreach ($recFields as $rf) {
+        $recordInfo[] = $record->getField($rf);
+        // echo $recordInfo[0];
+      }
+      $recordMatrix[] = $recordInfo;
+    }
+
+    $_SESSION['recordMatrix'] = $recordMatrix;
+    echo '<br>' . $_SESSION['recordMatrix'][1][0];
+  ?>
 </html>
+

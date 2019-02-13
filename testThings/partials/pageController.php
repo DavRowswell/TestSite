@@ -48,10 +48,11 @@ a:hover {
 <form action="render.php" method="get">
     <?php
         foreach ($qsparts as $part) {
-            $keyVal = explode('=', $part);
-            if (strpos($part, "Page") === 0 || $keyVal[1] == '') continue;
+            $keyVal =  explode('=', $part);
+            $input = htmlspecialchars($keyVal[1]);
+            if (strpos($part, "Page") === 0 || $input == '') continue;
             ?>
-            <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo str_replace('%3A', ':', str_replace('%2B', '+', $keyVal[1]))?>" />
+            <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo str_replace('%3A', ':', str_replace('%2B', '+', $input))?>" />
             <?php
         }
         ?> 
@@ -63,14 +64,15 @@ a:hover {
     echo "Page $page / $pages <br>";
 
     if (isset($_GET['Page']) && $_GET['Page'] != '') {
-      if ($_GET['Page'] > 1) {
+      $pageNum = htmlspecialchars($_GET['Page']);
+      if ($pageNum > 1) {
         // echo "<br>";
-        $parts[sizeof($parts)-1] = 'Page='.($_GET['Page'] - 1);
+        $parts[sizeof($parts)-1] = 'Page='.($pageNum - 1);
         $lasturi = implode('&', $parts);
         echo '<a href=' . $lasturi . ' class="previous round">&#8249</a>';
       }
-      if ($_GET['Page'] < $pages && $_GET['Page'] != '') {
-        $parts[sizeof($parts)-1] = 'Page='.($_GET['Page'] + 1);
+      if ($pageNum < $pages && $pageNum != '') {
+        $parts[sizeof($parts)-1] = 'Page='.($pageNum + 1);
         $nexturi = implode('&', $parts);
         echo '<a href=' . $nexturi . ' class="next round">&#8250</a>';
       }

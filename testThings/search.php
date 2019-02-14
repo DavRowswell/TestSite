@@ -58,6 +58,7 @@
     <input id = "form" class="btn btn-primary" type = "button" value = "Submit" onclick="Process(clearURL())">    
     </div>
   </form>
+  <?php require_once("partials/footer.php");?>
   <script src="js/process.js"> </script>
 </body>
 </html>

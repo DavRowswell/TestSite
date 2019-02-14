@@ -56,5 +56,7 @@
     <hr align = "left">
     <a role="button" class="btn btn-danger" href="search.php?Database=fish">Fish</a>
     <a role="button" class="btn btn-danger" href="search.php?Database=fossil">Fossils</a>
+
+    <?php require_once("partials/footer.php");?>
 </body>
 </html>

@@ -2,8 +2,8 @@
 <html>
 <head>
   <?php
-    session_start();
-    set_time_limit(0);
+    //session_start();
+    //set_time_limit(0);
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
     require_once ('functions.php');
@@ -173,9 +173,10 @@
   require ('partials/pageController.php');
   ?>
 </div>
+<?php require_once("partials/footer.php");?>
 </body>
 <?php 
-    $layouts = $fm->listLayouts();
+ /*   $layouts = $fm->listLayouts();
     $layout = "";
     foreach ($layouts as $l) {
       if ($_GET['Database'] === 'mi') {
@@ -235,7 +236,7 @@
     }
 
     $_SESSION['recordMatrix'] = $recordMatrix;
-    echo '<br>' . $_SESSION['recordMatrix'][1][0];
+    echo '<br>' . $_SESSION['recordMatrix'][1][0];*/
   ?>
 </html>
 

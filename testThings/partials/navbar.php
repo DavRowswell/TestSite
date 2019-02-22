@@ -30,6 +30,7 @@
               <a class="dropdown-item" href="search.php?Database=avian">Avian</a>
               <a class="dropdown-item" href="search.php?Database=herpetology">Herpetology</a>
               <a class="dropdown-item" href="search.php?Database=mammal">Mammal</a>
+              <a class="dropdown-item" href="search.php?Database=fish">Fish</a>
             </ul>
         </li>
         <li class="nav-item dropdown">
@@ -40,11 +41,8 @@
             </ul>
         </li>
         <li class="nav-item dropdown">
-         <li class="dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Bones <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <a class="dropdown-item" href="search.php?Database=fish">Fish</a>
-              <a class="dropdown-item" href="search.php?Database=fossil">Fossils</a>            
-            </ul>
+         <li class="dropdown">
+            <a class="nav-link" href="search.php?Database=fossil">Fossils</a>
         </li>
       </li>
     </ul>

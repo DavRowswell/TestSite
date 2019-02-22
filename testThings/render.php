@@ -50,22 +50,14 @@
      if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
         $sortField = str_replace('+', ' ', $_GET['Sort']);
         $fieldSplit = explode(' ', $sortField);
-        if (!isset($_GET[$fieldSplit[0]]) || $_GET[$fieldSplit[0]] == '') {
-          $findCommand->addFindCriterion($sortField, '*');
-        }
         $sortBy = $_GET['Sort'];
         if (mapField($sortBy) === 'Accession Number') { 
           if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
               $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae') {
             $sortBy = 'Accession Numerical';
-            $findCommand->addFindCriterion('Accession Number', '*');
           }
           else {
             $sortBy = 'sortNum';
-            $findCommand->addFindCriterion($sortBy, '*');
-            if ($_GET['Database'] === 'avian') {
-              $findCommand->addFindCriterion('catalogNumber', '=B*');
-            }
           }
         } 
         if ($_GET['SortOrder'] === 'Descend') {
@@ -131,20 +123,26 @@
           //   if (isset($_GET['Sort']) && $_GET['Sort'] === $field) return true;
           // }
           // if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
+            if(isset($_GET['Page'])){
+              $page = $_GET['Page'];
+            }
+            else {
+              $page = '1';
+            }
             if (shouldDescend($i)) {
               echo replaceURIElement(
                 replaceURIElement(
                   replaceURIElement(
                     $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
                     , 'SortOrder', 'Descend')
-                    , 'Page', '1');
+                    , 'Page', $page);
             } else {
               echo replaceURIElement(
                 replaceURIElement(
                   replaceURIElement(
                     $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
                     , 'SortOrder', 'Ascend')
-                    , 'Page', '1');
+                    , 'Page', $page);
             }
           ?>>
           <span id = "icon" class="fas fa-sort"><?php echo formatField($i) ?> </span>

@@ -2,7 +2,7 @@
     <br>
     <br>
     <hr align = "center" style = "width: 100%; border: 1px solid #969B9B;">
-    <div style = "font-style: italic; text-align: center;"> 
+    <div style = "font-style: italic; text-align: center;">
         If there are bugs, send an email to davi144@mail.ubc.ca 
         <br> 
         <span style = "font-style: normal; font-size: 0.8em;"> 

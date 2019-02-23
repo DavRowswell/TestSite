@@ -51,15 +51,15 @@
         <a role="button" class="btn btn-danger" href="search.php?Database=avian">Avian</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=herpetology">Herpetology</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=mammal">Mammals</a>
+        <a role="button" class="btn btn-danger" href="search.php?Database=fish">Fish</a>
 
         <h2 id = "invertebrate"> <b>Invertebrate Databases</b> </h2>
         <hr align = "left">
         <a role="button" class="btn btn-danger" href="search.php?Database=miw">Wet Marine Invertebrates</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=mi">Dry Marine Invertebrates</a>
 
-        <h2 id = "bone"> <b>Bone Databases</b> </h2>
+        <h2 id = "bone"> <b>Fossil Database</b> </h2>
         <hr align = "left">
-        <a role="button" class="btn btn-danger" href="search.php?Database=fish">Fish</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=fossil">Fossils</a>
     </div>
     <?php require_once("partials/footer.php");?>

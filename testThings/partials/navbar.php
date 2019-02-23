@@ -17,11 +17,11 @@
     <ul class="navbar-nav"> 
         <li class="dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink" href="#">Herbarium <span class="caret"></span></a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="search.php?Database=algae">Algae</a>
-              <a class="dropdown-item" href="search.php?Database=bryophytes">Bryophytes</a>
-              <a class="dropdown-item" href="search.php?Database=fungi">Fungi</a>
-              <a class="dropdown-item" href="search.php?Database=lichen">Lichen</a>
-              <a class="dropdown-item" href="search.php?Database=vwsp">Vascular Plants</a>
+              <a class="dropdown-item" href="http://herbweb.botany.ubc.ca/testSite/search.php?Database=algae">Algae</a>
+              <a class="dropdown-item" href="http://herbweb.botany.ubc.ca/testSite/search.php?Database=bryophytes">Bryophytes</a>
+              <a class="dropdown-item" href="http://herbweb.botany.ubc.ca/testSite/search.php?Database=fungi">Fungi</a>
+              <a class="dropdown-item" href="http://herbweb.botany.ubc.ca/testSite/search.php?Database=lichen">Lichen</a>
+              <a class="dropdown-item" href="http://herbweb.botany.ubc.ca/testSite/search.php?Database=vwsp">Vascular Plants</a>
             </ul>
         </li>
         <li class="nav-item dropdown">

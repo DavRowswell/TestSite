@@ -71,6 +71,7 @@ function mapField($field) {
         return 'Determined By';
       case 'mushroomobserver':
         return 'Mushroom Observer';
+      case 'citations':
       case 'associatedreferences':
         return 'Associated References';
       case 'associatedsequences':

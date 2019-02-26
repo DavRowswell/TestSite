@@ -46,10 +46,13 @@ function mapField($field) {
         return 'Elevation';
       case 'verbatimdepth':
         return 'Depth';
+      case 'geo_longdecimal':
       case 'decimallongitude':
         return 'Longitude';
+      case 'geo_latdecimal':
       case 'decimallatitude':
         return 'Latitude';
+      case 'date collected':
       case 'verbatimeventdate':
         return 'Collection Date';
       case 'identifiedby':

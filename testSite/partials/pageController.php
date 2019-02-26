@@ -8,7 +8,7 @@
     $lastPart = end($parts);
     $found = $result->getFoundSetCount();
 
-    echo "$found records found <br>";
+    // echo "$found records found";
 
     $pages = ceil($found / $numRes);
     $page = 1;
@@ -45,7 +45,9 @@ a:hover {
 }
 </style>
 
-<form action="render.php" method="get">
+<form action="render.php" method="get" id="pageForm">
+  <div class="form-group">
+  <label><?php echo "$found records found" ?></label>
     <?php
         foreach ($qsparts as $part) {
             $keyVal =  explode('=', $part);
@@ -55,14 +57,17 @@ a:hover {
             <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo str_replace('%3A', ':', str_replace('%2B', '+', $input))?>" />
             <?php
         }
-        ?> 
-    <input type="number" name="Page" min="1" max=<?php echo $pages?>><br>
-    <input type="submit" value="Navigate to Page">
+        ?>
+    <input type="number" class="form-control" name="Page" min="1" max=<?php echo $pages?>><br>
+    </div>
 </form>
-
+<button type="submit" form="pageForm" value="Submit" class="btn btn-primary">Navigate to Page</button>
+<small class="form-text text-muted">
 <?php
-    echo "Page $page / $pages <br>";
-
+    echo "Page $page / $pages <br>" ?>
+</small>
+<div style="position:relative; top:6px">
+<?php
     if (isset($_GET['Page']) && $_GET['Page'] != '') {
       $pageNum = htmlspecialchars($_GET['Page']);
       if ($pageNum > 1) {
@@ -87,3 +92,5 @@ a:hover {
         }
     }
 ?>
+</div>
+</main>

@@ -106,8 +106,8 @@
 </head>
 <body>
 <div class="container-fluid">
-  <?php require_once ('partials/navbar.php');
-  require_once ('partials/pageController.php'); ?>
+  <?php require_once ('partials/navbar.php'); ?>
+  <?php require_once ('partials/pageController.php'); ?>
   <!-- construct table for given layout and fields -->
   <table class="table table-hover table-striped table-condensed tasks-table">
     <thead>

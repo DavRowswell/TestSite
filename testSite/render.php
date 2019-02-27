@@ -11,16 +11,25 @@
     $numRes = 100;
     $layouts = $fm->listLayouts();
     $layout = "";
+    $formatLayout = "";
     foreach ($layouts as $l) {
       if ($_GET['Database'] === 'mi') {
-        if (strpos($l, 'results') !== false) {
+        if ($l == 'search-MI') {
           $layout = $l;
-          break;
+      
+        }
+        else if ($l == 'results-MI') {
+          $formatLayout = $l;
         }
       }
-      else if (strpos($l, 'results') !== false) {
+      else {
+      if (strpos($l, 'search') !== false) {
         $layout = $l;
       }
+      else if (strpos($l, 'results') !== false) {
+        $formatLayout = $l;
+      }
+    }
     }
 
     function shouldDescend($field) {
@@ -47,7 +56,7 @@
             $findCommand->addFindCriterion($rf, $_GET[$field]);
         }
     }
-    if($_GET['Database'] = "Spencer Entomological Collection"){
+    if($_GET['Database'] == "Spencer Entomological Collection"){
       $findCommand->addFindCriterion("Database Status", "Complete");
     }
      if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
@@ -96,7 +105,8 @@
       exit;
     } else {
       // echo __LINE__;
-      $recFields = $result->getFields();
+      $fmFormatLayout = $fm->getLayout($formatLayout);
+      $recFields = $fmFormatLayout->listFields();
   ?>
   <style>
       th {

@@ -48,10 +48,10 @@
       if ($rf === 'SortNum') continue; ?>
     <div class="row">
       <div class="col-sm-2">
-      <label><?php echo formatField($rf) ?></label>
+      <label><?php echo htmlspecialchars(formatField($rf)) ?></label>
       </div>
       <div class="col-sm-2">
-      <input type="text" name=<?php echo $rf ?>>
+      <input type="text" name=<?php echo htmlspecialchars($rf) ?>>
       </div>
     </div> 
     <?php } ?>

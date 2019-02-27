@@ -68,7 +68,7 @@
       <?php foreach($recFields as $i){?>
       <tr>
         <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
-        <td><?php echo htmlspecialchars($findAllRec[0]->getField($i)) ?></td>
+        <td><?php echo htmlspecialchars(ucwords($findAllRec[0]->getField($i))) ?></td>
       </tr>
       <?php }?>
     </tbody>

@@ -123,7 +123,7 @@
   <?php require_once ('partials/navbar.php'); ?>
   <?php require_once ('partials/pageController.php'); ?>
   <!-- construct table for given layout and fields -->
-  <table class="table table-hover table-striped table-condensed tasks-table">
+  <table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">
     <thead>
       <tr>
         <?php foreach($recFields as $i){
@@ -174,7 +174,7 @@
             echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
           }
           else {
-            echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
+            echo '<td id="data">'. htmlspecialchars(ucwords($i->getField($j))).'</td>';
           }
         }?>
       </tr>

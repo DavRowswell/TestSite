@@ -48,14 +48,18 @@
       if ($rf === 'SortNum') continue; ?>
     <div class="row">
       <div class="col-sm-2">
-      <label><?php echo formatField($rf) ?></label>
+      <label style="position:relative; top:6px" for="field-<?php echo $rf?>"><?php echo formatField($rf) ?></label>
       </div>
       <div class="col-sm-2">
-      <input type="text" name=<?php echo $rf ?>>
+      <input type="text" id="field-<?php echo $rf?>" 
+      name=<?php echo $rf ?>
+      class="form-control">
       </div>
     </div> 
     <?php } ?>
+    <div style="position:relative; top:8px">
     <input id = "form" class="btn btn-primary" type = "button" value = "Submit" onclick="Process(clearURL())">    
+    </div>
     </div>
   </form>
   <?php require_once("partials/footer.php");?>

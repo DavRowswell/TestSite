@@ -1,5 +1,4 @@
 #exclude the database information,images and FTP folder
 databases/*
-images/
 FTP/
 

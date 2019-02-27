@@ -45,26 +45,31 @@ a:hover {
 }
 </style>
 
+<main style="position:relative; top:4px">
 <form action="render.php" method="get" id="pageForm">
   <div class="form-group">
-  <label><?php echo "$found records found" ?></label>
+  <label for="pageInput"><?php echo "$found records found" ?></label>
     <?php
         foreach ($qsparts as $part) {
             $keyVal =  explode('=', $part);
             $input = $keyVal[1];
             if (strpos($part, "Page") === 0 || $input == '') continue;
             ?>
-            <input type="hidden" name="<?php echo htmlspecialchars($keyVal[0])?>" value="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $input)))?>" />
+            <input type="hidden" 
+            name="<?php echo htmlspecialchars($keyVal[0])?>" 
+            value="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $input)))?>" />
             <?php
         }
         ?>
-        <input type="number" name="Page" min="1" max=<?php echo htmlspecialchars($pages)?>><br>
+        <div style="position:relative; left:-16px" class="col-3">
+        <input type="number" name="Page" class="form-control" id="pageInput" min="1" max=<?php echo htmlspecialchars($pages)?>>
+        </div>
     </div>
 </form>
 <button type="submit" form="pageForm" value="Submit" class="btn btn-primary">Navigate to Page</button>
 <small class="form-text text-muted">
 <?php
-    echo "Page ".htmlspecialchars($page)." / ".htmlspecialchars($pages). "<br>"; ?>
+    echo "Page ".htmlspecialchars($page)." / ".htmlspecialchars($pages); ?>
 </small>
 <div style="position:relative; top:6px">
 <?php
@@ -72,7 +77,6 @@ a:hover {
   
       $pageNum = $_GET['Page'];
       if ($pageNum > 1) {
-        // echo "<br>";
         $parts[sizeof($parts)-1] = 'Page='.($pageNum - 1);
         $lasturi = implode('&', $parts);
         echo '<a href=' . htmlspecialchars($lasturi) . ' class="previous round">&#8249</a>';

@@ -24,7 +24,7 @@
     }
 
     function shouldDescend($field) {
-      if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return true;
+      if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return false;
       if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
       return false;
     }
@@ -114,7 +114,7 @@
       <tr>
         <?php foreach($recFields as $i){
           if ($i === 'SortNum' || $i === 'Accession Numerical') continue;?>
-        <th id = <?php echo formatField($i) ?> scope="col">
+        <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
           
@@ -130,22 +130,22 @@
               $page = '1';
             }
             if (shouldDescend($i)) {
-              echo replaceURIElement(
+              echo htmlspecialchars(replaceURIElement(
                 replaceURIElement(
                   replaceURIElement(
                     $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
                     , 'SortOrder', 'Descend')
-                    , 'Page', $page);
+                    , 'Page', $page));
             } else {
-              echo replaceURIElement(
+              echo htmlspecialchars(replaceURIElement(
                 replaceURIElement(
                   replaceURIElement(
                     $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
                     , 'SortOrder', 'Ascend')
-                    , 'Page', $page);
+                    , 'Page', $page));
             }
           ?>>
-          <span id = "icon" class="fas fa-sort"><?php echo formatField($i) ?> </span>
+          <span id = "icon" class="fas fa-sort"><?php echo htmlspecialchars(formatField($i)) ?> </span>
           </a>
         </th>
         <?php }?>
@@ -157,10 +157,10 @@
         <?php foreach($recFields as $j){
           if ($j === 'SortNum' || $j === 'Accession Numerical') continue;
           if(formatField($j) == 'Accession Number'){
-            echo '<td id="data"><a style="padding: 0px;" href=\'details.php?Database=' . $_GET['Database'] . '&AccessionNo='.$i->getField($j).'\'>'.trim($i->getField($j)).'</a></td>';
+            echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
           }
           else {
-            echo '<td id="data">'.$i->getField($j).'</td>';
+            echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
           }
         }?>
       </tr>

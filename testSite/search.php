@@ -42,7 +42,7 @@
   <form action="render.php" method="get" id = "submit-form">
     <div class="form-group">
       <input type="text" name="Database" style="display:none;" 
-      value=<?php if (isset($_GET['Database'])) echo $_GET['Database']; ?>>
+      value=<?php if (isset($_GET['Database'])) echo htmlspecialchars($_GET['Database']); ?>>
     </div>
     <?php foreach ($layoutFields as $rf) {
       if ($rf === 'SortNum') continue; ?>

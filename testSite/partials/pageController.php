@@ -49,32 +49,33 @@ a:hover {
     <?php
         foreach ($qsparts as $part) {
             $keyVal =  explode('=', $part);
-            $input = htmlspecialchars($keyVal[1]);
+            $input = $keyVal[1];
             if (strpos($part, "Page") === 0 || $input == '') continue;
             ?>
-            <input type="hidden" name="<?php echo $keyVal[0]?>" value="<?php echo str_replace('%3A', ':', str_replace('%2B', '+', $input))?>" />
+            <input type="hidden" name="<?php echo htmlspecialchars($keyVal[0])?>" value="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $input)))?>" />
             <?php
         }
         ?> 
-    <input type="number" name="Page" min="1" max=<?php echo $pages?>><br>
+    <input type="number" name="Page" min="1" max=<?php echo htmlspecialchars($pages)?>><br>
     <input type="submit" value="Navigate to Page">
 </form>
 
 <?php
-    echo "Page $page / $pages <br>";
+    echo "Page ".htmlspecialchars($page)." / ".htmlspecialchars($pages). "<br>";
 
     if (isset($_GET['Page']) && $_GET['Page'] != '') {
-      $pageNum = htmlspecialchars($_GET['Page']);
+  
+      $pageNum = $_GET['Page'];
       if ($pageNum > 1) {
         // echo "<br>";
         $parts[sizeof($parts)-1] = 'Page='.($pageNum - 1);
         $lasturi = implode('&', $parts);
-        echo '<a href=' . $lasturi . ' class="previous round">&#8249</a>';
+        echo '<a href=' . htmlspecialchars($lasturi) . ' class="previous round">&#8249</a>';
       }
       if ($pageNum < $pages && $pageNum != '') {
         $parts[sizeof($parts)-1] = 'Page='.($pageNum + 1);
         $nexturi = implode('&', $parts);
-        echo '<a href=' . $nexturi . ' class="next round">&#8250</a>';
+        echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
       }
     //   if($_GET['Page'] > 1 && $_GET['Page'] < $pages) echo "<br>";
     // echo "Page $page / $pages <br>";
@@ -83,7 +84,7 @@ a:hover {
         if ($found > $numRes){
             array_push($parts, 'Page=2');
             $nexturi = implode('&', $parts);
-            echo '<a href=' . $nexturi . ' class="next round">&#8250</a>';
+            echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
         }
     }
 ?>

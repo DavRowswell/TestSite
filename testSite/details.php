@@ -58,7 +58,7 @@
   require_once ('partials/navbar.php');
   // Check if layout exists, and get fields of layout
   If(FileMaker::isError($result)){
-    echo $result->getMessage();
+    echo htmlspecialchars($result->getMessage());
   } else {
     $recFields = $result->getFields();
   ?>
@@ -67,8 +67,8 @@
     <tbody>
       <?php foreach($recFields as $i){?>
       <tr>
-        <th scope="col"><?php echo formatField($i) ?></th>
-        <td><?php echo $findAllRec[0]->getField($i) ?></td>
+        <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
+        <td><?php echo htmlspecialchars($findAllRec[0]->getField($i)) ?></td>
       </tr>
       <?php }?>
     </tbody>

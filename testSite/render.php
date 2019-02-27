@@ -47,6 +47,9 @@
             $findCommand->addFindCriterion($rf, $_GET[$field]);
         }
     }
+    if($_GET['Database'] = "Spencer Entomological Collection"){
+      $findCommand->addFindCriterion("Database Status", "Complete");
+    }
      if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
         $sortField = str_replace('+', ' ', $_GET['Sort']);
         $fieldSplit = explode(' ', $sortField);
@@ -78,6 +81,7 @@
     $result = $findCommand->execute();
 
     if(FileMaker::isError($result)) {
+        
         $findAllRec = [];
     } else {
         $findAllRec = $result->getRecords();
@@ -113,8 +117,8 @@
     <thead>
       <tr>
         <?php foreach($recFields as $i){
-          if ($i === 'SortNum' || $i === 'Accession Numerical') continue;?>
-        <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
+          if ($i === 'SortNum' || $i === 'Accession Numerical' || $i === 'Database Status') continue;?>
+          <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
           
@@ -155,7 +159,7 @@
       <?php foreach($findAllRec as $i){?>
       <tr>
         <?php foreach($recFields as $j){
-          if ($j === 'SortNum' || $j === 'Accession Numerical') continue;
+          if ($j === 'SortNum' || $j === 'Accession Numerical' || $j === 'Database Status') continue;
           if(formatField($j) == 'Accession Number'){
             echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
           }

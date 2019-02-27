@@ -2,12 +2,12 @@
 <html>
 <head>
   <?php
-    //session_start();
+    session_start();
     //set_time_limit(0);
+    $_SESSION['error'] = "";
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
     require_once ('functions.php');
-
     $numRes = 100;
     $layouts = $fm->listLayouts();
     $layout = "";
@@ -100,7 +100,9 @@
     // Check if layout exists, and get fields of layout
     If(FileMaker::isError($result)){
       // echo $result->message;
-      echo 'No Records Found';
+      $_SESSION['error'] = $result;
+      header('Location: /testSite/testSite/error.php');
+      exit;
       // echo __LINE__;
       exit;
     } else {

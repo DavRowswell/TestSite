@@ -78,6 +78,8 @@ function mapField($field) {
         return 'Associated Sequences';
       case 'reproductivecondition':
         return 'Reproductive Condition';
+      case 'organismremark':
+        return 'Organism Remark';
       default:
         return ucwords($field);
       }

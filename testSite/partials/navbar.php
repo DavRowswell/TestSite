@@ -31,7 +31,6 @@
               <a class="dropdown-item" href="search.php?Database=herpetology">Herpetology</a>
               <a class="dropdown-item" href="search.php?Database=mammal">Mammal</a>
               <a class="dropdown-item" href="search.php?Database=fish">Fish</a>
-              <a class="dropdown-item" href="search.php?Database=entomology">Entomology</a>
             </ul>
         </li>
         <li class="nav-item dropdown">
@@ -39,6 +38,7 @@
             <ul class="dropdown-menu">
               <a class="dropdown-item" href="search.php?Database=miw"> Wet Marine Invertebrates</a>
               <a class="dropdown-item" href="search.php?Database=mi">Dry Marine Invertebrates</a>
+              <a class="dropdown-item" href="search.php?Database=entomology">Entomology</a>
             </ul>
         </li>
         <li class="nav-item dropdown">

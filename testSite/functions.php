@@ -30,6 +30,8 @@ function mapField($field) {
       case 'catalognumber':
       case 'id':
         return 'Accession Number';
+      case 'sem #':
+        return 'SEM Number';
       case 'specificepithet':  
         return 'Species';
       case 'sub sp.':
@@ -42,6 +44,8 @@ function mapField($field) {
       case 'stateprovince':
       case 'prov/st';
         return 'Province or State';
+      case 'location 1':
+        return 'Location';
       case 'verbatimelevation':
         return 'Elevation';
       case 'verbatimdepth':
@@ -53,8 +57,15 @@ function mapField($field) {
       case 'decimallatitude':
         return 'Latitude';
       case 'date collected':
+      case 'collection date 1':
       case 'verbatimeventdate':
         return 'Collection Date';
+      case 'year 1':
+        return 'Year';
+      case 'month 1':
+        return 'Month';
+      case 'day 1':
+        return 'Day';
       case 'identifiedby':
         return 'Identified By';
       case 'typestatus':

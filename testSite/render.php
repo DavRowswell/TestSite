@@ -50,10 +50,11 @@
     $findCommand = $fm->newFindCommand($layout);
 
     foreach ($layoutFields as $rf) {
-      // echo $rf;
+       //echo $rf;
         $field = explode(' ',trim($rf))[0];
         if (isset($_GET[$field]) && $_GET[$field] !== '') {
-            $findCommand->addFindCriterion($rf, $_GET[$field]);
+            if($rf == 'Database Status'){continue;}
+            else{$findCommand->addFindCriterion($rf, $_GET[$field]);}
         }
     }
     if($_GET['Database'] == "Spencer Entomological Collection"){
@@ -101,7 +102,8 @@
     If(FileMaker::isError($result)){
       // echo $result->message;
       $_SESSION['error'] = $result;
-      header('Location: /testSite/testSite/error.php');
+      echo $result;
+      //header('Location: /testSite/testSite/error.php');
       exit;
       // echo __LINE__;
       exit;
@@ -172,7 +174,7 @@
       <tr>
         <?php foreach($recFields as $j){
           if ($j === 'SortNum' || $j === 'Accession Numerical' || $j === 'Database Status') continue;
-          if(formatField($j) == 'Accession Number'){
+          if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
             echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
           }
           else {

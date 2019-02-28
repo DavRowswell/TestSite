@@ -31,6 +31,7 @@
               <a class="dropdown-item" href="search.php?Database=herpetology">Herpetology</a>
               <a class="dropdown-item" href="search.php?Database=mammal">Mammal</a>
               <a class="dropdown-item" href="search.php?Database=fish">Fish</a>
+              <a class="dropdown-item" href="search.php?Database=entomology">Entomology</a>
             </ul>
         </li>
         <li class="nav-item dropdown">

@@ -33,9 +33,9 @@ function mapField($field) {
       case 'sem #':
         return 'SEM Number';
       case 'specificepithet':  
-        return 'Species';
+        return 'species';
       case 'sub sp.':
-        return 'Subspecies';
+        return 'subspecies';
       case 'infraspecificepithet':
         return 'infraspecies';
       case 'taxonrank': 

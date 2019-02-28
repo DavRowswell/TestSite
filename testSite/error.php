@@ -14,8 +14,8 @@
         <?php 
         session_start();
         require_once ('partials/navbar.php');  
-
-        echo $_SESSION['error'];
+        if (isset($_SESSION['error']))
+            echo htmlspecialchars($_SESSION['error']);
         ?>   
         <?php require_once ("partials/footer.php");?>
     </body>

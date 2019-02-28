@@ -42,8 +42,9 @@
     $layoutFields = $fmLayout->listFields();
 
     if (FileMaker::isError($layouts)) {
-        echo $layouts->message;
-        exit;
+      $_SESSION['error'] = $layouts->getMessage();
+      header('Location: /testSite/testSite/error.php');
+      exit;
     }
 
     // Find on all inputs with values
@@ -90,8 +91,9 @@
     $result = $findCommand->execute();
 
     if(FileMaker::isError($result)) {
-        
-        $findAllRec = [];
+      $_SESSION['error'] = $result;
+      header('Location: /testSite/testSite/error.php');
+      exit;
     } else {
         $findAllRec = $result->getRecords();
     }
@@ -104,7 +106,6 @@
       header('Location: /testSite/testSite/error.php');
       exit;
       // echo __LINE__;
-      exit;
     } else {
       // echo __LINE__;
       $fmFormatLayout = $fm->getLayout($formatLayout);

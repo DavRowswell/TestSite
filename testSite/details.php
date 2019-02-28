@@ -2,7 +2,7 @@
 <html>
 <head>
 <?php
-// session_start();
+ session_start();
   require_once ('FileMaker.php');
   require_once ('partials/header.php');
   require_once ('functions.php');
@@ -46,7 +46,9 @@
   $result = $findCommand->execute();
 
   if(FileMaker::isError($result)) {
-      $findAllRec = [];
+    $_SESSION['error'] = $result;
+    header('Location: /testSite/testSite/error.php');
+    exit;
   } else {
       $findAllRec = $result->getRecords();
   }
@@ -58,7 +60,9 @@
   require_once ('partials/navbar.php');
   // Check if layout exists, and get fields of layout
   If(FileMaker::isError($result)){
-    echo htmlspecialchars($result->getMessage());
+    $_SESSION['error'] = $result;
+    header('Location: /testSite/testSite/error.php');
+    exit;
   } else {
     $recFields = $result->getFields();
   ?>

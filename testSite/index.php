@@ -63,6 +63,7 @@
         <a role="button" class="btn btn-danger" href="search.php?Database=herpetology">Herpetology</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=mammal">Mammals</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=fish">Fish</a>
+        <a role="button" class="btn btn-danger" href="search.php?Database=entomology">Entomology</a>
         </div>
         </div>
         <div id="invertebrate-databases">
@@ -71,7 +72,6 @@
         <div id="invertebrate-links">
         <a role="button" class="btn btn-danger" href="search.php?Database=miw">Wet Marine Invertebrates</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=mi">Dry Marine Invertebrates</a>
-        <a role="button" class="btn btn-danger" href="search.php?Database=entomology">Entomology</a>
         </div>
         </div>
         <div id="bone-databases">

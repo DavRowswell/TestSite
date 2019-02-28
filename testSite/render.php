@@ -43,7 +43,7 @@
 
     if (FileMaker::isError($layouts)) {
       $_SESSION['error'] = $layouts->getMessage();
-      header('Location: /testSite/testSite/error.php');
+      header('Location: error.php');
       exit;
     }
 
@@ -58,7 +58,7 @@
             else{$findCommand->addFindCriterion($rf, $_GET[$field]);}
         }
     }
-    if($_GET['Database'] == "Spencer Entomological Collection"){
+    if($_GET['Database'] == "entomology"){
       $findCommand->addFindCriterion("Database Status", "Complete");
     }
      if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
@@ -93,7 +93,7 @@
 
     if(FileMaker::isError($result)) {
       $_SESSION['error'] = $result;
-      header('Location: /testSite/testSite/error.php');
+      header('Location: error.php');
       exit;
     } else {
         $findAllRec = $result->getRecords();

@@ -16,7 +16,7 @@
 
     if (FileMaker::isError($layouts)) {
       $_SESSION['error'] = $layouts->getMessage();
-      header('Location: /testSite/testSite/error.php');
+      header('Location: error.php');
       exit;
     }
 

@@ -50,7 +50,7 @@
 
   if(FileMaker::isError($result)) {
     $_SESSION['error'] = $result;
-    header('Location: /testSite/testSite/error.php');
+    header('Location: error.php');
     exit;
   } else {
       $findAllRec = $result->getRecords();
@@ -64,7 +64,7 @@
   // Check if layout exists, and get fields of layout
   If(FileMaker::isError($result)){
     $_SESSION['error'] = $result;
-    header('Location: /testSite/testSite/error.php');
+    header('Location: error.php');
     exit;
   } else {
     $recFields = $result->getFields();

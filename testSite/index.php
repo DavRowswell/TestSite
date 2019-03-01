@@ -69,9 +69,9 @@
         <h2 id = "invertebrate"> <b>Invertebrate Databases</b> </h2>
         <hr align = "left">
         <div id="invertebrate-links">
+        <a role="button" class="btn btn-danger" href="search.php?Database=entomology">Entomology</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=miw">Wet Marine Invertebrates</a>
         <a role="button" class="btn btn-danger" href="search.php?Database=mi">Dry Marine Invertebrates</a>
-        <a role="button" class="btn btn-danger" href="search.php?Database=entomology">Entomology</a>
         </div>
         </div>
         <div id="bone-databases">

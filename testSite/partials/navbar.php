@@ -36,9 +36,9 @@
         <li class="nav-item dropdown">
          <li class="dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Invertebrates <span class="caret"></span></a>
             <ul class="dropdown-menu">
+              <a class="dropdown-item" href="search.php?Database=entomology">Entomology</a>
               <a class="dropdown-item" href="search.php?Database=miw"> Wet Marine Invertebrates</a>
               <a class="dropdown-item" href="search.php?Database=mi">Dry Marine Invertebrates</a>
-              <a class="dropdown-item" href="search.php?Database=entomology">Entomology</a>
             </ul>
         </li>
         <li class="nav-item dropdown">

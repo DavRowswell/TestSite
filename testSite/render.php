@@ -54,12 +54,8 @@
        //echo $rf;
         $field = explode(' ',trim($rf))[0];
         if (isset($_GET[$field]) && $_GET[$field] !== '') {
-            if($rf == 'Database Status'){continue;}
-            else{$findCommand->addFindCriterion($rf, $_GET[$field]);}
+          $findCommand->addFindCriterion($rf, $_GET[$field]);
         }
-    }
-    if($_GET['Database'] == "entomology"){
-      $findCommand->addFindCriterion("Database Status", "Complete");
     }
      if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
         $sortField = str_replace('+', ' ', $_GET['Sort']);
@@ -92,8 +88,9 @@
     $result = $findCommand->execute();
 
     if(FileMaker::isError($result)) {
+      echo $result;
       $_SESSION['error'] = $result;
-      header('Location: error.php');
+      //header('Location: error.php');
       exit;
     } else {
         $findAllRec = $result->getRecords();
@@ -174,8 +171,8 @@
       <?php foreach($findAllRec as $i){?>
       <tr>
         <?php foreach($recFields as $j){
-          if ($j === 'SortNum' || $j === 'Accession Numerical' || $j === 'Database Status') continue;
-          if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
+          if ($j === 'SortNum' || $j === 'Accession Numerical') continue;
+          if(formatField($j) == 'Accession Number' || $j === 'SEM #' || $j === 'occurrenceId'){
             echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
           }
           else {

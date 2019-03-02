@@ -91,6 +91,8 @@ function mapField($field) {
         return 'Reproductive Condition';
       case 'organismremark':
         return 'Organism Remark';
+      case 'vernacularname':
+        return 'Vernacular Name';
       default:
         return ucwords($field);
       }

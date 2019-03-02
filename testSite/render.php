@@ -87,25 +87,13 @@
 
     $result = $findCommand->execute();
 
-    if(FileMaker::isError($result)) {
-      $_SESSION['error'] = $result;
+    // Check if layout exists, and get fields of layout
+    If(FileMaker::isError($result)){
+      $_SESSION['error'] = $result->getMessage();
       header('Location: error.php');
       exit;
     } else {
-        $findAllRec = $result->getRecords();
-    }
-
-    // echo __LINE__;
-    // Check if layout exists, and get fields of layout
-    If(FileMaker::isError($result)){
-      // echo $result->message;
-      $_SESSION['error'] = $result;
-      echo $result;
-      //header('Location: /testSite/testSite/error.php');
-      exit;
-      // echo __LINE__;
-    } else {
-      // echo __LINE__;
+      $findAllRec = $result->getRecords();
       $fmFormatLayout = $fm->getLayout($formatLayout);
       $recFields = $fmFormatLayout->listFields();
   ?>

@@ -88,9 +88,8 @@
     $result = $findCommand->execute();
 
     if(FileMaker::isError($result)) {
-      echo $result;
       $_SESSION['error'] = $result;
-      //header('Location: error.php');
+      header('Location: error.php');
       exit;
     } else {
         $findAllRec = $result->getRecords();

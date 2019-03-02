@@ -15,4 +15,18 @@ function clearURL() {
     }
 }
 
+// $("body").keypress(function(e){
+//  if (e.keyCode == 13){
+    
+//  }
+// }
+
+// document.getElementById("body").addEventListener("keyup", function(e){
+//     if (e.keyCode == 13) {
+//         event.preventDefault();
+//         document.getElementById("submit-form").click();
+       
+//     }
+// });
+
 

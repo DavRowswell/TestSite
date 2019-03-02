@@ -116,7 +116,7 @@
     <thead>
       <tr>
         <?php foreach($recFields as $i){
-          if ($i === 'SortNum' || $i === 'Accession Numerical' || $i === 'Database Status') continue;?>
+          if ($i === 'SortNum' || $i === 'Accession Numerical') continue;?>
           <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
@@ -159,7 +159,7 @@
       <tr>
         <?php foreach($recFields as $j){
           if ($j === 'SortNum' || $j === 'Accession Numerical') continue;
-          if(formatField($j) == 'Accession Number' || $j === 'SEM #' || $j === 'occurrenceId'){
+          if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
             echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
           }
           else {

@@ -39,8 +39,7 @@
     
       }
       else if ($_GET['Database'] == 'entomology'){
-        $findCommand->addFindCriterion('occurrenceId', '=='.$_GET['AccessionNo']);
-        //$findCommand->addFindCriterion('SEM #', '=='.$_GET['AccessionNo']);
+        $findCommand->addFindCriterion('SEM #', '=='.$_GET['AccessionNo']);
       }
       else {
         $findCommand->addFindCriterion('Accession No.', '=='.$_GET['AccessionNo']);

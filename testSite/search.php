@@ -49,7 +49,7 @@
       value=<?php if (isset($_GET['Database'])) echo htmlspecialchars($_GET['Database']); ?>>
     </div>
     <?php foreach ($layoutFields as $rf) {
-      if ($rf === 'SortNum' || $rf === 'Database Status') continue; ?>
+      if ($rf === 'SortNum') continue; ?>
     <div class="row">
       <div class="col">
         <label style="position:relative; top:6px" for="field-<?php echo $rf?>">

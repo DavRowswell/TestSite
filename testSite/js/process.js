@@ -15,18 +15,14 @@ function clearURL() {
     }
 }
 
-// $("body").keypress(function(e){
-//  if (e.keyCode == 13){
-    
-//  }
-// }
+document.onkeypress = keyPress;
 
-// document.getElementById("body").addEventListener("keyup", function(e){
-//     if (e.keyCode == 13) {
-//         event.preventDefault();
-//         document.getElementById("submit-form").click();
-       
-//     }
-// });
+function keyPress(e){
+  var x = e || window.event;
+  var key = (x.keyCode || x.which);
+  if(key == 13 || key == 3){
+   Process(clearURL());
+  }
+}
 
 

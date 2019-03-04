@@ -163,7 +163,7 @@
             echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
           }
           else {
-            echo '<td id="data">'. htmlspecialchars(ucwords($i->getField($j))).'</td>';
+            echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
           }
         }?>
       </tr>

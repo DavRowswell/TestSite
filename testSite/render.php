@@ -120,12 +120,6 @@
           <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
-          
-          // function shouldDescend($field) {
-          //   if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return true;
-          //   if (isset($_GET['Sort']) && $_GET['Sort'] === $field) return true;
-          // }
-          // if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '' || $_GET['SortOrder'] === 'Descend' || $i !== $_GET['Sort']) {
             if(isset($_GET['Page'])){
               $page = $_GET['Page'];
             }

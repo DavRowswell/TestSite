@@ -58,7 +58,7 @@
       </div>
       <div class="col">
         <input type="text" id="field-<?php echo $rf?>" 
-          name=<?php echo htmlspecialchars($rf) ?>
+          name="<?php echo htmlspecialchars($rf) ?>"
           class="form-control">
       </div>
     </div> 

@@ -52,10 +52,10 @@
 
     foreach ($layoutFields as $rf) {
        //echo $rf;
-        $field = explode(' ',trim($rf))[0];
-        if (isset($_GET[$field]) && $_GET[$field] !== '') {
-          $findCommand->addFindCriterion($rf, $_GET[$field]);
-        }
+      $field = explode(' ',trim($rf))[0];
+      if (isset($_GET[$field]) && $_GET[$field] !== '') {
+        $findCommand->addFindCriterion($rf, $_GET[$field]);
+      }
     }
      if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
         $sortField = str_replace('+', ' ', $_GET['Sort']);

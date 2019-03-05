@@ -39,7 +39,7 @@
     $layoutFields = $fmLayout->listFields();
   ?>
 </head>
-<body class="container-fluid">
+<body class="container-fluid" onunload="">
  <?php require_once ('partials/navbar.php'); ?>
  <div class ="row">
   <div id="form" class = "col-sm-4"  >

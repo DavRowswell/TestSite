@@ -25,4 +25,8 @@ function keyPress(e){
   }
 }
 
+function pageReload(){
+    location.reload(true);
+}
+
 

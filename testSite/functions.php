@@ -30,29 +30,47 @@ function mapField($field) {
       case 'catalognumber':
       case 'id':
         return 'Accession Number';
+      case 'sem #':
+        return 'SEM Number';
       case 'specificepithet':  
         return 'Species';
+      case 'sub sp.':
+        return 'subspecies';
       case 'infraspecificepithet':
         return 'Infraspecies';
       case 'taxonrank': 
         return 'Taxon Rank';
       case 'provincestate':
       case 'stateprovince':
-        return 'Province/State';
+      case 'prov/st';
+        return 'Province or State';
+      case 'location 1':
+        return 'Location';
       case 'verbatimelevation':
         return 'Elevation';
       case 'verbatimdepth':
         return 'Depth';
+      case 'geo_longdecimal':
       case 'decimallongitude':
         return 'Longitude';
+      case 'geo_latdecimal':
       case 'decimallatitude':
         return 'Latitude';
+      case 'date collected':
+      case 'collection date 1':
       case 'verbatimeventdate':
         return 'Collection Date';
+      case 'year 1':
+        return 'Year';
+      case 'month 1':
+        return 'Month';
+      case 'day 1':
+        return 'Day';
       case 'identifiedby':
         return 'Identified By';
       case 'typestatus':
         return 'Type Status';
+      case 'comments':
       case 'occurrenceremarks':
       case 'fieldnotes':
         return 'Field Notes';
@@ -60,14 +78,21 @@ function mapField($field) {
         return 'Collection Number';
       case 'previousidentifications':
         return 'Previous Identifications';
+      case 'det by':
+        return 'Determined By';
       case 'mushroomobserver':
         return 'Mushroom Observer';
+      case 'citations':
       case 'associatedreferences':
         return 'Associated References';
       case 'associatedsequences':
         return 'Associated Sequences';
       case 'reproductivecondition':
         return 'Reproductive Condition';
+      case 'organismremark':
+        return 'Organism Remark';
+      case 'vernacularname':
+        return 'Vernacular Name';
       default:
         return ucwords($field);
       }

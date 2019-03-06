@@ -14,6 +14,7 @@
 
 
 <?php
+ session_start();
   require_once ('FileMaker.php');
   require_once ('partials/header.php');
   require_once ('functions.php');
@@ -37,7 +38,7 @@
   $findCommand = $fm->newFindCommand($layout);
   if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
       if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-      $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'ubcalgae'){
+      $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae'){
         $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
       }
       else if ($_GET['Database'] == 'fossil' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
@@ -49,6 +50,9 @@
         $findCommand->addFindCriterion('ID', '=='.$_GET['AccessionNo']);
     
       }
+      else if ($_GET['Database'] == 'entomology'){
+        $findCommand->addFindCriterion('SEM #', '=='.$_GET['AccessionNo']);
+      }
       else {
         $findCommand->addFindCriterion('Accession No.', '=='.$_GET['AccessionNo']);
       }
@@ -57,7 +61,9 @@
   $result = $findCommand->execute();
 
   if(FileMaker::isError($result)) {
-      $findAllRec = [];
+    $_SESSION['error'] = $result;
+    header('Location: error.php');
+    exit;
   } else {
       $findAllRec = $result->getRecords();
   }
@@ -70,7 +76,9 @@
   require_once ('partials/navbar.php');
   // Check if layout exists, and get fields of layout
   If(FileMaker::isError($result)){
-    echo $result->getMessage();
+    $_SESSION['error'] = $result;
+    header('Location: error.php');
+    exit;
   } else {
     $recFields = $result->getFields();
   ?>
@@ -79,11 +87,11 @@
     <tbody>
       <?php foreach($recFields as $i){?>
       <tr>
-        <th scope="col"><?php echo formatField($i) ?></th>
+        <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
         <td 
         <?php if (formatField($i) === "Latitude") {echo "id='Latitude'";}
               if (formatField($i) === "Longitude") {echo "id='Longitude'";}?>>
-              <?php echo $findAllRec[0]->getField($i) ?></td>
+              <?php echo htmlspecialchars($findAllRec[0]->getField($i)) ?></td>
       </tr>
       <?php }?>
     </tbody>
@@ -108,5 +116,9 @@
       });
     </script>
 
+  <?php  
+// echo $_SESSION['results'];?>
+</div>
+<?php require_once("partials/footer.php");?>
 </body>
 </html>

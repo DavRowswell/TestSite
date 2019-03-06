@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<link rel="stylesheet" href="https://js.arcgis.com/3.27/esri/css/esri.css">
+    <style>
+      html, body, #map {
+        /* height: 100%; */
+        /* width: 50; */
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+
 <?php
   require_once ('FileMaker.php');
   require_once ('partials/header.php');
@@ -51,8 +63,9 @@
   }
   ?>
 </head>
+
 <body>
-<div class="container-fluid">
+
   <?php
   require_once ('partials/navbar.php');
   // Check if layout exists, and get fields of layout
@@ -67,12 +80,33 @@
       <?php foreach($recFields as $i){?>
       <tr>
         <th scope="col"><?php echo formatField($i) ?></th>
-        <td><?php echo $findAllRec[0]->getField($i) ?></td>
+        <td 
+        <?php if (formatField($i) === "Latitude") {echo "id='Latitude'";}
+              if (formatField($i) === "Longitude") {echo "id='Longitude'";}?>>
+              <?php echo $findAllRec[0]->getField($i) ?></td>
       </tr>
       <?php }?>
     </tbody>
   </table>   
   <?php } ?>
+  <div class="container-fluid">
 </div>
+
+<div id="map"></div>
+
+<script src="https://js.arcgis.com/3.27/"></script>
+    <script>
+      var map;
+        console.log(document.getElementById("Longitude").innerHTML);
+
+      require(["esri/map", "dojo/domReady!"], function(Map) {
+        map = new Map("map", {
+          basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+          center: [document.getElementById("Longitude").innerHTML, document.getElementById("Latitude").innerHTML], // longitude, latitude
+          zoom: 13
+        });
+      });
+    </script>
+
 </body>
 </html>

@@ -58,6 +58,10 @@
       </div>
       <div class="col">
         <input type="text" id="field-<?php echo $rf?>" 
+          <?php
+            if (isset($_POST[$rf]))
+              echo "value=".htmlspecialchars($_POST[$rf]);
+          ?> 
           name="<?php echo htmlspecialchars($rf) ?>"
           class="form-control">
       </div>

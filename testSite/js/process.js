@@ -25,11 +25,10 @@ function keyPress(e){
   }
 }
 
-window.onload = pageReload;
-
-function pageReload(){
-    
-    //location.reload(true);
+window.onpageshow = function(event){
+    if(event.persisted){
+        window.location.reload(true);
+    }
 }
 
 

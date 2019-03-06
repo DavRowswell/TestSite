@@ -71,46 +71,69 @@
   <div id="legend" class="border col-sm-5 offset-sm-2" style="position:relative; top:6px; padding-top:14px"> 
       <header style="padding-bottom:12px"> Search Operators </header>
       <div class="row">
-        <div class="col-sm-1" >
-         =    <br>
-        ==   <br>
-        &lt> <br>
-        !    <br>
-        <    <br>
-        <=   <br>
-        >    <br>
-        >=  <br>
-        ...  <br>
-        //  <br>
-        ?   <br>
-        @    <br>
-        #    <br>
-        *   <br>
-        \   <br>
-        ""  <br>
-        *""    <br>
-        </div>
-        <div class="col-sm-11">
-       match a whole word (or match empty) <br> 
-       match entire field exactly <br>
-       find records that do NOT contain the value specified<br>
-       find duplicate values <br>
-       find records with values less than to the one specified <br>
-       find records with values less than or equal to the one specified<br>
-       find records with values greater than to the one specified <br>
-       find records with values greater than or equal to the one specified <br>
-       find records with values in a range (Ex. 10...20)<br>
-       find records with today's date <br>
-       find records invalid date and time <br>       
-       match any one character <br>
-       match any digit <br>
-       match zero or more characters <br>
-       escape next character<br>
-       match phrase from word start<br>
-       match phrase from anywhere
-        </div>
-        </div>       
-   </div>
+        <div class="col-sm-1"> = </div>
+        <div class="col-sm-11"> match a whole word (or match empty) </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> == </div>
+        <div class="col-sm-11"> match entire field exactly </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> ! </div>
+        <div class="col-sm-11"> find duplicate values </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> &lt </div>
+        <div class="col-sm-11"> find records with values less than to the one specified </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> &lt= </div>
+        <div class="col-sm-11">  find records with values less than or equal to the one specified </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> &gt </div>
+        <div class="col-sm-11">  find records with values greater than to the one specified </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> &gt= </div>
+        <div class="col-sm-11">  find records with values greater than or equal to the one specified </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> ... </div>
+        <div class="col-sm-11">  find records with values in a range (Ex. 10...20) </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> &frasl;&frasl; </div>
+        <div class="col-sm-11">  find records with today's date </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> ? </div>
+        <div class="col-sm-11">  find records invalid date and time </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> @ </div>
+        <div class="col-sm-11">  match any one character </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> # </div>
+        <div class="col-sm-11">  match any digit </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> * </div>
+        <div class="col-sm-11">  match zero or more characters </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> \ </div>
+        <div class="col-sm-11">  escape any character </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> &#34&#34 </div>
+        <div class="col-sm-11">  match phrase from word start </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"> *&#34&#34 </div>
+        <div class="col-sm-11">  match phrase from anywhere </div>
+      </div>
    </div>
 
 

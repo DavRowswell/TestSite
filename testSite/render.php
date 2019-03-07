@@ -52,7 +52,7 @@
 
     foreach ($layoutFields as $rf) {
        //echo $rf;
-      $field = explode(' ',trim($rf))[0];
+      $field = str_replace(" ", "_",$rf);
       if (isset($_GET[$field]) && $_GET[$field] !== '') {
         $findCommand->addFindCriterion($rf, $_GET[$field]);
       }

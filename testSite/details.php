@@ -99,7 +99,9 @@
   <?php } ?>
   <div class="container-fluid">
 </div>
-
+<span style = "font-style: normal; font-size: 0.8em;"> 
+  *Should there be a map it is still in heavy development.
+</span>
 <div id="map"></div>
 
 <script src="https://js.arcgis.com/3.27/"></script>

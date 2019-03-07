@@ -35,7 +35,7 @@ function mapField($field) {
       case 'specificepithet':  
         return 'Species';
       case 'sub sp.':
-        return 'subspecies';
+        return 'Subspecies';
       case 'infraspecificepithet':
         return 'Infraspecies';
       case 'taxonrank': 

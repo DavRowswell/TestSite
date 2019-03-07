@@ -61,7 +61,7 @@ a:hover {
             <?php
         }
         ?>
-        <div style="position:relative; left:-16px" class="col-3">
+        <div style="position:relative; left:-16px" class="col-8">
         <input type="number" name="Page" class="form-control" id="pageInput" min="1" max=<?php echo htmlspecialchars($pages)?>>
         </div>
     </div>

@@ -110,7 +110,23 @@
 <body>
 <div class="container-fluid">
   <?php require_once ('partials/navbar.php'); ?>
-  <?php require_once ('partials/pageController.php'); ?>
+  <div class = "row align-items-start">
+      <div class = "col-sm-2">
+        <?php require_once ('partials/pageController.php'); ?>
+      </div>
+      <div class = "col-sm-2 offset-sm-8" style="vertical-align:bottom;display: inline-block;; float:none">  
+        <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars($_GET['Database']);?>>
+          <?php
+            $db = $_GET['Database'];
+            foreach ($_GET as $key=>$value) {
+              if (in_array($key, $layoutFields))
+                echo "<input type=hidden value=".htmlspecialchars($value)." name=".htmlspecialchars($key).">";
+            }
+          ?>
+          <button type="submit" value = "Submit" class="btn btn-primary" style="float:right; margin-top:4px">Modify Search</button> 
+        </form>
+      </div>
+  </div>
   <!-- construct table for given layout and fields -->
   <table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">
     <thead>

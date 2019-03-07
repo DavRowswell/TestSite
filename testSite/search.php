@@ -48,7 +48,15 @@
       <input type="text" name="Database" style="display:none;" 
       value=<?php if (isset($_GET['Database'])) echo htmlspecialchars($_GET['Database']); ?>>
     </div>
-    <?php foreach ($layoutFields as $rf) {
+    <div class="row">
+      <div class="col-sm-5">
+       <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
+          role="button" class="btn btn-primary" 
+          style="font-size:12px; text-align:left; padding-left:1px; padding-right:1px">Show All Records</a>   
+      </div>
+  </div>
+    <?php 
+    foreach ($layoutFields as $rf) {
       if ($rf === 'SortNum') continue; ?>
     <div class="row">
       <div class="col">
@@ -67,7 +75,7 @@
       </div>
     </div> 
     <?php } ?>
-    <div class = "col-sm-4" style="position:relative; top:8px">
+    <div class = "col" style="position:relative; top:8px">
       <input id="form" class="btn btn-primary" type="button" value="Submit" onclick="Process(clearURL())">    
     </div>
   </form>

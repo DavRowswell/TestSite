@@ -51,7 +51,7 @@
     $findCommand = $fm->newFindCommand($layout);
 
     foreach ($layoutFields as $rf) {
-       //echo $rf;
+      // echo $rf;
       $field = explode(' ',trim($rf))[0];
       if (isset($_GET[$field]) && $_GET[$field] !== '') {
         $findCommand->addFindCriterion($rf, $_GET[$field]);
@@ -115,12 +115,12 @@
         <?php require_once ('partials/pageController.php'); ?>
       </div>
       <div class = "col-sm-2 offset-sm-8" style="vertical-align:bottom;display: inline-block;; float:none">  
-        <form method=post action=<?php echo "search.php"."?Database=".$_GET['Database'];?>>
+        <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars($_GET['Database']);?>>
           <?php
             $db = $_GET['Database'];
             foreach ($_GET as $key=>$value) {
               if (in_array($key, $layoutFields))
-                echo "<input type=hidden value=".$value." name=".$key.">";
+                echo "<input type=hidden value=".htmlspecialchars($value)." name=".htmlspecialchars($key).">";
             }
           ?>
           <button type="submit" value = "Submit" class="btn btn-primary" style="float:right; margin-top:4px">Modify Search</button> 

@@ -10,7 +10,7 @@
         map: map,
         center: [document.getElementById("Longitude").innerHTML, document.getElementById("Latitude").innerHTML], // longitude, latitude
         zoom: 12,
-        spatialReference: {wkid: 4326}
+        //spatialReference: {wkid: 4326}
     });
 
       // create a point

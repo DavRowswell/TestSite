@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<link rel="stylesheet" href="https://js.arcgis.com/3.27/esri/css/esri.css">
-    <style>
-      html, body, #map {
-        /* height: 100%; */
-        /* width: 50; */
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-
-
+<link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
+<style>
+  html, body, #map {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+</style>
 <?php
  session_start();
   require_once ('FileMaker.php');
@@ -71,7 +68,7 @@
 </head>
 
 <body>
-
+  <div class="container-fluid">
   <?php
   require_once ('partials/navbar.php');
   // Check if layout exists, and get fields of layout
@@ -91,36 +88,24 @@
         <td 
         <?php if (formatField($i) === "Latitude") {echo "id='Latitude'";}
               if (formatField($i) === "Longitude") {echo "id='Longitude'";}?>>
-              <?php echo htmlspecialchars($findAllRec[0]->getField($i)) ?></td>
+              <?php echo htmlspecialchars($findAllRec[0]->getField($i)) ?>
+        </td>
       </tr>
       <?php }?>
     </tbody>
   </table>   
   <?php } ?>
-  <div class="container-fluid">
-</div>
-<span style = "font-style: normal; font-size: 0.8em;"> 
-  *Should there be a map it is still in heavy development.
-</span>
-<div id="map"></div>
-
-<script src="https://js.arcgis.com/3.27/"></script>
-    <script>
-      var map;
-        console.log(document.getElementById("Longitude").innerHTML);
-
-      require(["esri/map", "dojo/domReady!"], function(Map) {
-        map = new Map("map", {
-          basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
-          center: [document.getElementById("Longitude").innerHTML, document.getElementById("Latitude").innerHTML], // longitude, latitude
-          zoom: 13
-        });
-      });
-    </script>
-
-  <?php  
-// echo $_SESSION['results'];?>
-</div>
-<?php require_once("partials/footer.php");?>
+  <span style = "font-style: normal; font-size: 0.8em;"> 
+    *Should there be a map it is still in heavy development.
+  </span>
+  <div class="row">  
+    <div class="col-sm-12">
+      <div id="map" style="height: 200px; width: 50%;"></div>
+    </div>
+  </div>
+  </div>
+  <?php require_once("partials/footer.php");?>
+  <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
+  <script src="js/map.js"></script>
 </body>
 </html>

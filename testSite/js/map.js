@@ -66,15 +66,20 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference) 
 
   //calcualte uncertainty from lat and long data
   function getUncertainty(lat, long){
+    console.log(lat);
+    console.log(long);
     if(typeof lat == "string" && typeof long == "string"){
       var latprecision = lat.trim().substr(lat.trim().indexOf(".")+1).length;
       var longprecision = long.trim().substr(long.trim().indexOf(".")+1).length;
-      if(latprecision < longprecision){
-        return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,latprecision));
-      }
-      else {
-        return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,longprecision));
+      if(latprecision < 6 || longprecision < 6){
+        if(latprecision < longprecision){
+          return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,latprecision));
+        }
+        else {
+          return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,longprecision));
+        }
       }
     }
+    return 1;
   }
 });

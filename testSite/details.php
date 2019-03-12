@@ -99,8 +99,8 @@
     *Should there be a map it is still in heavy development.
   </span>
   <div class="row">  
-    <div class="col-sm-12">
-      <div id="map" style="height: 200px; width: 50%;"></div>
+    <div class="col-sm-5">
+      <div id="map" style="height: 300px;"></div>
     </div>
   </div>
   </div>

@@ -5,13 +5,6 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference) 
     basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
   });
 
-  var view = new MapView({
-    container: "map",
-    map: map,
-    center: [document.getElementById("Longitude").innerHTML, document.getElementById("Latitude").innerHTML], // longitude, latitude
-    zoom: 12,
-  });
-
   // create a point
   var point = {
     type: "point", 
@@ -22,16 +15,17 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference) 
   // create a circle with point and radius
   var circle = new Circle({
     center: point,
-    radius: 8000,
+    radius: getUncertainty(document.getElementById("Latitude").innerHTML, document.getElementById("Longitude").innerHTML),
+    geodesic: true
   });
-  
-    // Create a symbol for drawing the point
+
+  // Create a symbol for drawing the point
   var markerSymbol = {
     type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
     color: [255, 51, 51]
   };
 
-    // Create a graphic and add the geometry and symbol to it
+  // Create a graphic and add the geometry and symbol to it
   var graphicA = new Graphic({
     geometry: point,
     symbol: markerSymbol
@@ -53,6 +47,14 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference) 
     symbol: fillMarkerSymbol
   });
 
+  var view = new MapView({
+    container: "map",
+    map: map,
+    center: [document.getElementById("Longitude").innerHTML, document.getElementById("Latitude").innerHTML], // longitude, latitude
+    zoom: 12,
+    extent: circle.extent
+  });
+
   // Add graphic when GraphicsLayer is constructed
   var layer = new GraphicsLayer({
     graphics: [graphicA, graphicB]
@@ -60,4 +62,19 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference) 
 
   // Add GraphicsLayer to map
   map.add(layer);
+
+
+  //calcualte uncertainty from lat and long data
+  function getUncertainty(lat, long){
+    if(typeof lat == "string" && typeof long == "string"){
+      var latprecision = lat.trim().substr(lat.trim().indexOf(".")+1).length;
+      var longprecision = long.trim().substr(long.trim().indexOf(".")+1).length;
+      if(latprecision < longprecision){
+        return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,latprecision));
+      }
+      else {
+        return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,longprecision));
+      }
+    }
+  }
 });

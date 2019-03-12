@@ -175,6 +175,9 @@
           if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
             echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
           }
+          else if (formatField($j) == 'Genus' || formatField($j) == 'Species'){
+            echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';
+          }
           else {
             echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
           }

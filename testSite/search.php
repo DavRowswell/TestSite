@@ -57,7 +57,7 @@
   </div>
     <?php 
     foreach ($layoutFields as $rf) {
-      if ($rf === 'SortNum') continue; ?>
+      if ($rf === 'SortNum' || $rf === 'Ref Type') continue; ?>
     <div class="row">
       <div class="col">
         <label style="position:relative; top:6px" for="field-<?php echo $rf?>">
@@ -147,9 +147,6 @@
         <div class="col-sm-11">  match phrase from anywhere </div>
       </div>
    </div>
-
-
-
   <?php require_once("partials/footer.php");?>
   <script src="js/process.js"> </script>
 </body>

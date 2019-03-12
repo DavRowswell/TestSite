@@ -57,6 +57,9 @@
         $findCommand->addFindCriterion($rf, $_GET[$field]);
       }
     }
+    if($_GET['Database'] === 'fish'){
+      $findCommand->addFindCriterion('Ref Type','MC');
+    }
      if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
         $sortField = str_replace('+', ' ', $_GET['Sort']);
         $fieldSplit = explode(' ', $sortField);

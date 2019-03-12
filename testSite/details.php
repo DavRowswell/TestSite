@@ -44,7 +44,7 @@
       }
       else if ($_GET['Database'] == 'fish'){
         
-        $findCommand->addFindCriterion('ID', '=='.$_GET['AccessionNo']);
+        $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
     
       }
       else if ($_GET['Database'] == 'entomology'){
@@ -58,7 +58,7 @@
   $result = $findCommand->execute();
 
   if(FileMaker::isError($result)) {
-    $_SESSION['error'] = $result;
+    $_SESSION['error'] = $result->getMessage();
     header('Location: error.php');
     exit;
   } else {

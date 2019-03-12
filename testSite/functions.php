@@ -52,9 +52,11 @@ function mapField($field) {
         return 'Depth';
       case 'geo_longdecimal':
       case 'decimallongitude':
+      case 'longitudedecimal':
         return 'Longitude';
       case 'geo_latdecimal':
       case 'decimallatitude':
+      case 'latitudedecimal':
         return 'Latitude';
       case 'date collected':
       case 'collection date 1':

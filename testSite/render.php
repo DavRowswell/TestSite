@@ -53,7 +53,7 @@
     foreach ($layoutFields as $rf) {
       
       $field = str_replace(" ", "_",$rf);
-      echo $field;
+      
       if (isset($_GET[$field]) && $_GET[$field] !== '') {
         if ($field == 'Accession_Number' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
               $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
@@ -67,8 +67,10 @@
                 $findCommand->addFindCriterion("SortNum", $_GET[$field]);
               }
            }
-           else if ($field == 'Accession_No' && ($_GET['Database'] == 'mi' || $_GET['Database'] == 'miw' ) {
-
+           else if ($field == 'Accession_No' && ($_GET['Database'] == 'mi' || $_GET['Database'] == 'miw' )) {
+            if ( is_numeric($_GET[$field][0])) {
+              $findCommand->addFindCriterion("SortNum", $_GET[$field]);
+            }
            }
             else {      
               $findCommand->addFindCriterion($rf, $_GET[$field]);
@@ -204,9 +206,12 @@
       <?php }?>
     </tbody>
   </table>  
-  <?php }
-  require ('partials/pageController.php');
-  ?>
+  <?php } ?>
+  <div class = "row">
+    <div class = "col-sm-2">
+      <?php require ('partials/pageController.php'); ?>
+    </div>
+  </div>
 </div>
 <?php require_once("partials/footer.php");?>
 </body>

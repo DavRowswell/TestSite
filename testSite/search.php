@@ -57,6 +57,7 @@
   </div>
     <?php 
     foreach ($layoutFields as $rf) {
+      //echo $rf;
       if ($rf === 'SortNum' || $rf === 'Ref Type') continue; ?>
     <div class="row">
       <div class="col">
@@ -67,8 +68,8 @@
       <div class="col">
         <input type="text" id="field-<?php echo $rf?>" 
           <?php
-            if (isset($_POST[$rf]))
-              echo "value=".htmlspecialchars($_POST[$rf]);
+            if (isset($_POST[str_replace(' ', '_', $rf)]))
+              echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $rf)]);
           ?> 
           name="<?php echo htmlspecialchars($rf) ?>"
           class="form-control">

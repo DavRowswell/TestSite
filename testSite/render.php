@@ -49,7 +49,6 @@
 
     // Find on all inputs with values
     $findCommand = $fm->newFindCommand($layout);
-
     foreach ($layoutFields as $rf) {
       
       $field = str_replace(" ", "_",$rf);
@@ -142,8 +141,8 @@
           <?php
             $db = $_GET['Database'];
             foreach ($_GET as $key=>$value) {
-              if (in_array($key, $layoutFields))
-                echo "<input type=hidden value=".htmlspecialchars($value)." name=".htmlspecialchars($key).">";
+              if (in_array($key, $layoutFields) || (in_array(str_replace('_', ' ', $key), $layoutFields)))
+                echo "<input  type=hidden value=".htmlspecialchars($value)." name=".htmlspecialchars($key).">";
             }
           ?>
           <button type="submit" value = "Submit" class="btn btn-primary" style="float:right; margin-top:4px">Modify Search</button> 
@@ -193,7 +192,15 @@
         <?php foreach($recFields as $j){
           if ($j === 'SortNum' || $j === 'Accession Numerical') continue;
           if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
-            echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
+            echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) 
+            . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
+
+            //  if (image exists) {
+            /*   echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) 
+            . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'<span id = "icon" class="fas fa-image float-right d-inline-block"></span></a></td>'; */
+             // echo '<span id = "icon" class="fas fa-image"></span>'
+
+           // }
           }
           else if (formatField($j) == 'Genus' || formatField($j) == 'Species'){
             echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';

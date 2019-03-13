@@ -102,7 +102,7 @@
   </span>
   <div class="row">  
     <div class="col-sm-5">
-      <div id="map" style="height: 300px;"></div>
+      <div id="viewDiv" style="height: 300px;"></div>
     </div>
   </div>
   <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>

@@ -1,9 +1,9 @@
 require(["esri/Map", "esri/views/MapView", "esri/layers/GraphicsLayer", "esri/Graphic",
-"esri/geometry/Point",  "esri/geometry/Circle", "esri/geometry/SpatialReference"], 
-function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference) {
+"esri/geometry/Point",  "esri/geometry/Circle", "esri/geometry/SpatialReference", ], 
+function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference, Zoom) {
   var map = new Map({
     basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
-    // zoom: 3,
+    zoom: 3,
   });
 
   // create a point
@@ -49,12 +49,17 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference) 
   });
 
   var view = new MapView({
-    container: "map",
+    container: "viewDiv",
     map: map,
-    center: [document.getElementById("Longitude").innerHTML, document.getElementById("Latitude").innerHTML], // longitude, latitude
-    zoom: 12,
+    center: [
+      document.getElementById("Longitude").innerHTML, 
+      document.getElementById("Latitude").innerHTML
+    ], // longitude, latitude
     extent: circle.extent
   });
+
+  // Sets the scale of map when first initialized
+  view.scale = 24000;
 
   // Add graphic when GraphicsLayer is constructed
   var layer = new GraphicsLayer({

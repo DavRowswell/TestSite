@@ -51,10 +51,28 @@
     $findCommand = $fm->newFindCommand($layout);
 
     foreach ($layoutFields as $rf) {
-       //echo $rf;
+      
       $field = str_replace(" ", "_",$rf);
+      echo $field;
       if (isset($_GET[$field]) && $_GET[$field] !== '') {
-        $findCommand->addFindCriterion($rf, $_GET[$field]);
+        if ($field == 'Accession_Number' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+              $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
+                if ( is_numeric($_GET[$field][0])) {
+                  $findCommand->addFindCriterion("Accession Numerical", $_GET[$field]);
+                }
+              }
+          else if ($field == 'catalogNumber' && ($_GET['Database'] == 'fossil' || 
+           $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' )) {
+              if ( is_numeric($_GET[$field][0])) {
+                $findCommand->addFindCriterion("SortNum", $_GET[$field]);
+              }
+           }
+           else if ($field == 'Accession_No' && ($_GET['Database'] == 'mi' || $_GET['Database'] == 'miw' ) {
+
+           }
+            else {      
+              $findCommand->addFindCriterion($rf, $_GET[$field]);
+            }
       }
     }
     if($_GET['Database'] === 'fish'){

@@ -3,6 +3,7 @@ require(["esri/Map", "esri/views/MapView", "esri/layers/GraphicsLayer", "esri/Gr
 function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference) {
   var map = new Map({
     basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+    // zoom: 3,
   });
 
   // create a point

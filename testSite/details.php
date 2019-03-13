@@ -86,8 +86,8 @@
       <tr>
         <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
         <td 
-        <?php if (formatField($i) === "Latitude") {echo "id='Latitude'";}
-              if (formatField($i) === "Longitude") {echo "id='Longitude'";}?>>
+        <?php if (formatField($i) === "Latitude") {echo "id='Latitude'"; $lat = $findAllRec[0]->getField($i);}
+              if (formatField($i) === "Longitude") {echo "id='Longitude'"; $long = $findAllRec[0]->getField($i);}?>>
               <?php echo htmlspecialchars($findAllRec[0]->getField($i)) ?>
         </td>
       </tr>
@@ -95,6 +95,8 @@
     </tbody>
   </table>   
   <?php } ?>
+  <?php
+  if($lat != "" && $long != ""){?>
   <span style = "font-style: normal; font-size: 0.8em;"> 
     *Should there be a map it is still in heavy development.
   </span>
@@ -103,9 +105,10 @@
       <div id="map" style="height: 300px;"></div>
     </div>
   </div>
-  </div>
-  <?php require_once("partials/footer.php");?>
   <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
   <script src="js/map.js"></script>
+  <?php }?>
+  <?php require_once("partials/footer.php");?>
+  </div>
 </body>
 </html>

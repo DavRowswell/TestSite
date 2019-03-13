@@ -137,7 +137,7 @@
       <div class = "col-sm-2">
         <?php require_once ('partials/pageController.php'); ?>
       </div>
-      <div class = "col-sm-2 offset-sm-8" style="vertical-align:bottom;display: inline-block;; float:none">  
+      <div class = "col-sm-10" style="vertical-align:bottom;display: inline-block;; float:none">  
         <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars($_GET['Database']);?>>
           <?php
             $db = $_GET['Database'];
@@ -193,7 +193,18 @@
         <?php foreach($recFields as $j){
           if ($j === 'SortNum' || $j === 'Accession Numerical') continue;
           if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
-            echo '<td id=\"data\"><a style="padding: 0px;" href=\'details.php?Database=' . htmlspecialchars($_GET['Database']) . '&AccessionNo='.htmlspecialchars($i->getField($j)).'\'>'.htmlspecialchars(trim($i->getField($j))).'</a></td>';
+            ?>
+            <td id="data">
+              <a style="padding: 0px;"
+                href="details.php?Database= 
+                <?php echo htmlspecialchars($_GET['Database']) . 
+                  '&AccessionNo='.htmlspecialchars($i->getField($j)) 
+                ?>"
+              >
+              <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+              </a>
+            </td>
+          <?php
           }
           else if (formatField($j) == 'Genus' || formatField($j) == 'Species'){
             echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';

@@ -52,9 +52,10 @@
       <div class="col-sm-5">
        <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
           role="button" class="btn btn-primary" 
-          style="font-size:12px; text-align:left; padding-left:1px; padding-right:1px">Show All Records</a>   
+          style="font-size:12px; text-align:left; padding-left:1px; padding-right:1px;">Show All Records</a>   
       </div>
   </div>
+  <div style="position:relative; top:12px">
     <?php 
     foreach ($layoutFields as $rf) {
       //echo $rf;
@@ -80,6 +81,7 @@
       <input id="form" class="btn btn-primary" type="button" value="Submit" onclick="Process(clearURL())">    
     </div>
   </form>
+  </div>
   </div>
   <div id="legend" class="border col-sm-5 offset-sm-2" style="position:relative; top:6px; padding-top:14px"> 
       <header style="padding-bottom:12px"> Search Operators </header>
@@ -147,6 +149,8 @@
         <div class="col-sm-1"> *&#34&#34 </div>
         <div class="col-sm-11">  match phrase from anywhere </div>
       </div>
+   </div>
+   </div>
    </div>
   <?php require_once("partials/footer.php");?>
   <script src="js/process.js"> </script>

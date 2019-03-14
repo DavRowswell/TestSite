@@ -82,7 +82,8 @@
   <!-- construct table for given layout and fields -->
   <table class="table">
     <tbody>
-      <?php foreach($recFields as $i){?>
+      <?php foreach($recFields as $i){
+        if ($i === "Photographs::photoContainer" || $i === "Photographs::stableURL") continue;?> 
       <tr>
         <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
         <td 
@@ -95,6 +96,7 @@
     </tbody>
   </table>   
   <?php } ?>
+  <div class = "col-sm-6">
   <?php
   if($lat != "" && $long != ""){?>
   <span style = "font-style: normal; font-size: 0.8em;"> 
@@ -108,6 +110,37 @@
   <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
   <script src="js/map.js"></script>
   <?php }?>
+  </div>
+  <div class = "col-sm-6">
+  
+ 
+    <?php
+        if ($_GET['Database'] === 'vwsp') {
+          $url = "http://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$_GET['AccessionNo'].".jpg";
+          if(@ getimagesize($url)){
+            echo '<img src ="'. $url.'">';
+          }
+        }
+        /* if ($_GET['Database'] === 'avian') {
+        echo $fm->getContainerData(urlencode($findAllRec[0]->getField("Photographs::photoContainer")));
+        
+          echo '<img src="'.$fm->
+        getContainerDataURL($findAllRec[0]->getField('Photographs::photoContainer')) .'">';
+
+        
+      
+        echo $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"));
+       
+        } */
+        /* if ($_GET['Database'] === 'entomology') {
+            //check if image url actually exists
+            $url = 'http://www.zoology.ubc.ca/entomology/main/Lepidoptera/Crambidae/Crambus%20unistriatellus%20(1dorsal).jpg';
+            if(@ getimagesize($url)){
+              echo '<img src ="'. $url.'">';
+            }
+        } */
+    ?>
+  </div>
   <?php require_once("partials/footer.php");?>
   </div>
 </body>

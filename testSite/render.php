@@ -59,16 +59,25 @@
                 if ( is_numeric($_GET[$field][0])) {
                   $findCommand->addFindCriterion("Accession Numerical", $_GET[$field]);
                 }
+                else {
+                  $findCommand->addFindCriterion("Accession Number", $_GET[$field]);
+                }
               }
           else if ($field == 'catalogNumber' && ($_GET['Database'] == 'fossil' || 
            $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' )) {
               if ( is_numeric($_GET[$field][0])) {
                 $findCommand->addFindCriterion("SortNum", $_GET[$field]);
               }
+              else {
+                $findCommand->addFindCriterion("catalogNumber", $_GET[$field]);
+              }
            }
            else if ($field == 'Accession_No' && ($_GET['Database'] == 'mi' || $_GET['Database'] == 'miw' )) {
             if ( is_numeric($_GET[$field][0])) {
               $findCommand->addFindCriterion("SortNum", $_GET[$field]);
+            }
+            else {
+              $findCommand->addFindCriterion("Accession No", $_GET[$field]);
             }
            }
             else {      

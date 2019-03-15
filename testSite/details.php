@@ -108,10 +108,33 @@
     <div class="col-sm-6">
       <?php
           if ($_GET['Database'] === 'vwsp') {
-            $url = "https://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$_GET['AccessionNo'].".jpg";
-            echo getimagesize($url)[0];
-            if(getimagesize($url[0] >0 && getimagesize($url)[1] > 0)){
-              echo '<img src ="'. $url.'">';
+            $url = "https://herbweb.botany.ubc.ca/testSite/images/vwsp_images/Large_web/".$_GET['AccessionNo'].".jpg";
+            if(getimagesize($url)[0] >0 && getimagesize($url)[1] > 0){
+              echo '<a href="'.$url.'" target="_blank"><img src ="'. $url.'"></a>';
+            }
+          }
+          else if ($_GET['Database'] === 'algae') {
+            $url = "https://herbweb.botany.ubc.ca/testSite/images/ubcalgae_images/Large_web/".$_GET['AccessionNo'].".jpg";
+            if(getimagesize($url)[0] >0 && getimagesize($url)[1] > 0){
+              echo '<a href="'.$url.'" target="_blank"><img src ="'. $url.'"></a>';
+            }
+          }
+          else if ($_GET['Database'] === 'lichen') {
+            $url = "https://herbweb.botany.ubc.ca/testSite/images/lichen_images/Large_web/".$_GET['AccessionNo'].".jpg";
+            if(getimagesize($url)[0] >0 && getimagesize($url)[1] > 0){
+              echo '<a href="'.$url.'" target="_blank"><img src ="'. $url.'"></a>';
+            }
+          }
+          else if ($_GET['Database'] === 'fungi') {
+            $url = "https://herbweb.botany.ubc.ca/testSite/images/fungi_images/Large_web/".$_GET['AccessionNo'].".jpg";
+            if(getimagesize($url)[0] >0 && getimagesize($url)[1] > 0){
+              echo '<a href="'.$url.'" target="_blank"><img src ="'. $url.'"></a>';
+            }
+          }
+          else if ($_GET['Database'] === 'bryophytes') {
+            $url = "https://herbweb.botany.ubc.ca/testSite/images/bryophytes_images/Large_web/".$_GET['AccessionNo'].".jpg";
+            if(getimagesize($url)[0] >0 && getimagesize($url)[1] > 0){
+              echo '<a href="'.$url.'" target="_blank"><img src ="'. $url.'"></a>';
             }
           }
           /* if ($_GET['Database'] === 'avian') {

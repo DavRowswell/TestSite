@@ -96,50 +96,44 @@
     </tbody>
   </table>   
   <?php } ?>
-  <div class = "col-sm-6">
-  <?php
-  if($lat != "" && $long != ""){?>
-  <span style = "font-style: normal; font-size: 0.8em;"> 
-    *Should there be a map it is still in heavy development.
-  </span>
-  <div class="row">  
-    <div class="col-sm-5">
+  <div class="row">
+    <?php
+    if($lat != "" && $long != ""){?>
+    <div class="col-sm-6">
       <div id="viewDiv" style="height: 300px;"></div>
     </div>
-  </div>
-  <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
-  <script src="js/map.js"></script>
-  <?php }?>
-  </div>
-  <div class = "col-sm-6">
-  
- 
-    <?php
-        if ($_GET['Database'] === 'vwsp') {
-          $url = "http://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$_GET['AccessionNo'].".jpg";
-          if(@ getimagesize($url)){
-            echo '<img src ="'. $url.'">';
-          }
-        }
-        /* if ($_GET['Database'] === 'avian') {
-        echo $fm->getContainerData(urlencode($findAllRec[0]->getField("Photographs::photoContainer")));
-        
-          echo '<img src="'.$fm->
-        getContainerDataURL($findAllRec[0]->getField('Photographs::photoContainer')) .'">';
-
-        
-      
-        echo $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"));
-       
-        } */
-        /* if ($_GET['Database'] === 'entomology') {
-            //check if image url actually exists
-            $url = 'http://www.zoology.ubc.ca/entomology/main/Lepidoptera/Crambidae/Crambus%20unistriatellus%20(1dorsal).jpg';
-            if(@ getimagesize($url)){
+    <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
+    <script src="js/map.js"></script>
+    <?php }?>
+    <div class="col-sm-6">
+      <?php
+          if ($_GET['Database'] === 'vwsp') {
+            $url = "https://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$_GET['AccessionNo'].".jpg";
+            echo getimagesize($url)[0];
+            if(getimagesize($url[0] >0 && getimagesize($url)[1] > 0)){
               echo '<img src ="'. $url.'">';
             }
-        } */
-    ?>
+          }
+          /* if ($_GET['Database'] === 'avian') {
+          echo $fm->getContainerData(urlencode($findAllRec[0]->getField("Photographs::photoContainer")));
+          
+            echo '<img src="'.$fm->
+          getContainerDataURL($findAllRec[0]->getField('Photographs::photoContainer')) .'">';
+
+          
+        
+          echo $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"));
+        
+          } */
+          /* if ($_GET['Database'] === 'entomology') {
+              //check if image url actually exists
+              $url = 'http://www.zoology.ubc.ca/entomology/main/Lepidoptera/Crambidae/Crambus%20unistriatellus%20(1dorsal).jpg';
+              if(@ getimagesize($url)){
+                echo '<img src ="'. $url.'">';
+              }
+          } */
+      ?>
+    </div>
   </div>
   <?php require_once("partials/footer.php");?>
   </div>

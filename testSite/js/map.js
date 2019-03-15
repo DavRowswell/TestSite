@@ -58,9 +58,6 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference, 
     extent: circle.extent
   });
 
-  // Sets the scale of map when first initialized
-  view.scale = 24000;
-
   // Add graphic when GraphicsLayer is constructed
   var layer = new GraphicsLayer({
     graphics: [graphicA, graphicB]

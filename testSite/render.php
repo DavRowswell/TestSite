@@ -195,8 +195,7 @@
             ?>
             <td id="data">
               <a style="padding: 0px;"
-                href="details.php?Database= 
-                <?php echo htmlspecialchars($_GET['Database']) . 
+                href="details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
                   '&AccessionNo='.htmlspecialchars($i->getField($j)) 
                 ?>"
               >

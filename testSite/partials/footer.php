@@ -1,3 +1,6 @@
+<br>
+<br>
+<br>
 <div id="footer">
     <hr style = "width: 100%; border: 1px solid #969B9B; position:relative; top:12px;">
     <div style = "font-style: italic; text-align: center;">
@@ -9,4 +12,4 @@
             *This site is still in alpha and can have some critical bugs.
         </span>
     </div>
-    </div>
+</div>

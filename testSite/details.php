@@ -16,6 +16,8 @@
   require_once ('partials/header.php');
   require_once ('functions.php');
 
+  require ('lib/simple_html_dom.php');
+
   $layouts = $fm->listLayouts();
   $layout = $layouts[0];
   foreach ($layouts as $l) {
@@ -137,24 +139,51 @@
               echo '<a href="'.$url.'" target="_blank"><img src ="'. $url.'"></a>';
             }
           }
-          /* if ($_GET['Database'] === 'avian') {
-          echo $fm->getContainerData(urlencode($findAllRec[0]->getField("Photographs::photoContainer")));
-          
+          if ($_GET['Database'] === 'avian') {
+            echo $fm->getContainerData(urlencode($findAllRec[0]->getField("Photographs::photoContainer")));
+            
             echo '<img src="'.$fm->
-          getContainerDataURL($findAllRec[0]->getField('Photographs::photoContainer')) .'">';
+              getContainerDataURL($findAllRec[0]->getField('Photographs::photoContainer')) .'">';
 
+            
           
+            echo $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"));
         
-          echo $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"));
-        
-          } */
-          /* if ($_GET['Database'] === 'entomology') {
+          }
+          if ($_GET['Database'] === 'entomology') {
               //check if image url actually exists
-              $url = 'http://www.zoology.ubc.ca/entomology/main/Lepidoptera/Crambidae/Crambus%20unistriatellus%20(1dorsal).jpg';
-              if(@ getimagesize($url)){
-                echo '<img src ="'. $url.'">';
+              $genusPage = getGenusPage($findAllRec[0]);
+              $genusSpecies = getGenusSpecies($findAllRec[0]);
+              // echo $genusPage;
+              $html = file_get_html($genusPage);
+              $species = $html->find('.speciesentry');
+              // echo $html;
+              foreach($species as $spec) {
+                $speciesName = $spec->innertext;
+                if (strpos($speciesName, $genusSpecies) !== false ) {
+                  echo $speciesName;
+                  $images = $spec->find('a');
+                  $link = $images[0]->href;
+                  $url = $genusPage . $link;
+                  echo '<img src ="'. $url.'">';
+                  break;
+                }
               }
-          } */
+          }
+
+          function getGenusPage($record) {
+            $order = $record->getField('Order');
+            $family = $record->getField('Family');
+            $genusPage = 'http://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
+            return $genusPage;
+          }
+
+          function getGenusSpecies($record) {
+            $genus = $record->getField('Genus');
+            $species = $record->getField('Species');
+            $genusSpecies = $genus . ' ' . $species ;
+            return $genusSpecies;
+          }
       ?>
     </div>
   </div>

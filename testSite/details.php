@@ -9,6 +9,12 @@
     margin: 0;
     padding: 0;
   }
+  #zoology {
+    height:10%;
+  }
+  #fish{
+    height:20%;
+  }
 </style>
 <?php
  session_start();
@@ -85,7 +91,7 @@
   <table class="table">
     <tbody>
       <?php foreach($recFields as $i){
-        if ($i === "Photographs::photoContainer" || $i === "Photographs::stableURL") continue;?> 
+        if ($i === "Photographs::photoContainer" || $i === "Photographs::stableURL" || $i === "IIFRNo") continue;?> 
       <tr>
         <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
         <td 
@@ -99,14 +105,14 @@
   </table>   
   <?php } ?>
   <div class="row">
-    <?php
-    if($lat != "" && $long != ""){?>
-    <div class="col-sm-6">
-      <div id="viewDiv" style="height: 300px;"></div>
-    </div>
+  <div class="col-sm-6">
+    <?php   
+    if($lat != "" && $long != ""){?> 
+      <div id="viewDiv" style="height: 300px;"></div> 
     <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
     <script src="js/map.js"></script>
     <?php }?>
+  </div>
     <div class="col-sm-6">
       <?php
           if ($_GET['Database'] === 'vwsp') {
@@ -139,16 +145,26 @@
               echo '<a href="'.$url.'" target="_blank"><img src ="'. $url.'"></a>';
             }
           }
-          if ($_GET['Database'] === 'avian') {
-            echo $fm->getContainerData(urlencode($findAllRec[0]->getField("Photographs::photoContainer")));
-            
-            echo '<img src="'.$fm->
-              getContainerDataURL($findAllRec[0]->getField('Photographs::photoContainer')) .'">';
+          if ($_GET['Database'] === 'mammal') {
 
-            
-          
-            echo $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"));
-        
+            $url = 'https://'.$fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"));
+            //url is not just https:// ie there is data in the container
+            if ($url !== 'https://') 
+              echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
+          }
+          if ($_GET['Database'] === 'avian') {
+
+            $url = str_replace('.fmp12', '',
+            str_replace('http', 'https', $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"))));
+            if ($url) 
+              echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
+          }
+          if ($_GET['Database'] === 'herpetology') {
+
+            $url = str_replace('.fmp12', '',
+            str_replace('http', 'https', $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"))));
+            if ($url) 
+              echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'entomology') {
               //check if image url actually exists
@@ -169,6 +185,11 @@
                   break;
                 }
               }
+          }
+          if ($_GET['Database'] === 'fish') {
+            $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/1.0200849/0';
+            $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/1.0200849';
+            echo '<a href ='. htmlspecialchars($linkToWebsite).'>'.'<img id = "fish" src="'.htmlspecialchars($url) .'"></a>';
           }
 
           function getGenusPage($record) {

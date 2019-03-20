@@ -26,7 +26,7 @@ function replaceSpace($element) {
 
 function mapField($field) {
     switch( strtolower($field)) {
-      case 'accession no.':
+      case 'accession no':
       case 'catalognumber':
       case 'id':
         return 'Accession Number';

@@ -95,6 +95,8 @@ function mapField($field) {
         return 'Organism Remark';
       case 'vernacularname':
         return 'Vernacular Name';
+      case 'recordedby':
+        return 'Collected By';
       default:
         return ucwords($field);
       }

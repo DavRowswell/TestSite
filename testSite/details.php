@@ -149,24 +149,24 @@
             $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Mammal%20Research%20Collection&-lay=mammal_details&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
             //url is not just https:// ie there is data in the container
             if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) 
-              echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
+              echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'avian') {
 
             $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
             if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) 
-              echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
+              echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'herpetology') {
 
             $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Herpetology%20Research%20Collection&-lay=herp_details&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
             if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) 
-              echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
+              echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'fish') {
             $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
             $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("IIFRNo");
-            echo '<a href ='. htmlspecialchars($linkToWebsite).'>'.'<img id = "fish" src="'.htmlspecialchars($url) .'"></a>';
+            echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'entomology') {
               //check if image url actually exists
@@ -182,7 +182,7 @@
                   $images = $spec->find('a');
                   $link = $images[0]->href;
                   $url = str_replace('http','https',$genusPage . $link);
-                  echo '<a href="'.$url.'" ><img src ="'.$url.'"></a>';
+                  echo '<a href="'.$url.'" target="_blank"><img src ="'.$url.'"></a>';
                   break;
                 }
               }

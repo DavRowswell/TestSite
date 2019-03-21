@@ -166,6 +166,11 @@
             if ($url) 
               echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
           }
+          if ($_GET['Database'] === 'fish') {
+            $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
+            $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("IIFRNo");
+            echo '<a href ='. htmlspecialchars($linkToWebsite).'>'.'<img id = "fish" src="'.htmlspecialchars($url) .'"></a>';
+          }
           if ($_GET['Database'] === 'entomology') {
               //check if image url actually exists
               $genusPage = getGenusPage($findAllRec[0]);
@@ -173,24 +178,19 @@
               // echo $genusPage;
               $html = file_get_html($genusPage);
               $species = $html->find('.speciesentry');
-              // echo $html;
+               //echo $species[0];
               foreach($species as $spec) {
                 $speciesName = $spec->innertext;
                 if (strpos($speciesName, $genusSpecies) !== false ) {
-                  echo $speciesName;
                   $images = $spec->find('a');
                   $link = $images[0]->href;
-                  $url = $genusPage . $link;
-                  echo '<img src ="'. $url.'">';
+                  $url = str_replace('http','https',$genusPage . $link);
+                  echo '<a href="'.$url.'" ><img src ="'.$url.'"></a>';
                   break;
                 }
               }
           }
-          if ($_GET['Database'] === 'fish') {
-            $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/1.0200849/0';
-            $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/1.0200849';
-            echo '<a href ='. htmlspecialchars($linkToWebsite).'>'.'<img id = "fish" src="'.htmlspecialchars($url) .'"></a>';
-          }
+          
 
           function getGenusPage($record) {
             $order = $record->getField('Order');

@@ -146,24 +146,21 @@
             }
           }
           if ($_GET['Database'] === 'mammal') {
-
-            $url = 'https://'.$fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"));
+            $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Mammal%20Research%20Collection&-lay=mammal_details&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
             //url is not just https:// ie there is data in the container
-            if ($url !== 'https://') 
+            if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) 
               echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'avian') {
 
-            $url = str_replace('.fmp12', '',
-            str_replace('http', 'https', $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"))));
-            if ($url) 
+            $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
+            if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) 
               echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'herpetology') {
 
-            $url = str_replace('.fmp12', '',
-            str_replace('http', 'https', $fm->getContainerDataURL($findAllRec[0]->getField("Photographs::photoContainer"))));
-            if ($url) 
+            $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Herpetology%20Research%20Collection&-lay=herp_details&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
+            if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) 
               echo '<a href ='. htmlspecialchars($url).'>'.'<img id = "zoology" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'entomology') {

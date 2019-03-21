@@ -21,8 +21,7 @@
   require_once ('FileMaker.php');
   require_once ('partials/header.php');
   require_once ('functions.php');
-
-  require ('lib/simple_html_dom.php');
+  require_once ('lib/simple_html_dom.php');
 
   $layouts = $fm->listLayouts();
   $layout = $layouts[0];

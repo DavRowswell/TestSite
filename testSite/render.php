@@ -163,7 +163,7 @@
     <thead>
       <tr>
         <?php foreach($recFields as $i){
-          if ($i === 'SortNum' || $i === 'Accession Numerical') continue;?>
+          if ($i === 'SortNum' || $i === 'Accession Numerical'  || $i === 'Photographs::stableURL') continue;?>
           <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
@@ -196,10 +196,13 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach($findAllRec as $i){?>
+      <?php foreach($findAllRec as $i){
+        ?>
+      
       <tr>
         <?php foreach($recFields as $j){
-          if ($j === 'SortNum' || $j === 'Accession Numerical') continue;
+          
+          if ($j === 'SortNum' || $j === 'Accession Numerical' || $j === 'Photographs::stableURL' ) continue;
           if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
             ?>
             <td id="data">
@@ -208,7 +211,23 @@
                   '&AccessionNo='.htmlspecialchars($i->getField($j)) 
                 ?>"
               >
-              <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+              <?php
+              $photoURL = $i->getField("Photographs::stableURL");
+              echo $photoURL;
+              if (($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
+              &&  $photoURL !== "") {
+              ?>
+                <div class="row">
+                  <div class="col"> <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b></div>
+                  <div class="col"> <span style="display:inline" id = "icon"  class="fas fa-image"></span></div> 
+                </div>
+              <?php
+              }  else {
+              ?>
+                <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+              <?php
+              }        
+              ?>
               </a>
             </td>
           <?php

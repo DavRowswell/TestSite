@@ -84,6 +84,15 @@
   </div>
   </div>
   <div id="legend" class="border col-sm-5 offset-sm-2" style="position:relative; top:6px; padding-top:14px"> 
+      <?php
+      if($_GET['Database'] === 'entomology'){
+        echo '<div class="row">';
+          echo '<div class="col-sm-12">';
+            echo '<a href="https://www.zoology.ubc.ca/entomology/"><img width="100%" src="images/entomology-link-image.jpg"></a>';
+          echo '</div>';
+        echo '</div>';
+      }
+      ?>
       <header style="padding-bottom:12px"> Search Operators </header>
       <div class="row">
         <div class="col-sm-1"> = </div>

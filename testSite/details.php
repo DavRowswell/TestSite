@@ -185,8 +185,8 @@
                 if (strpos($speciesName, $genusSpecies) !== false ) {
                   $images = $spec->find('a');
                   $link = $images[0]->href;
-                  $url = str_replace('http','https',$genusPage . $link);
-                  echo '<a href="'.$url.'" target="_blank"><img class="img-fluid minHeight" src ="'.$url.'"></a>';
+                  $url = str_replace('http','https',$genusPage);
+                  echo '<a href="'.$url.'" target="_blank"><figure><img class="img-fluid minHeight" src ="'.$url.$link.'"><figcaption style="text-align:center;">See more images here</figcaption></figure></a>';
                   break;
                 }
               }

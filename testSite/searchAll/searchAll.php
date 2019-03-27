@@ -3,38 +3,36 @@
 <head>
     <?php
     session_start();
-    require_once ('FileMaker.php');
-    require_once ('partials/header.php');
-    require_once ('partials/navbar.php');
+    require_once ('../FileMaker.php');
+    require_once ('../partials/header.php');
+    require_once ('../partials/navbar.php');
+    require_once ('DatabaseSearch.php');
     
     // list databases
     $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
     'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
     'miw', 'vwsp'];
 
-    $fm_databases = [];
+    $searchDatabases = [];
 
     // initialize FileMaker objects
     foreach ($databases as $db) {
-        require_once ('databases/'.$db.'db.php');
+        require_once ('../databases/'.$db.'db.php');
         $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
-        array_push($fm_databases, $fm);
+        $databaseSearch = new DatabaseSearch($fm, $db);
+        array_push($searchDatabases, $databaseSearch);
     }
 
     // echo sizeof($fm_databases);
 
-    $fm_results = [];
-    
-    foreach ($fm_databases as $fm_db) {
-        $layouts = $fm_db->listLayouts();
+    foreach ($searchDatabases as $sd) {
+        $fm_db = $sd->getFM();
+        $layouts = $fm_db->getLayouts();
         $layout = "";
         $formatLayout = "";
-        
-        echo $fm_db->getProperty('database');
-        echo 'hello';
 
         foreach ($layouts as $l) {
-            if ($fm_db->getProperty('database') === 'mi') {
+            if ($sd->getDatabase() === 'mi') {
                 if ($l == 'search-MI') {
                     $layout = $l;
                 } else if ($l == 'results-MI') {

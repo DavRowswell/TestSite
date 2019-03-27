@@ -51,8 +51,7 @@
         <h2 id = "herbarium"> <b>Herbarium Databases</b> </h2>
         <hr align = "left">
         <div id="herbarium-links">
-        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=algae"> <img class="img-fluid" id= "someid" src ="images/herbarium.jpg"></a>
-        <a role="button" class="btn btn-danger" href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=algae">Algae</a>
+        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=algae"><figure><img class="img-fluid" id= "someid" src ="images/herbarium.jpg"><figcaption>Algae</figcaption></figure></a>
         <a role="button" class="btn btn-danger" href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=bryophytes">Bryophytes</a>
         <a role="button" class="btn btn-danger" href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=fungi">Fungi</a>
         <a role="button" class="btn btn-danger" href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=lichen">Lichen</a>

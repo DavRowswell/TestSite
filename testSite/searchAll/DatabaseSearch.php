@@ -1,7 +1,7 @@
 <?php
 class DatabaseSearch {
 
-    var $fm;
+    private $fm = null;
     var $database;
 
     var $search_layout;
@@ -10,7 +10,7 @@ class DatabaseSearch {
     var $results;
 
     function __construct($fm, $database) {
-        $this->$fm = $fm;
+        $this->fm = $fm;
         $this->$database = $database;
     }
 
@@ -27,7 +27,7 @@ class DatabaseSearch {
     }
 
     function getFM() {
-        return $this->$fm;
+        return $this->fm;
     }
 
     function getDatabase() {

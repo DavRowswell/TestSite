@@ -25,27 +25,36 @@
 
     // echo sizeof($fm_databases);
 
+    // generate results from FileMaker query
     foreach ($searchDatabases as $sd) {
+        // determine search and results layouts for given database
         $fm_db = $sd->getFM();
-        $layouts = $fm_db->getLayouts();
-        $layout = "";
-        $formatLayout = "";
+        $layouts = $fm_db->listLayouts();
+        $searchLayout = "";
+        $resultLayout = "";
 
         foreach ($layouts as $l) {
-            if ($sd->getDatabase() === 'mi') {
+            if ($sd->getDatabase() === 'mi') {  // mi and miw layouts get mixed up so this check is necessary to get the mi layouts coorrectly
                 if ($l == 'search-MI') {
-                    $layout = $l;
+                    $searchLayout = $l;
                 } else if ($l == 'results-MI') {
-                    $formatLayout = $l;
+                    $resultLayout = $l;
                 }
-            } else {
+            } else { // go through layouts and find the search and results layouts
                 if (strpos($l, 'search') !== false) {
-                    $layout = $l;
+                    $searchLayout = $l;
                 } else if (strpos($l, 'results') !== false) {
-                    $formatLayout = $l;
+                    $resultLayout = $l;
                 }
             }
         }
+
+        // sets the search and results layouts of current DatabaseSearch object
+        $sd->setSearchLayout($searchLayout);
+        $sd->setResultLayout($resultLayout);
+
+
+
     }
 
     

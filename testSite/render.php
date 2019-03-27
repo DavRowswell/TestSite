@@ -163,7 +163,7 @@
     <thead>
       <tr>
         <?php foreach($recFields as $i){
-          if ($i === 'SortNum' || $i === 'Accession Numerical'  || $i === 'Photographs::stableURL') continue;?>
+          if ($i === 'SortNum' || $i === 'Accession Numerical'  || $i === 'Photographs::photoFileName') continue;?>
           <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
@@ -202,7 +202,7 @@
       <tr>
         <?php foreach($recFields as $j){
           
-          if ($j === 'SortNum' || $j === 'Accession Numerical' || $j === 'Photographs::stableURL' ) continue;
+          if ($j === 'SortNum' || $j === 'Accession Numerical'  || $j === 'Photographs::photoFileName'  ) continue;
           if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
             ?>
             <td id="data">
@@ -212,10 +212,10 @@
                 ?>"
               >
               <?php
-              $photoURL = $i->getField("Photographs::stableURL");
-              echo $photoURL;
+              $photoExists = $i->getField("Photographs::photoFileName");
+            
               if (($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
-              &&  $photoURL !== "") {
+              &&  $photoExists !== "") {
               ?>
                 <div class="row">
                   <div class="col"> <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b></div>

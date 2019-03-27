@@ -59,7 +59,7 @@
     <?php 
     foreach ($layoutFields as $rf) {
       //echo $rf;
-      if ($rf === 'SortNum' || $rf === 'Ref Type') continue; ?>
+      if ($rf === 'SortNum' || $rf === 'Ref Type' || $rf === 'Photographs::photoFileName') continue; ?>
     <div class="row">
       <div class="col">
         <label style="position:relative; top:6px" for="field-<?php echo $rf?>">

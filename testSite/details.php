@@ -95,7 +95,7 @@
   <table class="table">
     <tbody>
       <?php foreach($recFields as $i){
-        if ($i === "Photographs::photoContainer" || $i === "Photographs::stableURL" || $i === "IIFRNo") continue;?> 
+        if ($i === "Photographs::photoContainer" /* || $i === "Photographs::stableURL"  */|| $i === "IIFRNo") continue;?> 
       <tr>
         <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
         <td 

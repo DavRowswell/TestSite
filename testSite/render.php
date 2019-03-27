@@ -84,6 +84,21 @@
               $findCommand->addFindCriterion($rf, $_GET[$field]);
             }
       }
+
+ /*      if (isset($_GET[$field]) && $_GET[$field] !== '') {
+        if ($field == 'hasImage' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+              $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
+                
+              }
+          else if ($field == 'hasImage' && ($_GET['Database'] == 'fossil' || 
+           $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' )) {
+              
+           }
+
+           else if ($field == 'hasImage' && ($_GET['Database'] == 'fish')) {
+              
+           }
+         */
     }
     if($_GET['Database'] === 'fish'){
       $findCommand->addFindCriterion('Ref Type','MC');
@@ -114,6 +129,16 @@
         $findCommand->setRange(($_GET['Page'] - 1) * $numRes, $numRes);
     } else {
         $findCommand->setRange(0, $numRes);
+    }
+
+    if ($_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
+    }
+    else if ($_GET['Databse]' == 'fish']) {
+
+    }
+    else if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+    $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')  {
+
     }
 
     $result = $findCommand->execute();
@@ -163,7 +188,8 @@
     <thead>
       <tr>
         <?php foreach($recFields as $i){
-          if ($i === 'SortNum' || $i === 'Accession Numerical'  || $i === 'Photographs::photoFileName') continue;?>
+          $ignoreValues = ['SortNum', 'AccessionNumerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
+          if (in_array($i, $ignoreValues)) continue;?>
           <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
@@ -201,8 +227,7 @@
       
       <tr>
         <?php foreach($recFields as $j){
-          
-          if ($j === 'SortNum' || $j === 'Accession Numerical'  || $j === 'Photographs::photoFileName'  ) continue;
+          if (in_array($j, $ignoreValues)) continue;
           if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
             ?>
             <td id="data">
@@ -212,10 +237,15 @@
                 ?>"
               >
               <?php
-              $photoExists = $i->getField("Photographs::photoFileName");
             
-              if (($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
-              &&  $photoExists !== "") {
+              $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
+              &&  $i->getField("Photographs::photoFileName") !== "";
+              $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "");
+              $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+                                 $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
+                                 $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
+
+              if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture) {
               ?>
                 <div class="row">
                   <div class="col"> <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b></div>

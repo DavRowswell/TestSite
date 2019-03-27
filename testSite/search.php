@@ -54,19 +54,29 @@
           role="button" class="btn btn-primary" 
           style="font-size:12px; text-align:left; padding-left:1px; padding-right:1px;">Show All Records</a>   
       </div>
+      
   </div>
+  <div class="col-sm-9 form-check">
+        <input class="form-check-input" type="checkbox" value="" id="imageCheck">
+        <label class="form-check-label" for="imageCheck">
+            Only show records that contain an image
+         </label>
+  </div>
+  <input type="hidden" name = "hasImage" id = "hasImage">
+            
   <div style="position:relative; top:12px">
     <?php 
     foreach ($layoutFields as $rf) {
       //echo $rf;
-      if ($rf === 'SortNum' || $rf === 'Ref Type' || $rf === 'Photographs::photoFileName') continue; ?>
+      $ignoreValues = ['SortNum', 'AccessionNumerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName'];
+      if (in_array($rf, $ignoreValues)) continue; ?>
     <div class="row">
       <div class="col">
         <label style="position:relative; top:6px" for="field-<?php echo $rf?>">
           <?php echo htmlspecialchars(formatField($rf)) ?>
         </label>
       </div>
-      <div class="col">
+      <div class="col">   
         <input type="text" id="field-<?php echo $rf?>" 
           <?php
             if (isset($_POST[str_replace(' ', '_', $rf)]))

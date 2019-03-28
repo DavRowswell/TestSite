@@ -49,10 +49,11 @@
 
     // Find on all inputs with values
     $findCommand = $fm->newFindCommand($layout);
+    if (isset($_GET['type']) && $_GET['type'] == 'or') $findCommand->setLogicalOperator('or');
     foreach ($layoutFields as $rf) {
-      
       $field = str_replace(" ", "_",$rf);
-      
+      if ($rf == 'Photographs::photoFileName' || $rf == 'IIFRNo' || $rf == 'Imaged') 
+        $field = 'hasImage';
       if (isset($_GET[$field]) && $_GET[$field] !== '') {
         if ($field == 'Accession_Number' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
               $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
@@ -80,25 +81,13 @@
               $findCommand->addFindCriterion("Accession No", $_GET[$field]);
             }
            }
-            else {      
-              $findCommand->addFindCriterion($rf, $_GET[$field]);
+            else { 
+              if ($field == 'hasImage') 
+                  $findCommand->addFindCriterion($rf, '*');
+              else
+                  $findCommand->addFindCriterion($rf, $_GET[$field]);
             }
       }
-
- /*      if (isset($_GET[$field]) && $_GET[$field] !== '') {
-        if ($field == 'hasImage' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-              $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
-                
-              }
-          else if ($field == 'hasImage' && ($_GET['Database'] == 'fossil' || 
-           $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' )) {
-              
-           }
-
-           else if ($field == 'hasImage' && ($_GET['Database'] == 'fish')) {
-              
-           }
-         */
     }
     if($_GET['Database'] === 'fish'){
       $findCommand->addFindCriterion('Ref Type','MC');
@@ -130,17 +119,6 @@
     } else {
         $findCommand->setRange(0, $numRes);
     }
-
-    if ($_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
-    }
-    else if ($_GET['Databse]' == 'fish']) {
-
-    }
-    else if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-    $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')  {
-
-    }
-
     $result = $findCommand->execute();
 
     // Check if layout exists, and get fields of layout

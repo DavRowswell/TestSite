@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <style>
+    #submit {
+      padding-left: 5px;
+      padding-right:5px;
+    }
+  </style>
   <?php
     session_start();
     require_once ('FileMaker.php');
@@ -48,21 +54,25 @@
       <input type="text" name="Database" style="display:none;" 
       value=<?php if (isset($_GET['Database'])) echo htmlspecialchars($_GET['Database']); ?>>
     </div>
+    
     <div class="row">
-      <div class="col-sm-5">
-       <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
-          role="button" class="btn btn-primary" 
-          style="font-size:12px; text-align:left; padding-left:1px; padding-right:1px;">Show All Records</a>   
-      </div>
-      
+    <div id = 'submit'>
+      <input id="form" class="btn btn-primary" type="button" value="Submit"  style = "font-size:12px;" onclick="Process(clearURL())">    
+    </div>     
   </div>
-  <div class="col-sm-9 form-check">
+
+  <?php if ($_GET['Database'] == 'fish' || $_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal'
+  || $_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || 
+  $_GET['Database'] == 'fungi' || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') { ?>
+  <div class="col-sm-12 form-check">
         <input class="form-check-input" type="checkbox" value="" id="imageCheck">
         <label class="form-check-label" for="imageCheck">
             Only show records that contain an image
          </label>
   </div>
   <input type="hidden" name = "hasImage" id = "hasImage">
+  <?php } ?>
+  <input type="hidden" name = "type" id = "type">
             
   <div style="position:relative; top:12px">
     <?php 
@@ -87,9 +97,25 @@
       </div>
     </div> 
     <?php } ?>
-    <div class = "col" style="position:relative; top:8px">
-      <input id="form" class="btn btn-primary" type="button" value="Submit" onclick="Process(clearURL())">    
-    </div>
+
+    <div class = "row" style="padding-top:15px">
+    <div class = "col" style ="font-size:13px"> Search By
+  
+      <div class = "btn-group btn-group-toggle" data-toggle="buttons" >
+        <label class = "btn btn-primary active" style="font-size:12px;">
+          <input type="radio"  id = "and" autocomplete="off"  checked> AND 
+        </label>
+        <label class = "btn btn-primary" style="font-size:12px;">
+          <input type="radio" id = "or" autocomplete="off" > <span style="visibility: hidden">&nbsp;</span>OR<span style="visibility: hidden">&nbsp;</span>
+        </label> 
+      </div>
+      </div>
+      <div class="col">
+       <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
+          role="button" class="btn btn-primary" 
+          style="font-size:12px; text-align:left; padding-left:2px; padding-right:2px;">Show All Records</a>   
+      </div>
+      </div>
   </form>
   </div>
   </div>

@@ -1,7 +1,13 @@
 
+
 function Process() {
     var vals = document.getElementById("submit-form").children;
-    console.log(vals[3]);
+    if (document.getElementById("imageCheck").checked)
+        document.getElementById("hasImage").value = '*';
+    if (document.getElementById("or").checked)
+        document.getElementById("type").value = 'or';
+    else 
+        document.getElementById("type").value = 'and';
     document.getElementById("submit-form").submit();
 }
 

@@ -95,7 +95,7 @@
   <table class="table">
     <tbody>
       <?php foreach($recFields as $i){
-        if ($i === "Photographs::photoContainer" /* || $i === "Photographs::stableURL"  */|| $i === "IIFRNo") continue;?> 
+        if ($i === "Photographs::photoContainer" || $i === "IIFRNo") continue;?> 
       <tr>
         <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
         <td 
@@ -168,9 +168,11 @@
               echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "zoology" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
           }
           if ($_GET['Database'] === 'fish') {
-            $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
-            $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("IIFRNo");
-            echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+            if ($findAllRec[0]->getField("IIFRNo") !== "") {
+              $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
+              $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("IIFRNo");
+              echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+            }
           }
           if ($_GET['Database'] === 'entomology') {
               //check if image url actually exists

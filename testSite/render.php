@@ -49,10 +49,11 @@
 
     // Find on all inputs with values
     $findCommand = $fm->newFindCommand($layout);
+    if (isset($_GET['type']) && $_GET['type'] == 'or') $findCommand->setLogicalOperator('or');
     foreach ($layoutFields as $rf) {
-      
       $field = str_replace(" ", "_",$rf);
-      
+      if ($rf == 'Photographs::photoFileName' || $rf == 'IIFRNo' || $rf == 'Imaged') 
+        $field = 'hasImage';
       if (isset($_GET[$field]) && $_GET[$field] !== '') {
         if ($field == 'Accession_Number' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
               $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
@@ -80,8 +81,11 @@
               $findCommand->addFindCriterion("Accession No", $_GET[$field]);
             }
            }
-            else {      
-              $findCommand->addFindCriterion($rf, $_GET[$field]);
+            else { 
+              if ($field == 'hasImage') 
+                  $findCommand->addFindCriterion($rf, '*');
+              else
+                  $findCommand->addFindCriterion($rf, $_GET[$field]);
             }
       }
     }
@@ -115,7 +119,6 @@
     } else {
         $findCommand->setRange(0, $numRes);
     }
-
     $result = $findCommand->execute();
 
     // Check if layout exists, and get fields of layout
@@ -163,7 +166,8 @@
     <thead>
       <tr>
         <?php foreach($recFields as $i){
-          if ($i === 'SortNum' || $i === 'Accession Numerical'  || $i === 'Photographs::photoFileName') continue;?>
+          $ignoreValues = ['SortNum', 'AccessionNumerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
+          if (in_array($i, $ignoreValues)) continue;?>
           <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
           <a style="padding: 0px;" href=
           <?php 
@@ -201,8 +205,7 @@
       
       <tr>
         <?php foreach($recFields as $j){
-          
-          if ($j === 'SortNum' || $j === 'Accession Numerical'  || $j === 'Photographs::photoFileName'  ) continue;
+          if (in_array($j, $ignoreValues)) continue;
           if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
             ?>
             <td id="data">
@@ -212,10 +215,15 @@
                 ?>"
               >
               <?php
-              $photoExists = $i->getField("Photographs::photoFileName");
             
-              if (($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
-              &&  $photoExists !== "") {
+              $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
+              &&  $i->getField("Photographs::photoFileName") !== "";
+              $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "");
+              $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+                                 $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
+                                 $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
+
+              if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture) {
               ?>
                 <div class="row">
                   <div class="col"> <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b></div>

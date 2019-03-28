@@ -97,6 +97,10 @@ function mapField($field) {
         return 'Vernacular Name';
       case 'recordedby':
         return 'Collected By';
+      case 'photofilename': 
+      case 'iifrno':
+      case 'imaged':
+        return 'Has Image';
       default:
         return ucwords($field);
       }

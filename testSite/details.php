@@ -91,6 +91,11 @@
   } else {
     $recFields = $result->getFields();
   ?>
+  <div class="row">
+    <div class="col">
+        <h1><b><?php echo ucfirst($_GET['Database']); ?> Specimen Details</b></h1>
+    </div>
+  </div>
   <!-- construct table for given layout and fields -->
   <table class="table">
     <tbody>

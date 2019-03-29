@@ -144,6 +144,11 @@
 <body>
 <div class="container-fluid">
   <?php require_once ('partials/navbar.php'); ?>
+  <div class="row">
+    <div class="col">
+        <h1><b><?php echo ucfirst($_GET['Database']); ?> Results</b></h1>
+    </div>
+  </div>
   <div class = "row align-items-start">
       <div class = "col-sm-2">
         <?php require_once ('partials/pageController.php'); ?>

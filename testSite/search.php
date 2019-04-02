@@ -65,7 +65,7 @@
           </div>     
         </div>
         <?php if ($_GET['Database'] == 'fish' || $_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal'
-        || $_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || 
+        || $_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'entomology' ||
         $_GET['Database'] == 'fungi' || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') { ?>
           <div class="col-sm-12 form-check">
                 <input class="form-check-input" type="checkbox" value="" id="imageCheck">

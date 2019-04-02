@@ -105,6 +105,9 @@
             $sortBy = 'sortNum';
           }
         } 
+        if($_GET['Database'] == 'entomology') {
+          $sortBy = 'SEM #';
+        }
         if ($_GET['SortOrder'] === 'Descend') {
           // echo 'Descending';
           $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_DESCEND);
@@ -186,14 +189,14 @@
               echo htmlspecialchars(replaceURIElement(
                 replaceURIElement(
                   replaceURIElement(
-                    $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
+                    $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
                     , 'SortOrder', 'Descend')
                     , 'Page', $page));
             } else {
               echo htmlspecialchars(replaceURIElement(
                 replaceURIElement(
                   replaceURIElement(
-                    $_SERVER['REQUEST_URI'], 'Sort', replaceSpace($i))
+                    $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
                     , 'SortOrder', 'Ascend')
                     , 'Page', $page));
             }

@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div id="column-2" class = "col-sm-3">
-                <div id="vertabrae-title" class="row">
+                <div id="vertabrate-title" class="row">
                     <div class="col">
                         <h2 id= "vertebrate"> <b>Vertebrate Databases</b> </h2>
                         <hr align = "left">

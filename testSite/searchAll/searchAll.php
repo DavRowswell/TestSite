@@ -52,11 +52,7 @@
         // sets the search and results layouts of current DatabaseSearch object
         $sd->setSearchLayout($searchLayout);
         $sd->setResultLayout($resultLayout);
-
-
-
     }
-
     
     ?>
 </head>

@@ -2,28 +2,28 @@
 class DatabaseSearch {
 
     private $fm = null;
-    var $database;
+    private $database;
 
-    var $search_layout;
-    var $result_layout;
+    private $search_layout;
+    private $result_layout;
 
-    var $results;
+    private $results;
 
     function __construct($fm, $database) {
         $this->fm = $fm;
-        $this->$database = $database;
+        $this->database = $database;
     }
 
     function setSearchLayout($search_layout) {
-        $this->$search_layout = $search_layout;
+        $this->search_layout = $search_layout;
     }
 
     function setResultLayout($result_layout) {
-        $this->$result_layout = $result_layout;
+        $this->result_layout = $result_layout;
     }
 
     function setResults($results) {
-        $this->$results = $results;
+        $this->results = $results;
     }
 
     function getFM() {
@@ -31,18 +31,18 @@ class DatabaseSearch {
     }
 
     function getDatabase() {
-        return $this->$database;
+        return $this->database;
     }
 
     function getSearchLayout() {
-        return $this->$search_layout;
+        return $this->search_layout;
     }
 
     function getResultLayout() {
-        return $this->$result_layout;
+        return $this->result_layout;
     }
 
     function getResults() {
-        return $this->$results;
+        return $this->results;
     }
 }

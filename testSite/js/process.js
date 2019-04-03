@@ -2,8 +2,11 @@
 
 function Process() {
     var vals = document.getElementById("submit-form").children;
-    if (document.getElementById("imageCheck").checked)
-        document.getElementById("hasImage").value = '*';
+    console.log(document.getElementById("imageCheck"));
+    if (document.getElementById("imageCheck")) {
+        if (document.getElementById("imageCheck").checked)
+        document.getElementById("hasImage").value = (document.getElementById("imageCheck").checked) ? '*' : '';
+    }
     if (document.getElementById("or").checked)
         document.getElementById("type").value = 'or';
     else 

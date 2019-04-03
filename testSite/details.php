@@ -55,7 +55,7 @@
         $findCommand->addFindCriterion('SEM #', '=='.$_GET['AccessionNo']);
       }
       else {
-        $findCommand->addFindCriterion('Accession No.', '=='.$_GET['AccessionNo']);
+        $findCommand->addFindCriterion('Accession No', '=='.$_GET['AccessionNo']);
       }
   }
 

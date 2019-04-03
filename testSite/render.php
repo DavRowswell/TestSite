@@ -8,6 +8,7 @@
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
     require_once ('functions.php');
+    require_once ('lib/simple_html_dom.php');
     $numRes = 100;
     $layouts = $fm->listLayouts();
     $layout = "";
@@ -227,7 +228,25 @@
               $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
                                 $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
                                 $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
-              if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture) {
+              
+              $entomologyHasPicture = false;
+              if ($_GET['Database'] === 'entomology') {
+                //check if image url actually exists
+                $genusPage = getGenusPage($findAllRec[0]);
+                $genusSpecies = getGenusSpecies($findAllRec[0]);
+                $html = file_get_html($genusPage);
+                $species = $html->find('.speciesentry');
+
+                foreach($species as $spec) {
+                  $speciesName = $spec->innertext;
+                  if (strpos($speciesName, $genusSpecies) !== false ) {
+                    $entomologyHasPicture = true;
+                    break;
+                  }
+                }
+            }
+                                              
+              if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture || $entomologyHasPicture) {
             ?>
             <div class="row">
               <div class="col">
@@ -264,4 +283,3 @@
 <?php require_once("partials/footer.php");?>
 </body>
 </html>
-

@@ -114,6 +114,22 @@ function mapField($field) {
     return mapField($field);
   }
 
+  function getGenusPage($record) {
+    $order = $record->getField('Order');
+    $family = $record->getField('Family');
+    $genusPage = 'http://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
+    return $genusPage;
+  }
+
+  function getGenusSpecies($record) {
+    $genus = $record->getField('Genus');
+    $species = $record->getField('Species');
+    $genusSpecies = $genus . ' ' . $species ;
+    return $genusSpecies;
+  }
+
+  
+
 // $numRes = 100;
 // $layouts = $fm->listLayouts();
 // $layout = "";

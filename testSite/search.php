@@ -46,7 +46,7 @@
   ?>
 </head>
 <body class="container-fluid">
-  <?php require_once ('partials/navbar.php'); ?>
+  <?php require_once ('partials/navbar.php');?>
   <div class="row">
     <div class="col">
         <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
@@ -80,7 +80,7 @@
         <?php 
           foreach ($layoutFields as $rf) {
             //echo $rf;
-            $ignoreValues = ['SortNum', 'AccessionNumerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName'];
+            $ignoreValues = ['SortNum', 'AccessionNumerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate'];
             if (in_array($rf, $ignoreValues)) continue; ?>
           <div class="row">
             <div class="col-sm-6">

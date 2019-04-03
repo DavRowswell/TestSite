@@ -38,22 +38,22 @@
 
   $findCommand = $fm->newFindCommand($layout);
   if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
-    if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-        $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae'){
-      $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
-    }
-    else if ($_GET['Database'] == 'fossil' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
-      $findCommand->addFindCriterion('catalogNumber', '=='.$_GET['AccessionNo']);
-    }
-    else if ($_GET['Database'] == 'fish'){   
-      $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);  
-    }
-    else if ($_GET['Database'] == 'entomology'){
-      $findCommand->addFindCriterion('SEM #', '=='.$_GET['AccessionNo']);
-    }
-    else {
-      $findCommand->addFindCriterion('Accession No.', '=='.$_GET['AccessionNo']);
-    }
+      if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+          $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae'){
+        $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
+      }
+      else if ($_GET['Database'] == 'fossil' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
+        $findCommand->addFindCriterion('catalogNumber', '=='.$_GET['AccessionNo']);
+      }
+      else if ($_GET['Database'] == 'fish'){   
+        $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);  
+      }
+      else if ($_GET['Database'] == 'entomology'){
+        $findCommand->addFindCriterion('SEM #', '=='.$_GET['AccessionNo']);
+      }
+      else {
+        $findCommand->addFindCriterion('Accession No', '=='.$_GET['AccessionNo']);
+      }
   }
 
   $result = $findCommand->execute();

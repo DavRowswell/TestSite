@@ -13,27 +13,37 @@
     // 'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
     // 'miw', 'vwsp'];
 
-    $databases = ['avian', 'entomology', 'fish', 
-    'fossil', 'herpetology', 'mammal', 'mi', 
-    'miw'];
+    // $databases = ['avian', 'entomology', 'fish', 
+    // 'fossil', 'herpetology', 'mammal', 'mi', 
+    // 'miw'];
+
+    $databases = ['avian'];
 
     $searchDatabases = [];
 
-    // initialize FileMaker objects
     foreach ($databases as $db) {
         require_once ('databases/'.$db.'db.php');
         $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
         $databaseSearch = new DatabaseSearch($fm, $db);
         array_push($searchDatabases, $databaseSearch);
     }
+    ?>
+    </head>
+    <body class="container-fluid">
+    <?php
 
-
-
-    // echo sizeof($fm_databases);
-
+    require_once ('partials/navbar.php');
     // generate results from FileMaker query
     foreach ($searchDatabases as $sd) {
         // determine search and results layouts for given database
+        setLayouts($sd);
+        generateTable($sd);
+    }
+
+
+
+    function setLayouts($sd) {
+        
         $fm_db = $sd->getFM();
         $layouts = $fm_db->listLayouts();
         $searchLayout = "";
@@ -54,16 +64,100 @@
                 }
             }
         }
-
-        // sets the search and results layouts of current DatabaseSearch object
+        
         $sd->setSearchLayout($searchLayout);
         $sd->setResultLayout($resultLayout);
+
+    }
+
+    function generateTable($sd) {
+        $numResults = 50;
+        require_once ('functions.php');
+        $fm = $sd->getFM();
+        $resultLayout = $sd->getResultLayout();
+        $fmResultLayout = $fm->getLayout($resultLayout);
+        $findCommand = $fm->newFindCommand($resultLayout);
+        $findCommand->addFindCriterion("Location::country", "Canada");
+        $findCommand->setRange(0, $numResults);
+        $result = $findCommand->execute();
+        $database = $sd->getDatabase();
+        // If(FileMaker::isError($result)){
+        //     $_SESSION['error'] = $result->getMessage();
+        //     header('Location: error.php');
+        //     exit;
+        // }
+
+        $findAllRec = $result->getRecords();
+        printTable($database, $findAllRec, $fmResultLayout);
+    }
+
+    function printTable($database, $findAllRec, $resultLayout) {
+        $recFields = $resultLayout->listFields();
+    ?>
+        <table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">
+            <thead>
+                <tr>
+                    <?php foreach($recFields as $i){
+                        if ($i === 'SortNum' || $i === 'Accession Numerical'  || $i === 'Photographs::photoFileName') continue;?>
+                        <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
+                            <!-- <a style="padding: 0px;" href= -->
+                            <?php echo htmlspecialchars(formatField($i)) ?>
+                            <!-- </a> -->
+                        </th>
+                    <?php }?>
+                </tr>
+            </thead>
+            <tbody>
+      <?php foreach($findAllRec as $i){
+        ?>
+      
+      <tr>
+        <?php foreach($recFields as $j){
+          
+          if ($j === 'SortNum' || $j === 'Accession Numerical'  || $j === 'Photographs::photoFileName'  ) continue;
+          if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
+            ?>
+            <td id="data">
+              <a style="padding: 0px;"
+                href="details.php?Database=<?php echo htmlspecialchars($database). 
+                  '&AccessionNo='.htmlspecialchars($i->getField($j)) 
+                ?>"
+              >
+              <?php
+              $photoExists = $i->getField("Photographs::photoFileName");
+            
+              if (($database === 'mammal' || $database === 'avian' || $database === 'herpetology')
+              &&  $photoExists !== "") {
+              ?>
+                <div class="row">
+                  <div class="col"> <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b></div>
+                  <div class="col"> <span style="display:inline" id = "icon"  class="fas fa-image"></span></div> 
+                </div>
+              <?php
+              }  else {
+              ?>
+                <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+              <?php
+              }        
+              ?>
+              </a>
+            </td>
+          <?php
+          }
+          else if (formatField($j) == 'Genus' || formatField($j) == 'Species'){
+            echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';
+          }
+          else {
+            echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
+          }
+        }?>
+      </tr>
+      <?php }?>
+    </tbody>
+  </table>  
+        <?php
     }
     ?>
-</head>
-<body class="container-fluid">
-    <?php
-        require_once ('partials/navbar.php');
-    ?>
+    
 </body>
 </html>

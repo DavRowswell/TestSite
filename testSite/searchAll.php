@@ -3,25 +3,31 @@
 <head>
     <?php
     session_start();
-    require_once ('../FileMaker.php');
-    require_once ('../partials/header.php');
-    require_once ('../partials/navbar.php');
+    require_once ('FileMaker.php');
+    require_once ('partials/header.php');
+    // require_once ('../partials/navbar.php');
     require_once ('DatabaseSearch.php');
     
     // list databases
-    $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
-    'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
-    'miw', 'vwsp'];
+    // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
+    // 'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
+    // 'miw', 'vwsp'];
+
+    $databases = ['avian', 'entomology', 'fish', 
+    'fossil', 'herpetology', 'mammal', 'mi', 
+    'miw'];
 
     $searchDatabases = [];
 
     // initialize FileMaker objects
     foreach ($databases as $db) {
-        require_once ('../databases/'.$db.'db.php');
+        require_once ('databases/'.$db.'db.php');
         $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
         $databaseSearch = new DatabaseSearch($fm, $db);
         array_push($searchDatabases, $databaseSearch);
     }
+
+
 
     // echo sizeof($fm_databases);
 
@@ -53,7 +59,11 @@
         $sd->setSearchLayout($searchLayout);
         $sd->setResultLayout($resultLayout);
     }
-    
     ?>
 </head>
+<body class="container-fluid">
+    <?php
+        require_once ('partials/navbar.php');
+    ?>
+</body>
 </html>

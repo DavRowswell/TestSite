@@ -3,7 +3,6 @@ require(["esri/Map", "esri/views/MapView", "esri/layers/GraphicsLayer", "esri/Gr
 function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference, Zoom) {
   var map = new Map({
     basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
-    zoom: 3,
   });
 
   // create a point
@@ -55,8 +54,11 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference, 
       document.getElementById("Longitude").innerHTML, 
       document.getElementById("Latitude").innerHTML
     ], // longitude, latitude
-    extent: circle.extent
+    zoom: 13
   });
+  //view.zoom = 13;
+  console.log(view.zoom);
+  
 
   // Add graphic when GraphicsLayer is constructed
   var layer = new GraphicsLayer({

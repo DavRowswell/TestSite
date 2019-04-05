@@ -56,22 +56,22 @@
                 </div>
                 <div class="row herbarium-databases">
                     <div class="col d-flex justify-content-center">
-                        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=algae"><figure><img class="img-fluid" id= "someid" src ="images/herbarium.png"><figcaption style="text-align:center;">Algae</figcaption></figure></a>
+                        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=algae"><figure><img class="img-fluid" id= "someid" src ="images/algae.png"><figcaption style="text-align:center;">Algae</figcaption></figure></a>
                     </div>
                 </div>
                 <div class="row herbarium-databases">
                     <div class="col d-flex justify-content-center">
-                        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=bryophytes"><figure><img class="img-fluid" id= "someid" src ="images/herbarium.png"><figcaption style="text-align:center;">Bryophytes</figcaption></figure></a>
+                        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=bryophytes"><figure><img class="img-fluid" id= "someid" src ="images/bryophytes.png"><figcaption style="text-align:center;">Bryophytes</figcaption></figure></a>
                     </div>
                 </div>
                 <div class="row herbarium-databases">
                     <div class="col d-flex justify-content-center">
-                        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=fungi"><figure><img class="img-fluid" id= "someid" src ="images/herbarium.png"><figcaption style="text-align:center;">Fungi</figcaption></figure></a>
+                        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=fungi"><figure><img class="img-fluid" id= "someid" src ="images/fungi.png"><figcaption style="text-align:center;">Fungi</figcaption></figure></a>
                     </div>
                 </div>
                 <div class="row herbarium-databases">
                     <div class="col d-flex justify-content-center">
-                        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=lichen"><figure><img class="img-fluid" id= "someid" src ="images/herbarium.png"><figcaption style="text-align:center;">Lichen</figcaption></figure></a>
+                        <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=lichen"><figure><img class="img-fluid" id= "someid" src ="images/lichen.png"><figcaption style="text-align:center;">Lichen</figcaption></figure></a>
                     </div>
                 </div>
                 <div class="row herbarium-databases">
@@ -94,12 +94,12 @@
                 </div>
                 <div class="row vertebrate-databases">
                     <div class="col d-flex justify-content-center">
-                        <a href="search.php?Database=herpetology"><figure><img class="img-fluid" id= "someid" src ="images/tetrapods.png"><figcaption style="text-align:center;">Herpetology</figcaption></figure></a>
+                        <a href="search.php?Database=herpetology"><figure><img class="img-fluid" id= "someid" src ="images/herptology.png"><figcaption style="text-align:center;">Herpetology</figcaption></figure></a>
                     </div>
                 </div>
                 <div class="row vertebrate-databases">
                     <div class="col d-flex justify-content-center">
-                        <a href="search.php?Database=mammal"><figure><img class="img-fluid" id= "someid" src ="images/tetrapods.png"><figcaption style="text-align:center;">Mammals</figcaption></figure></a>
+                        <a href="search.php?Database=mammal"><figure><img class="img-fluid" id= "someid" src ="images/mammal.png"><figcaption style="text-align:center;">Mammals</figcaption></figure></a>
                     </div>
                 </div>
                 <div class="row vertebrate-databases">
@@ -122,12 +122,12 @@
                 </div>
                 <div class="row invertebrate-databases">
                     <div class="col d-flex justify-content-center">
-                        <a href="search.php?Database=mi"><figure><img class="img-fluid" id= "someid" src ="images/marine-invertebrates.png"><figcaption style="text-align:center;">Dry Marine Invertebrates</figcaption></figure></a>
+                        <a href="search.php?Database=mi"><figure><img class="img-fluid" id= "someid" src ="images/marine-invertebrates-dry.png"><figcaption style="text-align:center;">Dry Marine Invertebrates</figcaption></figure></a>
                     </div>
                 </div>
                 <div class="row invertebrate-databases">
                     <div class="col d-flex justify-content-center">
-                        <a href="search.php?Database=miw"><figure><img class="img-fluid" id= "someid" src ="images/marine-invertebrates.png"><figcaption style="text-align:center;">Wet Marine Invertebrates</figcaption></figure></a>
+                        <a href="search.php?Database=miw"><figure><img class="img-fluid" id= "someid" src ="images/marine-invertebrates-wet.png"><figcaption style="text-align:center;">Wet Marine Invertebrates</figcaption></figure></a>
                     </div>
                 </div>
             </div>

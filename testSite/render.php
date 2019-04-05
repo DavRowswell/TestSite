@@ -204,7 +204,7 @@
                       , 'Page', $page));
               }
             ?>>
-            <span id = "icon" class="fas fa-sort"><?php echo htmlspecialchars(formatField($i)) ?> </span>
+            <span id = "icon" class=""><?php echo htmlspecialchars(formatField($i)) ?> </span>
             </a>
           </th>
         <?php }?>
@@ -253,7 +253,7 @@
                 <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
               </div>
               <div class="col">
-                <span style="display:inline" id = "icon"  class="fas fa-image"></span>
+                <span style="display:inline" id = "icon"  class="oi oi-image"></span>
               </div> 
             </div>
             <?php }  else { ?>

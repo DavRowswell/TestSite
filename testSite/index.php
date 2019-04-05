@@ -24,10 +24,6 @@
             font-size: 14;
         }
 
-        #main {
-           /* margin-left: 2%;*/
-        }
-
         .btn-beaty {
             color: #fff;
             background-color: #CC232A;

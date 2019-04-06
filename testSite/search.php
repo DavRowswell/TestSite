@@ -178,6 +178,15 @@
               style="font-size:12px; text-align:left; padding-left:2px; padding-right:2px;">Show All Records</a>   
         </div>
       </div>
+      <div>
+        <?php
+        if ($_GET['Database'] == 'avian') {
+          $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
+          $result = $getSampleScript->execute(); 
+          //echo $result->getRecords()[0]->getField('catalogNumber');
+        }
+        ?>
+      </div>
     </div>
   </div>
   <?php require_once("partials/footer.php");?>

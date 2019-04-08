@@ -30,7 +30,12 @@
             border-color: #CC232A;
         }
         #someid {
-            height: 20%;
+            height: 100px;
+            width: 100px;
+        }
+
+        figure {
+            text-align: center;
         }
     </style>
 </head>

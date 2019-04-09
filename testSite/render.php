@@ -155,11 +155,9 @@
         <h1><b><?php echo ucfirst($_GET['Database']); ?> Results</b></h1>
     </div>
   </div>
-  <div class = "row align-items-start">
-    <div class = "col-sm-2">
-      <?php require_once ('partials/pageController.php'); ?>
-    </div>
-    <div class = "col-sm-10" style="vertical-align:bottom;display: inline-block;; float:none">  
+  <?php require_once ('partials/pageController.php'); ?>
+  <div class="row">
+    <div class = "col" style="padding-bottom:5px;">  
       <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars($_GET['Database']);?>>
         <?php
           $db = $_GET['Database'];
@@ -169,117 +167,117 @@
             }
           }
         ?>
-        <button type="submit" value = "Submit" class="btn btn-primary" style="float:right; margin-top:4px">Modify Search</button> 
+        <button type="submit" value = "Submit" class="btn btn-primary">Modify Search</button> 
       </form>
     </div>
   </div>
   <!-- construct table for given layout and fields -->
-  <table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">
-    <thead>
-      <tr>
-        <?php foreach($recFields as $i){
-          $ignoreValues = ['SortNum', 'AccessionNumerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
-          if (in_array($i, $ignoreValues)) continue;?>
-          <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
-            <a style="padding: 0px;" href=
-            <?php 
-              if(isset($_GET['Page'])){
-                $page = $_GET['Page'];
-              }
-              else {
-                $page = '1';
-              }
-              if (shouldDescend($i)) {
-                echo htmlspecialchars(replaceURIElement(
-                  replaceURIElement(
-                    replaceURIElement(
-                      $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
-                      , 'SortOrder', 'Descend')
-                      , 'Page', $page));
-              } else {
-                echo htmlspecialchars(replaceURIElement(
-                  replaceURIElement(
-                    replaceURIElement(
-                      $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
-                      , 'SortOrder', 'Ascend')
-                      , 'Page', $page));
-              }
-            ?>>
-            <b><?php echo htmlspecialchars(formatField($i)) ?></b>
-            </a>
-          </th>
-        <?php }?>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach($findAllRec as $i){ ?>
-        <tr>
-          <?php foreach($recFields as $j){
-            if (in_array($j, $ignoreValues)) continue;
-            if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
-          ?>
-          <td id="data">
-            <a style="padding: 0px;"
-              href="details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
-                '&AccessionNo='.htmlspecialchars($i->getField($j)) ?>">
-            <?php
-              $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
-                                      &&  $i->getField("Photographs::photoFileName") !== "";
-              $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "");
-              $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-                                $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
-                                $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
-              
-              $entomologyHasPicture = false;
-              if ($_GET['Database'] === 'entomology') {
-                //check if image url actually exists
-                $genusPage = getGenusPage($findAllRec[0]);
-                $genusSpecies = getGenusSpecies($findAllRec[0]);
-                $html = file_get_html($genusPage);
-                $species = $html->find('.speciesentry');
-
-                foreach($species as $spec) {
-                  $speciesName = $spec->innertext;
-                  if (strpos($speciesName, $genusSpecies) !== false ) {
-                    $entomologyHasPicture = true;
-                    break;
+  <div class="row">
+    <div class="col">
+      <table class="table table-hover table-striped table-condensed tasks-table">
+        <thead>
+          <tr>
+            <?php foreach($recFields as $i){
+              $ignoreValues = ['SortNum', 'AccessionNumerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
+              if (in_array($i, $ignoreValues)) continue;?>
+              <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
+                <a style="padding: 0px;" href=
+                <?php 
+                  if(isset($_GET['Page'])){
+                    $page = $_GET['Page'];
                   }
+                  else {
+                    $page = '1';
+                  }
+                  if (shouldDescend($i)) {
+                    echo htmlspecialchars(replaceURIElement(
+                      replaceURIElement(
+                        replaceURIElement(
+                          $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
+                          , 'SortOrder', 'Descend')
+                          , 'Page', $page));
+                  } else {
+                    echo htmlspecialchars(replaceURIElement(
+                      replaceURIElement(
+                        replaceURIElement(
+                          $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
+                          , 'SortOrder', 'Ascend')
+                          , 'Page', $page));
+                  }
+                ?>>
+                <b><?php echo htmlspecialchars(formatField($i)) ?></b>
+                </a>
+              </th>
+            <?php }?>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($findAllRec as $i){ ?>
+            <tr>
+              <?php foreach($recFields as $j){
+                if (in_array($j, $ignoreValues)) continue;
+                if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
+              ?>
+              <td id="data">
+                <a style="padding: 0px;"
+                  href="details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
+                    '&AccessionNo='.htmlspecialchars($i->getField($j)) ?>">
+                <?php
+                  $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
+                                          &&  $i->getField("Photographs::photoFileName") !== "";
+                  $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "");
+                  $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+                                    $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
+                                    $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
+                  
+                  $entomologyHasPicture = false;
+                  if ($_GET['Database'] === 'entomology') {
+                    //check if image url actually exists
+                    $genusPage = getGenusPage($findAllRec[0]);
+                    $genusSpecies = getGenusSpecies($findAllRec[0]);
+                    $html = file_get_html($genusPage);
+                    $species = $html->find('.speciesentry');
+
+                    foreach($species as $spec) {
+                      $speciesName = $spec->innertext;
+                      if (strpos($speciesName, $genusSpecies) !== false ) {
+                        $entomologyHasPicture = true;
+                        break;
+                      }
+                    }
                 }
-            }
-                                              
-              if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture || $entomologyHasPicture) {
-            ?>
-            <div class="row">
-              <div class="col">
+                                                  
+                  if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture || $entomologyHasPicture) {
+                ?>
+                <div class="row">
+                  <div class="col">
+                    <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+                  </div>
+                  <div class="col">
+                    <span style="display:inline" id = "icon"  class="oi oi-image"></span>
+                  </div> 
+                </div>
+                <?php }  else { ?>
                 <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
-              </div>
-              <div class="col">
-                <span style="display:inline" id = "icon"  class="oi oi-image"></span>
-              </div> 
-            </div>
-            <?php }  else { ?>
-            <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
-            <?php } ?>
-            </a>
-          </td>
-          <?php }
-            else if (formatField($j) == 'Genus' || formatField($j) == 'Species'){
-              echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';
-            }
-            else {
-              echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
-            }
-          }?>
-        </tr>
-      <?php }?>
-    </tbody>
-  </table>  
-  <?php } ?>
-  <div class = "row">
-    <div class = "col-sm-2">
-      <?php require ('partials/pageController.php'); ?>
+                <?php } ?>
+                </a>
+              </td>
+              <?php }
+                else if (formatField($j) == 'Genus' || formatField($j) == 'Species'){
+                  echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';
+                }
+                else {
+                  echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
+                }
+              }?>
+            </tr>
+          <?php }?>
+        </tbody>
+      </table>
     </div>
   </div>
+  <?php } ?>
+  <?php require ('partials/pageController.php'); ?>
 </div>
 <?php require_once("partials/footer.php");?>
 </body>

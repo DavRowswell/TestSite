@@ -140,6 +140,7 @@
   <style>
     th {
       font-size: 14px;
+      line-height: 14px;
     }
     span {
       text-indent:-0.6em;
@@ -179,7 +180,7 @@
         <?php foreach($recFields as $i){
           $ignoreValues = ['SortNum', 'AccessionNumerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
           if (in_array($i, $ignoreValues)) continue;?>
-          <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
+          <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
             <a style="padding: 0px;" href=
             <?php 
               if(isset($_GET['Page'])){
@@ -204,7 +205,7 @@
                       , 'Page', $page));
               }
             ?>>
-            <span id = "icon" class=""><?php echo htmlspecialchars(formatField($i)) ?> </span>
+            <b><?php echo htmlspecialchars(formatField($i)) ?></b>
             </a>
           </th>
         <?php }?>

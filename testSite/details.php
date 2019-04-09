@@ -85,15 +85,19 @@
     </div>
   </div>
   <div class="row">
-    <div class="col">
+    <div class="col-sm-9">
       <!-- construct table for given layout and fields -->
       <table class="table">
         <tbody>
           <?php foreach($recFields as $i){
             if ($i === "Photographs::photoContainer" || $i === "IIFRNo") continue;?> 
             <tr>
-              <th scope="col"><?php echo htmlspecialchars(formatField($i)) ?></th>
-              <td <?php 
+              <th scope="col-sm-2"><?php echo htmlspecialchars(formatField($i)) ?></th>
+              <?php if(formatField($i) == "Genus" || formatField($i) == "Species") { ?>
+              <td scope="col-sm-10" style="font-style:italic;"
+              <?php } else { ?>
+              <td scope="col-sm-10"
+              <?php }
                 if (formatField($i) === "Latitude") {echo "id='Latitude'"; $lat = $findAllRec[0]->getField($i);}
                 if (formatField($i) === "Longitude") {echo "id='Longitude'"; $long = $findAllRec[0]->getField($i);}
               ?>>

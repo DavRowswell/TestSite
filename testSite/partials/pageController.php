@@ -61,13 +61,13 @@ a:hover {
             $input = $keyVal[1];
             if (strpos($part, "Page") === 0 || $input == '') continue;
         ?>
+        <input type="hidden" 
+          name="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $keyVal[0])))?>" 
+          value="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $input)))?>" />
+        <?php } ?>
       </div>
       <div class="row">
         <div class = "col-sm-2" style="padding-right:0px; padding-bottom:5px;">
-          <input type="hidden" 
-          name="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $keyVal[0])))?>" 
-          value="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $input)))?>" />
-          <?php } ?>
           <input type="number" name="Page" class="form-control" id="pageInput" min="1" max=<?php echo htmlspecialchars($pages)?>>
         </div>
         <div class="col-sm-3" style="padding-bottom:5px;">

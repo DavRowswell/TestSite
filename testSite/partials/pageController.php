@@ -56,7 +56,7 @@ a:hover {
             if (strpos($part, "Page") === 0 || $input == '') continue;
             ?>
             <input type="hidden" 
-            name="<?php echo htmlspecialchars($keyVal[0])?>" 
+            name="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $keyVal[0])))?>" 
             value="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $input)))?>" />
             <?php
         }

@@ -1,6 +1,5 @@
 <br>
 <br>
-<br>
 <div id="footer">
     <hr style = "width: 100%; border: 1px solid #969B9B; position:relative; top:12px;">
     <div style = "font-style: italic; text-align: center;">

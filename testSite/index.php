@@ -30,7 +30,7 @@
             border-color: #CC232A;
         }
         #someid {
-            height: 100px;
+            height: 105px;
             width: 100px;
         }
 

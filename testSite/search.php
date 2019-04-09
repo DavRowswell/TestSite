@@ -190,6 +190,15 @@
           <input type="hidden" name = "type" id = "type">
         </div>
       </div>
+      <div>
+        <?php
+        if ($_GET['Database'] == 'avian') {
+          $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
+          $result = $getSampleScript->execute(); 
+          //echo $result->getRecords()[0]->getField('catalogNumber');
+        }
+        ?>
+      </div>
     </div>
   </form>
   <?php require_once("partials/footer.php");?>

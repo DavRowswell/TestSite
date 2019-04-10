@@ -37,6 +37,10 @@
         figure {
             text-align: center;
         }
+
+        #herbarium-title, #vertebrate-title, #invertebrate-title, #bone-title {
+            text-align: center;
+        }
     </style>
 </head>
 <body class="container-fluid">
@@ -51,7 +55,7 @@
             <div id="column-1" class = "col-sm-3"> 
                 <div id="herbarium-title" class="row">
                     <div class="col">
-                        <h2 id = "herbarium"><b>Herbarium Databases</b></h2>
+                        <h2 id = "herbarium"><b>Herbarium</b></h2>
                         <hr align = "left">
                     </div>
                 </div>
@@ -82,9 +86,9 @@
                 </div>
             </div>
             <div id="column-2" class = "col-sm-3">
-                <div id="vertabrate-title" class="row">
+                <div id="vertebrate-title" class="row">
                     <div class="col">
-                        <h2 id= "vertebrate"> <b>Vertebrate Databases</b> </h2>
+                        <h2 id= "vertebrate"> <b>Vertebrate</b> </h2>
                         <hr align = "left">
                     </div>
                 </div>
@@ -112,7 +116,7 @@
             <div id="column-3" class = "col-sm-3">
                 <div id="invertebrate-title" class="row">
                     <div class="col">
-                        <h2 id = "invertebrate"> <b>Invertebrate Databases</b> </h2>
+                        <h2 id = "invertebrate"> <b>Invertebrate</b> </h2>
                         <hr align = "left">
                     </div>
                 </div>
@@ -135,7 +139,7 @@
             <div id="column-4" class = "col-sm-3">
                 <div id="bone-title" class="row">
                     <div class="col">
-                        <h2 id = "bone"> <b>Fossil Database</b> </h2>
+                        <h2 id = "bone"> <b>Fossil</b> </h2>
                         <hr align = "left">
                     </div>
                 </div>

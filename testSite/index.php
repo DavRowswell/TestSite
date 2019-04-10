@@ -14,16 +14,6 @@
         h2 {
             font-size: 1.7em;
         }
-
-        a[role = "button"] {
-            width: 200px;
-            height: 50px;
-            margin-right: 10px; 
-            line-height: 2.5;
-            vertical-align: middle;
-            font-size: 14;
-        }
-
         .btn-beaty {
             color: #fff;
             background-color: #CC232A;

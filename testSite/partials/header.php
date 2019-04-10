@@ -5,6 +5,7 @@
 <link href="css/open-iconic-master/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/allPagesCustom.css">
 <script src="js/jquery.js"></script>
 <script src="js/popper.js"></script>
 <script src="js/bootstrap.js"></script>

@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
   <style>
     #submit {
       padding-left: 5px;
       padding-right:5px;
+    }
+    .minHeight {
+      height: 150px;
+      width: 200px;
+    }
+    .sample {
+      border: 1px solid black;
     }
   </style>
   <?php
@@ -189,15 +197,28 @@
           <?php } ?>
           <input type="hidden" name = "type" id = "type">
         </div>
-      </div>
-      <div>
-        <?php
-        if ($_GET['Database'] == 'avian') {
-          $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
-          $result = $getSampleScript->execute(); 
-          //echo $result->getRecords()[0]->getField('catalogNumber');
-        }
+        <div class = "row sample" style="padding-top:12px;">
+        <div class = "col">
+          <?php
+          if ($_GET['Database'] == 'avian') {
+            $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
+            $result = $getSampleScript->execute(); 
+            $record = $result->getRecords()[0];
+            $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid='
+            .htmlspecialchars($record->getRecordID()).'&-field=Photographs::photoContainer(1)';
+            echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
+            //echo $result->getRecords()[0]->getField('catalogNumber');          
+            echo '<div hidden = true id = "Latitude">'. $record->getField('Geolocation::decimalLatitude').'</div>';
+            echo '<div hidden = true id = "Longitude">'. $record->getField('Geolocation::decimalLongitude').'</div>';  
+          }
         ?>
+        </div>
+        <div class = "col">
+        <div id="viewDiv" style="height: 150px; width: 200px"></div> 
+          <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
+          <script src="js/map.js"></script>       
+        </div> 
+      </div>
       </div>
     </div>
   </form>

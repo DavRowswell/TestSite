@@ -9,13 +9,13 @@
     require_once ('DatabaseSearch.php');
     
     // list databases
-    $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
-    'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
-    'miw', 'vwsp'];
+    // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
+    // 'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
+    // 'miw', 'vwsp'];
 
-    // $databases = ['avian', 'entomology', 'fish', 
-    // 'fossil', 'herpetology', 'mammal', 'mi', 
-    // 'miw'];
+    $databases = ['avian', 'entomology', 'fish', 
+    'fossil', 'herpetology', 'mammal', 'mi', 
+    'miw'];
 
     // $databases = ['avian', 'entomology'];
 
@@ -42,6 +42,7 @@
         require_once ('databases/'.$db.'db.php');
         // echo "$FM_FILE <br>";
         $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+        if (FileMaker::isError($fm)) continue;
         $databaseSearch = new DatabaseSearch($fm, $db);
         array_push($searchDatabases, $databaseSearch);
     }
@@ -94,7 +95,7 @@
         $fmResultLayout = $fm->getLayout($resultLayout);
         $findCommand = $fm->newFindCommand($resultLayout);
         $layoutFields = $fmResultLayout->listFields();
-        echo 'Database: ' . $sd->getDatabase() . "<br>";
+        // echo 'Database: ' . $sd->getDatabase() . "<br>";
         foreach(array_keys($_GET) as $field) {
           if (!addFindCriterionIfSet($field, $layoutFields, $findCommand)) {
             echo 'No records found.<br>';
@@ -153,6 +154,16 @@
     function printTable($database, $findAllRec, $resultLayout) {
         $recFields = $resultLayout->listFields();
     ?>
+    <br>
+      <div class="row">
+    <div class="col">
+        <?php if($database === "mi" || $database === "miw") { ?>
+          <h1><b><?php if($database === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Results</b></h1>
+        <?php } else { ?>
+        <h1><b><?php echo ucfirst($database); ?> Results</b></h1>
+        <?php }?>
+    </div>
+  </div>
         <table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">
             <thead>
                 <tr>
@@ -216,7 +227,7 @@
   </table>  
         <?php
     }
+    include_once ('partials/footer.php');
     ?>
-    
 </body>
 </html>

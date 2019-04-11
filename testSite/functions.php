@@ -1,7 +1,7 @@
 <?php 
-require_once ('db.php');
+// require_once ('db.php');
 
-$fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+// $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
 function replaceURIElement($URI, $element, $input) {
   if (isset($_GET[$element])) {
@@ -44,10 +44,12 @@ function mapField($field) {
       case 'prov/st';
         return 'Province or State';
       case 'location 1':
-        return 'Location';
+      case 'location':
+        return 'Locality';
       case 'verbatimelevation':
         return 'Elevation';
       case 'verbatimdepth':
+      case 'depth below water':
         return 'Depth';
       case 'geo_longdecimal':
       case 'decimallongitude':
@@ -96,7 +98,8 @@ function mapField($field) {
       case 'vernacularname':
         return 'Vernacular Name';
       case 'recordedby':
-        return 'Collected By';
+      case 'collected by':
+        return 'Collector';
       case 'photofilename': 
       case 'iifrno':
       case 'imaged':

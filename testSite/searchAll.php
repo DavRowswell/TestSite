@@ -210,6 +210,7 @@
    </div>
    </div>
    </div>
+   <br>
   <?php require_once("partials/footer.php");?>
   <script src="js/process.js"> </script>
 </body>

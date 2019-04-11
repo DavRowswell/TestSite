@@ -6,3 +6,21 @@ body {
 .navbar-dark .navbar-nav .nav-link {
     color:  #ffffff;
 }
+
+#title-divider{
+    height: 1px;
+    width: 100%;
+    border-bottom:solid 2px #000000;
+}
+
+#column-divider{
+    height: 1px;
+    width: 100%;
+    border-bottom:solid 2px #000000;
+    margin-bottom: 16px;
+}
+
+#footer-section {
+    background: #CC2229;
+    color: #ffffff;
+}

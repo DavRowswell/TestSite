@@ -16,13 +16,13 @@
     require_once ('DatabaseSearch.php');
     
     // list databases
-    // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
-    // 'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
-    // 'miw', 'vwsp'];
+    $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
+    'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
+    'miw', 'vwsp'];
 
-    $databases = ['avian', 'entomology', 'fish', 
-    'fossil', 'herpetology', 'mammal', 'mi', 
-    'miw'];
+    // $databases = ['avian', 'entomology', 'fish', 
+    // 'fossil', 'herpetology', 'mammal', 'mi', 
+    // 'miw'];
 
     // $databases = ['avian'];
 

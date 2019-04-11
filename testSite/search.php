@@ -5,8 +5,10 @@
     session_start();
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
+    require_once ('db.php');
     require_once ('functions.php');
 
+    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
     // echo "FM_FILE: $FM_FILE <br>
     //       FM_HOST: $FM_HOST <br>
     //       FM_USER: $FM_USER <br>

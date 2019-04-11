@@ -40,7 +40,7 @@
 
     foreach ($databases as $db) {
         require_once ('databases/'.$db.'db.php');
-        echo "$FM_FILE <br>";
+        // echo "$FM_FILE <br>";
         $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
         $databaseSearch = new DatabaseSearch($fm, $db);
         array_push($searchDatabases, $databaseSearch);
@@ -94,9 +94,10 @@
         $fmResultLayout = $fm->getLayout($resultLayout);
         $findCommand = $fm->newFindCommand($resultLayout);
         $layoutFields = $fmResultLayout->listFields();
-        echo $sd->getDatabase() . "<br>";
+        echo 'Database: ' . $sd->getDatabase() . "<br>";
         foreach(array_keys($_GET) as $field) {
           if (!addFindCriterionIfSet($field, $layoutFields, $findCommand)) {
+            echo 'No records found.<br>';
             return;
           }
         }

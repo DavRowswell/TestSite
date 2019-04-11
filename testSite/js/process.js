@@ -1,7 +1,16 @@
 
+
 function Process() {
     var vals = document.getElementById("submit-form").children;
-    console.log(vals[3]);
+    console.log(document.getElementById("imageCheck"));
+    if (document.getElementById("imageCheck")) {
+        if (document.getElementById("imageCheck").checked)
+        document.getElementById("hasImage").value = (document.getElementById("imageCheck").checked) ? '*' : '';
+    }
+    if (document.getElementById("or").checked)
+        document.getElementById("type").value = 'or';
+    else 
+        document.getElementById("type").value = 'and';
     document.getElementById("submit-form").submit();
 }
 
@@ -10,7 +19,7 @@ function clearURL() {
     var inputs = vals.querySelectorAll("input[type=text]");
     for(var i=0;i< inputs.length;i++){
         if(inputs[i].value.length == 0){
-            inputs[i].parentNode.removeChild(inputs[i]);
+            inputs[i].disabled = true;
         }
     }
 }
@@ -26,8 +35,12 @@ function keyPress(e){
 }
 
 window.onpageshow = function(event){
-    if(event.persisted){
-        window.location.reload(true);
+    var vals = document.getElementById("submit-form");
+    var inputs = vals.querySelectorAll("input[type=text]");
+    for(var i=0;i< inputs.length;i++){
+        if(inputs[i].value.length == 0){
+            inputs[i].disabled = false;
+        }
     }
 }
 

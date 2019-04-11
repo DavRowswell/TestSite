@@ -4,7 +4,6 @@
 // $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
 function replaceURIElement($URI, $element, $input) {
-  // if (isset($_GET[$element])) return "http://localhost/TestSite/testThings/";
   if (isset($_GET[$element])) {
     $elementLeft = strpos($URI, $element);
     $elementRight = strpos($URI, '&', $elementLeft);
@@ -101,6 +100,10 @@ function mapField($field) {
       case 'recordedby':
       case 'collected by':
         return 'Collector';
+      case 'photofilename': 
+      case 'iifrno':
+      case 'imaged':
+        return 'Has Image';
       default:
         return ucwords($field);
       }
@@ -114,64 +117,17 @@ function mapField($field) {
     return mapField($field);
   }
 
-// $numRes = 100;
-// $layouts = $fm->listLayouts();
-// $layout = "";
-// foreach ($layouts as $l) {
+  function getGenusPage($record) {
+    $order = $record->getField('Order');
+    $family = $record->getField('Family');
+    $genusPage = 'http://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
+    return $genusPage;
+  }
 
-//   if ($_GET['Database'] === 'mi') {
-//     if (strpos($l, 'results') !== false) {
-//       $layout = $l;
-//       break;
-//     }
-//   }
-//   else if (strpos($l, 'results') !== false) {
-//     $layout = $l;
-//   }
-// }
-
-// $fmLayout = $fm->getLayout($layout);
-// $layoutFields = $fmLayout->listFields();
-
-// if (FileMaker::isError($layouts)) {
-//     echo $layouts->message;
-//     exit;
-// }
-
-// // Find on all inputs with values
-// $findCommand = $fm->newFindCommand($layout);
-
-// foreach ($layoutFields as $rf) {
-//   // echo $rf;
-//     $field = explode(' ',trim($rf))[0];
-//     if (isset($_GET[$field]) && $_GET[$field] !== '') {
-//         $findCommand->addFindCriterion($rf, $_GET[$field]);
-//     }
-// }
-
-// if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
-//     $sortField = str_replace('+', ' ', $_GET['Sort']);
-//     $fieldSplit = explode(' ', $sortField);
-//     if (!isset($_GET[$fieldSplit[0]]) || $_GET[$fieldSplit[0]] == '') {
-//       $findCommand->addFindCriterion($sortField, '*');
-//     }
-//     $findCommand->addSortRule(str_replace('+', ' ', $_GET['Sort']), 1, FILEMAKER_SORT_ASCEND);
-// }
-
-
-
-// if (isset($_GET['Page']) && $_GET['Page'] != '') {
-//     $findCommand->setRange(($_GET['Page'] - 1) * $numRes, $numRes);
-// } else {
-//     $findCommand->setRange(0, $numRes);
-// }
-
-// $result = $findCommand->execute();
-
-// if(FileMaker::isError($result)) {
-//     $findAllRec = [];
-// } else {
-//     $findAllRec = $result->getRecords();
-// }
-
+  function getGenusSpecies($record) {
+    $genus = $record->getField('Genus');
+    $species = $record->getField('Species');
+    $genusSpecies = $genus . ' ' . $species ;
+    return $genusSpecies;
+  }
 ?>

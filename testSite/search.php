@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
+  <style>
+    #submit {
+      padding-left: 5px;
+      padding-right:5px;
+    }
+    .minHeight {
+      height: 150px;
+      width: 200px;
+    }
+    .sample {
+      border: 1px solid black;
+    }
+  </style>
   <?php
     session_start();
     require_once ('FileMaker.php');
@@ -42,118 +56,174 @@
   ?>
 </head>
 <body class="container-fluid">
- <?php require_once ('partials/navbar.php'); ?>
- <div class ="row">
-  <div id="form" class = "col-sm-4"  >
-  <form action="render.php" method="get" id = "submit-form">
-    <div class="form-group">
-      <input type="text" name="Database" style="display:none;" 
-      value=<?php if (isset($_GET['Database'])) echo htmlspecialchars($_GET['Database']); ?>>
+  <?php require_once ('partials/navbar.php');?>
+  <div class="row">
+    <div class="col">
+        <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
     </div>
-    <div class="row">
-      <div class="col-sm-5">
-       <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
-          role="button" class="btn btn-primary" 
-          style="font-size:12px; text-align:left; padding-left:1px; padding-right:1px;">Show All Records</a>   
-      </div>
   </div>
-  <div style="position:relative; top:12px">
-    <?php 
-    foreach ($layoutFields as $rf) {
-      //echo $rf;
-      if ($rf === 'SortNum' || $rf === 'Ref Type' || $rf === 'Photographs::photoFileName') continue; ?>
-    <div class="row">
-      <div class="col">
-        <label style="position:relative; top:6px" for="field-<?php echo $rf?>">
-          <?php echo htmlspecialchars(formatField($rf)) ?>
-        </label>
+  <form action="render.php" method="get" id = "submit-form">
+    <div class ="row">
+      <div id="form" class = "col-sm-6">
+        <div class="form-group">
+          <input type="text" name="Database" style="display:none;" 
+          value=<?php if (isset($_GET['Database'])) echo htmlspecialchars($_GET['Database']); ?>>
+        </div>
+        <div class="row">
+          <div id = 'submit'>
+            <input id="form" class="btn btn-primary" type="button" value="Submit"  style = "font-size:12px;" onclick="Process(clearURL())">    
+          </div>     
+        </div>
+        <br>   
+        <?php 
+          $count = 0;
+          foreach ($layoutFields as $rf) {
+            //echo $rf;
+            $ignoreValues = ['SortNum', 'AccessionNumerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate'];
+            if (in_array($rf, $ignoreValues)) continue; 
+            if($count%2==0) {?>
+          <div class="row">
+            <?php }?>
+            <!--- Section that is one label and one search box --->
+            <div class="col-sm-3">
+              <label for="field-<?php echo $rf?>">
+                <?php echo htmlspecialchars(formatField($rf)) ?>
+              </label>
+            </div>
+            <div class="col-sm-3">   
+              <input type="text" id="field-<?php echo $rf?>" 
+              <?php
+                if (isset($_POST[str_replace(' ', '_', $rf)]))
+                  echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $rf)]);
+              ?> 
+              name="<?php echo htmlspecialchars($rf) ?>"
+              class="form-control">
+            </div>
+            <!--- End of a single label, input instance --->
+            <?php if($count%2==1) {?>
+          </div>
+            <?php }?>
+        <?php $count++; } 
+          if($count%2==1) {
+            echo '</div>';
+          }
+        ?>
       </div>
-      <div class="col">
-        <input type="text" id="field-<?php echo $rf?>" 
+      <div id="legend" class="border col-sm-5"> 
+        <?php
+        if($_GET['Database'] === 'entomology'){
+          echo '<div class="row">';
+            echo '<div class="col-sm-12">';
+              echo '<a href="https://www.zoology.ubc.ca/entomology/"><img width="100%" src="images/entomology-link-image.jpg"></a>';
+            echo '</div>';
+          echo '</div>';
+        }
+        ?>
+        <div class="row">
+          <div class="col" style="text-align:center;">
+            <h2 style="padding-bottom:12px"> Search Options </h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h3 style="padding-bottom:12px"> Search Operators </h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"> == </div>
+          <div class="col-sm-11"> match entire field exactly </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"> &lt </div>
+          <div class="col-sm-11"> find records with values less than to the one specified </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"> &lt= </div>
+          <div class="col-sm-11">  find records with values less than or equal to the one specified </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"> &gt </div>
+          <div class="col-sm-11">  find records with values greater than to the one specified </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"> &gt= </div>
+          <div class="col-sm-11">  find records with values greater than or equal to the one specified </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"> ... </div>
+          <div class="col-sm-11">  find records with values in a range (Ex. 10...20) </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"> * </div>
+          <div class="col-sm-11">  match zero or more characters </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"> \ </div>
+          <div class="col-sm-11">  escape any character </div>
+        </div>
+        <div class = "row">
+          <div class = "col"> 
+            <h4 style=padding-top:12px;>Search By</h4>
+          </div>
+        </div>
+        <div class = "row">
+          <div class="col">
+            <div class = "btn-group btn-group-toggle" data-toggle="buttons" >
+              <label class = "btn btn-primary active" style="font-size:12px;">
+                <input type="radio"  id = "and" autocomplete="off"  checked> AND 
+              </label>
+              <label class = "btn btn-primary" style="font-size:12px;">
+                <input type="radio" id = "or" autocomplete="off" > <span style="visibility: hidden">&nbsp;</span>OR<span style="visibility: hidden">&nbsp;</span>
+              </label> 
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding-top:12px;">
+          <div class="col">
+            <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
+                role="button" class="btn btn-primary" 
+                style="font-size:12px; text-align:left; padding-left:2px; padding-right:2px;">Show All Records</a>   
+          </div>
+        </div>
+        <div class="row" style="padding-top:12px;">
+          <?php if ($_GET['Database'] == 'fish' || $_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal'
+          || $_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'entomology' ||
+          $_GET['Database'] == 'fungi' || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') { ?>
+            <div class="col">
+              <input type="checkbox" value="" id="imageCheck">
+              <label for="imageCheck">
+                Only show records that contain an image
+              </label>
+            </div>
+            <input type="hidden" name = "hasImage" id = "hasImage">
+          <?php } ?>
+          <input type="hidden" name = "type" id = "type">
+        </div>
+        <div class = "row sample" style="padding-top:12px;">
+        <div class = "col">
           <?php
-            if (isset($_POST[str_replace(' ', '_', $rf)]))
-              echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $rf)]);
-          ?> 
-          name="<?php echo htmlspecialchars($rf) ?>"
-          class="form-control">
+          if ($_GET['Database'] == 'avian') {
+            $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
+            $result = $getSampleScript->execute(); 
+            $record = $result->getRecords()[0];
+            $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid='
+            .htmlspecialchars($record->getRecordID()).'&-field=Photographs::photoContainer(1)';
+            echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
+            //echo $result->getRecords()[0]->getField('catalogNumber');          
+            echo '<div hidden = true id = "Latitude">'. $record->getField('Geolocation::decimalLatitude').'</div>';
+            echo '<div hidden = true id = "Longitude">'. $record->getField('Geolocation::decimalLongitude').'</div>';  
+          }
+        ?>
+        </div>
+        <div class = "col">
+        <div id="viewDiv" style="height: 150px; width: 200px"></div> 
+          <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
+          <script src="js/map.js"></script>       
+        </div> 
       </div>
-    </div> 
-    <?php } ?>
-    <div class = "col" style="position:relative; top:8px">
-      <input id="form" class="btn btn-primary" type="button" value="Submit" onclick="Process(clearURL())">    
+      </div>
     </div>
   </form>
-  </div>
-  </div>
-  <div id="legend" class="border col-sm-5 offset-sm-2" style="position:relative; top:6px; padding-top:14px"> 
-      <header style="padding-bottom:12px"> Search Operators </header>
-      <div class="row">
-        <div class="col-sm-1"> = </div>
-        <div class="col-sm-11"> match a whole word (or match empty) </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> == </div>
-        <div class="col-sm-11"> match entire field exactly </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> ! </div>
-        <div class="col-sm-11"> find duplicate values </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> &lt </div>
-        <div class="col-sm-11"> find records with values less than to the one specified </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> &lt= </div>
-        <div class="col-sm-11">  find records with values less than or equal to the one specified </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> &gt </div>
-        <div class="col-sm-11">  find records with values greater than to the one specified </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> &gt= </div>
-        <div class="col-sm-11">  find records with values greater than or equal to the one specified </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> ... </div>
-        <div class="col-sm-11">  find records with values in a range (Ex. 10...20) </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> &frasl;&frasl; </div>
-        <div class="col-sm-11">  find records with today's date </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> ? </div>
-        <div class="col-sm-11">  find records invalid date and time </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> @ </div>
-        <div class="col-sm-11">  match any one character </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> # </div>
-        <div class="col-sm-11">  match any digit </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> * </div>
-        <div class="col-sm-11">  match zero or more characters </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> \ </div>
-        <div class="col-sm-11">  escape any character </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> &#34&#34 </div>
-        <div class="col-sm-11">  match phrase from word start </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-1"> *&#34&#34 </div>
-        <div class="col-sm-11">  match phrase from anywhere </div>
-      </div>
-   </div>
-   </div>
-   </div>
   <?php require_once("partials/footer.php");?>
   <script src="js/process.js"> </script>
 </body>

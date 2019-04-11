@@ -4,23 +4,51 @@
 <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
   <style>
     #submit {
-      padding-left: 5px;
+      padding-left: 15px;
       padding-right:5px;
     }
-    .minHeight {
+    #sample {
       height: 150px;
-      width: 200px;
+      width: 220px;
+      padding-right: 5px;
     }
-    .sample {
-      border: 1px solid black;
+    #catalogNumber {
+      margin-left: 15px;
+      margin-right: 15px;
+      font-weight: bold;
+      color: black;
     }
+    #taxon {
+      margin-left: 15px;
+      margin-right: 15px;
+      font-style: italic;
+    }
+    #jumbotron {
+      padding-top: 5px;
+      padding-bottom: 15px;
+    }
+    #sample-img {
+      margin-left: 15px;
+      margin-right: 15px;
+        }
+    #sample-map {
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+    #viewDiv {    
+      height: 150px; 
+      width: 220px;
+    }
+
   </style>
   <?php
     session_start();
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
+    require_once ('db.php');
     require_once ('functions.php');
 
+    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
     // echo "FM_FILE: $FM_FILE <br>
     //       FM_HOST: $FM_HOST <br>
     //       FM_USER: $FM_USER <br>
@@ -197,28 +225,71 @@
           <?php } ?>
           <input type="hidden" name = "type" id = "type">
         </div>
-        <div class = "row sample" style="padding-top:12px;">
-        <div class = "col">
-          <?php
+        <?php
+          $hasSampleData = false;
+          $urlPrefix = '';
+          $id = 'accessionNumber';
+          $lat = '';
+          $lng = '';
+          $db = 'herb';
+
           if ($_GET['Database'] == 'avian') {
-            $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
-            $result = $getSampleScript->execute(); 
-            $record = $result->getRecords()[0];
-            $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid='
-            .htmlspecialchars($record->getRecordID()).'&-field=Photographs::photoContainer(1)';
-            echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
-            //echo $result->getRecords()[0]->getField('catalogNumber');          
-            echo '<div hidden = true id = "Latitude">'. $record->getField('Geolocation::decimalLatitude').'</div>';
-            echo '<div hidden = true id = "Longitude">'. $record->getField('Geolocation::decimalLongitude').'</div>';  
+            $urlPrefix = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid=';
+            $hasSampleData = true;
+            $id = 'catalogNumber';
+            $lat = 'Geolocation::decimalLatitude';
+            $lng = 'Geolocation::decimalLongitude';
+            $db = 'vert';
+
           }
+          if ($_GET['Database'] == 'mammal') {
+            $urlPrefix = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Mammal%20Research%20Collection&-lay=mammal_details&-recid=';
+            $hasSampleData = true;
+            $id = 'catalogNumber';
+            $lat = 'Geolocation::decimalLatitude';
+            $lng = 'Geolocation::decimalLongitude';
+            $db = 'vert';
+          }
+          if ($hasSampleData) {
+              $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
+              $result = $getSampleScript->execute(); 
+              $record = $result->getRecords()[0];
         ?>
+        <div class = "jumbotron jumbotron-fluid" id = "jumbotron">
+          <div class = "row sample" style="padding-top:12px;">
+              <div class = "col">
+                <a id = "catalogNumber" href  =  "details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
+                    '&AccessionNo='.htmlspecialchars($record->getField($id)) ?>">
+                <?php echo $record->getField($id)?></a>
+              </div>    
+          </div>
+          <div class = "row">
+            <div class = "col" id = "taxon">
+              <?php
+                echo $record->getField('Taxon::genus').' '.$record->getField('Taxon::specificEpithet');
+              ?>
+            </div>
+          </div>
+          <div class = "row" style="padding-top:12px;"> 
+            <div id = "sample-img" class = "col">
+              <?php         
+              if ($db === 'vert') {
+                $url = $urlPrefix.htmlspecialchars($record->getRecordID()).'&-field=Photographs::photoContainer(1)';
+              }
+                
+              echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
+              echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
+              echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';  
+              ?>
+            </div>
+            <div id = "sample-map" class = "col">
+              <div id="viewDiv"></div> 
+              <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
+              <script src="js/map.js"></script>       
+            </div> 
+          </div>
         </div>
-        <div class = "col">
-        <div id="viewDiv" style="height: 150px; width: 200px"></div> 
-          <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
-          <script src="js/map.js"></script>       
-        </div> 
-      </div>
+        <?php } ?>
       </div>
     </div>
   </form>

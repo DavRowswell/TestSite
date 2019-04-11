@@ -101,7 +101,7 @@
           <?php foreach($recFields as $i){
             if ($i === "Photographs::photoContainer" || $i === "IIFRNo") continue;?> 
             <tr>
-              <th scope="col-sm-2"><?php echo htmlspecialchars(formatField($i)) ?></th>
+              <th scope="col-sm-2"><?php echo '<b>'.htmlspecialchars(formatField($i)) ?></th>
               <?php if(formatField($i) == "Genus" || formatField($i) == "Species") { ?>
               <td scope="col-sm-10" style="font-style:italic;"
               <?php } else { ?>

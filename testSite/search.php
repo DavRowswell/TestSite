@@ -48,37 +48,61 @@
     require_once ('db.php');
     require_once ('functions.php');
 
-    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
-    // echo "FM_FILE: $FM_FILE <br>
-    //       FM_HOST: $FM_HOST <br>
-    //       FM_USER: $FM_USER <br>
-    //       FM_PASS: $FM_PASS <br>";
+    $layoutFields = [
+      'Country',
+      'Province or State',
+      'Locality',
+      'Elevation',
+      'Depth',
+      'Phylum',
+      'Class',
+      'Family',
+      'Genus',
+      'Species',
+      'Collector',
+      'Collection Date',
+      'Year',
+      'Month',
+      'Day',
+    ];
 
-    $layouts = $fm->listLayouts();
+    $renderPage = 'renderAll';
 
-    if (FileMaker::isError($layouts)) {
-      $_SESSION['error'] = $layouts->getMessage();
-      header('Location: error.php');
-      exit;
-    }
+    if ($_GET['Database'] !== 'all') {
+      $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+      // echo "FM_FILE: $FM_FILE <br>
+      //       FM_HOST: $FM_HOST <br>
+      //       FM_USER: $FM_USER <br>
+      //       FM_PASS: $FM_PASS <br>";
 
-    $layout = $layouts[0];
+      $layouts = $fm->listLayouts();
 
-    foreach ($layouts as $l) {
-      //get current database name
-      $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
-      if ($page == 'mi') {
-        if (strpos($l, 'search') !== false) {
+      if (FileMaker::isError($layouts)) {
+        $_SESSION['error'] = $layouts->getMessage();
+        header('Location: error.php');
+        exit;
+      }
+
+      $layout = $layouts[0];
+
+      foreach ($layouts as $l) {
+        //get current database name
+        $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
+        if ($page == 'mi') {
+          if (strpos($l, 'search') !== false) {
+            $layout = $l;
+            break;
+          }
+        }
+        else if (strpos($l, 'search') !== false) {
           $layout = $l;
-          break;
         }
       }
-      else if (strpos($l, 'search') !== false) {
-        $layout = $l;
-      }
+      $fmLayout = $fm->getLayout($layout);
+      $layoutFields = $fmLayout->listFields();
+      $renderPage = 'render';
     }
-    $fmLayout = $fm->getLayout($layout);
-    $layoutFields = $fmLayout->listFields();
+
   ?>
 </head>
 <body class="container-fluid">
@@ -92,7 +116,7 @@
         <?php }?>
     </div>
   </div>
-  <form action="render.php" method="get" id = "submit-form">
+  <form action=<?php echo $renderPage.".php"?> method="get" id = "submit-form">
     <div class ="row">
       <div id="form" class = "col-sm-6">
         <div class="form-group">
@@ -210,7 +234,7 @@
         </div>
         <div class="row" style="padding-top:12px;">
           <div class="col">
-            <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
+            <a href=<?php echo $renderPage.".php?Database=".htmlspecialchars($_GET['Database'])?> 
                 role="button" class="btn btn-primary" 
                 style="font-size:12px; text-align:left; padding-left:2px; padding-right:2px;">Show All Records</a>   
           </div>

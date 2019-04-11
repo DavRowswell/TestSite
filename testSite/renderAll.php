@@ -88,7 +88,7 @@
     }
 
     function generateTable($sd) {
-        $numResults = 50;
+        $numRes = 50;
         require_once ('functions.php');
         $fm = $sd->getFM();
         $resultLayout = $sd->getResultLayout();
@@ -103,8 +103,9 @@
           }
         }
         // $findCommand->addFindCriterion("Location::country", "Canada");
-        $findCommand->setRange(0, $numResults);
+        $findCommand->setRange(0, $numRes);
         $result = $findCommand->execute();
+        // require_once ('partials/pageController.php');
         $database = $sd->getDatabase();
         // If(FileMaker::isError($result)){
         //     $_SESSION['error'] = $result->getMessage();
@@ -171,7 +172,7 @@
                         if ($i === 'SortNum' || $i === 'Accession Numerical'  || $i === 'Photographs::photoFileName') continue;?>
                         <th id = <?php echo htmlspecialchars(formatField($i)) ?> scope="col">
                             <!-- <a style="padding: 0px;" href= -->
-                            <?php echo htmlspecialchars(formatField($i)) ?>
+                            <?php echo '<b>'.htmlspecialchars(formatField($i)) ?>
                             <!-- </a> -->
                         </th>
                     <?php }?>

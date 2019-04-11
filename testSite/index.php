@@ -99,7 +99,6 @@
 </head>
 <body class="container-fluid">
     <?php require_once ('partials/navbar.php'); ?>
-    <div id="title-divider"></div>
     <div id="main">
         <div id="main-title" class="row">
             <div class="col">

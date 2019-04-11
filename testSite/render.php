@@ -154,7 +154,11 @@
   <?php require_once ('partials/navbar.php'); ?>
   <div class="row">
     <div class="col">
-        <h1><b><?php echo ucfirst($_GET['Database']); ?> Results</b></h1>
+        <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw") { ?>
+          <h1><b><?php if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Results</b></h1>
+        <?php } else { ?>
+        <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
+        <?php }?>
     </div>
   </div>
   <?php require_once ('partials/pageController.php'); ?>

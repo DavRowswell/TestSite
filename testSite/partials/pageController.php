@@ -45,57 +45,60 @@ a:hover {
 }
 </style>
 
-<main style="position:relative; top:4px">
-<form action="render.php" method="get" id="pageForm">
-  <div class="form-group">
-  <label for="pageInput"><?php echo "$found records found" ?></label>
-    <?php
-        foreach ($qsparts as $part) {
+<div class="row">
+  <div class="col-sm-12">
+    <form action="render.php" method="get" id="pageForm">
+      <div class="row">
+        <div class="col-sm-3">
+          <label for="pageInput"><?php echo "$found records found" ?></label>
+          <small class="form-text text-muted">
+            <?php echo "Page ".htmlspecialchars($page)." / ".htmlspecialchars($pages); ?>
+          </small>
+        </div>
+        <?php
+          foreach ($qsparts as $part) {
             $keyVal =  explode('=', $part);
             $input = $keyVal[1];
             if (strpos($part, "Page") === 0 || $input == '') continue;
-            ?>
-            <input type="hidden" 
-            name="<?php echo htmlspecialchars($keyVal[0])?>" 
-            value="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $input)))?>" />
-            <?php
-        }
         ?>
-        <div style="position:relative; left:-16px" class="col-8">
-        <input type="number" name="Page" class="form-control" id="pageInput" min="1" max=<?php echo htmlspecialchars($pages)?>>
+        <input type="hidden" 
+          name="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $keyVal[0])))?>" 
+          value="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $input)))?>" />
+        <?php } ?>
+      </div>
+      <div class="row">
+        <div class = "col-sm-2" style="padding-right:0px; padding-bottom:5px;">
+          <input type="number" name="Page" class="form-control" id="pageInput" min="1" max=<?php echo htmlspecialchars($pages)?>>
         </div>
+        <div class="col-sm-3" style="padding-bottom:5px;">
+          <button type="submit" form="pageForm" value="Submit" class="btn btn-primary">Navigate to Page</button>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-sm-12" style="padding-bottom:5px;">
+        <?php
+          if (isset($_GET['Page']) && $_GET['Page'] != '') {
+            $pageNum = $_GET['Page'];
+            if ($pageNum > 1) {
+              $parts[sizeof($parts)-1] = 'Page='.($pageNum - 1);
+              $lasturi = implode('&', $parts);
+              echo '<a href=' . htmlspecialchars($lasturi) . ' class="previous round">&#8249</a>';
+            }
+            if ($pageNum < $pages && $pageNum != '') {
+              $parts[sizeof($parts)-1] = 'Page='.($pageNum + 1);
+              $nexturi = implode('&', $parts);
+              echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
+            }
+          } else { 
+            if ($found > $numRes){
+              array_push($parts, 'Page=2');
+              $nexturi = implode('&', $parts);
+              echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
+            }
+          }
+        ?>
+      </div>
     </div>
-</form>
-<button type="submit" form="pageForm" value="Submit" class="btn btn-primary">Navigate to Page</button>
-<small class="form-text text-muted">
-<?php
-    echo "Page ".htmlspecialchars($page)." / ".htmlspecialchars($pages); ?>
-</small>
-<div style="position:relative; top:6px">
-<?php
-    if (isset($_GET['Page']) && $_GET['Page'] != '') {
-  
-      $pageNum = $_GET['Page'];
-      if ($pageNum > 1) {
-        $parts[sizeof($parts)-1] = 'Page='.($pageNum - 1);
-        $lasturi = implode('&', $parts);
-        echo '<a href=' . htmlspecialchars($lasturi) . ' class="previous round">&#8249</a>';
-      }
-      if ($pageNum < $pages && $pageNum != '') {
-        $parts[sizeof($parts)-1] = 'Page='.($pageNum + 1);
-        $nexturi = implode('&', $parts);
-        echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
-      }
-    //   if($_GET['Page'] > 1 && $_GET['Page'] < $pages) echo "<br>";
-    // echo "Page $page / $pages <br>";
-
-    } else { 
-        if ($found > $numRes){
-            array_push($parts, 'Page=2');
-            $nexturi = implode('&', $parts);
-            echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
-        }
-    }
-?>
+  </div>
 </div>
-</main>

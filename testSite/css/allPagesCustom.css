@@ -1,0 +1,8 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* change the link color */
+.navbar-dark .navbar-nav .nav-link {
+    color:  #ffffff;
+}

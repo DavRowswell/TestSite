@@ -231,10 +231,17 @@
                 <?php
                   $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
                                           &&  $i->getField("Photographs::photoFileName") !== "";
-                  $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "");
+                  $fishHasPicture = false;
                   $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
                                     $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
                                     $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
+                  if ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "") {
+                    $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
+                    if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
+                      $fishHasPicture = true;
+                    }
+                  }
+                  
                   
                   $entomologyHasPicture = false;
                   if ($_GET['Database'] === 'entomology') {

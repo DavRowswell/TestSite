@@ -12,6 +12,11 @@
       width: 220px;
       padding-right: 5px;
     }
+    #fish-sample {
+      height: 250px;
+      width: 220px;
+      padding-right: 5px;
+    }
     #catalogNumber {
       margin-left: 15px;
       margin-right: 15px;
@@ -244,34 +249,45 @@
           <input type="hidden" name = "type" id = "type">
         </div>
         <?php
-          $hasSampleData = false;
-          $urlPrefix = '';
-          $id = 'accessionNumber';
-          $lat = '';
-          $lng = '';
-          $db = 'herb';
+          if (/* || $_GET['Database'] == 'entomology' ||$_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
+          || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae' || */$_GET['Database'] == 'avian' 
+          || $_GET['Database'] == 'mammal'
+          || $_GET['Database'] == 'fish') {
 
-          if ($_GET['Database'] == 'avian') {
-            $urlPrefix = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid=';
-            $hasSampleData = true;
-            $id = 'catalogNumber';
-            $lat = 'Geolocation::decimalLatitude';
-            $lng = 'Geolocation::decimalLongitude';
-            $db = 'vert';
+          
+            $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
+            $result = $getSampleScript->execute(); 
+            $record = $result->getRecords()[0];
+            $id = 'accessionNumber';
+            $lat = '';
+            $lng = '';
+            $genus = '';
+            $species = '';
+            $url = '';
 
-          }
-          if ($_GET['Database'] == 'mammal') {
-            $urlPrefix = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Mammal%20Research%20Collection&-lay=mammal_details&-recid=';
-            $hasSampleData = true;
-            $id = 'catalogNumber';
-            $lat = 'Geolocation::decimalLatitude';
-            $lng = 'Geolocation::decimalLongitude';
-            $db = 'vert';
-          }
-          if ($hasSampleData) {
-              $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
-              $result = $getSampleScript->execute(); 
-              $record = $result->getRecords()[0];
+            if ($_GET['Database'] == 'avian' || $_GET['Database'] == 'mammal') {
+              $url = getPhotoUrl($record->getRecordID());
+              $id = 'catalogNumber';
+              $lat = 'Geolocation::decimalLatitude';
+              $lng = 'Geolocation::decimalLongitude';
+              $genus = 'Taxon::genus';
+              $species = 'Taxon::specificEpithet';
+            }
+            else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
+            || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
+
+            }
+            else if ($_GET['Database'] == 'entomology') {
+
+            }
+            else if ($_GET['Database'] == 'fish') {
+              $id = 'Accession Number';
+              $lat = 'LatitudeDecimal';
+              $lng = 'LongitudeDecimal';
+              $genus = 'Genus';
+              $species = 'Species';
+            }
+  
         ?>
         <div class = "jumbotron jumbotron-fluid" id = "jumbotron">
           <div class = "row sample" style="padding-top:12px;">
@@ -284,18 +300,24 @@
           <div class = "row">
             <div class = "col" id = "taxon">
               <?php
-                echo $record->getField('Taxon::genus').' '.$record->getField('Taxon::specificEpithet');
+                echo $record->getField($genus).' '.$record->getField($species);
               ?>
             </div>
           </div>
           <div class = "row" style="padding-top:12px;"> 
             <div id = "sample-img" class = "col">
               <?php         
-              if ($db === 'vert') {
-                $url = $urlPrefix.htmlspecialchars($record->getRecordID()).'&-field=Photographs::photoContainer(1)';
+              if ($_GET['Database'] == 'entomology') {
+
               }
-                
-              echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
+              else if ($_GET['Database'] == 'fish') {
+                $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("IIFRNo").'/0';
+                $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("IIFRNo");
+                echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
+              } 
+              else {
+                echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
+              }
               echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
               echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';  
               ?>

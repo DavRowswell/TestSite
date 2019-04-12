@@ -102,11 +102,16 @@
   <?php require_once ('partials/navbar.php');?>
   <div class="row">
     <div class="col">
-        <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw") { ?>
-          <h1><b><?php if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Search</b></h1>
-        <?php } else { ?>
-          <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
-        <?php }?>
+      <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
+        <h1><b><?php 
+                  if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
+                  else if($_GET['Database'] === "vwsp"){echo "Vascular";}
+                  else{echo "Wet Marine Invertebrate";} 
+                ?> Search</b>
+        </h1>
+      <?php } else { ?>
+        <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
+      <?php }?>
     </div>
   </div>
   <!---<div id="title-divider"></div> --->
@@ -128,7 +133,7 @@
           $count = 0;
           foreach ($layoutFields as $rf) {
             //echo $rf;
-            $ignoreValues = ['SortNum', 'AccessionNumerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate'];
+            $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate'];
             if (in_array($rf, $ignoreValues)) continue; 
             if($count%2==0) {?>
           <div class="row">

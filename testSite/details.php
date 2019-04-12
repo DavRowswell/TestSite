@@ -86,11 +86,16 @@
   ?>
   <div class="row">
     <div class="col">
-        <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw") { ?>
-          <h1><b><?php if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Specimen Details</b></h1>
-        <?php } else { ?>
-        <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
-        <?php }?>
+      <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
+        <h1><b><?php 
+                  if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
+                  else if($_GET['Database'] === "vwsp"){echo "Vascular";}
+                  else{echo "Wet Marine Invertebrate";} 
+                ?> Search</b>
+        </h1>
+      <?php } else { ?>
+      <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
+      <?php }?>
     </div>
   </div>
   <div class="row">

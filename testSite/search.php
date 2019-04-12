@@ -109,7 +109,7 @@
         <?php }?>
     </div>
   </div>
-  <div id="title-divider"></div>
+  <!---<div id="title-divider"></div> --->
   
   <form action="render.php" method="get" id = "submit-form">
     <div class ="row">

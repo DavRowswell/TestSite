@@ -41,6 +41,18 @@
     }
 
   </style>
+  <?php if ($_GET['Database'] == "avian" || $_GET['Database'] == "herptology" || $_GET['Database'] == "mammal") {?>
+  <style>
+    h1 {
+      /*
+      background: #70382d;
+      color: #ffffff;
+      padding: 15px;
+      margin-bottom: 0px;
+      */
+    }
+  </style>
+  <?php }?>
   <?php
     session_start();
     require_once ('FileMaker.php');
@@ -88,10 +100,12 @@
         <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw") { ?>
           <h1><b><?php if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Search</b></h1>
         <?php } else { ?>
-        <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
+          <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
         <?php }?>
     </div>
   </div>
+  <div id="title-divider"></div>
+  
   <form action="render.php" method="get" id = "submit-form">
     <div class ="row">
       <div id="form" class = "col-sm-6">

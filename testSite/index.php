@@ -105,9 +105,9 @@
 
     </style>
 </head>
-<body >
+<body class="d-flex flex-column">
     <?php require_once ('partials/navbar.php'); ?>
-    <div id="main" class="container-fluid d-flex flex-column">
+    <div id="main" class="container-fluid">
         <div id="main-title" class="row">
             <div class="col">
                 <h1>Database List</h1>

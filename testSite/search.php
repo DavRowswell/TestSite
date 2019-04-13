@@ -98,9 +98,9 @@
     $layoutFields = $fmLayout->listFields();
   ?>
 </head>
-<body>
+<body class="d-flex flex-column">
   <?php require_once ('partials/navbar.php');?>
-  <div class="container-fluid d-flex flex-column">
+  <div class="container-fluid">
     <div class="row">
       <div class="col">
         <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>

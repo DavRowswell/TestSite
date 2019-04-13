@@ -8,7 +8,7 @@
     return "false";
   }
 ?>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background: #CC2229;">
+<nav id="header" class="navbar navbar-expand-lg navbar-dark" style="background: #CC2229;">
   <a class="navbar-brand" href="index.php">Beaty Museum Databases</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -46,10 +46,12 @@
           <a class="nav-link" href="search.php?Database=fossil">Fossils</a>
         </li>
       </li>
+      <!---
       <li>
         <a class="nav-link" href="searchAll.php">All</a>
       </li>
+      -->
     </ul>
   </div>
 </nav>
-<div id="title-divider"></div>
+<div id="page-content">

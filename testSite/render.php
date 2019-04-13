@@ -149,9 +149,9 @@
     }
   </style>
 </head>
-<body>
-<div class="container-fluid">
-  <?php require_once ('partials/navbar.php'); ?>
+<body >
+<?php require_once ('partials/navbar.php'); ?>
+<div class="container-fluid d-flex flex-column">
   <div class="row">
     <div class="col">
       <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>

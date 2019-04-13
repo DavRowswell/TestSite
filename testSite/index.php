@@ -78,6 +78,14 @@
             margin-bottom: 15px;
         }
 
+        figcaption {
+            padding: 2px;
+        }
+
+        figure img {
+            margin: 8px;
+        }
+
         h1{
             background: #3e3e3f;
             color:  #ffffff;
@@ -97,9 +105,9 @@
 
     </style>
 </head>
-<body class="container-fluid">
+<body >
     <?php require_once ('partials/navbar.php'); ?>
-    <div id="main">
+    <div id="main" class="container-fluid d-flex flex-column">
         <div id="main-title" class="row">
             <div class="col">
                 <h1>Database List</h1>

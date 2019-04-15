@@ -73,7 +73,7 @@
   ?>
 </head>
 
-<body class="container-fluid">
+<body class="d-flex flex-column">
   <?php
   require_once ('partials/navbar.php');
   // Check if layout exists, and get fields of layout
@@ -84,13 +84,19 @@
   }
   $recFields = $result->getFields();
   ?>
+<div class="container-fluid">
   <div class="row">
     <div class="col">
-        <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw") { ?>
-          <h1><b><?php if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Specimen Details</b></h1>
-        <?php } else { ?>
-        <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
-        <?php }?>
+      <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
+        <h1><b><?php 
+                  if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
+                  else if($_GET['Database'] === "vwsp"){echo "Vascular";}
+                  else{echo "Wet Marine Invertebrate";} 
+                ?> Search</b>
+        </h1>
+      <?php } else { ?>
+      <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
+      <?php }?>
     </div>
   </div>
   <div class="row">
@@ -135,93 +141,12 @@
       </div>
       <div class="row">
         <div class="col">
-          <?php
-            if ($_GET['Database'] === 'vwsp') {
-              $url = "https://herbweb.botany.ubc.ca/testSite/images/vwsp_images/Large_web/".$_GET['AccessionNo'].".jpg";
-              if(@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0){
-                echo '<a href="'.$url.'" target="_blank"><img class="img-fluid minHeight" src ="'. $url.'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
-            }
-            else if ($_GET['Database'] === 'algae') {
-              $url = "https://herbweb.botany.ubc.ca/testSite/images/ubcalgae_images/Large_web/".$_GET['AccessionNo'].".jpg";
-              if(@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0){
-                echo '<a href="'.$url.'" target="_blank"><img class="img-fluid minHeight" src ="'. $url.'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
-            }
-            else if ($_GET['Database'] === 'lichen') {
-              $url = "https://herbweb.botany.ubc.ca/testSite/images/lichen_images/Large_web/".$_GET['AccessionNo'].".jpg";
-              if(@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0){
-                echo '<a href="'.$url.'" target="_blank"><img class="img-fluid minHeight" src ="'. $url.'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
-            }
-            else if ($_GET['Database'] === 'fungi') {
-              $url = "https://herbweb.botany.ubc.ca/testSite/images/fungi_images/Large_web/".$_GET['AccessionNo'].".jpg";
-              if(@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0){
-                echo '<a href="'.$url.'" target="_blank"><img class="img-fluid minHeight" src ="'. $url.'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
-            }
-            else if ($_GET['Database'] === 'bryophytes') {
-              $url = "https://herbweb.botany.ubc.ca/testSite/images/bryophytes_images/Large_web/".$_GET['AccessionNo'].".jpg";
-              if(@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0){
-                echo '<a href="'.$url.'" target="_blank"><img class="img-fluid minHeight" src ="' . $url.'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
-            }
-            else if ($_GET['Database'] === 'mammal') {
-              $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Mammal%20Research%20Collection&-lay=mammal_details&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
-              //url is not just https:// ie there is data in the container
-              if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
-            }
-            else if ($_GET['Database'] === 'avian') {
-              $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
-              if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              } 
-            }
-            else if ($_GET['Database'] === 'herpetology') {
+          <?php            
+            if ($_GET['Database'] === 'fish') {
 
-              $url = 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Herpetology%20Research%20Collection&-lay=herp_details&-recid='.htmlspecialchars($findAllRec[0]->getRecordID()).'&-field=Photographs::photoContainer(1)';
+              $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
+              $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/1.021095'.$findAllRec[0]->getField("IIFRNo");
               if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
-            }
-            else if ($_GET['Database'] === 'fish') {
-              if ($findAllRec[0]->getField("IIFRNo") !== "") {
-                $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
-                $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("IIFRNo");
                 echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
               } else {
                 echo '<div style="height: 300px; text-align:center; line-height:300px;">';
@@ -253,12 +178,34 @@
                   echo '<span style="">No picture found for this record</span>';
                 echo '</div>';
               }
+            }
+            else {
+              $validDb = false;
+              if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
+                $url = getPhotoUrl($findAllRec[0]->getRecordID());
+                $validDb = true;
+              }
+              else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
+              || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
+                $url = getPhotoUrl($_GET['AccessionNo']);
+                $validDb = true;
+              }
+              if ($validDb) {
+                if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
+                  echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                } else {
+                  echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+                    echo '<span style="">No picture found for this record</span>';
+                  echo '</div>';
+                }
+              }
             } 
           ?>
         </div>
       </div>
     </div>
   </div>
-  <?php require_once("partials/footer.php");?>
+</div>
+<?php require_once("partials/footer.php");?>
 </body>
 </html>

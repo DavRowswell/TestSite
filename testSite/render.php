@@ -149,16 +149,21 @@
     }
   </style>
 </head>
-<body>
+<body class="d-flex flex-column">
+<?php require_once ('partials/navbar.php'); ?>
 <div class="container-fluid">
-  <?php require_once ('partials/navbar.php'); ?>
   <div class="row">
     <div class="col">
-        <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw") { ?>
-          <h1><b><?php if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Results</b></h1>
-        <?php } else { ?>
-        <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
-        <?php }?>
+      <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
+        <h1><b><?php 
+                  if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
+                  else if($_GET['Database'] === "vwsp"){echo "Vascular";}
+                  else{echo "Wet Marine Invertebrate";} 
+                ?> Search</b>
+        </h1>
+      <?php } else { ?>
+      <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
+      <?php }?>
     </div>
   </div>
   <?php require_once ('partials/pageController.php'); ?>
@@ -184,7 +189,7 @@
         <thead>
           <tr>
             <?php foreach($recFields as $i){
-              $ignoreValues = ['SortNum', 'AccessionNumerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
+              $ignoreValues = ['SortNum', 'Accession Numerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
               if (in_array($i, $ignoreValues)) continue;?>
               <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
                 <a style="padding: 0px;" href=
@@ -231,10 +236,17 @@
                 <?php
                   $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
                                           &&  $i->getField("Photographs::photoFileName") !== "";
-                  $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "");
+                  $fishHasPicture = false;
                   $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
                                     $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
                                     $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
+                  if ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "") {
+                    $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
+                    if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
+                      $fishHasPicture = true;
+                    }
+                  }
+                  
                   
                   $entomologyHasPicture = false;
                   if ($_GET['Database'] === 'entomology') {

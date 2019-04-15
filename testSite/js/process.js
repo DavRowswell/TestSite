@@ -2,7 +2,7 @@
 
 function Process() {
     var vals = document.getElementById("submit-form").children;
-    console.log(document.getElementById("imageCheck"));
+    //console.log(document.getElementById("imageCheck"));
     if (document.getElementById("imageCheck")) {
         if (document.getElementById("imageCheck").checked)
         document.getElementById("hasImage").value = (document.getElementById("imageCheck").checked) ? '*' : '';
@@ -11,6 +11,10 @@ function Process() {
         document.getElementById("type").value = 'or';
     else 
         document.getElementById("type").value = 'and';
+    document.getElementById("submit-form").submit();
+}
+
+function allProcess() {
     document.getElementById("submit-form").submit();
 }
 

@@ -139,20 +139,6 @@
         <?php }?>
       </div>
     </div>
-<<<<<<< HEAD
-  </div>
-  <form action=<?php echo $renderPage.".php"?> method="get" id = "submit-form">
-    <div class ="row">
-      <div id="form" class = "col-sm-6">
-        <div class="form-group">
-          <input type="text" name="Database" style="display:none;" 
-          value=<?php if (isset($_GET['Database'])) echo htmlspecialchars($_GET['Database']); ?>>
-        </div>
-        <div class="row">
-          <div id = 'submit'>
-            <input id="form" class="btn btn-primary" type="button" value="Submit"  style = "font-size:12px;" onclick="Process(clearURL())">    
-          </div>     
-=======
     <!---<div id="title-divider"></div> --->
     
     <form action="render.php" method="get" id = "submit-form">
@@ -201,7 +187,6 @@
               echo '</div>';
             }
           ?>
->>>>>>> 014aab931d18c0cd02b90469c79cf921aea0de6e
         </div>
         <div id="legend" class="border col-sm-5"> 
           <?php
@@ -260,14 +245,6 @@
               <h4 style=padding-top:12px;>Search By</h4>
             </div>
           </div>
-<<<<<<< HEAD
-        </div>
-        <div class="row" style="padding-top:12px;">
-          <div class="col">
-            <a href=<?php echo $renderPage.".php?Database=".htmlspecialchars($_GET['Database'])?> 
-                role="button" class="btn btn-primary" 
-                style="font-size:12px; text-align:left; padding-left:2px; padding-right:2px;">Show All Records</a>   
-=======
           <div class = "row">
             <div class="col">
               <div class = "btn-group btn-group-toggle" data-toggle="buttons" >
@@ -279,7 +256,6 @@
                 </label> 
               </div>
             </div>
->>>>>>> 014aab931d18c0cd02b90469c79cf921aea0de6e
           </div>
           <div class="row" style="padding-top:12px;">
             <div class="col">

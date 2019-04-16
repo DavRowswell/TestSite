@@ -285,7 +285,7 @@
                   echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';
                 }
                 else {
-                  echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
+                  echo '<td id="data">'. $i->getField($j).'</td>';
                 }
               }?>
             </tr>

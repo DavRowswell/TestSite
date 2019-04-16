@@ -107,7 +107,7 @@
           <?php foreach($recFields as $i){
             if ($i === "Photographs::photoContainer" || $i === "IIFRNo") continue;?> 
             <tr>
-              <th scope="col-sm-2"><?php echo '<b>'.htmlspecialchars(formatField($i)) ?></th>
+              <th scope="col-sm-2"><?php echo '<b>'.formatField($i) ?></th>
               <?php if(formatField($i) == "Genus" || formatField($i) == "Species") { ?>
               <td scope="col-sm-10" style="font-style:italic;"
               <?php } else { ?>
@@ -116,7 +116,7 @@
                 if (formatField($i) === "Latitude") {echo "id='Latitude'"; $lat = $findAllRec[0]->getField($i);}
                 if (formatField($i) === "Longitude") {echo "id='Longitude'"; $long = $findAllRec[0]->getField($i);}
               ?>>
-              <?php echo htmlspecialchars($findAllRec[0]->getField($i)) ?>
+              <?php echo $findAllRec[0]->getField($i) ?>
               </td>
             </tr>
           <?php }?>

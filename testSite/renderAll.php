@@ -161,11 +161,11 @@
         <?php if($database === "mi" || $database === "miw") { ?>
           <h1><b><?php if($database === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Results</b></h1>
         <?php } else { ?>
-        <h1><b><?php echo ucfirst($database); ?> Results</b></h1>
+        <h1 data-toggle="collapse" data-target=<?php echo "#".$database."Accordian"?> class="clickable"><b><?php echo ucfirst($database); ?> Results</b></h1>
         <?php }?>
     </div>
   </div>
-        <table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">
+        <table id=<?php echo $database."Accordian"?> class="table table-hover table-striped table-condensed tasks-table collapse" style="position:relative; top:16px">
             <thead>
                 <tr>
                     <?php foreach($recFields as $i){

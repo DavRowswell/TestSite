@@ -141,7 +141,7 @@
     </div>
     <!---<div id="title-divider"></div> --->
     
-    <form action="render.php" method="get" id = "submit-form">
+    <form action=<?php echo $renderPage.".php"?> method="get" id = "submit-form">
       <div class ="row">
         <div id="form" class = "col-sm-6">
           <div class="form-group">
@@ -259,7 +259,7 @@
           </div>
           <div class="row" style="padding-top:12px;">
             <div class="col">
-              <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
+              <a href="<?php echo $renderPage . ".php?Database=".$_GET['Database']?>"
                   role="button" class="btn btn-primary" 
                   style="font-size:12px; text-align:left; padding-left:2px; padding-right:2px;">Show All Records</a>   
             </div>

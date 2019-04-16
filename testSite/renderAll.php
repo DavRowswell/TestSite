@@ -98,7 +98,7 @@
         // echo 'Database: ' . $sd->getDatabase() . "<br>";
         foreach(array_keys($_GET) as $field) {
           if (!addFindCriterionIfSet($field, $layoutFields, $findCommand)) {
-            echo 'No records found.<br>';
+            // echo 'No records found.<br>';
             return;
           }
         }
@@ -159,9 +159,9 @@
       <div class="row">
     <div class="col">
         <?php if($database === "mi" || $database === "miw") { ?>
-          <h1><b><?php if($database === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Results</b></h1>
+          <h1 data-toggle="collapse" data-target=<?php echo "#".$database."Accordian"?> class="clickable"><b><?php if($database === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Results</b></h1>
         <?php } else { ?>
-        <h1 data-toggle="collapse" data-target=<?php echo "#".$database."Accordian"?> class="clickable"><b><?php echo ucfirst($database); ?> Results</b></h1>
+        <h1 data-toggle="collapse" data-target=<?php echo "#".$database."Accordian"?> class="clickable"><b><?php echo ucfirst($database) ?> Results</b></h1>
         <?php }?>
     </div>
   </div>

@@ -48,7 +48,7 @@
       </li>
       <!---
       <li>
-        <a class="nav-link" href="searchAll.php">All</a>
+        <a class="nav-link" href="search.php?Database=all">All</a>
       </li>
       -->
     </ul>

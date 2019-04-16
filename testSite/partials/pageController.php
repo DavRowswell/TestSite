@@ -58,6 +58,7 @@ a:hover {
         <?php
           foreach ($qsparts as $part) {
             $keyVal =  explode('=', $part);
+            if (sizeof($keyVal) < 2) continue;
             $input = $keyVal[1];
             if (strpos($part, "Page") === 0 || $input == '') continue;
         ?>

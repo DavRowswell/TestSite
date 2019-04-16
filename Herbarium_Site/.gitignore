@@ -1,5 +1,0 @@
-#exclude the database information,images and FTP folder
-db.inc.php
-images/
-FTP/
-

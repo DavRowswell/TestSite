@@ -145,7 +145,7 @@
             if ($_GET['Database'] === 'fish') {
 
               $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
-              $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/1.021095'.$findAllRec[0]->getField("IIFRNo");
+              $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("IIFRNo");
               if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
                 echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
               } else {

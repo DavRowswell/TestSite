@@ -64,6 +64,7 @@
     require_once ('partials/header.php');
     require_once ('db.php');
     require_once ('functions.php');
+    require_once ('lib/simple_html_dom.php');
 
     $layoutFields = [
       'Country',
@@ -279,20 +280,21 @@
             <input type="hidden" name = "type" id = "type">
           </div>
           <?php
-            if (/* || $_GET['Database'] == 'entomology' ||$_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
-            || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae' || */$_GET['Database'] == 'avian' 
+            if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
+            || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae' || $_GET['Database'] == 'avian' 
             || $_GET['Database'] == 'mammal'
-            || $_GET['Database'] == 'fish') {
+            || $_GET['Database'] == 'fish'
+            || $_GET['Database'] == 'entomology') {
 
             
               $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
               $result = $getSampleScript->execute(); 
               $record = $result->getRecords()[0];
               $id = 'accessionNumber';
-              $lat = '';
-              $lng = '';
-              $genus = '';
-              $species = '';
+              $lat = 'Geo_LatDecimal';
+              $lng = 'Geo_LongDecimal';
+              $genus = 'Genus';
+              $species = 'Species';
               $url = '';
 
               if ($_GET['Database'] == 'avian' || $_GET['Database'] == 'mammal') {
@@ -305,9 +307,14 @@
               }
               else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
               || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
-
+                $url = getPhotoUrl($record->getField('Accession Number'));
               }
               else if ($_GET['Database'] == 'entomology') {
+                $id = 'SEM #';
+                $lat = 'entomologyRecords::decimalLatitude';
+                $lng = 'entomologyRecords::decimalLongitude';
+                $genus = 'Genus';
+                $species = 'Species';
 
               }
               else if ($_GET['Database'] == 'fish') {
@@ -338,7 +345,25 @@
               <div id = "sample-img" class = "col">
                 <?php         
                 if ($_GET['Database'] == 'entomology') {
-
+                  $genusPage = getGenusPage($record);
+                  $genusSpecies = getGenusSpecies($record);
+                  $html = file_get_html($genusPage);
+                  $species = $html->find('.speciesentry');
+                  $foundImage = false;
+    
+                  foreach($species as $spec) {
+                    $speciesName = $spec->innertext;  
+                    
+                    if (strpos($speciesName, $genusSpecies) !== false ) {
+                      $foundImage = true;
+                      $images = $spec->find('a');
+                      $link = $images[0]->href;
+                      $url = str_replace('http','https',$genusPage);
+                      $final = "".$url.$link;
+                      echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($final) .'"></a>';      
+                      break;
+                    }
+                  }
                 }
                 else if ($_GET['Database'] == 'fish') {
                   $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("IIFRNo").'/0';

@@ -45,16 +45,52 @@
       width: 220px;
     }
 
+    #legend {
+      margin: 15px 0px;
+    }
+
   </style>
   <?php if ($_GET['Database'] == "avian" || $_GET['Database'] == "herptology" || $_GET['Database'] == "mammal") {?>
   <style>
-    h1 {
-      /*
-      background: #70382d;
+    div h1 {
+      background: #70382D;
       color: #ffffff;
-      padding: 15px;
       margin-bottom: 0px;
-      */
+      margin-right: 0px;
+      margin-left: 0px;
+      padding: 0px 15px;
+    }
+
+    input[type="radio"], input[type="button"], a[role="button"] {
+      background: #70382D;
+      border-color: #70382D;
+    }
+
+    label.btn-custom, a.btn-custom,
+    input.btn-custom {
+          background-color: #70382D;
+          color: #ffffff;
+          border-color: #70382D;
+    }
+
+    a.btn-custom:hover,
+    label.btn-custom:hover,
+    input.btn-custom:hover,
+    .btn-custom.active,
+    .btn-custom.active:hover {
+      background-color: #49241c;
+      color: #ffffff;
+    }
+
+    /***https://jsfiddle.net/fs7tzpdk/4/***/
+
+    #jumbotron a{
+      color: #70382D;
+      text-decoration: none;
+    }
+
+    #jumbotron a:hover {
+      color: #49241c;
     }
   </style>
   <?php }?>
@@ -124,7 +160,7 @@
 </head>
 <body class="d-flex flex-column">
   <?php require_once ('partials/navbar.php');?>
-  <div class="container-fluid">
+  <div id ="main">
     <div class="row">
       <div class="col">
         <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
@@ -137,10 +173,11 @@
         <?php } else { ?>
           <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
         <?php }?>
+        <div id="column-divider"></div>
       </div>
     </div>
-    <!---<div id="title-divider"></div> --->
-    
+  </div>
+  <div class="container-fluid">    
     <form action="render.php" method="get" id = "submit-form">
       <div class ="row">
         <div id="form" class = "col-sm-6">
@@ -150,7 +187,7 @@
           </div>
           <div class="row">
             <div id = 'submit'>
-              <input id="form" class="btn btn-primary" type="button" value="Submit"  style = "font-size:12px;" onclick="Process(clearURL())">    
+              <input id="form" class="btn btn-custom" type="button" value="Submit" onclick="Process(clearURL())">    
             </div>     
           </div>
           <br>   
@@ -188,7 +225,7 @@
             }
           ?>
         </div>
-        <div id="legend" class="border col-sm-5"> 
+        <div id="legend" class="border col-sm-6"> 
           <?php
           if($_GET['Database'] === 'entomology'){
             echo '<div class="row">';
@@ -248,10 +285,10 @@
           <div class = "row">
             <div class="col">
               <div class = "btn-group btn-group-toggle" data-toggle="buttons" >
-                <label class = "btn btn-primary active" style="font-size:12px;">
+                <label class = "btn btn-custom active" id="andLabel" style="font-size:12px;">
                   <input type="radio"  id = "and" autocomplete="off"  checked> AND 
                 </label>
-                <label class = "btn btn-primary" style="font-size:12px;">
+                <label class = "btn btn-custom" id="orLabel" style="font-size:12px;">
                   <input type="radio" id = "or" autocomplete="off" > <span style="visibility: hidden">&nbsp;</span>OR<span style="visibility: hidden">&nbsp;</span>
                 </label> 
               </div>
@@ -260,7 +297,7 @@
           <div class="row" style="padding-top:12px;">
             <div class="col">
               <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>" 
-                  role="button" class="btn btn-primary" 
+                  role="button" class="btn btn-custom" 
                   style="font-size:12px; text-align:left; padding-left:2px; padding-right:2px;">Show All Records</a>   
             </div>
           </div>

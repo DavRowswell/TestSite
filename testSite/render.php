@@ -55,7 +55,7 @@
     if (isset($_GET['type']) && $_GET['type'] == 'or'){ $findCommand->setLogicalOperator('or');}
     foreach ($layoutFields as $rf) {
       $field = str_replace(" ", "_",$rf);
-      if ($rf == 'Photographs::photoFileName' || $rf == 'IIFRNo' || $rf == 'Imaged') {
+      if ($rf == 'Photographs::photoFileName' || $rf == 'Imaged') {
         $field = 'hasImage';
       }
       if (isset($_GET[$field]) && $_GET[$field] !== '') {
@@ -88,6 +88,9 @@
         else { 
           if ($field == 'hasImage') {
             $findCommand->addFindCriterion($rf, '*');
+            if ($_GET['Database'] == 'entomology') {
+              $findCommand->addFindCriterion($rf, 'Photographed');
+            }
           }
           else {
             $findCommand->addFindCriterion($rf, $_GET[$field]);
@@ -188,7 +191,9 @@
       <table class="table table-hover table-striped table-condensed tasks-table">
         <thead>
           <tr>
-            <?php foreach($recFields as $i){
+          
+            <?php 
+            foreach($recFields as $i){
               $ignoreValues = ['SortNum', 'Accession Numerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
               if (in_array($i, $ignoreValues)) continue;?>
               <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
@@ -236,23 +241,17 @@
                 <?php
                   $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
                                           &&  $i->getField("Photographs::photoFileName") !== "";
-                  $fishHasPicture = false;
+                  $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("Imaged") === "Yes");
                   $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
                                     $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
                                     $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
-                  if ($_GET['Database'] === 'fish' && $i->getField("IIFRNo") !== "") {
-                    $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
-                    if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                      $fishHasPicture = true;
-                    }
-                  }
-                  
-                  
+                 
                   $entomologyHasPicture = false;
+                  
                   if ($_GET['Database'] === 'entomology') {
                     //check if image url actually exists
-                    $genusPage = getGenusPage($findAllRec[0]);
-                    $genusSpecies = getGenusSpecies($findAllRec[0]);
+                    $genusPage = getGenusPage($i);                 
+                    $genusSpecies = getGenusSpecies($i);
                     $html = file_get_html($genusPage);
                     $species = $html->find('.speciesentry');
 
@@ -263,8 +262,7 @@
                         break;
                       }
                     }
-                }
-                                                  
+                }                                               
                   if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture || $entomologyHasPicture) {
                 ?>
                 <div class="row">

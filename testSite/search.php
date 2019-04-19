@@ -305,8 +305,8 @@
               }
               else if ($_GET['Database'] == 'entomology') {
                 $id = 'SEM #';
-                $lat = 'entomologyRecords::decimalLatitude';
-                $lng = 'entomologyRecords::decimalLongitude';
+                $lat = 'Latitude';
+                $lng = 'Longitude';
                 $genus = 'Genus';
                 $species = 'Species';
 

@@ -124,7 +124,7 @@ function mapField($field) {
     $genusPage = 'http://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
     $html = file_get_html($genusPage);
     $species = $html->find('.speciesentry');
-    while(count($species) ==0) {
+    if(count($species) ==0) {
       $genusPage = 'http://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/'.$subfamily.'/';
       $html = file_get_html($genusPage);
       $species = $html->find('.speciesentry');

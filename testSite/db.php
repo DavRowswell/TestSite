@@ -7,8 +7,7 @@
 			require_once ('databases/'.$_GET['Database'].'db.php');
 		}
 		else {
-			session_start();
-			$_SESSION['error'] = "Not a valid database given.";
+			$_SESSION['error'] = "Not a valid database given";
 			header('Location: error.php');
 			exit;
 		}

@@ -49,6 +49,10 @@
       margin: 15px 0px;
     }
 
+    #entoSite {
+      margin-top: 15px;
+    }
+
   </style>
   <?php
     session_start();
@@ -186,7 +190,7 @@
         <div id="legend" class="border col-sm-6"> 
           <?php
           if($_GET['Database'] === 'entomology'){
-            echo '<div class="row">';
+            echo '<div id="entoSite" class="row">';
               echo '<div class="col-sm-12">';
                 echo '<a href="https://www.zoology.ubc.ca/entomology/"><img width="100%" src="images/entomology-link-image.jpg"></a>';
               echo '</div>';

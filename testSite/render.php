@@ -148,9 +148,6 @@
       font-size: 14px;
       line-height: 14px;
     }
-    span {
-      text-indent:-0.6em;
-    }
   </style>
 </head>
 <body class="d-flex flex-column">

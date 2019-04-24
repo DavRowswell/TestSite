@@ -9,7 +9,7 @@
   }
 ?>
 <nav id="header" class="navbar navbar-expand-lg navbar-dark" style="background: #CC2229;">
-  <a class="navbar-brand" href="index.php">Beaty Museum Databases</a>
+  <a style="background-color:inherit;" class="navbar-brand" href="index.php">Beaty Museum Databases</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

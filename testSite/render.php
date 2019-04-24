@@ -3,15 +3,14 @@
 <head>
   <?php
     session_start();
-    //set_time_limit(0);
     $_SESSION['error'] = "";
     require_once ('partials/cssDecision.php');
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
-    require_once ('functions.php');
     require_once ('db.php');
-    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);  
+    require_once ('functions.php');
     require_once ('lib/simple_html_dom.php');
+    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);  
     $numRes = 100;
     $layouts = $fm->listLayouts();
     $layout = "";

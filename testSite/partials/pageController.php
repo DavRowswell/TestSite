@@ -29,20 +29,6 @@ a:hover {
   background-color: #ddd;
   color: black;
 }
-
-.previous {
-  background-color: #f1f1f1;
-  color: black;
-}
-
-.next {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.round {
-  border-radius: 50%;
-}
 </style>
 
 <div class="row">
@@ -72,7 +58,7 @@ a:hover {
           <input type="number" name="Page" class="form-control" id="pageInput" min="1" max=<?php echo htmlspecialchars($pages)?>>
         </div>
         <div class="col-sm-3" style="padding-bottom:5px;">
-          <button type="submit" form="pageForm" value="Submit" class="btn btn-primary">Navigate to Page</button>
+          <button type="submit" form="pageForm" value="Submit" class="btn btn-custom">Navigate to Page</button>
         </div>
       </div>
     </form>

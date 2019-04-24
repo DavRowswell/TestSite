@@ -5,6 +5,7 @@
     session_start();
     //set_time_limit(0);
     $_SESSION['error'] = "";
+    require_once ('partials/cssDecision.php');
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
     require_once ('functions.php');
@@ -154,21 +155,21 @@
 </head>
 <body class="d-flex flex-column">
 <?php require_once ('partials/navbar.php'); ?>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
-        <h1><b><?php 
-                  if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
-                  else if($_GET['Database'] === "vwsp"){echo "Vascular";}
-                  else{echo "Wet Marine Invertebrate";} 
-                ?> Search</b>
-        </h1>
-      <?php } else { ?>
-      <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
-      <?php }?>
-    </div>
+<div class="row">
+  <div class="col">
+    <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
+      <h1><b><?php 
+                if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
+                else if($_GET['Database'] === "vwsp"){echo "Vascular";}
+                else{echo "Wet Marine Invertebrate";} 
+              ?> Search</b>
+      </h1>
+    <?php } else { ?>
+    <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
+    <?php }?>
   </div>
+</div>
+<div class="container-fluid">
   <?php require_once ('partials/pageController.php'); ?>
   <div class="row">
     <div class = "col" style="padding-bottom:5px;">  
@@ -181,23 +182,22 @@
             }
           }
         ?>
-        <button type="submit" value = "Submit" class="btn btn-primary">Modify Search</button> 
+        <button type="submit" value = "Submit" class="btn btn-custom">Modify Search</button> 
       </form>
     </div>
   </div>
   <!-- construct table for given layout and fields -->
   <div class="row">
     <div class="col">
-      <table class="table table-hover table-striped table-condensed tasks-table">
+      <table class="table table-hover table-striped table-condensed tasks-table" id="table">
         <thead>
           <tr>
-          
             <?php 
             foreach($recFields as $i){
               $ignoreValues = ['SortNum', 'Accession Numerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
               if (in_array($i, $ignoreValues)) continue;?>
               <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
-                <a style="padding: 0px;" href=
+                <a style="padding: 0px; white-space:nowrap;" href=
                 <?php 
                   if(isset($_GET['Page'])){
                     $page = $_GET['Page'];
@@ -262,19 +262,15 @@
                         break;
                       }
                     }
-                }                                               
+                }
+                ?>
+                <?php                                             
                   if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture || $entomologyHasPicture) {
                 ?>
-                <div class="row">
-                  <div class="col">
-                    <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
-                  </div>
-                  <div class="col">
-                    <span style="display:inline" id = "icon"  class="oi oi-image"></span>
-                  </div> 
-                </div>
+                  <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+                  <span style="display:inline" id = "icon"  class="oi oi-image"></span>
                 <?php }  else { ?>
-                <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+                  <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
                 <?php } ?>
                 </a>
               </td>

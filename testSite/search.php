@@ -306,6 +306,11 @@
               else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
               || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
                 $url = getPhotoUrl($record->getField('Accession Number'));
+                $id = 'Accession Number';
+                $lat = 'Geo_LatDecimal';
+                $lng = 'Geo_LongDecimal';
+                $genus = 'Genus';
+                $species = 'Species';
               }
               else if ($_GET['Database'] == 'entomology') {
                 $id = 'SEM #';

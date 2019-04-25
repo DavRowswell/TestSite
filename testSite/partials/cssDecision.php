@@ -151,6 +151,10 @@
             border-radius: 50%;
         }
 
+        th{
+            color: #3c8a2e;
+        }
+
         a figcaption{
             color: #3c8a2e;
             text-decoration: none;
@@ -228,6 +232,10 @@
 
         .round {
             border-radius: 50%;
+        }
+
+        th{
+            color: #ffb652;
         }
 
         a figcaption{
@@ -309,6 +317,10 @@
             border-radius: 50%;
         }
 
+        th{
+            color: #165788;
+        }
+
         a figcaption{
             color: #165788;
             text-decoration: none;
@@ -388,6 +400,10 @@
             border-radius: 50%;
         }
 
+        th{
+            color: #633589;
+        }
+
         a figcaption{
             color: #824bb0;
             text-decoration: none;
@@ -465,6 +481,10 @@
 
         .round {
             border-radius: 50%;
+        }
+
+        th{
+            color: #bd3632;
         }
 
         a figcaption{

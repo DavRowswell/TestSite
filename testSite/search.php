@@ -7,10 +7,12 @@
       padding-left: 15px;
       padding-right:5px;
     }
-    #sample {
-      height: 150px;
-      width: 220px;
-      padding-right: 5px;
+    #sample-img img, #sample {
+      display: block;
+      max-height: 200px;
+      max-width: 100%;
+      height: auto;
+      width: auto;
     }
     #fish-sample {
       height: 250px;
@@ -29,20 +31,12 @@
       font-style: italic;
     }
     #jumbotron {
-      padding-top: 5px;
-      padding-bottom: 15px;
-    }
-    #sample-img {
-      margin-left: 15px;
-      margin-right: 15px;
-        }
-    #sample-map {
-      margin-left: 15px;
-      margin-right: 15px;
+      padding: 15px 0px;
+      margin-bottom: 15px;
     }
     #viewDiv {    
-      height: 150px; 
-      width: 220px;
+      height: 200px; 
+      width: 100%;
     }
 
     #legend {
@@ -330,61 +324,61 @@
     
           ?>
           <div class = "jumbotron jumbotron-fluid" id = "jumbotron">
-            <div class = "row sample" style="padding-top:12px;">
-                <div class = "col">
-                  <a id = "catalogNumber" href  =  "details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
-                      '&AccessionNo='.htmlspecialchars($record->getField($id)) ?>">
-                  <?php echo $record->getField($id)?></a>
-                </div>    
-            </div>
-            <div class = "row">
-              <div class = "col" id = "taxon">
-                <?php
-                  echo $record->getField($genus).' '.$record->getField($species);
-                ?>
+            <div class="container-fluid">
+              <div class = "row sample">
+                  <div class = "col d-flex justify-content-center">
+                    <a id = "catalogNumber" href  =  "details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
+                        '&AccessionNo='.htmlspecialchars($record->getField($id)) ?>">
+                    <h4><?php echo $record->getField($id)?></h4></a>
+                  </div>    
               </div>
-            </div>
-            <div class = "row" style="padding-top:12px;"> 
-              <div id = "sample-img" class = "col">
-                <?php         
-                if ($_GET['Database'] == 'entomology') {
-                  $genusPage = getGenusPage($record);
-                  $genusSpecies = getGenusSpecies($record);
-                  $html = file_get_html($genusPage);
-                  $species = $html->find('.speciesentry');
-                  $foundImage = false;
-    
-                  foreach($species as $spec) {
-                    $speciesName = $spec->innertext;  
-                    
-                    if (strpos($speciesName, $genusSpecies) !== false ) {
-                      $foundImage = true;
-                      $images = $spec->find('a');
-                      $link = $images[0]->href;
-                      $url = str_replace('http','https',$genusPage);
-                      $final = "".$url.$link;
-                      echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($final) .'"></a>';      
-                      break;
+              <div class = "row">
+                <div class = "col d-flex justify-content-center" id = "taxon">
+                  <h5><?php
+                    echo $record->getField($genus).' '.$record->getField($species);
+                  ?></h5>
+                </div>
+              </div>
+              <div class = "row"> 
+                <div id = "sample-img" class = "col-xl-6 d-flex justify-content-center">
+                  <?php         
+                  if ($_GET['Database'] == 'entomology') {
+                    $genusPage = getGenusPage($record);
+                    $genusSpecies = getGenusSpecies($record);
+                    $html = file_get_html($genusPage);
+                    $species = $html->find('.speciesentry');
+                    $foundImage = false;
+                    foreach($species as $spec) {
+                      $speciesName = $spec->innertext;  
+                      if (strpos($speciesName, $genusSpecies) !== false ) {
+                        $foundImage = true;
+                        $images = $spec->find('a');
+                        $link = $images[0]->href;
+                        $url = str_replace('http','https',$genusPage);
+                        $final = "".$url.$link;
+                        echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($final) .'"></a>';      
+                        break;
+                      }
                     }
                   }
-                }
-                else if ($_GET['Database'] == 'fish') {
-                  $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("IIFRNo").'/0';
-                  $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("IIFRNo");
-                  echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
-                } 
-                else {
-                  echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
-                }
-                echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
-                echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';  
-                ?>
+                  else if ($_GET['Database'] == 'fish') {
+                    $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("IIFRNo").'/0';
+                    $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("IIFRNo");
+                    echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                  } 
+                  else {
+                    echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
+                  }
+                  echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
+                  echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';  
+                  ?>
+                </div>
+                <div id = "sample-map" class = "col-xl-6 d-flex justify-content-center">
+                  <div id="viewDiv"></div> 
+                  <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
+                  <script src="js/map.js"></script>       
+                </div> 
               </div>
-              <div id = "sample-map" class = "col">
-                <div id="viewDiv"></div> 
-                <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
-                <script src="js/map.js"></script>       
-              </div> 
             </div>
           </div>
           <?php } ?>

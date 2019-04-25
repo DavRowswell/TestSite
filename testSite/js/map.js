@@ -53,12 +53,14 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference, 
     center: [
       document.getElementById("Longitude").innerHTML, 
       document.getElementById("Latitude").innerHTML
-    ], // longitude, latitude
-    zoom: 13
+    ] // longitude, latitude
   });
-  //view.zoom = 13;
+
+  console.log(circle.radius);
   if(circle.radius > 2000){
     view.extent = circle.extent;
+  } else {
+    view.zoom = 13;
   }
   
 
@@ -76,9 +78,15 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference, 
     if(typeof lat == "string" && typeof long == "string"){
       var latprecision = lat.trim().substr(lat.trim().indexOf(".")+1).length;
       var longprecision = long.trim().substr(long.trim().indexOf(".")+1).length;
+      if(lat.trim().indexOf(".")<0){
+        latprecision = 0;
+      }
+      if (long.trim().indexOf(".")<0){
+        longprecision = 0;
+      }
       if(latprecision < 6 || longprecision < 6){
         if(latprecision < longprecision){
-          return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,latprecision));
+          return Math.round((111320*Math.cos(parseFloat(lat.trim())*Math.PI/180))/Math.pow(10,latprecision));
         }
         else {
           return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,longprecision));

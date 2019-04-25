@@ -12,11 +12,10 @@
   .minHeight{
     min-height: 300px;
   }
-  
-
 </style>
 <?php
  session_start();
+  require_once ('partials/cssDecision.php');
   require_once ('FileMaker.php');
   require_once ('partials/header.php');
   require_once ('functions.php');
@@ -84,21 +83,21 @@
   }
   $recFields = $result->getFields();
   ?>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
-        <h1><b><?php 
-                  if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
-                  else if($_GET['Database'] === "vwsp"){echo "Vascular";}
-                  else{echo "Wet Marine Invertebrate";} 
-                ?> Search</b>
-        </h1>
-      <?php } else { ?>
-      <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
-      <?php }?>
-    </div>
+<div class="row">
+  <div class="col">
+    <?php if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") { ?>
+      <h1><b><?php 
+                if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
+                else if($_GET['Database'] === "vwsp"){echo "Vascular";}
+                else{echo "Wet Marine Invertebrate";} 
+              ?> Details</b>
+      </h1>
+    <?php } else { ?>
+    <h1><b><?php echo ucfirst($_GET['Database']); ?> Details</b></h1>
+    <?php }?>
   </div>
+</div>
+<div class="container-fluid">  
   <div class="row">
     <div class="col-sm-9">
       <!-- construct table for given layout and fields -->
@@ -107,7 +106,7 @@
           <?php foreach($recFields as $i){
             if ($i === "Photographs::photoContainer" || $i === "IIFRNo") continue;?> 
             <tr>
-              <th scope="col-sm-2"><?php echo '<b>'.formatField($i) ?></th>
+              <th scope="col-sm-2"><b><?php echo formatField($i) ?></b></th>
               <?php if(formatField($i) == "Genus" || formatField($i) == "Species") { ?>
               <td scope="col-sm-10" style="font-style:italic;"
               <?php } else { ?>
@@ -140,7 +139,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col imageDiv">
           <?php            
             if ($_GET['Database'] === 'fish') {
 

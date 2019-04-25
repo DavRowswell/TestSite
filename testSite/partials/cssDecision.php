@@ -67,6 +67,19 @@
         .round {
             border-radius: 50%;
         }
+
+        th{
+            color: #70382D;
+        }
+
+        a figcaption{
+            color: #70382D;
+            text-decoration: none;
+        }
+
+        .imageDiv a:hover {
+            text-decoration: none;
+        }
     </style>
 <?php } else if($_GET['Database'] == "vwsp" || $_GET['Database'] == "algae" || $_GET['Database'] == "fungi" || $_GET['Database'] == "bryophytes" || $_GET['Database'] == "lichen") {?>
     <style>
@@ -136,6 +149,15 @@
 
         .round {
             border-radius: 50%;
+        }
+
+        a figcaption{
+            color: #3c8a2e;
+            text-decoration: none;
+        }
+
+        .imageDiv a:hover {
+            text-decoration: none;
         }
     </style>
 <?php } else if ($_GET['Database'] == "miw" || $_GET['Database'] == "mi") {?>
@@ -207,6 +229,15 @@
         .round {
             border-radius: 50%;
         }
+
+        a figcaption{
+            color: #ffb652;
+            text-decoration: none;
+        }
+
+        .imageDiv a:hover {
+            text-decoration: none;
+        }
     </style>
 <?php } else if ($_GET['Database'] == "fish") {?>
     <style>
@@ -276,6 +307,15 @@
 
         .round {
             border-radius: 50%;
+        }
+
+        a figcaption{
+            color: #165788;
+            text-decoration: none;
+        }
+
+        .imageDiv a:hover {
+            text-decoration: none;
         }
     </style>
 <?php } else if ($_GET['Database'] == "entomology") {?>
@@ -347,6 +387,15 @@
         .round {
             border-radius: 50%;
         }
+
+        a figcaption{
+            color: #824bb0;
+            text-decoration: none;
+        }
+
+        .imageDiv a:hover {
+            text-decoration: none;
+        }
     </style>
 <?php } else if ($_GET['Database'] == "fossil") {?>
     <style>
@@ -416,6 +465,15 @@
 
         .round {
             border-radius: 50%;
+        }
+
+        a figcaption{
+            color: #bd3632;
+            text-decoration: none;
+        }
+
+        .imageDiv a:hover {
+            text-decoration: none;
         }
     </style>
 <?php } ?>

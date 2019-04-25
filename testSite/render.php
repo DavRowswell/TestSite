@@ -163,6 +163,7 @@
     <?php } else { ?>
     <h1><b><?php echo ucfirst($_GET['Database']); ?> Results</b></h1>
     <?php }?>
+    <div id="column-divider"></div>
   </div>
 </div>
 <div class="container-fluid">
@@ -217,6 +218,11 @@
                           , 'Page', $page));
                   }
                 ?>>
+                <?php if(isset($_GET['SortOrder']) && $_GET['SortOrder'] == 'Descend'){ ?>
+                <span style="display:inline" id = "icon"  class="oi oi-sort-descending"></span>
+                <?php } else {?>
+                <span style="display:inline" id = "icon"  class="oi oi-sort-ascending"></span>
+                <?php } ?>
                 <b><?php echo htmlspecialchars(formatField($i)) ?></b>
                 </a>
               </th>

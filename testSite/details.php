@@ -95,6 +95,7 @@
     <?php } else { ?>
     <h1><b><?php echo ucfirst($_GET['Database']); ?> Details</b></h1>
     <?php }?>
+    <div id="column-divider"></div>
   </div>
 </div>
 <div class="container-fluid">  

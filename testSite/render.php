@@ -158,10 +158,10 @@
                 if($_GET['Database'] === "mi"){echo "Dry Marine Invertebrate";}
                 else if($_GET['Database'] === "vwsp"){echo "Vascular";}
                 else{echo "Wet Marine Invertebrate";} 
-              ?> Search</b>
+              ?> Results</b>
       </h1>
     <?php } else { ?>
-    <h1><b><?php echo ucfirst($_GET['Database']); ?> Search</b></h1>
+    <h1><b><?php echo ucfirst($_GET['Database']); ?> Results</b></h1>
     <?php }?>
   </div>
 </div>

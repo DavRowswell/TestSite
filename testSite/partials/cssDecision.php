@@ -120,7 +120,7 @@
         }
 
         #jumbotron a:hover, #table a:hover {
-            color: #49241c;
+            color: #265e1c;
             text-decoration: none;
             background-color: inherit;
         }

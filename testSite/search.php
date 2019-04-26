@@ -292,7 +292,7 @@
                   <div class = "col d-flex justify-content-center">
                     <a id = "catalogNumber" href  =  "details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
                         '&AccessionNo='.htmlspecialchars($record->getField($id)) ?>">
-                    <h4><?php echo $record->getField($id)?></h4></a>
+                    <h4><b><?php echo $record->getField($id)?></b></h4></a>
                   </div>    
               </div>
               <div class = "row">

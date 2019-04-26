@@ -2,52 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
-  <style>
-    #submit {
-      padding-left: 15px;
-      padding-right:5px;
-    }
-    #sample-img img, #sample {
-      display: block;
-      max-height: 200px;
-      max-width: 100%;
-      height: auto;
-      width: auto;
-    }
-    #fish-sample {
-      height: 250px;
-      width: 220px;
-      padding-right: 5px;
-    }
-    #catalogNumber {
-      margin-left: 15px;
-      margin-right: 15px;
-      font-weight: bold;
-      color: black;
-    }
-    #taxon {
-      margin-left: 15px;
-      margin-right: 15px;
-      font-style: italic;
-    }
-    #jumbotron {
-      padding: 15px 0px;
-      margin-bottom: 15px;
-    }
-    #viewDiv {    
-      height: 200px; 
-      width: 100%;
-    }
-
-    #legend {
-      margin: 15px 0px;
-    }
-
-    #entoSite {
-      margin-top: 15px;
-    }
-
-  </style>
+<link rel="stylesheet" href="css/searchcss.css">
   <?php
     session_start();
     $_SESSION['error'] = "";

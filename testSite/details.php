@@ -14,7 +14,15 @@
   }
 </style>
 <?php
- session_start();
+  session_start();
+  $_SESSION['error'] = "";
+  if (isset($_GET['Database'])){}
+  else {
+    $_SESSION['error'] = "No database given";
+    header('Location: error.php');
+    exit;
+  }
+
   require_once ('partials/cssDecision.php');
   require_once ('FileMaker.php');
   require_once ('partials/header.php');

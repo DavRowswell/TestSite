@@ -47,6 +47,30 @@
         array_push($searchDatabases, $databaseSearch);
     }
     ?>
+    <style>
+    .collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+</style>
     </head>
     <body class="container-fluid">
     <?php
@@ -96,9 +120,25 @@
         $findCommand = $fm->newFindCommand($resultLayout);
         $layoutFields = $fmResultLayout->listFields();
         // echo 'Database: ' . $sd->getDatabase() . "<br>";
+        $database = $sd->getDatabase();
+        ?>
+        
+        <button class="collapsible">
+        <?php if($database === "mi" || $database === "miw") { ?>
+          <h1><b><?php if($database === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Results</b></h1>
+        <?php } else { ?>
+        <h1><b><?php echo ucfirst($database); ?> Results</b></h1>
+        <?php }?>
+        </button>
+        <div class="content"> 
+      <?php
         foreach(array_keys($_GET) as $field) {
           if (!addFindCriterionIfSet($field, $layoutFields, $findCommand)) {
             echo 'No records found.<br>';
+            
+        ?>
+        </div>
+      <?php
             return;
           }
         }
@@ -106,7 +146,6 @@
         $findCommand->setRange(0, $numRes);
         $result = $findCommand->execute();
         // require_once ('partials/pageController.php');
-        $database = $sd->getDatabase();
         setResultPageRange($findCommand, $numRes, $database);
         // $findCommand->setRange(0, $numResults);
         $result = $findCommand->execute();
@@ -122,8 +161,11 @@
         }
         // echo "<br>";
         $findAllRec = $result->getRecords();
-        require ('partials/allPageController.php');
         printTable($database, $findAllRec, $fmResultLayout);
+        require ('partials/allPageController.php');
+        ?>
+          </div>
+        <?php
     }
 
     function setResultPageRange($findCommand, $numRes, $database) {
@@ -170,13 +212,6 @@
     ?>
     <br>
       <div class="row">
-    <div class="col">
-        <?php if($database === "mi" || $database === "miw") { ?>
-          <h1><b><?php if($database === "mi"){echo "Dry Marine Invertebrate";}else{echo "Wet Marine Invertebrate";} ?> Results</b></h1>
-        <?php } else { ?>
-        <h1><b><?php echo ucfirst($database); ?> Results</b></h1>
-        <?php }?>
-    </div>
   </div>
         <table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">
             <thead>
@@ -243,5 +278,7 @@
     }
     include_once ('partials/footer.php');
     ?>
+    
+<script src="js/process.js"> </script>
 </body>
 </html>

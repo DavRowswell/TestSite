@@ -1,81 +1,84 @@
+<?php
+  session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
+  session_start();
+  $_SESSION['error'] = "";
+  if (isset($_GET['Database'])){}
+  else {
+    $_SESSION['error'] = "No database given";
+    header('Location: error.php');
+    exit;
+  }
+
+  require_once ('FileMaker.php');
+  require_once ('db.php');
+  require_once ('functions.php');
+  require_once ('lib/simple_html_dom.php');
+
+  $layoutFields = [
+    'Country',
+    'Province or State',
+    'Locality',
+    'Elevation',
+    'Depth',
+    'Phylum',
+    'Class',
+    'Family',
+    'Genus',
+    'Species',
+    'Collector',
+    'Collection Date',
+    'Year',
+    'Month',
+    'Day',
+  ];
+
+  $renderPage = 'renderAll';
+
+  if ($_GET['Database'] !== 'all') {
+    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+    // echo "FM_FILE: $FM_FILE <br>
+    //       FM_HOST: $FM_HOST <br>
+    //       FM_USER: $FM_USER <br>
+    //       FM_PASS: $FM_PASS <br>";
+
+    $layouts = $fm->listLayouts();
+
+    if (FileMaker::isError($layouts)) {
+      $_SESSION['error'] = $layouts->getMessage();
+      header('Location: error.php');
+      exit;
+    }
+
+    $layout = $layouts[0];
+
+    foreach ($layouts as $l) {
+      //get current database name
+      $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
+      if ($page == 'mi') {
+        if (strpos($l, 'search') !== false) {
+          $layout = $l;
+          break;
+        }
+      }
+      else if (strpos($l, 'search') !== false) {
+        $layout = $l;
+      }
+    }
+    $fmLayout = $fm->getLayout($layout);
+    $layoutFields = $fmLayout->listFields();
+    $renderPage = 'render';
+  }
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
 <link rel="stylesheet" href="css/searchcss.css">
-  <?php
-    session_start();
-    $_SESSION['error'] = "";
-    if (isset($_GET['Database'])){}
-    else {
-      $_SESSION['error'] = "No database given";
-      header('Location: error.php');
-      exit;
-    }
-
-    require_once ('partials/cssDecision.php');
-    require_once ('FileMaker.php');
-    require_once ('partials/header.php');
-    require_once ('db.php');
-    require_once ('functions.php');
-    require_once ('lib/simple_html_dom.php');
-
-    $layoutFields = [
-      'Country',
-      'Province or State',
-      'Locality',
-      'Elevation',
-      'Depth',
-      'Phylum',
-      'Class',
-      'Family',
-      'Genus',
-      'Species',
-      'Collector',
-      'Collection Date',
-      'Year',
-      'Month',
-      'Day',
-    ];
-
-    $renderPage = 'renderAll';
-
-    if ($_GET['Database'] !== 'all') {
-      $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
-      // echo "FM_FILE: $FM_FILE <br>
-      //       FM_HOST: $FM_HOST <br>
-      //       FM_USER: $FM_USER <br>
-      //       FM_PASS: $FM_PASS <br>";
-
-      $layouts = $fm->listLayouts();
-
-      if (FileMaker::isError($layouts)) {
-        $_SESSION['error'] = $layouts->getMessage();
-        header('Location: error.php');
-        exit;
-      }
-
-      $layout = $layouts[0];
-
-      foreach ($layouts as $l) {
-        //get current database name
-        $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
-        if ($page == 'mi') {
-          if (strpos($l, 'search') !== false) {
-            $layout = $l;
-            break;
-          }
-        }
-        else if (strpos($l, 'search') !== false) {
-          $layout = $l;
-        }
-      }
-      $fmLayout = $fm->getLayout($layout);
-      $layoutFields = $fmLayout->listFields();
-      $renderPage = 'render';
-    }
-
-  ?>
+<?php
+  require_once ('partials/cssDecision.php');
+  require_once ('partials/header.php');
+?>
 </head>
 <body class="d-flex flex-column">
   <?php require_once ('partials/navbar.php');?>

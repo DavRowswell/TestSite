@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
-<style>
-  html, body, #map {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  .minHeight{
-    min-height: 300px;
-  }
-</style>
 <?php
+  session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
   session_start();
   $_SESSION['error'] = "";
   if (isset($_GET['Database'])){}
@@ -23,9 +9,7 @@
     exit;
   }
 
-  require_once ('partials/cssDecision.php');
   require_once ('FileMaker.php');
-  require_once ('partials/header.php');
   require_once ('functions.php');
   require_once ('lib/simple_html_dom.php');
   require_once ('db.php');
@@ -78,8 +62,26 @@
   $lat="";
   $long="";
   ?>
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
+<style>
+  html, body, #map {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .minHeight{
+    min-height: 300px;
+  }
+</style>
+<?php
+  require_once ('partials/cssDecision.php');
+  require_once ('partials/header.php');
+?>
 </head>
-
 <body class="d-flex flex-column">
   <?php
   require_once ('partials/navbar.php');

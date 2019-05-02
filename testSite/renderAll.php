@@ -107,7 +107,7 @@
         $result = $findCommand->execute();
         // require_once ('partials/pageController.php');
         $database = $sd->getDatabase();
-        setResultPageRange($findCommand, $numResults, $database);
+        setResultPageRange($findCommand, $numRes, $database);
         // $findCommand->setRange(0, $numResults);
         $result = $findCommand->execute();
         // If(FileMaker::isError($result)){
@@ -122,16 +122,16 @@
         }
         // echo "<br>";
         $findAllRec = $result->getRecords();
-        printTable($database, $findAllRec, $fmResultLayout);
         require ('partials/allPageController.php');
+        printTable($database, $findAllRec, $fmResultLayout);
     }
 
-    function setResultPageRange($findCommand, $numResults, $database) {
-      if (isset($_GET[$database.'Page'])) {
+    function setResultPageRange($findCommand, $numRes, $database) {
+      if (isset($_GET[$database.'Page']) && $_GET[$database.'Page'] !== '') {
         $numPages = $_GET[$database.'Page'];
-        $findCommand->setRange(($numPages-1) * $numResults, $numResults);
+        $findCommand->setRange(($numPages-1) * $numRes, $numRes);
       } else {
-        $findCommand->setRange(0, $numResults);
+        $findCommand->setRange(0, $numRes);
       }
     }
 

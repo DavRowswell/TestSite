@@ -10,7 +10,7 @@
 
     // echo "$found records found";
 
-    $pages = ceil($found / $numResults);
+    $pages = ceil($found / $numRes);
     $page = 1;
     $allPage = $database . 'Page';
     if (isset($_GET[$allPage]) && $_GET[$allPage] != '') {
@@ -48,7 +48,7 @@ a:hover {
 
 <div class="row">
   <div class="col-sm-12">
-    <form action="render.php" method="get" id=<?php echo $allPage."Form" ?>>
+    <form action="renderAll.php" method="get" id=<?php echo $allPage."Form" ?>>
       <div class="row">
         <div class="col-sm-3">
           <label for=<?php echo $allPage."Input" ?>><?php echo "$found records found" ?></label>
@@ -64,7 +64,7 @@ a:hover {
             } else {
               $input = '';
             }
-            if (strpos($part, "Page") === 0 || $input == '') continue;
+            if (strpos($part, $allPage) === 0 || $input == '') continue;
         ?>
         <input type="hidden" 
           name="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $keyVal[0])))?>" 
@@ -105,7 +105,7 @@ a:hover {
               echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
             }
           } else { 
-            if ($found > $numResults){
+            if ($found > $numRes){
               array_push($parts, $allPage.'=2');
               $nexturi = implode('&', $parts);
               echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';

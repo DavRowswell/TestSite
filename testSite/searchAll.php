@@ -136,7 +136,7 @@
     </div> 
     <?php } ?>
     <div class = "col" style="position:relative; top:8px">
-      <input id="form" class="btn btn-primary" type="button" value="Submit" onclick="Process(clearURL())">    
+      <input id="form" class="btn btn-primary" type="button" value="Submit" onclick="allProcess(clearURL())">    
     </div>
   </form>
   </div>

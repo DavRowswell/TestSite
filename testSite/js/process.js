@@ -14,6 +14,10 @@ function Process() {
     document.getElementById("submit-form").submit();
 }
 
+function allProcess() {
+    document.getElementById("submit-form").submit();
+}
+
 function clearURL() {
     var vals = document.getElementById("submit-form");
     var inputs = vals.querySelectorAll("input[type=text]");

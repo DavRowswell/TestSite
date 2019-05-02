@@ -1,153 +1,156 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <?php
-    session_start();
-    $_SESSION['error'] = "";
-    if (isset($_GET['Database'])){}
-    else {
-      $_SESSION['error'] = "No database given";
-      header('Location: error.php');
-      exit;
-    }
+<?php
+  session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
+  session_start();
+  $_SESSION['error'] = "";
+  if (isset($_GET['Database'])){}
+  else {
+    $_SESSION['error'] = "No database given";
+    header('Location: error.php');
+    exit;
+  }
+  
+  require_once ('FileMaker.php');
+  require_once ('db.php');
+  require_once ('functions.php');
+  require_once ('lib/simple_html_dom.php');
+  $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);  
+  $numRes = 100;
+  $layouts = $fm->listLayouts();
+  $layout = "";
+  $formatLayout = "";
+  foreach ($layouts as $l) {
+    if ($_GET['Database'] === 'mi') {
+      if ($l == 'search-MI') {
+        $layout = $l;
     
-    require_once ('partials/cssDecision.php');
-    require_once ('FileMaker.php');
-    require_once ('partials/header.php');
-    require_once ('db.php');
-    require_once ('functions.php');
-    require_once ('lib/simple_html_dom.php');
-    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);  
-    $numRes = 100;
-    $layouts = $fm->listLayouts();
-    $layout = "";
-    $formatLayout = "";
-    foreach ($layouts as $l) {
-      if ($_GET['Database'] === 'mi') {
-        if ($l == 'search-MI') {
-          $layout = $l;
-      
-        }
-        else if ($l == 'results-MI') {
-          $formatLayout = $l;
-        }
       }
-      else {
-        if (strpos($l, 'search') !== false) {
-          $layout = $l;
-        }
-        else if (strpos($l, 'results') !== false) {
-          $formatLayout = $l;
-        }
+      else if ($l == 'results-MI') {
+        $formatLayout = $l;
       }
     }
-
-    function shouldDescend($field) {
-      if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return false;
-      if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
-      return false;
-    }
-
-    $fmLayout = $fm->getLayout($layout);
-    $layoutFields = $fmLayout->listFields();
-
-    if (FileMaker::isError($layouts)) {
-      $_SESSION['error'] = $layouts->getMessage();
-      header('Location: error.php');
-      exit;
-    }
-
-    // Find on all inputs with values
-    $findCommand = $fm->newFindCommand($layout);
-    if (isset($_GET['type']) && $_GET['type'] == 'or'){ $findCommand->setLogicalOperator('or');}
-    foreach ($layoutFields as $rf) {
-      $field = str_replace(" ", "_",$rf);
-      if ($rf == 'Photographs::photoFileName' || $rf == 'Imaged') {
-        $field = 'hasImage';
+    else {
+      if (strpos($l, 'search') !== false) {
+        $layout = $l;
       }
-      if (isset($_GET[$field]) && $_GET[$field] !== '') {
-        if ($field == 'Accession_Number' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-              $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
-          if ( is_numeric($_GET[$field][0])) {
-            $findCommand->addFindCriterion("Accession Numerical", $_GET[$field]);
-          }
-          else {
-            $findCommand->addFindCriterion("Accession Number", $_GET[$field]);
-          }
+      else if (strpos($l, 'results') !== false) {
+        $formatLayout = $l;
+      }
+    }
+  }
+
+  function shouldDescend($field) {
+    if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return false;
+    if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
+    return false;
+  }
+
+  $fmLayout = $fm->getLayout($layout);
+  $layoutFields = $fmLayout->listFields();
+
+  if (FileMaker::isError($layouts)) {
+    $_SESSION['error'] = $layouts->getMessage();
+    header('Location: error.php');
+    exit;
+  }
+
+  // Find on all inputs with values
+  $findCommand = $fm->newFindCommand($layout);
+  if (isset($_GET['type']) && $_GET['type'] == 'or'){ $findCommand->setLogicalOperator('or');}
+  foreach ($layoutFields as $rf) {
+    $field = str_replace(" ", "_",$rf);
+    if ($rf == 'Photographs::photoFileName' || $rf == 'Imaged') {
+      $field = 'hasImage';
+    }
+    if (isset($_GET[$field]) && $_GET[$field] !== '') {
+      if ($field == 'Accession_Number' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+            $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
+        if ( is_numeric($_GET[$field][0])) {
+          $findCommand->addFindCriterion("Accession Numerical", $_GET[$field]);
         }
-        else if ($field == 'catalogNumber' && ($_GET['Database'] == 'fossil' || 
-          $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' )) {
-            if ( is_numeric($_GET[$field][0])) {
-              $findCommand->addFindCriterion("SortNum", $_GET[$field]);
-            }
-            else {
-              $findCommand->addFindCriterion("catalogNumber", $_GET[$field]);
-            }
+        else {
+          $findCommand->addFindCriterion("Accession Number", $_GET[$field]);
         }
-        else if ($field == 'Accession_No' && ($_GET['Database'] == 'mi' || $_GET['Database'] == 'miw' )) {
+      }
+      else if ($field == 'catalogNumber' && ($_GET['Database'] == 'fossil' || 
+        $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' )) {
           if ( is_numeric($_GET[$field][0])) {
             $findCommand->addFindCriterion("SortNum", $_GET[$field]);
           }
           else {
-            $findCommand->addFindCriterion("Accession No", $_GET[$field]);
+            $findCommand->addFindCriterion("catalogNumber", $_GET[$field]);
           }
-        }
-        else { 
-          if ($field == 'hasImage') {
-            $findCommand->addFindCriterion($rf, '*');
-            if ($_GET['Database'] == 'entomology') {
-              $findCommand->addFindCriterion($rf, 'Photographed');
-            }
-          }
-          else {
-            $findCommand->addFindCriterion($rf, $_GET[$field]);
-          }
-        }
       }
-    }
-    if($_GET['Database'] === 'fish'){
-      $findCommand->addFindCriterion('Ref Type','MC');
-    }
-    if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
-      $sortField = str_replace('+', ' ', $_GET['Sort']);
-      $fieldSplit = explode(' ', $sortField);
-      $sortBy = $_GET['Sort'];
-      if (mapField($sortBy) === 'Accession Number') { 
-        if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-            $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae') {
-          $sortBy = 'Accession Numerical';
+      else if ($field == 'Accession_No' && ($_GET['Database'] == 'mi' || $_GET['Database'] == 'miw' )) {
+        if ( is_numeric($_GET[$field][0])) {
+          $findCommand->addFindCriterion("SortNum", $_GET[$field]);
         }
         else {
-          $sortBy = 'sortNum';
+          $findCommand->addFindCriterion("Accession No", $_GET[$field]);
         }
-      } 
-      if($_GET['Database'] == 'entomology') {
-        $sortBy = 'SEM #';
       }
-      if ($_GET['SortOrder'] === 'Descend') {
-        // echo 'Descending';
-        $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_DESCEND);
-      } else {
-        // echo 'Ascending';
-        $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_ASCEND);
+      else { 
+        if ($field == 'hasImage') {
+          $findCommand->addFindCriterion($rf, '*');
+          if ($_GET['Database'] == 'entomology') {
+            $findCommand->addFindCriterion($rf, 'Photographed');
+          }
+        }
+        else {
+          $findCommand->addFindCriterion($rf, $_GET[$field]);
+        }
       }
     }
-    if (isset($_GET['Page']) && $_GET['Page'] != '') {
-      $findCommand->setRange(($_GET['Page'] - 1) * $numRes, $numRes);
+  }
+  if($_GET['Database'] === 'fish'){
+    $findCommand->addFindCriterion('Ref Type','MC');
+  }
+  if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
+    $sortField = str_replace('+', ' ', $_GET['Sort']);
+    $fieldSplit = explode(' ', $sortField);
+    $sortBy = $_GET['Sort'];
+    if (mapField($sortBy) === 'Accession Number') { 
+      if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+          $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae') {
+        $sortBy = 'Accession Numerical';
+      }
+      else {
+        $sortBy = 'sortNum';
+      }
     } 
-    else {
-      $findCommand->setRange(0, $numRes);
+    if($_GET['Database'] == 'entomology') {
+      $sortBy = 'SEM #';
     }
-    $result = $findCommand->execute();
-    // Check if layout exists, and get fields of layout
-    If(FileMaker::isError($result)){
-      $_SESSION['error'] = $result->getMessage();
-      header('Location: error.php');
-      exit;
+    if ($_GET['SortOrder'] === 'Descend') {
+      // echo 'Descending';
+      $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_DESCEND);
     } else {
-      $findAllRec = $result->getRecords();
-      $fmFormatLayout = $fm->getLayout($formatLayout);
-      $recFields = $fmFormatLayout->listFields();
+      // echo 'Ascending';
+      $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_ASCEND);
+    }
+  }
+  if (isset($_GET['Page']) && $_GET['Page'] != '') {
+    $findCommand->setRange(($_GET['Page'] - 1) * $numRes, $numRes);
+  } 
+  else {
+    $findCommand->setRange(0, $numRes);
+  }
+  $result = $findCommand->execute();
+  // Check if layout exists, and get fields of layout
+  If(FileMaker::isError($result)){
+    $_SESSION['error'] = $result->getMessage();
+    header('Location: error.php');
+    exit;
+  } else {
+    $findAllRec = $result->getRecords();
+    $fmFormatLayout = $fm->getLayout($formatLayout);
+    $recFields = $fmFormatLayout->listFields();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <?php
+    require_once ('partials/cssDecision.php');
+    require_once ('partials/header.php');
   ?>
   <style>
     th {

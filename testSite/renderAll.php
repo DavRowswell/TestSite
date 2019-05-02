@@ -166,6 +166,7 @@
         }
         // echo "<br>";
         $findAllRec = $result->getRecords();
+        require ('partials/allPageController.php');
         printTable($database, $findAllRec, $fmResultLayout);
         require ('partials/allPageController.php');
         ?>
@@ -215,7 +216,6 @@
     function printTable($database, $findAllRec, $resultLayout) {
         $recFields = $resultLayout->listFields();
     ?>
-    <br>
       <div class="row">
   </div>
         <table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">

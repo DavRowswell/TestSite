@@ -9,13 +9,13 @@
     require_once ('DatabaseSearch.php');
     
     // list databases
-    $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
-    'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
-    'miw', 'vwsp'];
+    // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
+    // 'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
+    // 'miw', 'vwsp'];
 
-    // $databases = ['avian', 'entomology', 'fish', 
-    // 'fossil', 'herpetology', 'mammal', 'mi', 
-    // 'miw'];
+    $databases = ['avian', 'entomology', 'fish', 
+    'fossil', 'herpetology', 'mammal', 'mi', 
+    'miw'];
 
     // $databases = ['avian', 'entomology'];
 
@@ -42,10 +42,15 @@
         require_once ('databases/'.$db.'db.php');
         // echo "$FM_FILE <br>";
         $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
-        if (FileMaker::isError($fm)) continue;
+        if (FileMaker::isError($fm->listLayouts())) {
+          // echo $FM_FILE;
+
+          continue;
+        }
         $databaseSearch = new DatabaseSearch($fm, $db);
         array_push($searchDatabases, $databaseSearch);
     }
+    // exit;
     ?>
     <style>
     .collapsible {

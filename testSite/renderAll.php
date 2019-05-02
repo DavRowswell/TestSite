@@ -107,6 +107,9 @@
         $result = $findCommand->execute();
         // require_once ('partials/pageController.php');
         $database = $sd->getDatabase();
+        setResultPageRange($findCommand, $numResults, $database);
+        // $findCommand->setRange(0, $numResults);
+        $result = $findCommand->execute();
         // If(FileMaker::isError($result)){
         //     $_SESSION['error'] = $result->getMessage();
         //     header('Location: error.php');
@@ -120,6 +123,16 @@
         // echo "<br>";
         $findAllRec = $result->getRecords();
         printTable($database, $findAllRec, $fmResultLayout);
+        require ('partials/allPageController.php');
+    }
+
+    function setResultPageRange($findCommand, $numResults, $database) {
+      if (isset($_GET[$database.'Page'])) {
+        $numPages = $_GET[$database.'Page'];
+        $findCommand->setRange(($numPages-1) * $numResults, $numResults);
+      } else {
+        $findCommand->setRange(0, $numResults);
+      }
     }
 
     function addFindCriterionIfSet($field, $layoutFields, $findCommand) {

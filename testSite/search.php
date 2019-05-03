@@ -322,7 +322,7 @@
                         $link = $images[0]->href;
                         $url = str_replace('http','https',$genusPage);
                         $final = "".$url.$link;
-                        echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($final) .'"></a>';      
+                        echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($final) .'"></a>';      
                         break;
                       }
                     }
@@ -330,10 +330,10 @@
                   else if ($_GET['Database'] == 'fish') {
                     $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("IIFRNo").'/0';
                     $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("IIFRNo");
-                    echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                    echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
                   } 
                   else {
-                    echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
+                    echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
                   }
                   echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
                   echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';  

@@ -157,7 +157,7 @@
               $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("IIFRNo").'/0';
               $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("IIFRNo");
               if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank">'.'<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
               } else {
                 echo '<div style="height: 300px; text-align:center; line-height:300px;">';
                   echo '<span style="">No picture found for this record</span>';
@@ -178,7 +178,7 @@
                   $images = $spec->find('a');
                   $link = $images[0]->href;
                   $url = str_replace('http','https',$genusPage);
-                  echo '<a href="'.$url.'" target="_blank"><figure><img class="img-fluid minHeight" src ="'.$url.$link.'"><figcaption style="text-align:center;">See more images here</figcaption></figure></a>';
+                  echo '<a href="'.$url.'" target="_blank" rel="noopener noreferrer"><figure><img class="img-fluid minHeight" src ="'.$url.$link.'"><figcaption style="text-align:center;">See more images here</figcaption></figure></a>';
                   break;
                 }
               }
@@ -201,7 +201,7 @@
               }
               if ($validDb) {
                 if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                  echo '<a href ='. htmlspecialchars($url).' target="_blank">'.'<img class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                  echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
                 } else {
                   echo '<div style="height: 300px; text-align:center; line-height:300px;">';
                     echo '<span style="">No picture found for this record</span>';

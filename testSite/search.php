@@ -113,39 +113,50 @@
             </div>     
           </div>
           <br>   
-          <?php 
+          <?php
+            $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'Has Image'];
+            $layoutFields = array_diff($layoutFields, $ignoreValues);
+            list($layoutFields1, $layoutFields2) = array_chunk($layoutFields, ceil(count($layoutFields) / 2));
             $count = 0;
-            foreach ($layoutFields as $rf) {
-              //echo $rf;
-              $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate'];
-              if (in_array($rf, $ignoreValues)) continue; 
-              if($count%2==0) {?>
-            <div class="row">
-              <?php }?>
-              <!--- Section that is one label and one search box --->
-              <div class="col-sm-3">
-                <label for="field-<?php echo $rf?>">
-                  <?php echo htmlspecialchars(formatField($rf)) ?>
-                </label>
-              </div>
-              <div class="col-sm-3">   
-                <input type="text" id="field-<?php echo $rf?>" 
-                <?php
-                  if (isset($_POST[str_replace(' ', '_', $rf)]))
-                    echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $rf)]);
-                ?> 
-                name="<?php echo htmlspecialchars($rf) ?>"
-                class="form-control">
-              </div>
-              <!--- End of a single label, input instance --->
-              <?php if($count%2==1) {?>
-            </div>
-              <?php }?>
-          <?php $count++; } 
-            if($count%2==1) {
-              echo '</div>';
-            }
+            foreach ($layoutFields1 as $rf) {
           ?>
+          <div class="row">
+            <!--- Section that is one label and one search box --->
+            <div class="col-sm-3">
+              <label for="field-<?php echo $rf?>">
+                <?php echo htmlspecialchars(formatField($rf)) ?>
+              </label>
+            </div>
+            <div class="col-sm-3">   
+              <input type="text" id="field-<?php echo $rf?>" 
+              <?php
+                if (isset($_POST[str_replace(' ', '_', $rf)]))
+                  echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $rf)]);
+              ?> 
+              name="<?php echo htmlspecialchars($rf) ?>"
+              class="form-control">
+            </div>
+            <!--- End of a single label, input instance --->
+            <?php if($count < sizeof($layoutFields2)) { ?>
+            <!--- Section that is one label and one search box --->
+            <div class="col-sm-3">
+              <label for="field-<?php echo $layoutFields2[$count]?>">
+                <?php echo htmlspecialchars(formatField($layoutFields2[$count])) ?>
+              </label>
+            </div>
+            <div class="col-sm-3">   
+              <input type="text" id="field-<?php echo $layoutFields2[$count]?>" 
+              <?php
+                if (isset($_POST[str_replace(' ', '_', $layoutFields2[$count])]))
+                  echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $layoutFields2[$count])]);
+              ?> 
+              name="<?php echo htmlspecialchars($layoutFields2[$count]) ?>"
+              class="form-control">
+            </div>
+            <!--- End of a single label, input instance --->
+            <?php } ?>
+          </div>
+          <?php $count++; } ?>
         </div>
         <div id="legend" class="border col-sm-6"> 
           <?php

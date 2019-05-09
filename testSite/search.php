@@ -160,51 +160,51 @@
 
           <!--- adding an accordian collipsible--->
           <div class="panel-group" id="accordion">
-  <div class="panel">
-    <div class="panel-heading">
-      
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-        <h4 class="panel-title">
-        <span style="display:inline; font-size: 10px" id = "plusicon"  class="oi oi-plus"> </span> 
-        Search Operators </h4></a>
-        
-    </div>
-    <div id="collapse1" class="panel-collapse collapse in">
-      <div class="panel-body">
-      <div class="row">
-            <div class="col-sm-1"> == </div>
-            <div class="col-sm-11"> match entire field exactly </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                <h4 class="panel-title">
+                <span style="display:inline; font-size: 10px" id = "plusicon"  class="oi oi-plus"> </span> 
+                Search Operators </h4></a>
+              </div>
+              <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-1"> == </div>
+                    <div class="col-sm-11"> match entire field exactly </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"> &lt </div>
+                    <div class="col-sm-11"> find records with values less than to the one specified </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"> &lt= </div>
+                    <div class="col-sm-11">  find records with values less than or equal to the one specified </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"> &gt </div>
+                    <div class="col-sm-11">  find records with values greater than to the one specified </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"> &gt= </div>
+                    <div class="col-sm-11">  find records with values greater than or equal to the one specified </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"> ... </div>
+                    <div class="col-sm-11">  find records with values in a range (Ex. 10...20) </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"> * </div>
+                    <div class="col-sm-11">  match zero or more characters </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1"> \ </div>
+                    <div class="col-sm-11">  escape any character </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="row">
-            <div class="col-sm-1"> &lt </div>
-            <div class="col-sm-11"> find records with values less than to the one specified </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> &lt= </div>
-            <div class="col-sm-11">  find records with values less than or equal to the one specified </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> &gt </div>
-            <div class="col-sm-11">  find records with values greater than to the one specified </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> &gt= </div>
-            <div class="col-sm-11">  find records with values greater than or equal to the one specified </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> ... </div>
-            <div class="col-sm-11">  find records with values in a range (Ex. 10...20) </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> * </div>
-            <div class="col-sm-11">  match zero or more characters </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> \ </div>
-            <div class="col-sm-11">  escape any character </div>
-          </div>
-  </div>
-</div>
           
   <!--- adding an accordian collipsible
 

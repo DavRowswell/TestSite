@@ -31,6 +31,8 @@ function mapField($field) {
         return 'Accession Number';
       case 'sem #':
         return 'SEM Number';
+      case 'nomennoun':
+        return 'Genus';
       case 'specificepithet':  
         return 'Species';
       case 'sub sp.':
@@ -44,6 +46,7 @@ function mapField($field) {
       case 'prov/st';
         return 'Province or State';
       case 'location 1':
+      case 'verbatimlocality':
       case 'location':
         return 'Locality';
       case 'verbatimelevation':
@@ -78,6 +81,8 @@ function mapField($field) {
       case 'occurrenceremarks':
       case 'fieldnotes':
         return 'Field Notes';
+      case 'samplingprotocol':
+        return 'Capture Method';
       case 'recordnumber':
         return 'Collection Number';
       case 'previousidentifications':

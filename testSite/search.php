@@ -114,7 +114,7 @@
           </div>
           <br>   
           <?php
-            $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'Has Image'];
+            $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
             $layoutFields = array_diff($layoutFields, $ignoreValues);
             list($layoutFields1, $layoutFields2) = array_chunk($layoutFields, ceil(count($layoutFields) / 2));
             $count = 0;
@@ -169,14 +169,14 @@
           }
           ?>
 
-          <!--- adding an accordian collipsible--->
+          <!--- start of accordion collipsible--->
           <div class="panel-group" id="accordion">
             <div class="panel">
               <div class="panel-heading">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                <h4 class="panel-title">
-                <span style="display:inline; font-size: 10px" id = "plusicon"  class="oi oi-plus"> </span> 
-                Search Operators </h4></a>
+                <h4 class="panel-title" > SEARCH OPERATORS
+                <span id="icon" class="oi oi-plus"> </span> 
+               </h4></a>
               </div>
               <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
@@ -216,45 +216,7 @@
               </div>
             </div>
           </div>
-          
-  <!--- adding an accordian collipsible
-
-              <h3 style="padding-bottom:12px"> Search Operators </h3>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> == </div>
-            <div class="col-sm-11"> match entire field exactly </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> &lt </div>
-            <div class="col-sm-11"> find records with values less than to the one specified </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> &lt= </div>
-            <div class="col-sm-11">  find records with values less than or equal to the one specified </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> &gt </div>
-            <div class="col-sm-11">  find records with values greater than to the one specified </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> &gt= </div>
-            <div class="col-sm-11">  find records with values greater than or equal to the one specified </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> ... </div>
-            <div class="col-sm-11">  find records with values in a range (Ex. 10...20) </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> * </div>
-            <div class="col-sm-11">  match zero or more characters </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-1"> \ </div>
-            <div class="col-sm-11">  escape any character </div>
-          </div> --->
-
+         <!--- end of accordion collipsible--->
           <div class = "row">
             <div class = "col"> 
               <h4 style=padding-top:12px;>Search By</h4>
@@ -411,8 +373,12 @@
   <?php require_once("partials/footer.php");?>
   <script src="js/process.js"> </script>
   <script > 
-     // getting ready to add some js here for accordion
-     
+     // js for accordion icon
+      $('.collapse').on('shown.bs.collapse', function(){
+      $(this).parent().find(".oi-plus").removeClass("oi-plus").addClass("oi-minus");
+      }).on('hidden.bs.collapse', function(){
+      $(this).parent().find(".oi-minus").removeClass("oi-minus").addClass("oi-plus");
+      });
  </script>
 
 </body>

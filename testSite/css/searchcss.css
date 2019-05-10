@@ -42,20 +42,24 @@
     margin-top: 15px;
   }
 
-  .panel .panel-heading a, .panel .panel-heading a:hover{
-    color: black;
-    background-color: brown;
+  .panel .panel-heading a h4{
+    background-color:#70382D;
+    color: #FFFFFF;
     text-decoration: none;
-    white-space: nowrap;
+    border-radius: 3px;
+    padding:6px;
   }
 
-  .active, .panel .panel-heading a:hover {
-    background-color: #666666;
+  .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
+    background-color:grey;
+    text-decoration: none;
   }
 
-  #plusicon {
-    color: brown;
-    vertical-align: 75%;
+  /*style="display:inline; font-size: 0.5em; float:right; color:#ffffff; padding-top:6px*/
+  #icon
+  {
+    font-size: 0.5em;
+    float:right; 
+    color:#ffffff; 
+    padding-top:6px;
   }
-
-  

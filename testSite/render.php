@@ -101,9 +101,6 @@
       }
     }
   }
-  if($_GET['Database'] === 'fish'){
-    $findCommand->addFindCriterion('Ref Type','MC');
-  }
   if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
     $sortField = str_replace('+', ' ', $_GET['Sort']);
     $fieldSplit = explode(' ', $sortField);
@@ -119,6 +116,9 @@
     } 
     if($_GET['Database'] == 'entomology') {
       $sortBy = 'SEM #';
+    }
+    if($_GET['Database'] == 'fish') {
+      $sortBy = 'accessionNo';
     }
     if ($_GET['SortOrder'] === 'Descend') {
       // echo 'Descending';

@@ -217,7 +217,7 @@
             </div>
           </div>
          <!--- end of accordion collipsible--->
-          <div class = "row" style="padding: 0px 15px;">
+          <div class = "row">
             <div class = "col"> 
               <h4 style=padding-top:12px;>Search By</h4>
             </div>

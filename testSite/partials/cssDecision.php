@@ -85,7 +85,6 @@
             background-color:#70382D;
             color: #FFFFFF;
             text-decoration: none;
-            border-radius: 3px;
             padding:6px;
         }
 

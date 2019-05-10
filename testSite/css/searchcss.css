@@ -26,6 +26,7 @@
     font-style: italic;
   }
   #jumbotron {
+    margin: 0px 15px;
     padding: 15px 0px;
     margin-bottom: 15px;
   }
@@ -42,24 +43,14 @@
     margin-top: 15px;
   }
 
-  .panel .panel-heading a h4{
-    background-color:#70382D;
-    color: #FFFFFF;
-    text-decoration: none;
-    border-radius: 3px;
-    padding:6px;
-  }
-
-  .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
-    background-color:grey;
-    text-decoration: none;
-  }
-
   /*style="display:inline; font-size: 0.5em; float:right; color:#ffffff; padding-top:6px*/
-  #icon
-  {
+  #icon {
     font-size: 0.5em;
     float:right; 
     color:#ffffff; 
     padding-top:6px;
+  }
+
+  #legend .row, #jumbotron {
+    padding: 0px 15px;
   }

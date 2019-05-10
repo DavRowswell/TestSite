@@ -181,7 +181,6 @@
             background-color:#3c8a2e;
             color: #FFFFFF;
             text-decoration: none;
-            border-radius: 3px;
             padding:6px;
         }
 
@@ -278,7 +277,6 @@
             background-color:#ffb652;
             color: #FFFFFF;
             text-decoration: none;
-            border-radius: 3px;
             padding:6px;
         }
 
@@ -375,7 +373,6 @@
             background-color:#165788;
             color: #FFFFFF;
             text-decoration: none;
-            border-radius: 3px;
             padding:6px;
         }
 
@@ -472,7 +469,6 @@
             background-color:#824bb0;
             color: #FFFFFF;
             text-decoration: none;
-            border-radius: 3px;
             padding:6px;
         }
 
@@ -569,7 +565,6 @@
             background-color:#bd3632;
             color: #FFFFFF;
             text-decoration: none;
-            border-radius: 3px;
             padding:6px;
         }
 

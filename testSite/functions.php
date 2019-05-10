@@ -87,7 +87,7 @@ function mapField($field) {
       case 'recordnumber':
         return 'Collection Number';
       case 'previousidentifications':
-        return 'Previous Identifications';
+        return 'Prev. Identifications';
       case 'det by':
         return 'Determined By';
       case 'mushroomobserver':

@@ -149,6 +149,7 @@
           <?php } ?>
         </div>
       </div>
+      <!-- image code starts here -->
       <div class="row">
         <div class="col imageDiv">
           <?php            

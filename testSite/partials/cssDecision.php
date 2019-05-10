@@ -80,6 +80,20 @@
         .imageDiv a:hover {
             text-decoration: none;
         }
+
+        .panel .panel-heading a h4{
+            background-color:#70382D;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 3px;
+            padding:6px;
+        }
+
+        .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
+            background-color:#49241c;
+            text-decoration: none;
+        }
+
     </style>
 <?php } else if($_GET['Database'] == "vwsp" || $_GET['Database'] == "algae" || $_GET['Database'] == "fungi" || $_GET['Database'] == "bryophytes" || $_GET['Database'] == "lichen") {?>
     <style>
@@ -163,6 +177,20 @@
         .imageDiv a:hover {
             text-decoration: none;
         }
+
+        .panel .panel-heading a h4{
+            background-color:#3c8a2e;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 3px;
+            padding:6px;
+        }
+
+        .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
+            background-color:#265e1c;
+            text-decoration: none;
+        }
+
     </style>
 <?php } else if ($_GET['Database'] == "miw" || $_GET['Database'] == "mi") {?>
     <style>
@@ -246,6 +274,20 @@
         .imageDiv a:hover {
             text-decoration: none;
         }
+
+        .panel .panel-heading a h4{
+            background-color:#ffb652;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 3px;
+            padding:6px;
+        }
+
+        .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
+            background-color:#e8911b;
+            text-decoration: none;
+        }
+
     </style>
 <?php } else if ($_GET['Database'] == "fish") {?>
     <style>
@@ -329,6 +371,20 @@
         .imageDiv a:hover {
             text-decoration: none;
         }
+
+        .panel .panel-heading a h4{
+            background-color:#165788;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 3px;
+            padding:6px;
+        }
+
+        .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
+            background-color:#114770;
+            text-decoration: none;
+        }
+
     </style>
 <?php } else if ($_GET['Database'] == "entomology") {?>
     <style>
@@ -412,6 +468,20 @@
         .imageDiv a:hover {
             text-decoration: none;
         }
+
+        .panel .panel-heading a h4{
+            background-color:#824bb0;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 3px;
+            padding:6px;
+        }
+
+        .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
+            background-color:#633589;
+            text-decoration: none;
+        }
+
     </style>
 <?php } else if ($_GET['Database'] == "fossil") {?>
     <style>
@@ -495,5 +565,19 @@
         .imageDiv a:hover {
             text-decoration: none;
         }
+
+        .panel .panel-heading a h4{
+            background-color:#bd3632;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 3px;
+            padding:6px;
+        }
+
+        .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
+            background-color:#911d1a;
+            text-decoration: none;
+        }
+
     </style>
 <?php } ?>

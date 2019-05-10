@@ -65,7 +65,7 @@
       }
     }
     $fmLayout = $fm->getLayout($layout);
-    $layoutFields = $fmLayout->listFields();
+    $layoutFields = $fmLayout->listFields(); 
     $renderPage = 'render';
   }
 
@@ -318,9 +318,11 @@
               </div>
               <div class = "row">
                 <div class = "col d-flex justify-content-center" id = "taxon">
-                  <h5><?php
-                    echo $record->getField($genus).' '.$record->getField($species);
-                  ?></h5>
+		<a id = "taxonInfo" href = "render.php?Database=<?php echo htmlspecialchars($_GET['Database']).
+	       		'&'.$genus.'='.htmlspecialchars($record->getField($genus)).
+		        '&'.$species.'='.htmlspecialchars($record->getField($species)) ?>">
+		    <h5><?php echo $record->getField($genus).' '.$record->getField($species);?></h5> 
+		  </a>
                 </div>
               </div>
               <div class = "row"> 

@@ -163,7 +163,7 @@
           if($_GET['Database'] === 'entomology'){
             echo '<div id="entoSite" class="row">';
               echo '<div class="col-sm-12">';
-                echo '<a href="https://www.zoology.ubc.ca/entomology/"><img width="100%" src="images/entomology-link-image.jpg"></a>';
+                echo '<a href="https://www.zoology.ubc.ca/entomology/"><img width="100%" src="images/entomology-link-image.JPG"></a>';
               echo '</div>';
             echo '</div>';
           }

@@ -299,11 +299,11 @@
 
               }
               else if ($_GET['Database'] == 'fish') {
-                $id = 'Accession Number';
-                $lat = 'LatitudeDecimal';
-                $lng = 'LongitudeDecimal';
-                $genus = 'Genus';
-                $species = 'Species';
+                $id = 'accessionNo';
+                $lat = 'decimalLatitude';
+                $lng = 'decimalLongitude';
+                $genus = 'nomenNoun';
+                $species = 'specificEpithet';
               }
     
           ?>
@@ -346,8 +346,8 @@
                     }
                   }
                   else if ($_GET['Database'] == 'fish') {
-                    $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("IIFRNo").'/0';
-                    $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("IIFRNo");
+                    $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("card01").'/0';
+                    $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("card01");
                     echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
                   } 
                   else {

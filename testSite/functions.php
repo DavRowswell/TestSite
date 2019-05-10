@@ -27,6 +27,7 @@ function mapField($field) {
     switch( strtolower($field)) {
       case 'accession no':
       case 'catalognumber':
+      case 'accessionno':
       case 'id':
         return 'Accession Number';
       case 'sem #':

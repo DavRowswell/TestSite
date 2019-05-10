@@ -201,7 +201,7 @@
           <tr>
             <?php 
             foreach($recFields as $i){
-              $ignoreValues = ['SortNum', 'Accession Numerical', 'Photographs::photoFileName', 'IIFRNo', 'Imaged'];
+              $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
               if (in_array($i, $ignoreValues)) continue;?>
               <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
                 <a style="padding: 0px; white-space:nowrap;" href=
@@ -253,7 +253,7 @@
                 <?php
                   $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
                                           &&  $i->getField("Photographs::photoFileName") !== "";
-                  $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("Imaged") === "Yes");
+                  $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("imaged") === "Yes");
                   $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
                                     $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
                                     $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";

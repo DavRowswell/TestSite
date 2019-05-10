@@ -158,7 +158,7 @@
           </div>
           <?php $count++; } ?>
         </div>
-        <div id="legend" class="border col-sm-6"> 
+        <div id="legend" class="border col-sm-6 px-0"> 
           <?php
           if($_GET['Database'] === 'entomology'){
             echo '<div id="entoSite" class="row">';
@@ -217,7 +217,7 @@
             </div>
           </div>
          <!--- end of accordion collipsible--->
-          <div class = "row">
+          <div class = "row" style="padding: 0px 15px;">
             <div class = "col"> 
               <h4 style=padding-top:12px;>Search By</h4>
             </div>

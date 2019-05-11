@@ -161,7 +161,7 @@
         <div id="legend" class="border col-sm-6 px-0"> 
           <?php
           if($_GET['Database'] === 'entomology'){
-            echo '<div id="entoSite" class="row">';
+            echo '<div id="entoSite" class="row no-gutters">';
               echo '<div class="col-sm-12">';
                 echo '<a href="https://www.zoology.ubc.ca/entomology/"><img width="100%" src="images/entomology-link-image.JPG"></a>';
               echo '</div>';

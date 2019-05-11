@@ -39,8 +39,12 @@
     margin: 15px 0px;
   }
 
-  #entoSite {
-    margin-top: 15px;
+  #legend #entoSite {
+    padding: 0px;
+  }
+
+  #legend .row, #jumbotron {
+    padding: 0px 15px;
   }
 
   /*style="display:inline; font-size: 0.5em; float:right; color:#ffffff; padding-top:6px*/
@@ -51,6 +55,4 @@
     padding-top:6px;
   }
 
-  #legend .row, #jumbotron {
-    padding: 0px 15px;
-  }
+  

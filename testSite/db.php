@@ -6,6 +6,9 @@
 		$_GET['Database'] === 'entomology' || $_GET['Database'] === 'fish' || $_GET['Database'] === 'mi' || $_GET['Database'] === 'miw' || $_GET['Database'] === 'fossil')) {
 			require_once ('databases/'.$_GET['Database'].'db.php');
 		}
+		else if($_GET['Database'] == 'all') {
+			
+		}
 		else {
 			$_SESSION['error'] = "Not a valid database given";
 			header('Location: error.php');

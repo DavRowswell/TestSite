@@ -574,4 +574,100 @@
         }
 
     </style>
+<?php } else if ($_GET['Database'] == "all") {?>
+    <style>
+        div h1 {
+            background: #CC2229;
+            color: #ffffff;
+            margin-bottom: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+            padding: 0px 15px;
+        }
+
+        input[type="radio"], input[type="button"], a[role="button"] {
+            background: #CC2229;
+            border-color: #CC2229;
+        }
+
+        label.btn-custom, a.btn-custom,
+        input.btn-custom, button.btn-custom{
+            background-color: #CC2229;
+            color: #ffffff;
+            border-color: #CC2229;
+        }
+
+        a.btn-custom:hover,
+        label.btn-custom:hover,
+        input.btn-custom:hover,
+        button.btn-custom:hover,
+        .btn-custom.active,
+        .btn-custom.active:hover {
+            background-color: #a01b20;
+            color: #ffffff;
+        }
+
+        #jumbotron a, #table a{
+            color: #CC2229;
+            text-decoration: none;
+        }
+
+        #jumbotron a:hover, #table a:hover {
+            color: #a01b20;
+            text-decoration: none;
+            background-color: inherit;
+        }
+
+        .previous {
+            background-color: #f1f1f1;
+            color: black;
+            text-decoration: none;
+        }
+
+        .previous:hover {
+            text-decoration: none;
+        }
+
+        .next {
+            background-color: #CC2229;
+            color: white;
+            text-decoration: none;
+        }
+
+        .next:hover {
+            background-color: #a01b20;
+            color: white;
+            text-decoration: none;
+        }
+
+        .round {
+            border-radius: 50%;
+        }
+
+        th{
+            color: #CC2229;
+        }
+
+        a figcaption{
+            color: #CC2229;
+            text-decoration: none;
+        }
+
+        .imageDiv a:hover {
+            text-decoration: none;
+        }
+
+        .panel .panel-heading a h4{
+            background-color:#CC2229;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding:6px;
+        }
+
+        .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
+            background-color:#a01b20;
+            text-decoration: none;
+        }
+
+    </style>
 <?php } ?>

@@ -46,10 +46,11 @@
           <a class="nav-link" href="search.php?Database=fossil">Fossils</a>
         </li>
       </li>
+      <!---
       <li>
         <a class="nav-link" href="searchAll.php?Database=all">All</a>
       </li>
-     
+     --->
     </ul>
   </div>
 </nav>

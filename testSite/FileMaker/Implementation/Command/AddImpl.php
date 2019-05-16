@@ -3,7 +3,7 @@
  class FileMaker_Command_Add_Implementation extends FileMaker_Command_Implementation
 {
   var $_fields = array();
- function FileMaker_Command_Add_Implementation($V0ab34ca9, $Vc6140495, $Vf09cc7ee = array())
+ function __construct($V0ab34ca9, $Vc6140495, $Vf09cc7ee = array())
  { 
  FileMaker_Command_Implementation::FileMaker_Command_Implementation($V0ab34ca9, $Vc6140495);
 foreach ($Vf09cc7ee as $V06e3d36f => $V2063c160) {

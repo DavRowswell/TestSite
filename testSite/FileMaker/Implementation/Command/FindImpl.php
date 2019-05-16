@@ -11,7 +11,7 @@
 
   var $V6da136ea;
  var $V568aa2ec;
- function FileMaker_Command_Find_Implementation($V0ab34ca9, $Vc6140495)
+ function __construct($V0ab34ca9, $Vc6140495)
  {
  FileMaker_Command_Implementation::FileMaker_Command_Implementation($V0ab34ca9, $Vc6140495);
 }

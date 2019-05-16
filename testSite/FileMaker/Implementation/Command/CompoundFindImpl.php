@@ -10,7 +10,7 @@
  var $V6da136ea;
  var $V568aa2ec;
  var $Vad2bfd5a = array();
- function FileMaker_Command_CompoundFind_Implementation($V0ab34ca9, $Vc6140495)
+ function __construct($V0ab34ca9, $Vc6140495)
 	{
  FileMaker_Command_Implementation::FileMaker_Command_Implementation($V0ab34ca9, $Vc6140495);
 }

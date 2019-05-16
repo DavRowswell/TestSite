@@ -14,7 +14,7 @@
 
   
  var$V582ddd29;
- function FileMaker_Parser_FMPXMLLAYOUT(&$V0ab34ca9)
+ function __construct(&$V0ab34ca9)
  {
  $this->_fm =& $V0ab34ca9;
 }
@@ -92,7 +92,8 @@ break;
 }
  function _cdata($V3643b863, $V8d777f38)
  {
- if ($this->V32e51cce!== null && preg_match('|\S|', $V8d777f38)) {  
+ if ($this->V32e51cce!== null && preg_match('|\S|', $V8d777f38)) {
+  
  if($this->inside_data){
  $V78656626 = $this->V6a45a325[$this->V32e51cce][$this->V582ddd29];
 $V8d777f38 = $V78656626 . $V8d777f38;

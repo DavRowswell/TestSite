@@ -4,7 +4,7 @@
 {
   function __construct($V0ab34ca9, $Vc6140495, $V2550889a, $V9b479e5e = null)
  {
- FileMaker_Command_Implementation::FileMaker_Command_Implementation($V0ab34ca9, $Vc6140495);
+ FileMaker_Command_Implementation::__construct($V0ab34ca9, $Vc6140495);
 $this->_script = $V2550889a;
 $this->_scriptParams = $V9b479e5e;
 }

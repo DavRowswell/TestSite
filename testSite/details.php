@@ -115,7 +115,7 @@
       <table class="table">
         <tbody>
           <?php foreach($recFields as $i){
-            if ($i === "Photographs::photoContainer" || $i === "IIFRNo") continue;?> 
+            if ($i === "Photographs::photoContainer" || $i === "IIFRNo" || $i === "iffrCardNb") continue;?> 
             <tr>
               <th scope="col-sm-2"><b><?php echo formatField($i) ?></b></th>
               <?php if(formatField($i) == "Genus" || formatField($i) == "Species") { ?>
@@ -155,15 +155,45 @@
           <?php            
             if ($_GET['Database'] === 'fish') {
 
-              $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("card01").'/0';
-              $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("card01");
-              if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+              $numOfCards = $findAllRec[0]->getField("iffrCardNb");
+
+              for ($num = 1; $num <= $numOfCards; $num++) {
+                $num_padded = sprintf("%02d", $num); // converts 1 digit to 2 digit
+                $cardName = "card".$num_padded;
+                
+                $url =  'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField($cardName).'/0';
+                $linkToWebsite =  'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField($cardName);
+             
+                if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
+                  // this is where the images get printed
+
+                  echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
+                  '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                  echo '<div style="height: 50px;">';
+                  echo '</div>';
+                  
+                } else {
+                  echo '<div style="height: 300px; text-align:center; line-height:300px;">';
                   echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
+                  echo '</div>';
+                }
               }
+
+              // old code
+
+           // $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("card01").'/0';
+           //   $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("card01");
+              // if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
+              //   // this is where the images get printed
+              //   echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
+              //   '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                
+              // } else {
+              //    echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+              //     echo '<span style="">No picture found for this record</span>';
+              //   echo '</div>';
+              // }
+
             }
             else if ($_GET['Database'] === 'entomology') {
               //check if image url actually exists

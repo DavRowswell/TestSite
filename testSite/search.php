@@ -333,6 +333,7 @@
                     $genusSpecies = getGenusSpecies($record);
                     $html = file_get_html($genusPage);
                     $species = $html->find('.speciesentry');
+                    $semnumber = $findAllRec[0]->getField('SEM #');
                     $foundImage = false;
                     foreach($species as $spec) {
                       $speciesName = $spec->innertext;  

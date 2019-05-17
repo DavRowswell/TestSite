@@ -3,7 +3,7 @@
  class FileMaker_Command_FindAny_Implementation extends FileMaker_Command_Find_Implementation
 {
   function __construct($V0ab34ca9, $Vc6140495) {
- FileMaker_Command_Find_Implementation::FileMaker_Command_Find_Implementation($V0ab34ca9, $Vc6140495);
+ FileMaker_Command_Find_Implementation::__construct($V0ab34ca9, $Vc6140495);
 }
 
   function &execute()

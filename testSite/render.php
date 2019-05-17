@@ -266,7 +266,7 @@
                     $genusSpecies = getGenusSpecies($i);
                     $html = file_get_html($genusPage);
                     $species = $html->find('.speciesentry');
-
+                    $semnumber = $findAllRec[0]->getField('SEM #');
                     foreach($species as $spec) {
                       $speciesName = $spec->innertext;
                       if (strpos($speciesName, $genusSpecies) !== false ) {

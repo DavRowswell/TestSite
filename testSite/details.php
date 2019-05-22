@@ -158,10 +158,8 @@
           <?php            
             if ($_GET['Database'] === 'fish') {
 
-
               $numOfCards = $findAllRec[0]->getField("iffrCardNb");
-          
-               
+      
               for ($num = 1; $num <= $numOfCards; $num++) {
                 $num_padded = sprintf("%02d", $num); // converts 1 digit to 2 digit
                 $cardName = "card".$num_padded;
@@ -171,7 +169,6 @@
              
                 if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
                   // this is where the images get printed
-
                   echo '<div class="mySlides">';
                   
                   echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
@@ -201,7 +198,7 @@
               //   echo '</div>';
               // }
 
-            }
+            } 
             else if ($_GET['Database'] === 'entomology') {
               //check if image url actually exists
               $genusPage = getGenusPage($findAllRec[0]);
@@ -227,9 +224,13 @@
                 echo '</div>';
               }
             }
-            else {
+            else { // do these have multiple images?
               $validDb = false;
               if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
+               
+               // $relatedSet = $layout->listRelatedSets(); 
+               // echo $relatedSet;
+               
                 $url = getPhotoUrl($findAllRec[0]->getRecordID());
                 $validDb = true;
               }
@@ -256,10 +257,11 @@
         <br>
         <div style="text-align:center">
             <?php
-              // i am writing a loop
-              for ($num=1; $num<=$numOfCards; $num++){ // only works for fish
+              if ($_GET['Database'] === 'fish') {
+              for ($num=1; $num<=$numOfCards; $num++){
                 echo '<span class="dot" onclick="currentSlide(1)"></span>';
               }
+            }
             ?>
       </div>
     </div>

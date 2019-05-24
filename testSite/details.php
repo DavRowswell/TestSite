@@ -182,7 +182,8 @@
                   echo '</div>';
                 }
               }
-
+              echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
+              echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>'; 
               // old code
 
            // $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("card01").'/0';
@@ -250,9 +251,7 @@
                 }
               }
             } 
-          ?>
-           <a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>
-           <a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>  
+          ?> 
         </div>
         <br>
         <div style="text-align:center">

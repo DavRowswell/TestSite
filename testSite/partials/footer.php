@@ -7,7 +7,7 @@
             <img src = "images/beatyLogo.png" width = "300px" length = "150px">
             </a>
             <p style = "font-size: 0.8em; margin-top: 15px; margin-bottom: 0px;"> 
-                *This site is still in alpha and can have some critical bugs.
+                *This site is in beta and can have some bugs.
             </p>
         </div>
     </div>

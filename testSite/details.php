@@ -88,7 +88,7 @@
   require_once ('partials/navbar.php');
   // Check if layout exists, and get fields of layout
   if(FileMaker::isError($result)){
-    $_SESSION['error'] = $result;
+    $_SESSION['error'] = $result->getMessage();
     header('Location: error.php');
     exit;
   }

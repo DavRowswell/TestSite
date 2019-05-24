@@ -89,7 +89,7 @@ defined('DEFAULT_BR_TEXT') || define('DEFAULT_BR_TEXT', "\r\n");
 defined('DEFAULT_SPAN_TEXT') || define('DEFAULT_SPAN_TEXT', ' ');
 
 /** The maximum file size the parser should load */
-defined('MAX_FILE_SIZE') || define('MAX_FILE_SIZE', 600000);
+defined('MAX_FILE_SIZE') || define('MAX_FILE_SIZE', 6000000);
 
 /** Contents between curly braces "{" and "}" are interpreted as text */
 define('HDOM_SMARTY_AS_TEXT', 1);

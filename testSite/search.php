@@ -333,15 +333,15 @@
                     $genusSpecies = getGenusSpecies($record);
                     $html = file_get_html($genusPage);
                     $species = $html->find('.speciesentry');
-                    $semnumber = $findAllRec[0]->getField('SEM #');
+                    $semnumber = $record->getField('SEM #');
                     $foundImage = false;
                     foreach($species as $spec) {
                       $speciesName = $spec->innertext;  
-                      if (strpos($speciesName, $genusSpecies) !== false ) {
+                      if (strpos($speciesName, $genusSpecies) !== false  && strpos($speciesName, $semnumber) !== false) {
                         $foundImage = true;
                         $images = $spec->find('a');
                         $link = $images[0]->href;
-                        $url = str_replace('http','https',$genusPage);
+                        $url = str_replace('http:','https:',$genusPage);
                         $final = "".$url.$link;
                         echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($final) .'"></a>';      
                         break;

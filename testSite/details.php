@@ -175,11 +175,11 @@
               $foundImage = false;
               foreach($species as $spec) {
                 $speciesName = $spec->innertext;
-                if (strpos($speciesName, $genusSpecies) !== false ) {
+                if (strpos($speciesName, $genusSpecies) !== false  && strpos($speciesName, $semnumber) !== false) {
                   $foundImage = true;
                   $images = $spec->find('a');
                   $link = $images[0]->href;
-                  $url = str_replace('http','https',$genusPage);
+                  $url = str_replace('http:','https:',$genusPage);
                   echo '<a href="'.$url.'" target="_blank" rel="noopener noreferrer"><figure><img class="img-fluid minHeight" src ="'.$url.$link.'"><figcaption style="text-align:center;">See more images here</figcaption></figure></a>';
                   break;
                 }

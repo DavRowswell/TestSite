@@ -261,18 +261,8 @@
                   $entomologyHasPicture = false;
                   
                   if ($_GET['Database'] === 'entomology') {
-                    //check if image url actually exists
-                    $genusPage = getGenusPage($i);                 
-                    $genusSpecies = getGenusSpecies($i);
-                    $html = file_get_html($genusPage);
-                    $species = $html->find('.speciesentry');
-                    $semnumber = $findAllRec[0]->getField('SEM #');
-                    foreach($species as $spec) {
-                      $speciesName = $spec->innertext;
-                      if (strpos($speciesName, $genusSpecies) !== false ) {
-                        $entomologyHasPicture = true;
-                        break;
-                      }
+                    if($i->getField("Imaged") === "Photographed") {
+                      $entomologyHasPicture = true;
                     }
                 }
                 ?>

@@ -147,19 +147,19 @@ function mapField($field) {
 
   function getPhotoUrl($identifier) {
     if ($_GET['Database'] === 'vwsp') {
-      return "https://herbweb.botany.ubc.ca/testSite/images/vwsp_images/Large_web/".$identifier.".jpg";
+      return "https://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$identifier.".jpg";
     }
     else if ($_GET['Database'] === 'algae') {
-      return "https://herbweb.botany.ubc.ca/testSite/images/ubcalgae_images/Large_web/".$identifier.".jpg";
+      return "https://herbweb.botany.ubc.ca/herbarium/images/ubcalgae_images/Large_web/".$identifier.".jpg";
     }
     else if ($_GET['Database'] === 'lichen') {
-      return "https://herbweb.botany.ubc.ca/testSite/images/lichen_images/Large_web/".$identifier.".jpg";
+      return "https://herbweb.botany.ubc.ca/herbarium/images/lichen_images/Large_web/".$identifier.".jpg";
     }
     else if ($_GET['Database'] === 'fungi') {
-      return "https://herbweb.botany.ubc.ca/testSite/images/fungi_images/Large_web/".$identifier.".jpg";
+      return "https://herbweb.botany.ubc.ca/herbarium/images/fungi_images/Large_web/".$identifier.".jpg";
     }
     else if ($_GET['Database'] === 'bryophytes') {
-      return "https://herbweb.botany.ubc.ca/testSite/images/bryophytes_images/Large_web/".$identifier.".jpg";
+      return "https://herbweb.botany.ubc.ca/herbarium/images/bryophytes_images/Large_web/".$identifier.".jpg";
     }
     else if ($_GET['Database'] === 'mammal') {
       return 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Mammal%20Research%20Collection&-lay=mammal_details&-recid='

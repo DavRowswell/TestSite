@@ -46,31 +46,31 @@
                         <!--- Algae image and link--->
                         <div class="row herbarium-databases">
                             <div class="col d-flex justify-content-center">
-                                <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=algae"><figure><img class="img-fluid" id= "someid" src ="images/algae.png"><figcaption style="text-align:center;"><h4>Algae</h4></figcaption></figure></a>
+                                <a href="https://herbweb.botany.ubc.ca/herbarium/search.php?Database=algae"><figure><img class="img-fluid" id= "someid" src ="images/algae.png"><figcaption style="text-align:center;"><h4>Algae</h4></figcaption></figure></a>
                             </div>
                         </div>
                         <!--- Bryophytes image and link--->
                         <div class="row herbarium-databases">
                             <div class="col d-flex justify-content-center">
-                                <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=bryophytes"><figure><img class="img-fluid" id= "someid" src ="images/bryophytes.png"><figcaption style="text-align:center;"><h4>Bryophytes</h4></figcaption></figure></a>
+                                <a href="https://herbweb.botany.ubc.ca/herbarium/search.php?Database=bryophytes"><figure><img class="img-fluid" id= "someid" src ="images/bryophytes.png"><figcaption style="text-align:center;"><h4>Bryophytes</h4></figcaption></figure></a>
                             </div>
                         </div>
                         <!--- Fungi image and link--->
                         <div class="row herbarium-databases">
                             <div class="col d-flex justify-content-center">
-                                <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=fungi"><figure><img class="img-fluid" id= "someid" src ="images/fungi.png"><figcaption style="text-align:center;"><h4>Fungi</h4></figcaption></figure></a>
+                                <a href="https://herbweb.botany.ubc.ca/herbarium/search.php?Database=fungi"><figure><img class="img-fluid" id= "someid" src ="images/fungi.png"><figcaption style="text-align:center;"><h4>Fungi</h4></figcaption></figure></a>
                             </div>
                         </div>
                         <!--- Lichen image and link--->
                         <div class="row herbarium-databases">
                             <div class="col d-flex justify-content-center">
-                                <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=lichen"><figure><img class="img-fluid" id= "someid" src ="images/lichen.png"><figcaption style="text-align:center;"><h4>Lichen</h4></figcaption></figure></a>
+                                <a href="https://herbweb.botany.ubc.ca/herbarium/search.php?Database=lichen"><figure><img class="img-fluid" id= "someid" src ="images/lichen.png"><figcaption style="text-align:center;"><h4>Lichen</h4></figcaption></figure></a>
                             </div>
                         </div>
                         <!--- Vascular image and link--->
                         <div class="row herbarium-databases">
                             <div class="col d-flex justify-content-center">
-                                <a href="https://herbweb.botany.ubc.ca/testSite/search.php?Database=vwsp"><figure><img class="img-fluid" id= "someid" src ="images/herbarium.png"><figcaption style="text-align:center;"><h4>Vascular</h4></figcaption></figure></a>
+                                <a href="https://herbweb.botany.ubc.ca/herbarium/search.php?Database=vwsp"><figure><img class="img-fluid" id= "someid" src ="images/herbarium.png"><figcaption style="text-align:center;"><h4>Vascular</h4></figcaption></figure></a>
                             </div>
                         </div>
                     </div>

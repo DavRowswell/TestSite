@@ -66,6 +66,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
+<link rel="stylesheet" href="css/detailscss.css">
 <style>
   html, body, #map {
     height: 100%;
@@ -115,7 +116,7 @@
       <table class="table">
         <tbody>
           <?php foreach($recFields as $i){
-            if ($i === "Photographs::photoContainer" || $i === "IIFRNo") continue;?> 
+            if ($i === "Photographs::photoContainer" || $i === "IIFRNo" || $i === "iffrCardNb") continue;?> 
             <tr>
               <th scope="col-sm-2"><b><?php echo formatField($i) ?></b></th>
               <?php if(formatField($i) == "Genus" || formatField($i) == "Species") { ?>
@@ -150,21 +151,54 @@
         </div>
       </div>
       <!-- image code starts here -->
-      <div class="row">
+     <!-- <div class="row">
         <div class="col imageDiv">
+        -->
+        <div class = "slideshow-container">
           <?php            
             if ($_GET['Database'] === 'fish') {
 
-              $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("card01").'/0';
-              $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("card01");
-              if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
-              } else {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+              $numOfCards = $findAllRec[0]->getField("iffrCardNb");
+      
+              for ($num = 1; $num <= $numOfCards; $num++) {
+                $num_padded = sprintf("%02d", $num); // converts 1 digit to 2 digit
+                $cardName = "card".$num_padded;
+                
+                $url =  'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField($cardName).'/0';
+                $linkToWebsite =  'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField($cardName);
+             
+                if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
+                  // this is where the images get printed
+                  echo '<div class="mySlides">';
+                  
+                  echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
+                  '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                  echo '<div class="text"> Images </div>';
+                  echo '</div>';
+            
+                } else {
+                  echo '<div style="height: 300px; text-align:center; line-height:300px;">';
                   echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
+                  echo '</div>';
+                }
               }
-            }
+
+              // old code
+
+           // $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("card01").'/0';
+           //   $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("card01");
+              // if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
+              //   // this is where the images get printed
+              //   echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
+              //   '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                
+              // } else {
+              //    echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+              //     echo '<span style="">No picture found for this record</span>';
+              //   echo '</div>';
+              // }
+
+            } 
             else if ($_GET['Database'] === 'entomology') {
               //check if image url actually exists
               $genusPage = getGenusPage($findAllRec[0]);
@@ -190,9 +224,13 @@
                 echo '</div>';
               }
             }
-            else {
+            else { // do these have multiple images?
               $validDb = false;
               if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
+               
+               // $relatedSet = $layout->listRelatedSets(); 
+               // echo $relatedSet;
+               
                 $url = getPhotoUrl($findAllRec[0]->getRecordID());
                 $validDb = true;
               }
@@ -204,6 +242,7 @@
               if ($validDb) {
                 if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
                   echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+
                 } else {
                   echo '<div style="height: 300px; text-align:center; line-height:300px;">';
                     echo '<span style="">No picture found for this record</span>';
@@ -212,11 +251,54 @@
               }
             } 
           ?>
+           <a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>
+           <a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>  
         </div>
+        <br>
+        <div style="text-align:center">
+            <?php
+              if ($_GET['Database'] === 'fish') {
+              for ($num=1; $num<=$numOfCards; $num++){
+                echo '<span class="dot" onclick="currentSlide(1)"></span>';
+              }
+            }
+            ?>
       </div>
     </div>
   </div>
 </div>
 <?php require_once("partials/footer.php");?>
+<script > 
+     // js slideshow
+      var slideIndex = 1;
+      showSlides(slideIndex);
+
+      // Next/previous controls
+      function plusSlides(n) {
+        showSlides(slideIndex += n);
+      }
+
+      // Thumbnail image controls
+      function currentSlide(n) {
+        showSlides(slideIndex = n);
+      }
+
+      function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1} 
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none"; 
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block"; 
+        dots[slideIndex-1].className += " active";
+      }
+ </script>
+
 </body>
 </html>

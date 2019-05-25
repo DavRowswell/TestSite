@@ -229,9 +229,13 @@
               $validDb = false;
               if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
                
-               // $relatedSet = $layout->listRelatedSets(); 
-               // echo $relatedSet;
+                
                
+              // prints the number of relatedSets on a layout object
+              //  $tableNames = $fm->getLayout('details-avian')->listRelatedSets();
+              //  echo sizeof($tableNames);
+                
+            
                 $url = getPhotoUrl($findAllRec[0]->getRecordID());
                 $validDb = true;
               }

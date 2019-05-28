@@ -89,7 +89,7 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference, 
           return Math.round((111320*Math.cos(parseFloat(lat.trim())*Math.PI/180))/Math.pow(10,latprecision));
         }
         else {
-          return Math.round((111320*Math.cos(parseFloat(lat.trim())))/Math.pow(10,longprecision));
+          return Math.round((111320*Math.cos(parseFloat(lat.trim())*Math.PI/180))/Math.pow(10,longprecision));
         }
       }
     }

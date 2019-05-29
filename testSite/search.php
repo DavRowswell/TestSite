@@ -165,7 +165,7 @@
               echo '<div class="col-sm-12" style="background: url(images/entomologyBannerImages/rotator.php) no-repeat center center; background-size: 100% auto; text-align: center; color: white;">';
                 echo '<div style ="margin-top:30px;margin-bottom:30px;">';
                   echo '<a href="https://www.zoology.ubc.ca/entomology/" style="text-sdecoration: none; color: white;">';
-                    echo '<p>Welcome to the</p><h3>Spencer Entomological Collection</h3>';
+                    echo '<p>Welcome to the</p><h3>SPENCER ENTOMOLOGICAL COLLECTION</h3>';
                   echo '</a>';
                 echo '</div>';
               echo '</div>';

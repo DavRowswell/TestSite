@@ -55,4 +55,8 @@
     padding-top:6px;
   }
 
+  #entoSite div a:hover {
+    text-decoration: none;
+  }
+
   

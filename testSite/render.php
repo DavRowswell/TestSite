@@ -8,12 +8,38 @@
     header('Location: error.php');
     exit;
   }
-  
+
   require_once ('FileMaker.php');
-  require_once ('db.php');
   require_once ('functions.php');
   require_once ('lib/simple_html_dom.php');
-  $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);  
+  require_once ('DatabaseSearch.php');
+  
+  if($_GET['Database'] == "all") {
+    // list databases
+    // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
+    // 'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
+    // 'miw', 'vwsp'];
+    $databases = ['avian', 'entomology', 'fish', 
+    'fossil', 'herpetology', 'mammal', 'mi', 
+    'miw'];
+  } else {
+    $databases = [$_GET['Database']];
+  }
+
+  $searchDatabases =[];
+  foreach ($databases as $db) {
+    require_once ('databases/'.$db.'db.php');
+    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+    if (FileMaker::isError($fm->listLayouts())) {
+      continue;
+    }
+    $databaseSearch = new DatabaseSearch($fm, $db);
+    array_push($searchDatabases, $databaseSearch);
+  }
+
+
+
+  $fm = $searchDatabases[0]->getFM();  
   $numRes = 100;
   $layouts = $fm->listLayouts();
   $layout = "";
@@ -152,12 +178,7 @@
     require_once ('partials/cssDecision.php');
     require_once ('partials/header.php');
   ?>
-  <style>
-    th {
-      font-size: 14px;
-      line-height: 14px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/rendercss.css">
 </head>
 <body class="d-flex flex-column">
 <?php require_once ('partials/navbar.php'); ?>

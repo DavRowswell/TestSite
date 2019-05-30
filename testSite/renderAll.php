@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
     <?php
     session_start();
     require_once ('FileMaker.php');
     require_once ('partials/header.php');
-    // require_once ('../partials/navbar.php');
     require_once ('DatabaseSearch.php');
     
     // list databases
@@ -16,25 +12,6 @@
     $databases = ['avian', 'entomology', 'fish', 
     'fossil', 'herpetology', 'mammal', 'mi', 
     'miw'];
-
-    // $databases = ['avian', 'entomology'];
-
-    /*
-      Country
-      Province or State
-      Locality
-      Elevation/Depth
-      Phylum
-      Class
-      Family
-      Genus
-      Species
-      Collector
-      Collection Date
-      Year
-      Month
-      Day
-    */
 
     $searchDatabases = [];
 
@@ -52,30 +29,10 @@
     }
     // exit;
     ?>
-    <style>
-    .collapsible {
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
-
-.active, .collapsible:hover {
-  background-color: #555;
-}
-
-.content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
-</style>
+<link rel="stylesheet" href="css/rendercss.css">
+<!DOCTYPE html>
+<html>
+<head>
     </head>
     <body class="container-fluid">
     <?php

@@ -174,4 +174,6 @@ function mapField($field) {
       .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
     }
   }
+  require_once('renderFunctions.php');
 ?>
+

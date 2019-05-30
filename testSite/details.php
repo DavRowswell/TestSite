@@ -116,7 +116,8 @@
       <table class="table">
         <tbody>
           <?php foreach($recFields as $i){
-            if ($i === "Photographs::photoContainer" || $i === "IIFRNo" || $i === "iffrCardNb") continue;?> 
+            $ignoreValues = ['SortNum', 'Accession Numerical', 'Photographs::photoContainer', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'iffrCardNb', 'card01', 'Has Image', 'imaged','card02','card03','card04','card05','card06','card07','card08','card09','card10','card11','card12','card13'];
+            if (in_array($i, $ignoreValues)) continue;?>
             <tr>
               <th scope="col-sm-2"><b><?php echo formatField($i) ?></b></th>
               <?php if(formatField($i) == "Genus" || formatField($i) == "Species") { ?>

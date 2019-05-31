@@ -215,7 +215,7 @@
               if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
                 $tableNamesObj = $findAllRec[0]->getRelatedSet('Photographs');
                 
-                if (gettype($tableNamesObj)=='array') // if no images, type = 'object'; else 'array'
+                if (gettype($tableNamesObj)=='array') // if images, type = 'array'; else 'object'
                 {
                   foreach ($tableNamesObj as $relatedRow) {
                     $possible_answer = $relatedRow->getField('Photographs::photoContainer'); 
@@ -264,7 +264,7 @@
                   echo '<span class="dot" onclick="currentSlide(1)"></span>';
                 }
             }
-              if ($_GET['Database'] === 'avian' || $_GET['Database'] === 'mammal' ) {
+              if ($_GET['Database'] === 'avian' || $_GET['Database'] === 'mammal' || $_GET['Database'] === 'herpetology') {
                 foreach ($tableNamesObj as $relatedRow){
                   if (gettype($tableNamesObj)=='array') {
                     echo '<span class="dot" onclick="currentSlide(1)"></span>';

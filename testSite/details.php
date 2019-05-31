@@ -213,10 +213,11 @@
             else {
               $validDb = false;
               if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
-                $tableNames = $findAllRec[0]->getRelatedSet('Photographs');
                 $tableNamesObj = $findAllRec[0]->getRelatedSet('Photographs');
-             
-                foreach ($tableNamesObj as $relatedRow) {
+                
+                if (gettype($tableNamesObj)=='array') // if no images, type = 'object'; else 'array'
+                {
+                  foreach ($tableNamesObj as $relatedRow) {
                     $possible_answer = $relatedRow->getField('Photographs::photoContainer'); 
                     $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
             
@@ -229,6 +230,13 @@
                 echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
                 echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>'; 
                 $validDb = false;
+                }
+                else {
+                  echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+                  echo '<span style="">No picture found for this record</span>';
+                  echo '</div>';
+                }
+               
               }
               else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
               || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
@@ -256,9 +264,12 @@
                   echo '<span class="dot" onclick="currentSlide(1)"></span>';
                 }
             }
-              if ($_GET['Database'] === 'avian') {
+              if ($_GET['Database'] === 'avian' || $_GET['Database'] === 'mammal' ) {
                 foreach ($tableNamesObj as $relatedRow){
-                  echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                  if (gettype($tableNamesObj)=='array') {
+                    echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                  }
+                  
                 }
             }
             ?>

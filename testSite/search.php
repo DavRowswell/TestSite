@@ -169,7 +169,6 @@
                   echo '</a>';
                 echo '</div>';
               echo '</div>';
-              //<img src="images/entomologyBannerImages/rotator.php"/>
             echo '</div>';
           }
           ?>
@@ -279,7 +278,8 @@
               $url = '';
 
               if ($_GET['Database'] == 'avian' || $_GET['Database'] == 'mammal') {
-                $url = getPhotoUrl($record->getRecordID());
+                //$url = getPhotoUrl($record->getRecordID());
+                $url = "https://collections.zoology.ubc.ca".$record->getRelatedSet('Photographs')[0]->getField('Photographs::photoContainer');
                 $id = 'catalogNumber';
                 $lat = 'Geolocation::decimalLatitude';
                 $lng = 'Geolocation::decimalLongitude';
@@ -359,7 +359,7 @@
                     echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
                   } 
                   else {
-                    echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
+                    echo '<a href ='. $url.' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.$url .'"></a>';      
                   }
                   echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
                   echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';  

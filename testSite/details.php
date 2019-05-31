@@ -152,9 +152,7 @@
         </div>
       </div>
       <!-- image code starts here -->
-     <!-- <div class="row">
-        <div class="col imageDiv">
-        -->
+     
         <div class = "slideshow-container">
           <?php            
             if ($_GET['Database'] === 'fish') {
@@ -162,19 +160,19 @@
               $numOfCards = $findAllRec[0]->getField("iffrCardNb");
       
               for ($num = 1; $num <= $numOfCards; $num++) {
-                $num_padded = sprintf("%02d", $num); // converts 1 digit to 2 digit
+                $num_padded = sprintf("%02d", $num);
                 $cardName = "card".$num_padded;
                 
                 $url =  'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField($cardName).'/0';
                 $linkToWebsite =  'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField($cardName);
              
                 if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                  // this is where the images get printed
+               
                   echo '<div class="mySlides">';
                   
                   echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
                   '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
-                  echo '<div class="text"> Images </div>';
+                
                   echo '</div>';
             
                 } else {
@@ -185,24 +183,10 @@
               }
               echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
               echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>'; 
-              // old code
-
-           // $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField("card01").'/0';
-           //   $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField("card01");
-              // if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-              //   // this is where the images get printed
-              //   echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
-              //   '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
-                
-              // } else {
-              //    echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-              //     echo '<span style="">No picture found for this record</span>';
-              //   echo '</div>';
-              // }
-
+         
             } 
             else if ($_GET['Database'] === 'entomology') {
-              //check if image url actually exists
+           
               $genusPage = getGenusPage($findAllRec[0]);
               $genusSpecies = getGenusSpecies($findAllRec[0]);
               $html = file_get_html($genusPage);
@@ -226,19 +210,25 @@
                 echo '</div>';
               }
             }
-            else { // do these have multiple images?
+            else {
               $validDb = false;
               if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
-               
-                
-               
-              // prints the number of relatedSets on a layout object
-              //  $tableNames = $fm->getLayout('details-avian')->listRelatedSets();
-              //  echo sizeof($tableNames);
-                
+                $tableNames = $findAllRec[0]->getRelatedSet('Photographs');
+                $tableNamesObj = $findAllRec[0]->getRelatedSet('Photographs');
+             
+                foreach ($tableNamesObj as $relatedRow) {
+                    $possible_answer = $relatedRow->getField('Photographs::photoContainer'); 
+                    $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
             
-                $url = getPhotoUrl($findAllRec[0]->getRecordID());
-                $validDb = true;
+                    echo '<div class="mySlides">';
+                    echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
+                    '<img id = "avian" class="img-fluid minHeight" src="'.$possible_answer .'"></a>';
+                    echo '</div>';
+                  }
+                
+                echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
+                echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>'; 
+                $validDb = false;
               }
               else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
               || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
@@ -262,9 +252,14 @@
         <div style="text-align:center">
             <?php
               if ($_GET['Database'] === 'fish') {
-              for ($num=1; $num<=$numOfCards; $num++){
-                echo '<span class="dot" onclick="currentSlide(1)"></span>';
-              }
+                for ($num=1; $num<=$numOfCards; $num++){
+                  echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                }
+            }
+              if ($_GET['Database'] === 'avian') {
+                foreach ($tableNamesObj as $relatedRow){
+                  echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                }
             }
             ?>
       </div>

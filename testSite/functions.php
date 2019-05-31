@@ -174,4 +174,13 @@ function mapField($field) {
       .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
     }
   }
+
+  function shouldDescend($field) {
+    if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return false;
+    if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
+    return false;
+  }
+
+  require_once('renderFunctions.php');
 ?>
+

@@ -64,12 +64,6 @@
     }
   }
 
-  function shouldDescend($field) {
-    if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return false;
-    if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
-    return false;
-  }
-
   $fmLayout = $fm->getLayout($layout);
   $layoutFields = $fmLayout->listFields();
 

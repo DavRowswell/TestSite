@@ -359,7 +359,20 @@
                     echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
                   } 
                   else {
-                    echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
+                      if ($_GET['Database'] == 'mammal' || $_GET['Database'] == 'avian') { // mammal, avian jumbotron
+                        $tableNamesObj = $record->getRelatedSet('Photographs');
+                        $possible_answer = $tableNamesObj[0]->getField('Photographs::photoContainer');
+                        if (strpos($possible_answer, '.JPG') !== false){   // make sure actually an image
+                          $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
+                           echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
+                          '<img id = "avian" class="img-fluid minHeight" src="'.$possible_answer .'"></a>';
+                        }
+                        // if it's not an image, then just doesn't show an image. still looks okay, but ideally use diff record
+                      }
+                      else {
+                        // old code
+                        echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
+                      }
                   }
                   echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
                   echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';  

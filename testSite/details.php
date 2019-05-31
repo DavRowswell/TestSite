@@ -218,13 +218,14 @@
                 if (gettype($tableNamesObj)=='array') // if images, type = 'array'; else 'object'
                 {
                   foreach ($tableNamesObj as $relatedRow) {
-                    $possible_answer = $relatedRow->getField('Photographs::photoContainer'); 
-                    $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
-            
-                    echo '<div class="mySlides">';
-                    echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
-                    '<img id = "avian" class="img-fluid minHeight" src="'.$possible_answer .'"></a>';
-                    echo '</div>';
+                    $possible_answer = $relatedRow->getField('Photographs::photoContainer');
+                    if (strpos($possible_answer, '.JPG')!==false){ // makes sure actually an image
+                      $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
+                      echo '<div class="mySlides">';
+                      echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
+                      '<img id = "avian" class="img-fluid minHeight" src="'.$possible_answer .'"></a>';
+                      echo '</div>';
+                    }
                   }
                 
                 echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
@@ -258,7 +259,7 @@
         </div>
         <br>
         <div style="text-align:center">
-            <?php
+            <?php // adds the dots to the slideshow
               if ($_GET['Database'] === 'fish') {
                 for ($num=1; $num<=$numOfCards; $num++){
                   echo '<span class="dot" onclick="currentSlide(1)"></span>';
@@ -266,10 +267,10 @@
             }
               if ($_GET['Database'] === 'avian' || $_GET['Database'] === 'mammal' || $_GET['Database'] === 'herpetology') {
                 foreach ($tableNamesObj as $relatedRow){
-                  if (gettype($tableNamesObj)=='array') {
+                  $content= $relatedRow->getField('Photographs::photoContainer');
+                  if (gettype($tableNamesObj)=='array' && strpos($content, '.JPG') !== false) {
                     echo '<span class="dot" onclick="currentSlide(1)"></span>';
                   }
-                  
                 }
             }
             ?>

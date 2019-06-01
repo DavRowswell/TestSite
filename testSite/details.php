@@ -219,7 +219,7 @@
                 {
                   foreach ($tableNamesObj as $relatedRow) {
                     $possible_answer = $relatedRow->getField('Photographs::photoContainer');
-                    if (strpos($possible_answer, '.JPG')!==false){ // makes sure actually an image
+                    if (strpos(strtolower($possible_answer), "jpg") !== false){ // delete this if later
                       $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
                       echo '<div class="mySlides">';
                       echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
@@ -267,9 +267,12 @@
             }
               if ($_GET['Database'] === 'avian' || $_GET['Database'] === 'mammal' || $_GET['Database'] === 'herpetology') {
                 foreach ($tableNamesObj as $relatedRow){
-                  $content= $relatedRow->getField('Photographs::photoContainer');
-                  if (gettype($tableNamesObj)=='array' && strpos($content, '.JPG') !== false) {
-                    echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                  if (gettype($tableNamesObj)=='array') {
+                    $possible_answer = $relatedRow->getField('Photographs::photoContainer');
+                    if ((strpos(strtolower($possible_answer), "jpg") !== false)){  // delete if later
+                      echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                    }
+
                   }
                 }
             }

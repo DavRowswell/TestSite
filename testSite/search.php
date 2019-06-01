@@ -362,15 +362,14 @@
                       if ($_GET['Database'] == 'mammal' || $_GET['Database'] == 'avian') { // mammal, avian jumbotron
                         $tableNamesObj = $record->getRelatedSet('Photographs');
                         $possible_answer = $tableNamesObj[0]->getField('Photographs::photoContainer');
-                        if (strpos($possible_answer, '.JPG') !== false){   // make sure actually an image
+                        if (strpos(strtolower($possible_answer), "jpg") !== false){   // delete if later (only supports jpg right now)
                           $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
                            echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
                           '<img id = "avian" class="img-fluid minHeight" src="'.$possible_answer .'"></a>';
                         }
-                        // if it's not an image, then just doesn't show an image. still looks okay, but ideally use diff record
                       }
                       else {
-                        // old code
+                        // old code in else statement to be safe; but prolly not needed
                         echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';      
                       }
                   }

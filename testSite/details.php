@@ -187,48 +187,65 @@
             } 
             else if ($_GET['Database'] === 'entomology') {
            
-              $genusPage = getGenusPage($findAllRec[0]);
-              $genusSpecies = getGenusSpecies($findAllRec[0]);
-              $html = file_get_html($genusPage);
-              $species = $html->find('.speciesentry');
-              $semnumber = $findAllRec[0]->getField('SEM #');
-              $foundImage = false;
-              foreach($species as $spec) {
-                $speciesName = $spec->innertext;
-                if (strpos($speciesName, $genusSpecies) !== false  && strpos($speciesName, $semnumber) !== false) {
-                  $foundImage = true;
-                  $images = $spec->find('a');
-                  $link = $images[0]->href;
-                  $url = str_replace('http:','https:',$genusPage);
-                  echo '<a href="'.$url.'" target="_blank" rel="noopener noreferrer"><figure><img class="img-fluid minHeight" src ="'.$url.$link.'"><figcaption style="text-align:center;">See more images here</figcaption></figure></a>';
-                  break;
+                $genusPage = getGenusPage($findAllRec[0]);
+                $genusSpecies = getGenusSpecies($findAllRec[0]);
+                $html = file_get_html($genusPage);
+                $species = $html->find('.speciesentry');
+                $semnumber = $findAllRec[0]->getField('SEM #');
+                $foundImage = false;
+                foreach($species as $spec) {
+                  $speciesName = $spec->innertext;
+                  if (strpos($speciesName, $genusSpecies) !== false  && strpos($speciesName, $semnumber) !== false) {
+                    $foundImage = true;
+                    $images = $spec->find('a');
+                      for ($num=0; $num<sizeof($images); $num++){
+                          $link = $images[$num]->href;
+                          $url = str_replace('http:','https:',$genusPage);
+                        
+                          echo '<div class="mySlides">';
+                          echo '<a href="'.$url.'" target="_blank" rel="noopener noreferrer">
+                          <figure> <img class="img-fluid minHeight" src ="'.$url.$link.'"> </a>';
+                        //  <figcaption style="text-align:center;">See more images here</figcaption></figure> 
+                          echo '</div>';
+                      }
+                    echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
+                    echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>'; 
+                  }
                 }
-              }
-              if($foundImage==false) {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
+                if($foundImage==false) {
+                  echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+                    echo '<span style="">No picture found for this record</span>';
+                  echo '</div>';
+                }
             }
             else {
               $validDb = false;
               if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
-                $tableNames = $findAllRec[0]->getRelatedSet('Photographs');
                 $tableNamesObj = $findAllRec[0]->getRelatedSet('Photographs');
-             
-                foreach ($tableNamesObj as $relatedRow) {
-                    $possible_answer = $relatedRow->getField('Photographs::photoContainer'); 
-                    $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
-            
-                    echo '<div class="mySlides">';
-                    echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
-                    '<img id = "avian" class="img-fluid minHeight" src="'.$possible_answer .'"></a>';
-                    echo '</div>';
+                
+                if (gettype($tableNamesObj)=='array') // if images, type = 'array'; else 'object'
+                {
+                  foreach ($tableNamesObj as $relatedRow) {
+                    $possible_answer = $relatedRow->getField('Photographs::photoContainer');
+                    if (strpos(strtolower($possible_answer), "jpg") !== false){ // delete this if later
+                      $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
+                      echo '<div class="mySlides">';
+                      echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
+                      '<img id = "avian" class="img-fluid minHeight" src="'.$possible_answer .'"></a>';
+                      echo '</div>';
+                    }
                   }
                 
                 echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
                 echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>'; 
                 $validDb = false;
+                }
+                else {
+                  echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+                  echo '<span style="">No picture found for this record</span>';
+                  echo '</div>';
+                }
+               
               }
               else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' 
               || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
@@ -250,16 +267,27 @@
         </div>
         <br>
         <div style="text-align:center">
-            <?php
+            <?php // adds the dots to the slideshow
               if ($_GET['Database'] === 'fish') {
                 for ($num=1; $num<=$numOfCards; $num++){
                   echo '<span class="dot" onclick="currentSlide(1)"></span>';
                 }
             }
-              if ($_GET['Database'] === 'avian') {
+              if ($_GET['Database'] === 'avian' || $_GET['Database'] === 'mammal' || $_GET['Database'] === 'herpetology') {
                 foreach ($tableNamesObj as $relatedRow){
+                  if (gettype($tableNamesObj)=='array') {
+                    $possible_answer = $relatedRow->getField('Photographs::photoContainer');
+                    if ((strpos(strtolower($possible_answer), "jpg") !== false)){  // delete if later
+                      echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                    }
+                  }
+                }
+            }
+              if ($_GET['Database'] === 'entomology'){
+                for ($num=1; $num<=sizeof($images); $num++){ //doesn't work when there are no images...
                   echo '<span class="dot" onclick="currentSlide(1)"></span>';
                 }
+               echo '<br> <a href="'.$url.'" style="text-align:center;"> See more images here </figcaption>  </a> ';
             }
             ?>
       </div>

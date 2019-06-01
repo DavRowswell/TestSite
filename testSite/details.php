@@ -187,28 +187,36 @@
             } 
             else if ($_GET['Database'] === 'entomology') {
            
-              $genusPage = getGenusPage($findAllRec[0]);
-              $genusSpecies = getGenusSpecies($findAllRec[0]);
-              $html = file_get_html($genusPage);
-              $species = $html->find('.speciesentry');
-              $semnumber = $findAllRec[0]->getField('SEM #');
-              $foundImage = false;
-              foreach($species as $spec) {
-                $speciesName = $spec->innertext;
-                if (strpos($speciesName, $genusSpecies) !== false  && strpos($speciesName, $semnumber) !== false) {
-                  $foundImage = true;
-                  $images = $spec->find('a');
-                  $link = $images[0]->href;
-                  $url = str_replace('http:','https:',$genusPage);
-                  echo '<a href="'.$url.'" target="_blank" rel="noopener noreferrer"><figure><img class="img-fluid minHeight" src ="'.$url.$link.'"><figcaption style="text-align:center;">See more images here</figcaption></figure></a>';
-                  break;
+                $genusPage = getGenusPage($findAllRec[0]);
+                $genusSpecies = getGenusSpecies($findAllRec[0]);
+                $html = file_get_html($genusPage);
+                $species = $html->find('.speciesentry');
+                $semnumber = $findAllRec[0]->getField('SEM #');
+                $foundImage = false;
+                foreach($species as $spec) {
+                  $speciesName = $spec->innertext;
+                  if (strpos($speciesName, $genusSpecies) !== false  && strpos($speciesName, $semnumber) !== false) {
+                    $foundImage = true;
+                    $images = $spec->find('a');
+                      for ($num=0; $num<sizeof($images); $num++){
+                          $link = $images[$num]->href;
+                          $url = str_replace('http:','https:',$genusPage);
+                        
+                          echo '<div class="mySlides">';
+                          echo '<a href="'.$url.'" target="_blank" rel="noopener noreferrer">
+                          <figure> <img class="img-fluid minHeight" src ="'.$url.$link.'"> </a>';
+                        //  <figcaption style="text-align:center;">See more images here</figcaption></figure> 
+                          echo '</div>';
+                      }
+                    echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
+                    echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>'; 
+                  }
                 }
-              }
-              if($foundImage==false) {
-                echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                  echo '<span style="">No picture found for this record</span>';
-                echo '</div>';
-              }
+                if($foundImage==false) {
+                  echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+                    echo '<span style="">No picture found for this record</span>';
+                  echo '</div>';
+                }
             }
             else {
               $validDb = false;
@@ -272,9 +280,14 @@
                     if ((strpos(strtolower($possible_answer), "jpg") !== false)){  // delete if later
                       echo '<span class="dot" onclick="currentSlide(1)"></span>';
                     }
-
                   }
                 }
+            }
+              if ($_GET['Database'] === 'entomology'){
+                for ($num=1; $num<=sizeof($images); $num++){ //doesn't work when there are no images...
+                  echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                }
+               echo '<br> <a href="'.$url.'" style="text-align:center;"> See more images here </figcaption>  </a> ';
             }
             ?>
       </div>

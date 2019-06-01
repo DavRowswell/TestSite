@@ -204,10 +204,9 @@
                         
                           echo '<div class="mySlides">';
                           echo '<a href="'.$url.'" target="_blank" rel="noopener noreferrer">
-                          <figure> <img class="img-fluid minHeight" src ="'.$url.$link.'"> </a>';
-                        //  <figcaption style="text-align:center;">See more images here</figcaption></figure> 
+                          <img class="img-fluid minHeight" src ="'.$url.$link.'"> </a>';
                           echo '</div>';
-                      }
+                      }   
                     echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
                     echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>'; 
                   }
@@ -284,11 +283,13 @@
                 }
             }
               if ($_GET['Database'] === 'entomology'){
-                for ($num=1; $num<=sizeof($images); $num++){ //doesn't work when there are no images...
-                  echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                if ($foundImage===true){
+                    for ($num=1; $num<=sizeof($images); $num++){
+                      echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                    }
+                    echo '<br> <a href="'.$url.'" style="text-align:center;"> See more images here  </a> ';
                 }
-               echo '<br> <a href="'.$url.'" style="text-align:center;"> See more images here </figcaption>  </a> ';
-            }
+                 }
             ?>
       </div>
     </div>

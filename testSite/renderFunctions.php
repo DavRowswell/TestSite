@@ -247,7 +247,105 @@
     } 
 
     function printOneTable($database, $findAllRec, $recFields) {
-      
+      ?>
+      <!-- construct table for given layout and fields -->
+      <div class="row">
+        <div class="col">
+          <table class="table table-hover table-striped table-condensed tasks-table" id="table">
+            <thead>
+              <tr>
+                <?php 
+                foreach($recFields as $i){
+                  $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
+                  if (in_array($i, $ignoreValues)) continue;?>
+                  <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
+                    <a style="padding: 0px; white-space:nowrap;" href=
+                    <?php 
+                      if(isset($_GET['Page'])){
+                        $page = $_GET['Page'];
+                      }
+                      else {
+                        $page = '1';
+                      }
+                      if (shouldDescend($i)) {
+                        echo htmlspecialchars(replaceURIElement(
+                          replaceURIElement(
+                            replaceURIElement(
+                              $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
+                              , 'SortOrder', 'Descend')
+                              , 'Page', $page));
+                      } else {
+                        echo htmlspecialchars(replaceURIElement(
+                          replaceURIElement(
+                            replaceURIElement(
+                              $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
+                              , 'SortOrder', 'Ascend')
+                              , 'Page', $page));
+                      }
+                    ?>>
+                    <?php if(isset($_GET['SortOrder']) && $_GET['SortOrder'] == 'Descend'){ ?>
+                    <span style="display:inline" id = "icon"  class="oi oi-sort-descending"></span>
+                    <?php } else {?>
+                    <span style="display:inline" id = "icon"  class="oi oi-sort-ascending"></span>
+                    <?php } ?>
+                    <b><?php echo htmlspecialchars(formatField($i)) ?></b>
+                    </a>
+                  </th>
+                <?php }?>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach($findAllRec as $i){ ?>
+                <tr>
+                  <?php foreach($recFields as $j){
+                    if (in_array($j, $ignoreValues)) continue;
+                    if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
+                  ?>
+                  <td id="data">
+                    <a style="padding: 0px;"
+                      href="details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
+                        '&AccessionNo='.htmlspecialchars($i->getField($j)) ?>">
+                    <?php
+                      $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
+                                              &&  $i->getField("Photographs::photoFileName") !== "";
+                      $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("imaged") === "Yes");
+                      $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
+                                        $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
+                                        $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
+                    
+                      $entomologyHasPicture = false;
+                      
+                      if ($_GET['Database'] === 'entomology') {
+                        if($i->getField("Imaged") === "Photographed") {
+                          $entomologyHasPicture = true;
+                        }
+                    }
+                    ?>
+                    <?php                                             
+                      if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture || $entomologyHasPicture) {
+                    ?>
+                      <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+                      <span style="display:inline" id = "icon"  class="oi oi-image"></span>
+                    <?php }  else { ?>
+                      <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
+                    <?php } ?>
+                    </a>
+                  </td>
+                  <?php }
+                    else if (formatField($j) == 'Genus' || formatField($j) == 'Species'){
+                      echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';
+                    }
+                    else {
+                      echo '<td id="data">'. $i->getField($j).'</td>';
+                    }
+                  }?>
+                </tr>
+              <?php }?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <?php
     }
 
 ?>

@@ -250,7 +250,7 @@
             || $_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' ||
             $_GET['Database'] == 'fungi' || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') { ?>
               <div class="col">
-                <input type="checkbox" value="" id="imageCheck">
+                <input type="checkbox" id="imageCheck"> 
                 <label for="imageCheck">
                   Only show records that contain an image
                 </label>

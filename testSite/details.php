@@ -270,24 +270,25 @@
             <?php // adds the dots to the slideshow
               if ($_GET['Database'] === 'fish') {
                 for ($num=1; $num<=$numOfCards; $num++){
-                  echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                  echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
                 }
             }
               if ($_GET['Database'] === 'avian' || $_GET['Database'] === 'mammal' || $_GET['Database'] === 'herpetology') {
+                $num =1;
                 foreach ($tableNamesObj as $relatedRow){
                   if (gettype($tableNamesObj)=='array') {
                     $possible_answer = $relatedRow->getField('Photographs::photoContainer');
                     if ((strpos(strtolower($possible_answer), "jpg") !== false)){  // delete if later
-                      echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                      echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
                     }
                   }
+                  $num++;
                 }
             }
               if ($_GET['Database'] === 'entomology'){
                 if ($foundImage===true){
                     for ($num=1; $num<=sizeof($images); $num++){
-                      
-                      echo '<span class="dot" onclick="currentSlide(1)"></span>';
+                      echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
                     }
                    
                 }

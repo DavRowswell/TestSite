@@ -285,9 +285,24 @@
               if ($_GET['Database'] === 'entomology'){
                 if ($foundImage===true){
                     for ($num=1; $num<=sizeof($images); $num++){
+                      
                       echo '<span class="dot" onclick="currentSlide(1)"></span>';
                     }
-                    echo '<br> <a href="'.$url.'" style="text-align:center;"> See more images here  </a> ';
+    
+                    echo '<br> <br>';
+                    $fam=$findAllRec[0]->getField("Family");
+                    $subfam=$findAllRec[0]->getField("Subfamily");
+                    if ($subfam!==""){
+                      echo ' <a href="'.$url.'" style="text-align:center;"> 
+                      <role="button" class="btn btn-custom" id="showAll" > See more images of '.$subfam.' here!</button>
+                      </a> ';
+                    }
+                    else {
+                      echo ' <a href="'.$url.'" style="text-align:center;"> 
+                      <role="button" class="btn btn-custom" id="showAll" > See more images of '.$fam.' here!</button>
+                      </a> ';
+                    }
+                    
                 }
                  }
             ?>
@@ -326,6 +341,8 @@
         slides[slideIndex-1].style.display = "block"; 
         dots[slideIndex-1].className += " active";
       }
+
+    
  </script>
 
 </body>

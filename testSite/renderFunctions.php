@@ -316,7 +316,7 @@
                       $entomologyHasPicture = false;
                       
                       if ($_GET['Database'] === 'entomology') {
-                        if($i->getField("Imaged") === "Photographed") {
+                        if($i->getField("Imaged") === "NotValidFunction") {
                           $entomologyHasPicture = true;
                         }
                     }

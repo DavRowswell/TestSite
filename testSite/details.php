@@ -152,7 +152,8 @@
         </div>
       </div>
       <!-- image code starts here -->
-     
+     <div class= "row">
+       <div class = "col">
         <div class = "slideshow-container">
           <?php            
             if ($_GET['Database'] === 'fish') {
@@ -264,7 +265,7 @@
             } 
           ?> 
         </div>
-        <br>
+    
         <div style="text-align:center">
             <?php // adds the dots to the slideshow
               if ($_GET['Database'] === 'fish') {
@@ -288,25 +289,32 @@
                       
                       echo '<span class="dot" onclick="currentSlide(1)"></span>';
                     }
-    
-                    echo '<br> <br>';
-                    $fam=$findAllRec[0]->getField("Family");
-                    $subfam=$findAllRec[0]->getField("Subfamily");
-                    if ($subfam!==""){
-                      echo ' <a href="'.$url.'" style="text-align:center;"> 
-                      <role="button" class="btn btn-custom" id="showAll" > See more images of '.$subfam.' here!</button>
-                      </a> ';
-                    }
-                    else {
-                      echo ' <a href="'.$url.'" style="text-align:center;"> 
-                      <role="button" class="btn btn-custom" id="showAll" > See more images of '.$fam.' here!</button>
-                      </a> ';
-                    }
-                    
+                   
                 }
                  }
             ?>
+           </div>
+          </div>
       </div>
+      <div class="row">
+        <div class="col">
+            <?php 
+             if ($_GET['Database'] === 'entomology'){
+              if ($foundImage===true){
+              $fam=$findAllRec[0]->getField("Family");
+              $subfam=$findAllRec[0]->getField("Subfamily");
+              if ($subfam!==""){
+                echo '<a href="'.$url.'" style="text-align:center;"> 
+                <button class="btn btn-custom" id="showAll" > See more of '.$subfam.' here!</button> </a>';
+              }
+              else {
+                echo ' <a href="'.$url.'" style="text-align:center;"> 
+                <role="button" class="btn btn-custom" id="showAll" > See more of '.$fam.' here!</button> </a> ';
+              }
+            }
+            }?>
+          </div>
+        </div>
     </div>
   </div>
 </div>

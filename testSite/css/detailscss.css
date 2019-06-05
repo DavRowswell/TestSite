@@ -12,12 +12,6 @@
   display: none;
 }
 
-#showAll {
-color: #f2f2f2;
-background-color: #824bb0;
-padding: 0% 30%;
-}
-
 /* Next & previous buttons */
 .prevbutton, .nextbutton {
   cursor: pointer;
@@ -71,7 +65,7 @@ padding: 0% 30%;
   cursor: pointer;
   height: 15px;
   width: 15px;
-  margin: 0 2px;
+  margin: 15px 2px;
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
@@ -86,6 +80,15 @@ padding: 0% 30%;
 @-webkit-keyframes fade {
   from {opacity: .4} 
   to {opacity: 1}
+}
+
+
+#showAll {
+  margin: 0px;
+  color: #f2f2f2;
+  background-color: #824bb0;
+  white-space: nowrap;
+  width: 100%;
 }
 
 #showAll:hover {

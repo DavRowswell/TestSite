@@ -38,123 +38,31 @@
   }
 
 
-
-  $fm = $searchDatabases[0]->getFM();  
-  $numRes = 100;
-  $layouts = $fm->listLayouts();
-  $layout = "";
-  $formatLayout = "";
-  foreach ($layouts as $l) {
-    if ($_GET['Database'] === 'mi') {
-      if ($l == 'search-MI') {
-        $layout = $l;
+  if(sizeOf($searchDatabases)==1) {
+    $fm = $searchDatabases[0]->getFM(); 
+    setLayouts($searchDatabases[0]);
+    $layout = $searchDatabases[0]->getSearchLayout();
+    $formatLayout = $searchDatabases[0]->getResultLayout();
     
-      }
-      else if ($l == 'results-MI') {
-        $formatLayout = $l;
-      }
-    }
-    else {
-      if (strpos($l, 'search') !== false) {
-        $layout = $l;
-      }
-      else if (strpos($l, 'results') !== false) {
-        $formatLayout = $l;
-      }
-    }
-  }
+    $fmLayout = $fm->getLayout($searchDatabases[0]->getSearchLayout());
+    $layoutFields = $fmLayout->listFields();
 
-  $fmLayout = $fm->getLayout($layout);
-  $layoutFields = $fmLayout->listFields();
+    $numRes = 100;
+    $result = generateOneTable($searchDatabases[0], $numRes);
+  } else {
+    foreach ($searchDatabases as $sd) {
+      $fm = $sd->getFM(); 
+      setLayouts($sd);
+      $layout = $sd->getSearchLayout();
+      $formatLayout = $sd->getResultLayout();
+      
+      $fmLayout = $fm->getLayout($sd->getSearchLayout());
+      $layoutFields = $fmLayout->listFields();
 
-  if (FileMaker::isError($layouts)) {
-    $_SESSION['error'] = $layouts->getMessage();
-    header('Location: error.php');
-    exit;
-  }
-
-  // Find on all inputs with values
-  $findCommand = $fm->newFindCommand($layout);
-  if (isset($_GET['type']) && $_GET['type'] == 'or'){ $findCommand->setLogicalOperator('or');}
-  foreach ($layoutFields as $rf) {
-    $field = str_replace(" ", "_",$rf);
-    if ($rf == 'Photographs::photoFileName' || $rf == 'Imaged') {
-      $field = 'hasImage';
-    }
-    if (isset($_GET[$field]) && $_GET[$field] !== '') {
-      if ($field == 'Accession_Number' and ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-            $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae')) {
-        if ( is_numeric($_GET[$field][0])) {
-          $findCommand->addFindCriterion("Accession Numerical", $_GET[$field]);
-        }
-        else {
-          $findCommand->addFindCriterion("Accession Number", $_GET[$field]);
-        }
-      }
-      else if ($field == 'catalogNumber' && ($_GET['Database'] == 'fossil' || 
-        $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' )) {
-          if ( is_numeric($_GET[$field][0])) {
-            $findCommand->addFindCriterion("SortNum", $_GET[$field]);
-          }
-          else {
-            $findCommand->addFindCriterion("catalogNumber", $_GET[$field]);
-          }
-      }
-      else if ($field == 'Accession_No' && ($_GET['Database'] == 'mi' || $_GET['Database'] == 'miw' )) {
-        if ( is_numeric($_GET[$field][0])) {
-          $findCommand->addFindCriterion("SortNum", $_GET[$field]);
-        }
-        else {
-          $findCommand->addFindCriterion("Accession No", $_GET[$field]);
-        }
-      }
-      else { 
-        if ($field == 'hasImage') {
-          $findCommand->addFindCriterion($rf, '*');
-          if ($_GET['Database'] == 'entomology') {
-            $findCommand->addFindCriterion($rf, 'Photographed');
-          }
-        }
-        else {
-          $findCommand->addFindCriterion($rf, $_GET[$field]);
-        }
-      }
+      $numRes = 50;
+      $result = generateTable($sd, $numRes);
     }
   }
-  if (isset($_GET['Sort']) && $_GET['Sort'] != '') {
-    $sortField = str_replace('+', ' ', $_GET['Sort']);
-    $fieldSplit = explode(' ', $sortField);
-    $sortBy = $_GET['Sort'];
-    if (mapField($sortBy) === 'Accession Number') { 
-      if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-          $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae') {
-        $sortBy = 'Accession Numerical';
-      }
-      else {
-        $sortBy = 'sortNum';
-      }
-    } 
-    if($_GET['Database'] == 'entomology') {
-      $sortBy = 'SEM #';
-    }
-    if($_GET['Database'] == 'fish') {
-      $sortBy = 'accessionNo';
-    }
-    if ($_GET['SortOrder'] === 'Descend') {
-      // echo 'Descending';
-      $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_DESCEND);
-    } else {
-      // echo 'Ascending';
-      $findCommand->addSortRule(str_replace('+', ' ', $sortBy), 1, FILEMAKER_SORT_ASCEND);
-    }
-  }
-  if (isset($_GET['Page']) && $_GET['Page'] != '') {
-    $findCommand->setRange(($_GET['Page'] - 1) * $numRes, $numRes);
-  } 
-  else {
-    $findCommand->setRange(0, $numRes);
-  }
-  $result = $findCommand->execute();
   // Check if layout exists, and get fields of layout
   If(FileMaker::isError($result)){
     $_SESSION['error'] = $result->getMessage();
@@ -190,124 +98,33 @@
     <?php }?>
     <div id="column-divider"></div>
   </div>
-</div>
-<div class="container-fluid">
+  </div>
+  <div class="container-fluid">
   <?php require_once ('partials/pageController.php'); ?>
   <div class="row">
-    <div class = "col" style="padding-bottom:5px;">  
-      <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars($_GET['Database']);?>>
-        <?php
-          $db = $_GET['Database'];
-          foreach ($_GET as $key=>$value) {
-            if (in_array($key, $layoutFields) || (in_array(str_replace('_', ' ', $key), $layoutFields))) {
-              echo "<input  type=hidden value=".htmlspecialchars($value)." name=".htmlspecialchars($key).">";
-            }
+  <div class = "col" style="padding-bottom:5px;">  
+    <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars($_GET['Database']);?>>
+      <?php
+        $db = $_GET['Database'];
+        foreach ($_GET as $key=>$value) {
+          if (in_array($key, $layoutFields) || (in_array(str_replace('_', ' ', $key), $layoutFields))) {
+            echo "<input  type=hidden value=".htmlspecialchars($value)." name=".htmlspecialchars($key).">";
           }
-        ?>
-        <button type="submit" value = "Submit" class="btn btn-custom">Modify Search</button> 
-      </form>
-    </div>
+        }
+      ?>
+      <button type="submit" value = "Submit" class="btn btn-custom">Modify Search</button> 
+    </form>
   </div>
-  <!-- construct table for given layout and fields -->
-  <div class="row">
-    <div class="col">
-      <table class="table table-hover table-striped table-condensed tasks-table" id="table">
-        <thead>
-          <tr>
-            <?php 
-            foreach($recFields as $i){
-              $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
-              if (in_array($i, $ignoreValues)) continue;?>
-              <th id = <?php echo htmlspecialchars(formatField($i)) ?>>
-                <a style="padding: 0px; white-space:nowrap;" href=
-                <?php 
-                  if(isset($_GET['Page'])){
-                    $page = $_GET['Page'];
-                  }
-                  else {
-                    $page = '1';
-                  }
-                  if (shouldDescend($i)) {
-                    echo htmlspecialchars(replaceURIElement(
-                      replaceURIElement(
-                        replaceURIElement(
-                          $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
-                          , 'SortOrder', 'Descend')
-                          , 'Page', $page));
-                  } else {
-                    echo htmlspecialchars(replaceURIElement(
-                      replaceURIElement(
-                        replaceURIElement(
-                          $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($i)))
-                          , 'SortOrder', 'Ascend')
-                          , 'Page', $page));
-                  }
-                ?>>
-                <?php if(isset($_GET['SortOrder']) && $_GET['SortOrder'] == 'Descend'){ ?>
-                <span style="display:inline" id = "icon"  class="oi oi-sort-descending"></span>
-                <?php } else {?>
-                <span style="display:inline" id = "icon"  class="oi oi-sort-ascending"></span>
-                <?php } ?>
-                <b><?php echo htmlspecialchars(formatField($i)) ?></b>
-                </a>
-              </th>
-            <?php }?>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach($findAllRec as $i){ ?>
-            <tr>
-              <?php foreach($recFields as $j){
-                if (in_array($j, $ignoreValues)) continue;
-                if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
-              ?>
-              <td id="data">
-                <a style="padding: 0px;"
-                  href="details.php?Database=<?php echo htmlspecialchars($_GET['Database']). 
-                    '&AccessionNo='.htmlspecialchars($i->getField($j)) ?>">
-                <?php
-                  $vertebrateHasPicture = ($_GET['Database'] === 'mammal' || $_GET['Database'] === 'avian' || $_GET['Database'] === 'herpetology')
-                                          &&  $i->getField("Photographs::photoFileName") !== "";
-                  $fishHasPicture = ($_GET['Database'] === 'fish' && $i->getField("imaged") === "Yes");
-                  $herbHasPicture = ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-                                    $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or 
-                                    $_GET['Database'] == 'algae') && $i->getField("Imaged") === "Yes";
-                 
-                  $entomologyHasPicture = false;
-                  
-                  if ($_GET['Database'] === 'entomology') {
-                    if($i->getField("Imaged") === "Photographed") {
-                      $entomologyHasPicture = true;
-                    }
-                }
-                ?>
-                <?php                                             
-                  if ($vertebrateHasPicture || $fishHasPicture || $herbHasPicture || $entomologyHasPicture) {
-                ?>
-                  <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
-                  <span style="display:inline" id = "icon"  class="oi oi-image"></span>
-                <?php }  else { ?>
-                  <b><?php echo htmlspecialchars(trim($i->getField($j))) ?></b>
-                <?php } ?>
-                </a>
-              </td>
-              <?php }
-                else if (formatField($j) == 'Genus' || formatField($j) == 'Species'){
-                  echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';
-                }
-                else {
-                  echo '<td id="data">'. $i->getField($j).'</td>';
-                }
-              }?>
-            </tr>
-          <?php }?>
-        </tbody>
-      </table>
-    </div>
-  </div>
+</div> 
+<?php printOneTable($searchDatabases[0]->getDatabase(),$findAllRec,$recFields);
+?>
+
+<!--- Print table start--->
+
   <?php } ?>
   <?php require ('partials/pageController.php'); ?>
 </div>
+<!--- end print table --->
 <?php require_once("partials/footer.php");?>
 </body>
 </html>

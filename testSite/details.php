@@ -306,11 +306,11 @@
               $subfam=$findAllRec[0]->getField("Subfamily");
               if ($subfam!==""){
                 echo '<a href="'.$url.'" style="text-align:center;"> 
-                <button class="btn btn-custom" id="showAll" > See more of '.$subfam.' here!</button> </a>';
+                <button class="btn btn-custom" id="showAll" > See more '.$subfam.' here!</button> </a>';
               }
               else {
                 echo ' <a href="'.$url.'" style="text-align:center;"> 
-                <role="button" class="btn btn-custom" id="showAll" > See more of '.$fam.' here!</button> </a> ';
+                <role="button" class="btn btn-custom" id="showAll" > See more '.$fam.' here!</button> </a> ';
               }
             }
             }?>

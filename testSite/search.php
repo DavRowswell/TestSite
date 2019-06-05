@@ -247,7 +247,7 @@
           </div>
           <div class="row" style="padding-top:12px;">
             <?php if ($_GET['Database'] == 'fish' || $_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal'
-            || $_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'entomology' ||
+            || $_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' ||
             $_GET['Database'] == 'fungi' || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') { ?>
               <div class="col">
                 <input type="checkbox" value="" id="imageCheck">

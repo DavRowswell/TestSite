@@ -199,6 +199,8 @@
 
     function printTable($database, $findAllRec, $resultLayout) {
       $recFields = $resultLayout->listFields();
+
+      
       echo '<div class="row">';
       echo '</div>';
       echo '<table class="table table-hover table-striped table-condensed tasks-table" style="position:relative; top:16px">';

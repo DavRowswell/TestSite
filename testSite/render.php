@@ -100,7 +100,9 @@
   </div>
   </div>
   <div class="container-fluid">
-  <?php require_once ('partials/pageController.php'); ?>
+  <?php 
+  if(sizeOf($searchDatabases)==1) {
+  require_once ('partials/pageController.php'); ?>
   <div class="row">
   <div class = "col" style="padding-bottom:5px;">  
     <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars($_GET['Database']);?>>
@@ -117,14 +119,14 @@
   </div>
 </div> 
 <?php printOneTable($searchDatabases[0]->getDatabase(),$findAllRec,$recFields);
+require ('partials/pageController.php');
+} else {
+  
+}
 ?>
 
-<!--- Print table start--->
-
-  <?php } ?>
-  <?php require ('partials/pageController.php'); ?>
+<?php } ?>
 </div>
-<!--- end print table --->
 <?php require_once("partials/footer.php");?>
 </body>
 </html>

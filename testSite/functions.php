@@ -128,7 +128,9 @@ function mapField($field) {
     $family = $record->getField('Family');
     $subfamily = $record->getField('Subfamily');
     $genusPage = 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
-    if(strlen($subfamily) > 0) {
+    $html = file_get_html($genusPage);
+    $species = $html->find('.speciesentry');
+    if(count($species) ==0) {
       $genusPage = 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/'.$subfamily.'/';
     }
     return $genusPage;

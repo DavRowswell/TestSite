@@ -114,6 +114,17 @@ function file_get_html(
 	// Ensure maximum length is greater than zero
 	if($maxLen <= 0) { $maxLen = MAX_FILE_SIZE; }
 
+
+	//HOPEFULLY REMOVE SOMEDAY BECAUSE ZOOLOGY SERVER WAS NO BUENO
+	//Zoology server ssl was not verifying properly for entomology images, I hope this
+	//can be rememdied int he future
+	$context=array(
+		"ssl"=>array(
+			"verify_peer"=>false,
+			"verify_peer_name"=>false,
+		),
+	);
+
 	// We DO force the tags to be terminated.
 	$dom = new simple_html_dom(
 		null,
@@ -131,7 +142,7 @@ function file_get_html(
 	$contents = file_get_contents(
 		$url,
 		$use_include_path,
-		$context,
+		stream_context_create($context),
 		$offset,
 		$maxLen);
 

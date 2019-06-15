@@ -214,14 +214,15 @@
                 }
                 if($foundImage==false) {
                   echo '<div style="height: 300px; text-align:center; line-height:300px;">';
+                        $order = $record->getField('Order');
                         $fam=$findAllRec[0]->getField("Family");
                         $subfam=$findAllRec[0]->getField("Subfamily");
                         if ($subfam!==""){
-                          echo '<a href="'.$url.'" style="text-align:center;"> 
+                          echo '<a href="https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/'.$subfamily.'/" style="text-align:center;"> 
                           <button class="btn btn-custom" id="showAll" > See more of '.$subfam.' here!</button> </a>';
                         }
                         else {
-                          echo ' <a href="'.$url.'" style="text-align:center;"> 
+                          echo ' <a href="https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$fam.'/" style="text-align:center;"> 
                           <role="button" class="btn btn-custom" id="showAll" > See more of '.$fam.' here!</button> </a> ';
                         }
                   echo '</div>';

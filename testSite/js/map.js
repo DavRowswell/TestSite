@@ -56,7 +56,6 @@ function(Map, MapView, GraphicsLayer, Graphic, Point, Circle, SpatialReference, 
     ] // longitude, latitude
   });
 
-  console.log(circle.radius);
   if(circle.radius > 2000){
     view.extent = circle.extent;
   } else {

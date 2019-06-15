@@ -21,8 +21,10 @@ function clearURL() {
 
     var vals = document.getElementById("submit-form");
     var inputs = vals.querySelectorAll("input[type=text]");
-    if (!document.getElementById("imageCheck").checked){
-        document.getElementById("imageCheck").disabled=true;
+    if (document.getElementById("imageCheck")) {
+        if (!document.getElementById("imageCheck").checked){
+            document.getElementById("imageCheck").disabled=true;
+        }
     }
     for(var i=0;i< inputs.length;i++){
         if(inputs[i].value.length == 0){
@@ -52,8 +54,10 @@ window.onpageshow = function(event){
             inputs[i].disabled = false;
         }
     }
-    document.getElementById("imageCheck").checked=false;
-    document.getElementById("imageCheck").disabled=false;
+    if (document.getElementById("imageCheck")) {
+        document.getElementById("imageCheck").checked=false;
+        document.getElementById("imageCheck").disabled=false;
+    }
 }
 
 var coll = document.getElementsByClassName("collapsible");

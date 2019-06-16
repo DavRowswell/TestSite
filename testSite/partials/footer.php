@@ -1,14 +1,10 @@
 </div>
 <div id="footer" class="row no-gutters" style="margin-top: 15px;">
     <div class="col-sm-12 text-center">
-        <div id="footer-section">
-            <p style="font-style: italic;">If there are bugs, send an email to davi144@mail.ubc.ca</p>
+        <div id="footer-section" style="padding: 15px 0px;">
             <a href="http://beatymuseum.ubc.ca/">
             <img src = "images/beatyLogo.png" width = "300px" length = "150px">
             </a>
-            <p style = "font-size: 0.8em; margin-top: 15px; margin-bottom: 0px;"> 
-                *This site is in beta and can have some bugs.
-            </p>
         </div>
     </div>
 </div>

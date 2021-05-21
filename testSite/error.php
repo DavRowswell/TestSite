@@ -1,17 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html  lang="en">
     <head>
         <?php
             require_once ('partials/header.php');
         ?>
-
-        <style>
-        hr {
-            border: 1px solid gray;
-            width: 100%;
-        }
-        </style>
-
     </head>
 
     <body class="d-flex flex-column">
@@ -19,7 +11,7 @@
             session_start();
             require_once ('partials/navbar.php');
         ?>
-        <div class="row h-100">
+        <div class="h-100">
             <div class="col-sm-12 my-auto">
                 <?php
                 if (isset($_SESSION['error']))

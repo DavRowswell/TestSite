@@ -1,4 +1,4 @@
 #exclude the database information,images and FTP folder
-databases/*
+databases/
 FTP/
-
+db.inc.php

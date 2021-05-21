@@ -19,17 +19,15 @@
         <link rel="stylesheet" href="css/index.css">
     </head>
 
-    <body class="d-flex flex-column">
+    <body class="container-fluid no-padding">
         <!--- Contains the navbar on the top of every page--->
         <?php require_once ('partials/navbar.php'); ?>
 
         <!--- Div for the main content of the page--->
         <div id="main">
             <!--- The main title of the page under the navbar--->
-            <div id="main-title" class="row">
-                <div class="col">
-                    <h1>Database List</h1>
-                </div>
+            <div class="container-fluid no-padding">
+                <h1>Database List</h1>
             </div>
 
             <!--- Row for all the content--->

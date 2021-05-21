@@ -9,6 +9,13 @@ html,body {
     background-color: inherit;
 }
 
+.title-box {
+    border-bottom: black solid 2px;
+    border-top: black solid 2px;
+    margin-bottom: 16px;
+    padding: 0;
+}
+
 #title-divider{
     height: 1px;
     width: 100%;

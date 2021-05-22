@@ -77,6 +77,7 @@
         <?php
           require_once ('partials/cssDecision.php');
           require_once ('partials/header.php');
+          require_once('partials/widgets.php');
         ?>
         <link rel="stylesheet" href="css/search.css">
     </head>
@@ -85,19 +86,7 @@
         <?php require_once ('partials/navbar.php');?>
 
         <!-- Page title below navbar -->
-        <div class="container-fluid no-padding">
-              <h1>
-                  <b>
-                      <?php # get the readable database name, some databases have non-readable names
-                      if($_GET['Database'] === "mi" || $_GET['Database'] === "miw" || $_GET['Database'] === "vwsp") {
-                          if ($_GET['Database'] === "mi") { echo "Dry Marine Invertebrate"; }
-                          else if ($_GET['Database'] === "vwsp") { echo "Vascular"; }
-                          else { echo "Wet Marine Invertebrate"; }
-                      } else { echo ucfirst($_GET['Database']); }?>
-                      Search
-                  </b>
-              </h1>
-        </div>
+        <?php TitleBanner(databaseName: $_GET['Database']); ?>
 
         <div class="container-fluid">
             <form action="render.php" method="get" id="submit-form">
@@ -400,7 +389,7 @@
         </div>
 
         <!-- footer -->
-        <?php require_once("partials/footer.php");?>
+        <?php Footer(imgSrc: 'images/beatyLogo.png'); ?>
 
         <!-- scripts -->
         <script src="js/process.js"> </script>

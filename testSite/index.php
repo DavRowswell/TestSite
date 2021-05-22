@@ -10,8 +10,8 @@
         //Contains all the information for the head of every page
         require_once ('partials/header.php');
 
-        // get the databaseCard object
-        require_once ('partials/databaseCard.php');
+        // get the widgets
+        require_once ('partials/widgets.php');
 
         ?>
 
@@ -44,35 +44,35 @@
                     <!--- Herbarium links and content--->
                     <div class="column-body">
                         <?php
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Algae',
                                 img_source: 'images/algae.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=algae',
                                 background_color: '#3c8a2e',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Bryophytes',
                                 img_source: 'images/bryophytes.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=bryophytes',
                                 background_color: '#3c8a2e',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Fungi',
                                 img_source: 'images/fungi.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=fungi',
                                 background_color: '#3c8a2e',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Lichen',
                                 img_source: 'images/lichen.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=lichen',
                                 background_color: '#3c8a2e',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Vascular',
                                 img_source: 'images/herbarium.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=vwsp',
@@ -93,28 +93,28 @@
                     <!--- Vertebrate image and link content--->
                     <div class="column-body">
                         <?php
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Avian',
                                 img_source: 'images/tetrapods.png',
                                 href: 'search.php?Database=avian',
                                 background_color: '#70382d',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Herpetology',
                                 img_source: 'images/herptology.png',
                                 href: 'search.php?Database=herpetology',
                                 background_color: '#70382d',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Mammals',
                                 img_source: 'images/mammal.png',
                                 href: 'search.php?Database=mammal',
                                 background_color: '#70382d',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Fish',
                                 img_source: 'images/fish.png',
                                 href: 'search.php?Database=fish',
@@ -135,21 +135,21 @@
                     <!--- Invertebrate column content--->
                     <div class="column-body">
                         <?php
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Entomology',
                                 img_source: 'images/entomology.png',
                                 href: 'search.php?Database=entomology',
                                 background_color: '#824bb0',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Dry Marine Invertebrates',
                                 img_source: 'images/marine-invertebrates-dry.png',
                                 href: 'search.php?Database=mi',
                                 background_color: '#ffb652',
                             );
 
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Wet Marine Invertebrates',
                                 img_source: 'images/marine-invertebrates-wet.png',
                                 href: 'search.php?Database=miw',
@@ -171,7 +171,7 @@
                     <!--- Fossil Content--->
                     <div class="column-body">
                         <?php
-                            new DatabaseCard(
+                             DatabaseCard(
                                 title: 'Fossils',
                                 img_source: 'images/fossils.png',
                                 href: 'search.php?Database=fossil',
@@ -184,6 +184,6 @@
         </div>
 
         <!--- Code for the footer on each page--->
-        <?php require_once("partials/footer.php");?>
+        <?php Footer(imgSrc: 'images/beatyLogo.png'); ?>
     </body>
 </html>

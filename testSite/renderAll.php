@@ -30,7 +30,7 @@
     }
     // exit;
     ?>
-<link rel="stylesheet" href="css/rendercss.css">
+<link rel="stylesheet" href="css/render.css">
 <!DOCTYPE html>
 <html>
 <head>

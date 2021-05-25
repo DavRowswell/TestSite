@@ -1,22 +1,22 @@
 <?php
-  session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
-  session_start();
+    session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
+    session_start();
 
-  $_SESSION['error'] = "";
+    $_SESSION['error'] = "";
 
-  # Check to make sure the database file is loaded or send to error.php
-  if (!isset($_GET['Database'])){
-      $_SESSION['error'] = "No database given";
-      header('Location: error.php');
-      exit;
-  }
+    # Check to make sure the database file is loaded or send to error.php
+    if (!isset($_GET['Database'])){
+        $_SESSION['error'] = "No database given";
+        header('Location: error.php');
+        exit;
+    }
 
-  require_once ('FileMaker.php');
-  require_once ('db.php');
-  require_once ('functions.php');
-  require_once ('lib/simple_html_dom.php');
+    require_once ('FileMaker.php');
+    require_once ('db.php');
+    require_once ('functions.php');
+    require_once ('lib/simple_html_dom.php');
 
-  $layoutFields = [
+    $layoutFields = [
     'Country',
     'Province or State',
     'Locality',
@@ -32,41 +32,38 @@
     'Year',
     'Month',
     'Day',
-  ];
+    ];
 
-  $renderPage = 'renderAll';
+    $renderPage = 'renderAll';
 
-  if ($_GET['Database'] !== 'all') {
-    $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+    if ($_GET['Database'] !== 'all') {
+        $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
-    $layouts = $fm->listLayouts();
+        $layouts = $fm->listLayouts();
 
-    if (FileMaker::isError($layouts)) {
-      $_SESSION['error'] = $layouts->getMessage();
-      header('Location: error.php');
-      exit;
-    }
-
-    $layout = $layouts[0];
-
-    foreach ($layouts as $l) {
-      //get current database name
-      $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
-      if ($page == 'mi') {
-        if (str_contains($l, 'search')) {
-          $layout = $l;
-          break;
+        if (FileMaker::isError($layouts)) {
+            $_SESSION['error'] = $layouts->getMessage();
+            header('Location: error.php');
+            exit;
         }
-      }
-      else if (str_contains($l, 'search')) {
-        $layout = $l;
-      }
-    }
 
-    $fmLayout = $fm->getLayout($layout);
-    $layoutFields = $fmLayout->listFields(); 
-    $renderPage = 'render';
-  }
+        $layout = $layouts[0];
+
+        foreach ($layouts as $l) {
+            //get current database name
+            $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
+            if ($page == 'mi' and str_contains($l, 'search')) {
+                $layout = $l;
+                break;
+            } else if (str_contains($l, 'search')) {
+                $layout = $l;
+            }
+        }
+
+        $fmLayout = $fm->getLayout($layout);
+        $layoutFields = $fmLayout->listFields();
+        $renderPage = 'render';
+    }
 
 ?>
 

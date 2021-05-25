@@ -45,7 +45,7 @@
         foreach ($searchDatabases as $sd) {
         // determine search and results layouts for given database
         setLayouts($sd);
-        generateTable($sd);
+        generateTable($sd, 20);
         }
         ?>
 

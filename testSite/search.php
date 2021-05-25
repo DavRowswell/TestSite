@@ -72,7 +72,7 @@
     <head>
         <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
         <?php
-          require_once ('partials/cssDecision.php');
+          require_once('partials/conditionalCSS.php');
           require_once('partials/widgets.php');
           HeaderWidget('Search');
         ?>
@@ -164,7 +164,7 @@
                                     <div id="entoSite" class="row no-gutters">
                                         <div class="col-sm-12" style="background: url(images/entomologyBannerImages/rotator.php) no-repeat center center; background-size: 100% auto; text-align: center; color: white;">
                                             <div style ="margin-top:30px;margin-bottom:30px;">
-                                                <a href="https://www.zoology.ubc.ca/entomology/" style="text-sdecoration: none; color: white;">
+                                                <a href="https://www.zoology.ubc.ca/entomology/" style="text-decoration: none; color: white;">
                                                     <p>Welcome to the</p><h3>SPENCER ENTOMOLOGICAL COLLECTION</h3>
                                                 </a>
                                             </div>
@@ -269,7 +269,7 @@
                                 || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae' || $_GET['Database'] == 'avian'
                                 || $_GET['Database'] == 'mammal'
                                 || $_GET['Database'] == 'fish'
-                                || $_GET['Database'] == 'entomology') {
+                                || $_GET['Database'] == 'entomology') :
 
                                 $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
                                 $result = $getSampleScript->execute();
@@ -346,13 +346,13 @@
                                                     $foundImage = false;
                                                     foreach($species as $spec) {
                                                         $speciesName = $spec->innertext;
-                                                        if (strpos($speciesName, $genusSpecies) !== false  && strpos($speciesName, $semnumber) !== false) {
+                                                        if (str_contains($speciesName, $genusSpecies) && str_contains($speciesName, $semnumber)) {
                                                             $foundImage = true;
                                                             $images = $spec->find('a');
                                                             $link = $images[0]->href;
                                                             $url = str_replace('http:','https:',$genusPage);
                                                             $final = "".$url.$link;
-                                                            echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.htmlspecialchars($final) .'"></a>';
+                                                            echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id="sample" class="minHeight" src="'.htmlspecialchars($final) .'" alt="Sample image"></a>';
                                                             break;
                                                         }
                                                     }
@@ -360,10 +360,10 @@
                                                 else if ($_GET['Database'] == 'fish') {
                                                     $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("card01").'/0';
                                                     $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("card01");
-                                                    echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id = "fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                                                    echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id="fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'" alt="Sample Image"></a>';
                                                 }
                                                 else {
-                                                    echo '<a href ='. $url.' target="_blank" rel="noopener noreferrer">'.'<img id = "sample" class="minHeight" src="'.$url .'"></a>';
+                                                    echo '<a href ='. $url.' target="_blank" rel="noopener noreferrer">'.'<img id="sample" class="minHeight" src="'.$url .'" alt="Sample Image"></a>';
                                                 }
                                                 echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
                                                 echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';
@@ -377,7 +377,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            <?php } ?>
+                            <?php endif; ?>
                         </div>
 
                     </div>

@@ -77,7 +77,7 @@
             }
         </style>
         <?php
-          require_once ('partials/cssDecision.php');
+          require_once('partials/conditionalCSS.php');
           require_once ('partials/widgets.php');
           HeaderWidget('Specie Details');
         ?>

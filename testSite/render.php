@@ -77,7 +77,7 @@
 <html lang="en">
     <head>
         <?php
-            require_once ('partials/cssDecision.php');
+            require_once('partials/conditionalCSS.php');
             require_once('partials/widgets.php');
             HeaderWidget('Search Table');
         ?>

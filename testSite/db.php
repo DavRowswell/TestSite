@@ -1,5 +1,4 @@
 
-<!-- TODO ask david what this is for and where the databases/ folder is -->
 <?php
 	if (isset($_GET['Database']) && $_GET['Database'] != "") {
 		if ($_GET['Database'] !== 'all' && (

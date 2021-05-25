@@ -78,13 +78,13 @@
         </style>
         <?php
           require_once ('partials/cssDecision.php');
-          require_once ('partials/header.php');
           require_once ('partials/widgets.php');
+          HeaderWidget('Specie Details');
         ?>
     </head>
 
     <body class="d-flex flex-column">
-      <?php require_once ('partials/navbar.php'); ?>
+      <?php Navbar(); ?>
 
       <?php
       # check for errors, if so return error.php
@@ -325,7 +325,7 @@
         </div>
     </div>
 
-    <?php require_once("partials/footer.php");?>
+    <?php FooterWidget('images/beatyLogo.png') ;?>
 
     <script >
      // js slideshow

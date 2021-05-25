@@ -73,14 +73,14 @@
         <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
         <?php
           require_once ('partials/cssDecision.php');
-          require_once ('partials/header.php');
           require_once('partials/widgets.php');
+          HeaderWidget('Search');
         ?>
         <link rel="stylesheet" href="css/search.css">
     </head>
 
     <body class="container-fluid no-padding">
-        <?php require_once ('partials/navbar.php');?>
+        <?php Navbar(); ?>
 
         <!-- Page title below navbar -->
         <?php TitleBanner(databaseName: $_GET['Database']); ?>
@@ -386,7 +386,7 @@
         </div>
 
         <!-- footer -->
-        <?php Footer(imgSrc: 'images/beatyLogo.png'); ?>
+        <?php FooterWidget(imgSrc: 'images/beatyLogo.png'); ?>
 
         <!-- scripts -->
         <script src="js/process.js"> </script>

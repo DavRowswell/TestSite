@@ -78,8 +78,8 @@
     <head>
         <?php
             require_once ('partials/cssDecision.php');
-            require_once ('partials/header.php');
             require_once('partials/widgets.php');
+            HeaderWidget('Search Table');
         ?>
         <link rel="stylesheet" href="css/render.css">
     </head>
@@ -87,7 +87,7 @@
     <body class="container-fluid no-padding">
 
         <!-- navbar -->
-        <?php require_once ('partials/navbar.php'); ?>
+        <?php Navbar(); ?>
 
         <!-- Page title below navbar -->
         <?php TitleBanner(databaseName: $_GET['Database']); ?>
@@ -96,7 +96,7 @@
         <div class="container-fluid">
             <?php
                 if(sizeOf($searchDatabases)==1) :
-                    PageController($maxResponses, $result);
+                    TableController($maxResponses, $result);
             ?>
                 <!-- Modify Search Button -->
                 <div class="form-group">
@@ -117,13 +117,13 @@
                 # data table
                 echoDataTable($searchDatabases[0]->getDatabase(),$findAllRec,$recFields);
 
-                PageController($maxResponses, $result);
+                TableController($maxResponses, $result);
 
                 endif;
             ?>
         </div>
 
         <!-- footer -->
-        <?php Footer(imgSrc: 'images/beatyLogo.png'); ?>
+        <?php FooterWidget(imgSrc: 'images/beatyLogo.png'); ?>
     </body>
 </html>

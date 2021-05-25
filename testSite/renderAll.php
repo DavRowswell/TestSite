@@ -1,9 +1,9 @@
     <?php
     session_start();
     require_once ('FileMaker.php');
-    require_once ('partials/header.php');
     require_once ('functions.php');
     require_once ('DatabaseSearch.php');
+    require_once ('partials/widgets.php');
     
     // list databases
     // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
@@ -33,21 +33,23 @@
 <link rel="stylesheet" href="css/render.css">
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
+        <?php HeaderWidget(); ?>
     </head>
     <body class="container-fluid">
-    <?php
+        <?php
 
-    require_once ('partials/navbar.php');
-    // generate results from FileMaker query
-    foreach ($searchDatabases as $sd) {
+        Navbar();
+
+        // generate results from FileMaker query
+        foreach ($searchDatabases as $sd) {
         // determine search and results layouts for given database
         setLayouts($sd);
         generateTable($sd);
-    }
-  ?>
-      
-<?php include_once ('partials/footer.php');?>    
-<script src="js/process.js"> </script>
-</body>
+        }
+        ?>
+
+        <?php FooterWidget('images/beatyLogo.png'); ?>
+        <script src="js/process.js"> </script>
+    </body>
 </html>

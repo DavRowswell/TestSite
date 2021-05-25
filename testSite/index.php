@@ -3,15 +3,11 @@
 
     <head>
         <?php
-        // TODO check if we really need this in index.php and maybe just wait for search.php
-        //Necessary for database connection to Filemaker
-        require_once ('FileMaker.php');
-
-        //Contains all the information for the head of every page
-        require_once ('partials/header.php');
 
         // get the widgets
         require_once ('partials/widgets.php');
+
+        HeaderWidget();
 
         ?>
 
@@ -21,7 +17,7 @@
 
     <body class="container-fluid no-padding">
         <!--- Contains the navbar on the top of every page--->
-        <?php require_once ('partials/navbar.php'); ?>
+        <?php Navbar(); ?>
 
         <!--- Div for the main content of the page--->
         <div id="main">
@@ -184,6 +180,6 @@
         </div>
 
         <!--- Code for the footer on each page--->
-        <?php Footer(imgSrc: 'images/beatyLogo.png'); ?>
+        <?php FooterWidget(imgSrc: 'images/beatyLogo.png'); ?>
     </body>
 </html>

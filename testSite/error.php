@@ -2,14 +2,15 @@
 <html  lang="en">
     <head>
         <?php
-            require_once ('partials/header.php');
+            require_once ('partials/widgets.php');
+            HeaderWidget('Error');
         ?>
     </head>
 
     <body class="d-flex flex-column">
         <?php 
             session_start();
-            require_once ('partials/navbar.php');
+            Navbar();
         ?>
         <div class="h-100">
             <div class="col-sm-12 my-auto">
@@ -20,7 +21,7 @@
                 <p align = "center"><a role="button" class="btn btn-danger" href="index.php">Main Page</a></p>
             </div>
         </div>
-        <?php require_once ("partials/footer.php");?>
+        <?php FooterWidget('images/beatyLogo.png'); ?>
     </body>
 
 

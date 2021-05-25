@@ -115,70 +115,70 @@ function mapField($field) {
       }
   }
   
-  function formatField($field) {
-    $colonPosition = strrpos($field, ":");
-    if ($colonPosition) {
-      $field = substr($field, $colonPosition + 1);
-    }
-    return mapField($field);
+function formatField($field) {
+  $colonPosition = strrpos($field, ":");
+  if ($colonPosition) {
+    $field = substr($field, $colonPosition + 1);
   }
+  return mapField($field);
+}
 
-  function getGenusPage($record) {
-    $order = $record->getField('Order');
-    $family = $record->getField('Family');
-    $subfamily = $record->getField('Subfamily');
-    $genusPage = 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
-    $html = file_get_html($genusPage);
-    $species = $html->find('.speciesentry');
-    if(count($species) ==0) {
-      $genusPage = 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/'.$subfamily.'/';
-    }
-    return $genusPage;
+function getGenusPage($record) {
+  $order = $record->getField('Order');
+  $family = $record->getField('Family');
+  $subfamily = $record->getField('Subfamily');
+  $genusPage = 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
+  $html = file_get_html($genusPage);
+  $species = $html->find('.speciesentry');
+  if(count($species) ==0) {
+    $genusPage = 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/'.$subfamily.'/';
   }
+  return $genusPage;
+}
 
-  function getGenusSpecies($record) {
-    $genus = $record->getField('Genus');
-    $species = $record->getField('Species');
-    $genusSpecies = $genus . ' ' . $species ;
-    return $genusSpecies;
+function getGenusSpecies($record) {
+  $genus = $record->getField('Genus');
+  $species = $record->getField('Species');
+  $genusSpecies = $genus . ' ' . $species ;
+  return $genusSpecies;
+}
+
+function getPhotoUrl($identifier) {
+  if ($_GET['Database'] === 'vwsp') {
+    return "https://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$identifier.".jpg";
   }
-
-  function getPhotoUrl($identifier) {
-    if ($_GET['Database'] === 'vwsp') {
-      return "https://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$identifier.".jpg";
-    }
-    else if ($_GET['Database'] === 'algae') {
-      return "https://herbweb.botany.ubc.ca/herbarium/images/ubcalgae_images/Large_web/".$identifier.".jpg";
-    }
-    else if ($_GET['Database'] === 'lichen') {
-      return "https://herbweb.botany.ubc.ca/herbarium/images/lichen_images/Large_web/".$identifier.".jpg";
-    }
-    else if ($_GET['Database'] === 'fungi') {
-      return "https://herbweb.botany.ubc.ca/herbarium/images/fungi_images/Large_web/".$identifier.".jpg";
-    }
-    else if ($_GET['Database'] === 'bryophytes') {
-      return "https://herbweb.botany.ubc.ca/herbarium/images/bryophytes_images/Large_web/".$identifier.".jpg";
-    }
-    else if ($_GET['Database'] === 'mammal') {
-      return 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Mammal%20Research%20Collection&-lay=mammal_details&-recid='
-      .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
-    }
-    else if ($_GET['Database'] === 'avian') {
-      return 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid='
-      .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
-    }
-    else if ($_GET['Database'] === 'herpetology') {
-      return 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Herpetology%20Research%20Collection&-lay=herp_details&-recid='
-      .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
-    }
+  else if ($_GET['Database'] === 'algae') {
+    return "https://herbweb.botany.ubc.ca/herbarium/images/ubcalgae_images/Large_web/".$identifier.".jpg";
   }
-
-  function shouldDescend($field) {
-    if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return false;
-    if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
-    return false;
+  else if ($_GET['Database'] === 'lichen') {
+    return "https://herbweb.botany.ubc.ca/herbarium/images/lichen_images/Large_web/".$identifier.".jpg";
   }
+  else if ($_GET['Database'] === 'fungi') {
+    return "https://herbweb.botany.ubc.ca/herbarium/images/fungi_images/Large_web/".$identifier.".jpg";
+  }
+  else if ($_GET['Database'] === 'bryophytes') {
+    return "https://herbweb.botany.ubc.ca/herbarium/images/bryophytes_images/Large_web/".$identifier.".jpg";
+  }
+  else if ($_GET['Database'] === 'mammal') {
+    return 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Mammal%20Research%20Collection&-lay=mammal_details&-recid='
+    .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
+  }
+  else if ($_GET['Database'] === 'avian') {
+    return 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Avian%20Research%20Collection&-lay=details-avian&-recid='
+    .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
+  }
+  else if ($_GET['Database'] === 'herpetology') {
+    return 'https://collections.zoology.ubc.ca/fmi/xml/cnt/data.JPG?-db=Herpetology%20Research%20Collection&-lay=herp_details&-recid='
+    .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
+  }
+}
 
-  require_once('renderFunctions.php');
-?>
+function shouldDescend($field) {
+  if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return false;
+  if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
+  return false;
+}
+
+require_once('renderFunctions.php');
+
 

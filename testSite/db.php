@@ -1,5 +1,7 @@
 
 <?php
+	# loads the databse files necessary to access the database
+
 	if (isset($_GET['Database']) && $_GET['Database'] != "") {
 		if ($_GET['Database'] !== 'all' && (
 		$_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' ||

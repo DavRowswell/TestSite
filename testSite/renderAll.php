@@ -1,4 +1,4 @@
-    <?php
+<?php
     session_start();
     require_once ('FileMaker.php');
     require_once ('functions.php');
@@ -29,7 +29,7 @@
         array_push($searchDatabases, $databaseSearch);
     }
     // exit;
-    ?>
+?>
 <link rel="stylesheet" href="css/render.css">
 <!DOCTYPE html>
 <html>

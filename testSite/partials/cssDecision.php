@@ -94,7 +94,8 @@
         }
 
     </style>
-<?php } else if($_GET['Database'] == "vwsp" || $_GET['Database'] == "algae" || $_GET['Database'] == "fungi" || $_GET['Database'] == "bryophytes" || $_GET['Database'] == "lichen") {?>
+<?php }
+else if($_GET['Database'] == "vwsp" || $_GET['Database'] == "algae" || $_GET['Database'] == "fungi" || $_GET['Database'] == "bryophytes" || $_GET['Database'] == "lichen") {?>
     <style>
         div h1 {
             background: #3c8a2e;
@@ -190,7 +191,8 @@
         }
 
     </style>
-<?php } else if ($_GET['Database'] == "miw" || $_GET['Database'] == "mi") {?>
+<?php }
+else if ($_GET['Database'] == "miw" || $_GET['Database'] == "mi") {?>
     <style>
         div h1 {
             background: #ffb652;
@@ -286,7 +288,8 @@
         }
 
     </style>
-<?php } else if ($_GET['Database'] == "fish") {?>
+<?php }
+else if ($_GET['Database'] == "fish") {?>
     <style>
         div h1 {
             background: #165788;
@@ -382,7 +385,8 @@
         }
 
     </style>
-<?php } else if ($_GET['Database'] == "entomology") {?>
+<?php }
+else if ($_GET['Database'] == "entomology") {?>
     <style>
         div h1 {
             background: #824bb0;
@@ -478,7 +482,8 @@
         }
 
     </style>
-<?php } else if ($_GET['Database'] == "fossil") {?>
+<?php }
+else if ($_GET['Database'] == "fossil") {?>
     <style>
         div h1 {
             background: #bd3632;
@@ -574,7 +579,8 @@
         }
 
     </style>
-<?php } else if ($_GET['Database'] == "all") {?>
+<?php }
+else if ($_GET['Database'] == "all") {?>
     <style>
         div h1 {
             background: #CC2229;
@@ -670,4 +676,4 @@
         }
 
     </style>
-<?php } ?>
+<?php }

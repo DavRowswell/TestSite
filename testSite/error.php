@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  lang="en">
+<html lang="en">
     <head>
         <?php
             require_once ('partials/widgets.php');
@@ -13,16 +13,15 @@
             Navbar();
         ?>
         <div class="h-100">
-            <div class="col-sm-12 my-auto">
+            <div class="col-sm-12 my-auto text-center">
                 <?php
                 if (isset($_SESSION['error']))
-                    echo "<p align = center>" . htmlspecialchars($_SESSION['error']) . ".</p>";
+                    echo "<p>" . htmlspecialchars($_SESSION['error']) . ".</p>";
                 ?>
-                <p align = "center"><a role="button" class="btn btn-danger" href="index.php">Main Page</a></p>
+                <p><a role="button" class="btn btn-danger" href="index.php">Main Page</a></p>
             </div>
         </div>
+
         <?php FooterWidget('images/beatyLogo.png'); ?>
     </body>
-
-
 </html>

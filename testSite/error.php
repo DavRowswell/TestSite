@@ -12,8 +12,9 @@
             session_start();
             Navbar();
         ?>
-        <div class="h-100">
-            <div class="col-sm-12 my-auto text-center">
+
+        <div class="d-flex align-items-center text-center vh-100">
+            <div class="container-fluid">
                 <?php
                 if (isset($_SESSION['error']))
                     echo "<p>" . htmlspecialchars($_SESSION['error']) . ".</p>";

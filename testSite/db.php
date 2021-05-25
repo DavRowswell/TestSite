@@ -1,16 +1,16 @@
 
 <?php
-	# loads the databse files necessary to access the database
+	# loads the database files necessary to access the database
+
+	$databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish',
+		'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 'miw', 'vwsp'];
 
 	if (isset($_GET['Database']) && $_GET['Database'] != "") {
-		if ($_GET['Database'] !== 'all' && (
-		$_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal' ||
-		$_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi' || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae'||
-		$_GET['Database'] === 'entomology' || $_GET['Database'] === 'fish' || $_GET['Database'] === 'mi' || $_GET['Database'] === 'miw' || $_GET['Database'] === 'fossil')) {
+		if (in_array($_GET['Database'], $databases)) {
 			require_once ('databases/'.$_GET['Database'].'db.php');
 		}
 		else if($_GET['Database'] == 'all') {
-			
+			# TODO add something here?
 		}
 		else {
 			$_SESSION['error'] = "Not a valid database given";
@@ -18,6 +18,7 @@
 			exit;
 		}
 	} else {
-		require_once ('databases/miwdb.php');
+		$_SESSION['error'] = "Do database given!";
+		header('Location: error.php');
+		exit;
 	}
-?>

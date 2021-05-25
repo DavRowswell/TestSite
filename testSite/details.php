@@ -283,7 +283,7 @@
                                 foreach ($tableNamesObj as $relatedRow){
                                   if (gettype($tableNamesObj)=='array') {
                                     $possible_answer = $relatedRow->getField('Photographs::photoContainer');
-                                    if ((strpos(strtolower($possible_answer), "jpg") !== false)){  // delete if later
+                                    if ((str_contains(strtolower($possible_answer), "jpg"))){  // delete if later
                                       echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
                                     }
                                   }

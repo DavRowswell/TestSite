@@ -2,68 +2,74 @@
     session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
     session_start();
 
-    $_SESSION['error'] = "";
 
     # Check to make sure the database file is loaded or send to error.php
-    if (!isset($_GET['Database'])){
+    if (!isset($_GET['Database']) or $_GET['Database'] == ''){
         $_SESSION['error'] = "No database given";
         header('Location: error.php');
         exit;
     }
+    # also check to make sure we dont have the 'all' database tag, this is not the page for this tag
+    else if ($_GET['Database'] == 'all') {
+        $_SESSION['error'] = "Wrong page for database given";
+        header('Location: error.php');
+        exit;
+    }
+
+    define("DATABASE", $_GET['Database']);
 
     require_once ('FileMaker.php');
-    require_once ('db.php');
+    require_once('credentials_controller.php');
     require_once ('functions.php');
     require_once ('lib/simple_html_dom.php');
 
-    $layoutFields = [
-    'Country',
-    'Province or State',
-    'Locality',
-    'Elevation',
-    'Depth',
-    'Phylum',
-    'Class',
-    'Family',
-    'Genus',
-    'Species',
-    'Collector',
-    'Collection Date',
-    'Year',
-    'Month',
-    'Day',
-    ];
+    # All databases that have images available
+    const DATABASES_WITH_IMAGES = ['fish', 'avian', 'herpetology', 'mammal', 'vwsp', 'bryophytes',
+        'fungi', 'lichen', 'algae'];
 
-    $renderPage = 'renderAll';
+    # ALl databases that have examples available
+    const DATABASES_WITH_EXAMPLES = ['fish', 'avian', 'entomology', 'mammal', 'vwsp', 'bryophytes',
+        'fungi', 'lichen', 'algae'];
 
-    if ($_GET['Database'] !== 'all') {
-        $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+    list($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS) = getDBCredentials(DATABASE);
 
-        $layouts = $fm->listLayouts();
-
-        if (FileMaker::isError($layouts)) {
-            $_SESSION['error'] = $layouts->getMessage();
-            header('Location: error.php');
-            exit;
-        }
-
-        $layout = $layouts[0];
-
-        foreach ($layouts as $l) {
-            //get current database name
-            $page = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '=') + 1);
-            if ($page == 'mi' and str_contains($l, 'search')) {
-                $layout = $l;
-                break;
-            } else if (str_contains($l, 'search')) {
-                $layout = $l;
-            }
-        }
-
-        $fmLayout = $fm->getLayout($layout);
-        $layoutFields = $fmLayout->listFields();
-        $renderPage = 'render';
+    if (!$FM_PASS or !$FM_FILE or !$FM_HOST or !$FM_USER) {
+        $_SESSION['error'] = 'Unsupported database given';
+        header('Location: error.php');
+        exit;
     }
+
+    $fileMaker = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+
+    $layouts = $fileMaker->listLayouts();
+
+    if (FileMaker::isError($layouts)) {
+        $_SESSION['error'] = $layouts->getMessage();
+        header('Location: error.php');
+        exit;
+    }
+
+    # default layout to the first available one
+    $layout = $layouts[0];
+
+    # search each available layout
+    foreach ($layouts as $l) {
+        # special MI database layout search, both WIM and IM are in the same FileMaker, this the break
+        if (DATABASE == 'mi' and str_contains($l, 'search') and str_contains($l, 'MI')) {
+            $layout = $l;
+            break;
+        } else if (str_contains($l, 'search')) {
+            $layout = $l;
+        }
+    }
+
+    # get the layout from FMP and then the fields from the layout
+    $fmLayout = $fileMaker->getLayout($layout);
+    $FMLayoutFields = $fmLayout->listFields();
+
+    # filter the layouts to those we only want
+    $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
+    define("FIELDS", array_diff($FMLayoutFields, $ignoreValues));
 
 ?>
 
@@ -74,6 +80,7 @@
         <?php
           require_once('partials/conditionalCSS.php');
           require_once('partials/widgets.php');
+
           HeaderWidget('Search');
         ?>
         <link rel="stylesheet" href="css/search.css">
@@ -83,7 +90,7 @@
         <?php Navbar(); ?>
 
         <!-- Page title below navbar -->
-        <?php TitleBanner(databaseName: $_GET['Database']); ?>
+        <?php TitleBanner(databaseName: DATABASE); ?>
 
         <div class="container-fluid">
             <form action="render.php" method="get" id="submit-form">
@@ -93,7 +100,7 @@
                     <div id="form" class = "col-sm-6">
                         <!-- hidden text field containing the database name -->
                         <input type="text" hidden name="Database"
-                               value=<?php if (isset($_GET['Database'])) echo htmlspecialchars($_GET['Database']); ?>>
+                               value=<?php echo htmlspecialchars(DATABASE); ?>>
 
                         <!-- submit button -->
                         <div class="form-group">
@@ -101,33 +108,31 @@
                         </div>
 
                         <?php
-                            $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
-                            $layoutFields = array_diff($layoutFields, $ignoreValues);
-                            list($layoutFields1, $layoutFields2) = array_chunk($layoutFields, ceil(count($layoutFields) / 2));
+                            list($layoutFields1, $layoutFields2) = array_chunk(FIELDS, ceil(count(FIELDS) / 2));
                             $count = 0;
-                            foreach ($layoutFields1 as $rf) {
+                            foreach ($layoutFields1 as $layoutField) :
                         ?>
                         <div class="row">
                             <!--- Section that is one label and one search box --->
                             <div class="col-sm-3">
-                                <label for="field-<?php echo $rf?>">
-                                    <?php echo htmlspecialchars(formatField($rf)) ?>
+                                <label for="field-<?php echo $layoutField?>">
+                                    <?php echo htmlspecialchars(formatField($layoutField)) ?>
                                 </label>
                             </div>
 
                             <div class="col-sm-3">
-                                <input type="text" id="field-<?php echo $rf?>"
+                                <input type="text" id="field-<?php echo $layoutField?>"
                                     <?php
-                                    if (isset($_POST[str_replace(' ', '_', $rf)]))
-                                      echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $rf)]);
+                                    if (isset($_POST[str_replace(' ', '_', $layoutField)]))
+                                      echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $layoutField)]);
                                     ?>
-                                    name="<?php echo htmlspecialchars($rf) ?>"
+                                    name="<?php echo htmlspecialchars($layoutField) ?>"
                                     class="form-control"
                                 >
                             </div>
 
                             <!--- End of a single label, input instance --->
-                            <?php if($count < sizeof($layoutFields2)) { ?>
+                            <?php if($count < sizeof($layoutFields2)) : ?>
 
                             <!--- Section that is one label and one search box --->
                             <div class="col-sm-3">
@@ -148,10 +153,10 @@
                             </div>
 
                             <!--- End of a single label, input instance --->
-                            <?php } ?>
+                            <?php endif; ?>
 
                         </div>
-                        <?php $count++; } ?>
+                        <?php $count++; endforeach; ?>
                     </div>
 
                     <!-- search ops, images, maps, etc -->
@@ -159,7 +164,7 @@
                         <!-- special entomology title -->
                         <div>
                             <?php
-                            if($_GET['Database'] === 'entomology'){
+                            if(DATABASE === 'entomology'){
                                 echo '
                                     <div id="entoSite" class="row no-gutters">
                                         <div class="col-sm-12" style="background: url(images/entomologyBannerImages/rotator.php) no-repeat center center; background-size: 100% auto; text-align: center; color: white;">
@@ -228,50 +233,46 @@
                             <h4>Search By</h4>
                             <div class = "btn-group btn-group-toggle" data-toggle="buttons" >
                                 <!-- AND -->
-                                <label class = "btn btn-custom active" id="andLabel" style="font-size:12px;">
-                                    <input type="radio"  id = "and" autocomplete="off"  checked> AND
+                                <label class = "btn btn-custom active" id="andLabel">
+                                    <input type="radio"  id = "and" autocomplete="off" checked> AND
                                 </label>
 
                                 <!-- OR -->
-                                <label class = "btn btn-custom" id="orLabel" style="font-size:12px;">
-                                    <input type="radio" id = "or" autocomplete="off" > <span style="visibility: hidden">&nbsp;</span>OR<span style="visibility: hidden">&nbsp;</span>
+                                <label class = "btn btn-custom" id="orLabel">
+                                    <input type="radio" id="or" autocomplete="off" > OR
                                 </label>
                             </div>
                         </div>
 
                         <!-- all records button -->
                         <div class="form-group">
-                            <a href="render.php?Database=<?php echo htmlspecialchars($_GET['Database'])?>"
-                               role="button" class="btn btn-custom"
-                               style="font-size:12px; text-align:left; padding-left:2px; padding-right:2px;">Show All Records</a>
+                            <a href="render.php?Database=<?php echo htmlspecialchars(DATABASE)?>"
+                               role="button" class="btn btn-custom">Show All Records</a>
                         </div>
 
                         <!-- only image select -->
                         <div class="form-group">
-                            <?php if ($_GET['Database'] == 'fish' || $_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal'
-                                || $_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' ||
-                                $_GET['Database'] == 'fungi' || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') { ?>
-                                  <div class="col">
+                            <?php if (in_array(DATABASE, DATABASES_WITH_IMAGES)) : ?>
+                                    <div class="col">
                                         <input type="checkbox" id="imageCheck">
                                         <label for="imageCheck">
                                             Only show records that contain an image
                                         </label>
-                                  </div>
-                                  <input type="hidden" name = "hasImage" id = "hasImage">
-                            <?php } ?>
-                            <input type="hidden" name = "type" id = "type">
+                                    </div>
+
+                                    <!-- Used to set data for the form with the Process() function in js/process.js TODO remove this -->
+                                    <input type="hidden" name="hasImage" id="hasImage">
+                            <?php endif; ?>
+                            <!-- also used to set data for the form with the Process() TODO remove this -->
+                            <input type="hidden" name="type" id="type">
                         </div>
 
                         <!-- example, shows a different example every time -->
                         <div>
                             <?php
-                            if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi'
-                                || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae' || $_GET['Database'] == 'avian'
-                                || $_GET['Database'] == 'mammal'
-                                || $_GET['Database'] == 'fish'
-                                || $_GET['Database'] == 'entomology') :
+                            if (in_array(DATABASE, DATABASES_WITH_EXAMPLES)) :
 
-                                $getSampleScript = $fm->newPerformScriptCommand('examples', 'Search Page Sample Selection');
+                                $getSampleScript = $fileMaker->newPerformScriptCommand('examples', 'Search Page Sample Selection');
                                 $result = $getSampleScript->execute();
                                 $record = $result->getRecords()[0];
                                 $id = 'accessionNumber';
@@ -281,7 +282,7 @@
                                 $species = 'Species';
                                 $url = '';
 
-                                if ($_GET['Database'] == 'avian' || $_GET['Database'] == 'mammal') {
+                                if (DATABASE == 'avian' || DATABASE == 'mammal') {
                                     //$url = getPhotoUrl($record->getRecordID());
                                     $url = "https://collections.zoology.ubc.ca".$record->getRelatedSet('Photographs')[0]->getField('Photographs::photoContainer');
                                     $id = 'catalogNumber';
@@ -290,8 +291,8 @@
                                     $genus = 'Taxon::genus';
                                     $species = 'Taxon::specificEpithet';
                                 }
-                                else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi'
-                                    || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
+                                else if (DATABASE == 'vwsp' || DATABASE == 'bryophytes' || DATABASE == 'fungi'
+                                    || DATABASE == 'lichen' || DATABASE == 'algae') {
                                     $url = getPhotoUrl($record->getField('Accession Number'));
                                     $id = 'Accession Number';
                                     $lat = 'Geo_LatDecimal';
@@ -299,7 +300,7 @@
                                     $genus = 'Genus';
                                     $species = 'Species';
                                 }
-                                else if ($_GET['Database'] == 'entomology') {
+                                else if (DATABASE == 'entomology') {
                                     $id = 'SEM #';
                                     $lat = 'Latitude';
                                     $lng = 'Longitude';
@@ -307,7 +308,7 @@
                                     $species = 'Species';
 
                                 }
-                                else if ($_GET['Database'] == 'fish') {
+                                else if (DATABASE == 'fish') {
                                     $id = 'accessionNo';
                                     $lat = 'decimalLatitude';
                                     $lng = 'decimalLongitude';
@@ -320,14 +321,14 @@
                                     <div class="container-fluid">
                                         <div class = "row sample">
                                             <div class = "col d-flex justify-content-center">
-                                                <a id = "catalogNumber" href  =  "details.php?Database=<?php echo htmlspecialchars($_GET['Database']).
+                                                <a id = "catalogNumber" href  =  "details.php?Database=<?php echo htmlspecialchars(DATABASE).
                                                     '&AccessionNo='.htmlspecialchars($record->getField($id)) ?>">
                                                     <h4><b><?php echo $record->getField($id)?></b></h4></a>
                                             </div>
                                         </div>
                                         <div class = "row">
                                             <div class = "col d-flex justify-content-center" id = "taxon">
-                                                <a id = "taxonInfo" href = "render.php?Database=<?php echo htmlspecialchars($_GET['Database']).
+                                                <a id = "taxonInfo" href = "render.php?Database=<?php echo htmlspecialchars(DATABASE).
                                                     '&'.$genus.'='.htmlspecialchars($record->getField($genus)).
                                                     '&'.$species.'='.htmlspecialchars($record->getField($species)) ?>">
                                                     <h5><?php echo $record->getField($genus).' '.$record->getField($species);?></h5>
@@ -337,7 +338,7 @@
                                         <div class = "row">
                                             <div id = "sample-img" class = "col-xl-6 d-flex justify-content-center">
                                                 <?php
-                                                if ($_GET['Database'] == 'entomology') {
+                                                if (DATABASE == 'entomology') {
                                                     $genusPage = getGenusPage($record);
                                                     $genusSpecies = getGenusSpecies($record);
                                                     $html = file_get_html($genusPage);
@@ -357,7 +358,7 @@
                                                         }
                                                     }
                                                 }
-                                                else if ($_GET['Database'] == 'fish') {
+                                                else if (DATABASE == 'fish') {
                                                     $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("card01").'/0';
                                                     $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("card01");
                                                     echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id="fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'" alt="Sample Image"></a>';
@@ -390,14 +391,5 @@
 
         <!-- scripts -->
         <script src="js/process.js"> </script>
-
-        <script >
-         // js for accordion icon
-          $('.collapse').on('shown.bs.collapse', function(){
-            $(this).parent().find(".oi-plus").removeClass("oi-plus").addClass("oi-minus");
-          }).on('hidden.bs.collapse', function(){
-            $(this).parent().find(".oi-minus").removeClass("oi-minus").addClass("oi-plus");
-          });
-        </script>
     </body>
 </html>

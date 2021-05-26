@@ -4,10 +4,11 @@
     require_once ('functions.php');
     require_once ('DatabaseSearch.php');
     require_once ('partials/widgets.php');
-    
+    require_once ('credentials_controller.php');
+
     // list databases
-    // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish', 
-    // 'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 
+    // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish',
+    // 'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi',
     // 'miw', 'vwsp'];
 
     $databases = ['avian', 'entomology', 'fish', 
@@ -17,14 +18,12 @@
     $searchDatabases = [];
 
     foreach ($databases as $db) {
-        require_once ('databases/'.$db.'db.php');
-        // echo "$FM_FILE <br>";
+        list($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS) = getDBCredentials($db);
         $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
         if (FileMaker::isError($fm->listLayouts())) {
-          // echo $FM_FILE;
-
           continue;
         }
+
         $databaseSearch = new DatabaseSearch($fm, $db);
         array_push($searchDatabases, $databaseSearch);
     }

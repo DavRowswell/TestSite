@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <?php
     session_start();
@@ -56,7 +56,7 @@
     ];
 
     // foreach ($databases as $db) {
-    //     require_once ('databases/'.$db.'db.php');
+    //     require_once ('databases/'.$db.'credentials_controller.php');
     //     echo "$FM_FILE <br>";
     //     $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
     //     // $databaseSearch = new DatabaseSearch($fm, $db);

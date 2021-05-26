@@ -12,8 +12,9 @@
   require_once ('FileMaker.php');
   require_once ('functions.php');
   require_once ('lib/simple_html_dom.php');
-  require_once ('db.php');
+  require_once('credentials_controller.php');
 
+  list($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS) = getDBCredentials($_GET['Database']);
   $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
 
   $layouts = $fm->listLayouts();

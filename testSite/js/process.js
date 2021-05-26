@@ -1,7 +1,6 @@
 
 function Process() {
-    var vals = document.getElementById("submit-form").children;
-    // console.log(document.getElementById("imageCheck"));
+
     if (document.getElementById("imageCheck")) {
         if (document.getElementById("imageCheck").checked)
         document.getElementById("hasImage").value = (document.getElementById("imageCheck").checked) ? '*' : '';
@@ -32,6 +31,9 @@ function clearURL() {
         }
     }
 }
+
+
+
 
 document.onkeypress = keyPress;
 

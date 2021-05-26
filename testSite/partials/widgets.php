@@ -42,7 +42,7 @@ function DatabaseCard(string $title, string $img_source, string $href, string $b
 }
 
 # a page controller has widgets to move around all the possible pages for a table
-function TableController($maxResponses, $result) {
+function TableControllerWidget($maxResponses, $result) {
     $uri = $_SERVER['REQUEST_URI'];
 
     $parts = explode('&', $uri);

@@ -1,7 +1,33 @@
-<?php 
-// require_once ('credentials_controller.php');
+<?php
 
-// $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+require_once ('constants.php');
+
+/**
+ * Checks the value to see if its a valid database.
+ * With wrong databases value a error.php page is shown.
+ * @param string $databaseFieldValue
+ * @param bool $includeAll should the 'all' value be included as valid
+ */
+function checkDatabaseField(string $databaseFieldValue, bool $includeAll = false) {
+    # Check to make sure the database file is loaded or send to error.php
+    if (!isset($databaseFieldValue) or $databaseFieldValue == ''){
+        $_SESSION['error'] = "No database given";
+        header('Location: error.php');
+        exit;
+    }
+    # also check to make sure we dont have the 'all' database tag, if its not desired
+    else if (!$includeAll and $databaseFieldValue == 'all') {
+        $_SESSION['error'] = "Wrong page for database given";
+        header('Location: error.php');
+        exit;
+    }
+    # search in database list
+    else if (!in_array($databaseFieldValue, kDATABASES)) {
+        $_SESSION['error'] = "Invalid database value given!";
+        header('Location: error.php');
+        exit;
+    }
+}
 
 function replaceURIElement($URI, $element, $input) {
   if (isset($_GET[$element])) {

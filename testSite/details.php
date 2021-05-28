@@ -1,103 +1,69 @@
 <?php
-  session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
-  session_start();
-  $_SESSION['error'] = "";
-  if (isset($_GET['Database'])){}
-  else {
-    $_SESSION['error'] = "No database given";
-    header('Location: error.php');
-    exit;
-  }
 
-  require_once ('FileMaker.php');
-  require_once ('functions.php');
-  require_once ('lib/simple_html_dom.php');
-  require_once('credentials_controller.php');
+require_once ('FileMaker.php');
+require_once ('functions.php');
+require_once ('lib/simple_html_dom.php');
+require_once ('credentials_controller.php');
+require_once ('constants.php');
+require_once ('DatabaseSearch.php');
 
-  list($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS) = getDBCredentials($_GET['Database']);
-  $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
+session_start();
 
-  $layouts = $fm->listLayouts();
-  $layout = $layouts[0];
-  foreach ($layouts as $l) {
-    if ($_GET['Database'] === 'mi') {
-      if (str_contains($l, 'details')) {
-        $layout = $l;
-        break;
-      }
-    }
-    else if (str_contains($l, 'details')) {
-      $layout = $l;
-    }
-  }
+define('DATABASE', $_GET['Database'] ?? null);
 
-  $findCommand = $fm->newFindCommand($layout);
-  if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
-      if ($_GET['Database'] == 'vwsp' or $_GET['Database'] == 'bryophytes' or 
-          $_GET['Database'] == 'fungi' or $_GET['Database'] == 'lichen' or $_GET['Database'] == 'algae'){
-        $findCommand->addFindCriterion('Accession Number', '=='.$_GET['AccessionNo']);
-      }
-      else if ($_GET['Database'] == 'fossil' || $_GET['Database'] == 'avian' || $_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
-        $findCommand->addFindCriterion('catalogNumber', '=='.$_GET['AccessionNo']);
-      }
-      else if ($_GET['Database'] == 'fish'){   
-        $findCommand->addFindCriterion('accessionNo', '=='.$_GET['AccessionNo']);  
-      }
-      else if ($_GET['Database'] == 'entomology'){
-        $findCommand->addFindCriterion('SEM #', '=='.$_GET['AccessionNo']);
-      }
-      else {
-        $findCommand->addFindCriterion('Accession No', '=='.$_GET['AccessionNo']);
-      }
-  }
+checkDatabaseField(DATABASE);
 
-  $result = $findCommand->execute();
+$databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
 
-  if(FileMaker::isError($result)) {
+$findCommand = $databaseSearch->getFileMaker()->newFindCommand($databaseSearch->getDetailLayout()->getName());
+
+# add a search param to the query to exactly '==' equal the accession number
+if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
+    $findCommand->addFindCriterion($databaseSearch->getIDFieldName(), '=='.$_GET['AccessionNo']);
+}
+
+$result = $findCommand->execute();
+
+if(FileMaker::isError($result)) {
     $_SESSION['error'] = $result->getMessage();
     header('Location: error.php');
     exit;
-  } else {
-    $findAllRec = $result->getRecords();
-  }
-  $lat="";
-  $long="";
-  ?>
+}
+
+$allRecordsFound = $result->getRecords();
+
+# we should only get one record back!
+if (sizeof($allRecordsFound) != 1) {
+    $_SESSION['error'] = 'No records or more than one records found. This is an internal error. Please contact the admin!';
+    header('Location: error.php');
+    exit;
+}
+
+/**
+ * @var FileMaker_Record $record
+ */
+$record = $allRecordsFound[0];
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
         <link rel="stylesheet" href="css/details.css">
-        <style>
-            html, body, {
-                height: 100%;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-        </style>
         <?php
           require_once('partials/conditionalCSS.php');
           require_once ('partials/widgets.php');
+
           HeaderWidget('Specie Details');
         ?>
     </head>
 
     <body class="d-flex flex-column">
-      <?php Navbar(); ?>
+        <?php Navbar(); ?>
 
-      <?php
-      # check for errors, if so return error.php
-      if(FileMaker::isError($result)){
-        $_SESSION['error'] = $result->getMessage();
-        header('Location: error.php');
-        exit;
-      }
-      $recFields = $result->getFields();
-      ?>
-
-    <?php TitleBanner($_GET['Database']); ?>
+        <?php TitleBanner(DATABASE); ?>
 
     <div class="container-fluid">
         <div class="row">
@@ -107,22 +73,25 @@
                 <table class="table">
                     <tbody>
                         <?php
-                        $ignoreValues = ['SortNum', 'Accession Numerical', 'Photographs::photoContainer', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'iffrCardNb', 'card01', 'Has Image', 'imaged','card02','card03','card04','card05','card06','card07','card08','card09','card10','card11','card12','card13'];
-                        foreach($recFields as $i) :
-                            if (in_array($i, $ignoreValues)) continue;?>
+                        $fields = $record->getFields();
+                        $ignoreLayoutFieldNames = ['SortNum', 'Accession Numerical', 'Photographs::photoContainer', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'iffrCardNb', 'card01', 'Has Image', 'imaged','card02','card03','card04','card05','card06','card07','card08','card09','card10','card11','card12','card13'];
+
+                        foreach($fields as $field) :
+                            # ignore values in field keys contained in the ignored list
+                            if (in_array($field, $ignoreLayoutFieldNames)) continue;?>
                             <tr>
-                                <th><b><?php echo formatField($i) ?></b></th>
-                                <?php if(formatField($i) == "Genus" || formatField($i) == "Species") : ?>
+                                <th><b><?php echo formatField($field) ?></b></th>
+                                <?php if(formatField($field) == "Genus" || formatField($field) == "Species") : ?>
                                     <td style="font-style:italic;">
                                 <?php else: ?>
                                     <td
                                     <?php
-                                        if (formatField($i) === "Latitude") {echo "id='Latitude'"; $lat = $findAllRec[0]->getField($i);}
-                                        if (formatField($i) === "Longitude") {echo "id='Longitude'"; $long = $findAllRec[0]->getField($i);}
+                                        if (formatField($field) === "Latitude") {echo "id='Latitude'"; $lat = $allRecordsFound[0]->getField($field);}
+                                        if (formatField($field) === "Longitude") {echo "id='Longitude'"; $long = $allRecordsFound[0]->getField($field);}
                                     ?>
                                     >
                                 <?php endif; ?>
-                                <?php echo $findAllRec[0]->getField($i) ?>
+                                <?php echo $allRecordsFound[0]->getField($field) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -136,7 +105,7 @@
                 <!-- ArcGIS Map -->
                 <div class="row">
                     <div class="col">
-                        <?php if($lat != "" && $long != "") : ?>
+                        <?php if(isset($lat) && isset($long)) : ?>
                             <div id="viewDiv" style="height: 300px;"></div>
                             <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
                             <script src="js/map.js"></script>
@@ -153,16 +122,16 @@
                     <div class = "col">
                         <div class = "slideshow-container">
                             <?php
-                            if ($_GET['Database'] === 'fish') {
+                            if (DATABASE === 'fish') {
 
-                                $numOfCards = $findAllRec[0]->getField("iffrCardNb");
+                                $numOfCards = $allRecordsFound[0]->getField("iffrCardNb");
 
                                 for ($num = 1; $num <= $numOfCards; $num++) {
                                     $num_padded = sprintf("%02d", $num);
                                     $cardName = "card".$num_padded;
 
-                                    $url =  'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$findAllRec[0]->getField($cardName).'/0';
-                                    $linkToWebsite =  'https://open.library.ubc.ca/collections/fisheries/items/'.$findAllRec[0]->getField($cardName);
+                                    $url =  'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$allRecordsFound[0]->getField($cardName).'/0';
+                                    $linkToWebsite =  'https://open.library.ubc.ca/collections/fisheries/items/'.$allRecordsFound[0]->getField($cardName);
 
                                     if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
 
@@ -181,13 +150,13 @@
                               echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>';
 
                             }
-                            else if ($_GET['Database'] === 'entomology') {
+                            else if (DATABASE === 'entomology') {
 
-                                $genusPage = getGenusPage($findAllRec[0]);
-                                $genusSpecies = getGenusSpecies($findAllRec[0]);
+                                $genusPage = getGenusPage($allRecordsFound[0]);
+                                $genusSpecies = getGenusSpecies($allRecordsFound[0]);
                                 $html = file_get_html($genusPage);
                                 $species = $html->find('.speciesentry');
-                                $semnumber = $findAllRec[0]->getField('SEM #');
+                                $semnumber = $allRecordsFound[0]->getField('SEM #');
                                 $foundImage = false;
 
                                 foreach($species as $spec) {
@@ -211,9 +180,9 @@
 
                                 if($foundImage==false) {
                                     echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                                        $order = $findAllRec[0]->getField('Order');
-                                        $fam=$findAllRec[0]->getField("Family");
-                                        $subfam=$findAllRec[0]->getField("Subfamily");
+                                        $order = $allRecordsFound[0]->getField('Order');
+                                        $fam=$allRecordsFound[0]->getField("Family");
+                                        $subfam=$allRecordsFound[0]->getField("Subfamily");
                                         if ($subfam !== ""){
                                             echo '<a href="https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$fam.'/'.$subfam.'/" style="text-align:center;"> 
                                             <button class="btn btn-custom" id="showAll" > See more of '.$subfam.' here!</button> </a>';
@@ -227,8 +196,8 @@
                             }
                             else {
                                 $validDb = false;
-                                if ($_GET['Database'] == 'avian' ||$_GET['Database'] == 'herpetology' || $_GET['Database'] == 'mammal') {
-                                    $tableNamesObj = $findAllRec[0]->getRelatedSet('Photographs');
+                                if (DATABASE == 'avian' ||DATABASE == 'herpetology' || DATABASE == 'mammal') {
+                                    $tableNamesObj = $allRecordsFound[0]->getRelatedSet('Photographs');
 
                                     // if images, type = 'array'; else 'object'
                                     if (gettype($tableNamesObj)=='array') {
@@ -253,8 +222,8 @@
                                     }
 
                                 }
-                                else if ($_GET['Database'] == 'vwsp' || $_GET['Database'] == 'bryophytes' || $_GET['Database'] == 'fungi'
-                                || $_GET['Database'] == 'lichen' || $_GET['Database'] == 'algae') {
+                                else if (DATABASE == 'vwsp' || DATABASE == 'bryophytes' || DATABASE == 'fungi'
+                                || DATABASE == 'lichen' || DATABASE == 'algae') {
                                     $url = getPhotoUrl($_GET['AccessionNo']);
                                     $validDb = true;
                                 }
@@ -274,12 +243,12 @@
                         <!-- Slideshow UI controller -->
                         <div style="text-align:center">
                             <?php // adds the dots to the slideshow
-                              if ($_GET['Database'] === 'fish') {
+                              if (DATABASE === 'fish') {
                                 for ($num=1; $num<=$numOfCards; $num++){
                                   echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
                                 }
                             }
-                              if ($_GET['Database'] === 'avian' || $_GET['Database'] === 'mammal' || $_GET['Database'] === 'herpetology') {
+                              if (DATABASE === 'avian' || DATABASE === 'mammal' || DATABASE === 'herpetology') {
                                 $num =1;
                                 foreach ($tableNamesObj as $relatedRow){
                                   if (gettype($tableNamesObj)=='array') {
@@ -291,7 +260,7 @@
                                   $num++;
                                 }
                             }
-                              if ($_GET['Database'] === 'entomology'){
+                              if (DATABASE === 'entomology'){
                                 if ($foundImage===true){
                                     for ($num=1; $num<=sizeof($images); $num++){
                                       echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
@@ -307,10 +276,10 @@
                 <!-- entomology special link to more images -->
                 <div class="row">
                     <?php
-                    if ($_GET['Database'] === 'entomology'){
+                    if (DATABASE === 'entomology'){
                         if ($foundImage===true){
-                            $fam=$findAllRec[0]->getField("Family");
-                            $subfam=$findAllRec[0]->getField("Subfamily");
+                            $fam=$allRecordsFound[0]->getField("Family");
+                            $subfam=$allRecordsFound[0]->getField("Subfamily");
                             if ($subfam!==""){
                                 echo '<a href="'.$url.'" style="text-align:center;"> 
                                     <button class="btn btn-custom" id="showAll" > See more '.$subfam.' here!</button> </a>';

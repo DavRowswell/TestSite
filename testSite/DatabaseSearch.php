@@ -20,14 +20,31 @@ class DatabaseSearch {
 
     private FileMaker_Layout $search_layout;
     private FileMaker_Layout $result_layout;
+    private FileMaker_Layout $detail_layout;
 
-    private $results;
-
-    function __construct($fm, $database) {
-        $this->fileMaker = $fm;
+    function __construct($fileMaker, $database) {
+        $this->fileMaker = $fileMaker;
         $this->name = $database;
 
         $this->setLayouts();
+    }
+
+    /**
+     * Creates a object from the database name
+     * @param string $databaseName
+     * @return DatabaseSearch|false
+     */
+    public static function fromDatabaseName(string $databaseName): bool|DatabaseSearch
+    {
+        list($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS) = getDBCredentials($databaseName);
+
+        if (!$FM_PASS or !$FM_FILE or !$FM_HOST or !$FM_USER) {
+            return false;
+        }
+
+        $fileMaker = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
+
+        return new self($fileMaker, $databaseName);
     }
 
     /**
@@ -44,10 +61,6 @@ class DatabaseSearch {
      */
     function setResultLayout($result_layout) {
         $this->result_layout = $result_layout;
-    }
-
-    function setResults($results) {
-        $this->results = $results;
     }
 
     function getFileMaker(): FileMaker
@@ -70,30 +83,38 @@ class DatabaseSearch {
         return $this->result_layout;
     }
 
-    function getResults() {
-        return $this->results;
+    public function getDetailLayout(): FileMaker_Layout
+    {
+        return $this->detail_layout;
     }
 
     /**
      * Searches all available layouts from FMP and sets the correct Search and
      * Result layout for this DatabaseSearch.
+     *
+     * All databases have a search, results and details layout. However, the MIW and MI databases have two of each
+     * one for MI and one for MIW on the same database. Therefore the extra if statement.
      */
     private function setLayouts() {
         # list of layout names!
         $availableLayouts = $this->fileMaker->listLayouts();
-        
-        foreach ($availableLayouts as $layoutName) {
-            if ($this->name === 'mi') {
-                if ($layoutName == 'search-MI') {
+
+        foreach ($availableLayouts as $layoutName){
+            if ($this->name === 'mi' or $this->name === 'miw') {
+                if ($layoutName == 'search-'.strtoupper($this->name)) {
                     $this->search_layout = $this->fileMaker->getLayout($layoutName);
-                } else if ($layoutName == 'results-MI') {
+                } else if ($layoutName == 'results-'.strtoupper($this->name)) {
                     $this->result_layout = $this->fileMaker->getLayout($layoutName);
+                } else if ($layoutName == 'details-'.strtoupper($this->name)) {
+                    $this->detail_layout = $this->fileMaker->getLayout($layoutName);
                 }
             } else {
                 if (str_contains($layoutName, 'search')) {
                     $this->search_layout = $this->fileMaker->getLayout($layoutName);
                 } else if (str_contains($layoutName, 'results')) {
                     $this->result_layout = $this->fileMaker->getLayout($layoutName);
+                } else if (str_contains($layoutName, 'details')) {
+                    $this->detail_layout = $this->fileMaker->getLayout($layoutName);
                 }
             }
         }
@@ -149,24 +170,36 @@ class DatabaseSearch {
                 switch ($this->name) {
                     case 'vwsp'; case 'bryophytes';
                     case 'fungi'; case 'lichen'; case 'algae':
-                    $findCommand->addFindCriterion(
-                        fieldname: is_numeric($fieldValue) ? "Accession Numerical" : "Accession Number",
-                        testvalue: $fieldValue
-                    );
-                    break;
+                        $findCommand->addFindCriterion(
+                            fieldname: is_numeric($fieldValue) ? "Accession Numerical" : "Accession Number",
+                            testvalue: $fieldValue
+                        );
+                        break;
                     case 'fossil'; case 'avian';
                     case 'herpetology'; case 'mammal':
-                    $findCommand->addFindCriterion(
-                        fieldname: is_numeric($fieldValue) ? "SortNum" : "catalogNumber",
-                        testvalue: $fieldValue
-                    );
-                    break;
+                        $findCommand->addFindCriterion(
+                            fieldname: is_numeric($fieldValue) ? "SortNum" : "catalogNumber",
+                            testvalue: $fieldValue
+                        );
+                        break;
                     case 'mi'; case 'miw':
-                    $findCommand->addFindCriterion(
-                        fieldname: is_numeric($fieldValue) ? "SortNum" : 'Accession No',
-                        testvalue: $fieldValue,
-                    );
-                    break;
+                        $findCommand->addFindCriterion(
+                            fieldname: is_numeric($fieldValue) ? "SortNum" : 'Accession No',
+                            testvalue: $fieldValue,
+                        );
+                        break;
+                    case 'fish':
+                        $findCommand->addFindCriterion(
+                            fieldname: 'accessionNo',
+                            testvalue: $fieldValue,
+                        );
+                        break;
+                    case 'entomology':
+                        $findCommand->addFindCriterion(
+                            fieldname: 'SEM #',
+                            testvalue: $fieldValue,
+                        );
+                        break;
                 }
             }
 
@@ -212,5 +245,22 @@ class DatabaseSearch {
         }
 
         return $findCommand->execute();
+    }
+
+    /**
+     * Returns the ID or accession number field name, it is different for different databases.
+     * Optional $isNumeric field will change the name used for some databases.
+     * @param bool $isNumeric
+     * @return string
+     */
+    function getIDFieldName(bool $isNumeric = false): string
+    {
+        return match ($this->name) {
+            'vwsp', 'bryophytes', 'fungi', 'lichen', 'algae' => $isNumeric ? 'Accession Numerical' : 'Accession Number',
+            'fossil', 'avian', 'herpetology', 'mammal' => $isNumeric ? 'SortNum' : 'catalogNumber',
+            'mi', 'miw' => $isNumeric ? 'SortNum' : 'Accession No',
+            'fish' => 'accessionNo',
+            'entomology' => 'SEM #',
+        };
     }
 }

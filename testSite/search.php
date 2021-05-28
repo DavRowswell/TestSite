@@ -1,75 +1,31 @@
 <?php
-    session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
-    session_start();
+require_once ('FileMaker.php');
+require_once ('credentials_controller.php');
+require_once ('functions.php');
+require_once ('lib/simple_html_dom.php');
+require_once ('constants.php');
+require_once ('DatabaseSearch.php');
 
+session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
+session_start();
 
-    # Check to make sure the database file is loaded or send to error.php
-    if (!isset($_GET['Database']) or $_GET['Database'] == ''){
-        $_SESSION['error'] = "No database given";
-        header('Location: error.php');
-        exit;
-    }
-    # also check to make sure we dont have the 'all' database tag, this is not the page for this tag
-    else if ($_GET['Database'] == 'all') {
-        $_SESSION['error'] = "Wrong page for database given";
-        header('Location: error.php');
-        exit;
-    }
+define("DATABASE", $_GET['Database'] ?? null);
 
-    define("DATABASE", $_GET['Database']);
+checkDatabaseField(DATABASE);
 
-    require_once ('FileMaker.php');
-    require_once('credentials_controller.php');
-    require_once ('functions.php');
-    require_once ('lib/simple_html_dom.php');
+$databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
+# check to make sure the databaseSearch is not null or false
+if (!$databaseSearch) {
+    $_SESSION['error'] = 'Unsupported database given';
+    header('Location: error.php');
+    exit;
+}
 
-    # All databases that have images available
-    const DATABASES_WITH_IMAGES = ['fish', 'avian', 'herpetology', 'mammal', 'vwsp', 'bryophytes',
-        'fungi', 'lichen', 'algae'];
+$allFieldNames = array_keys($databaseSearch->getSearchLayout()->getFields());
 
-    # ALl databases that have examples available
-    const DATABASES_WITH_EXAMPLES = ['fish', 'avian', 'entomology', 'mammal', 'vwsp', 'bryophytes',
-        'fungi', 'lichen', 'algae'];
-
-    list($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS) = getDBCredentials(DATABASE);
-
-    if (!$FM_PASS or !$FM_FILE or !$FM_HOST or !$FM_USER) {
-        $_SESSION['error'] = 'Unsupported database given';
-        header('Location: error.php');
-        exit;
-    }
-
-    $fileMaker = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
-
-    $layouts = $fileMaker->listLayouts();
-
-    if (FileMaker::isError($layouts)) {
-        $_SESSION['error'] = $layouts->getMessage();
-        header('Location: error.php');
-        exit;
-    }
-
-    # default layout to the first available one
-    $layout = $layouts[0];
-
-    # search each available layout
-    foreach ($layouts as $l) {
-        # special MI database layout search, both WIM and IM are in the same FileMaker, this the break
-        if (DATABASE == 'mi' and str_contains($l, 'search') and str_contains($l, 'MI')) {
-            $layout = $l;
-            break;
-        } else if (str_contains($l, 'search')) {
-            $layout = $l;
-        }
-    }
-
-    # get the layout from FMP and then the fields from the layout
-    $fmLayout = $fileMaker->getLayout($layout);
-    $FMLayoutFields = $fmLayout->listFields();
-
-    # filter the layouts to those we only want
-    $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
-    define("FIELDS", array_diff($FMLayoutFields, $ignoreValues));
+# filter the layouts to those we only want
+$ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
+define("FIELDS", array_diff_key($allFieldNames, $ignoreValues));
 
 ?>
 
@@ -252,7 +208,7 @@
 
                         <!-- only image select -->
                         <div class="form-group">
-                            <?php if (in_array(DATABASE, DATABASES_WITH_IMAGES)) : ?>
+                            <?php if (in_array(DATABASE, kDATABASES_WITH_IMAGES)) : ?>
                                     <div class="col">
                                         <input type="checkbox" id="imageCheck">
                                         <label for="imageCheck">
@@ -270,9 +226,9 @@
                         <!-- example, shows a different example every time -->
                         <div>
                             <?php
-                            if (in_array(DATABASE, DATABASES_WITH_EXAMPLES)) :
+                            if (in_array(DATABASE, kDATABASES_WITH_EXAMPLES)) :
 
-                                $getSampleScript = $fileMaker->newPerformScriptCommand('examples', 'Search Page Sample Selection');
+                                $getSampleScript = $databaseSearch->getFileMaker()->newPerformScriptCommand('examples', 'Search Page Sample Selection');
                                 $result = $getSampleScript->execute();
                                 $record = $result->getRecords()[0];
                                 $id = 'accessionNumber';

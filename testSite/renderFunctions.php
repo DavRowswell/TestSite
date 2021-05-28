@@ -1,32 +1,6 @@
 <?php
 
-function setLayouts($sd) {
-
-    $fm_db = $sd->getFM();
-    $layouts = $fm_db->listLayouts();
-    $searchLayout = "";
-    $resultLayout = "";
-
-    foreach ($layouts as $l) {
-        if ($sd->getDatabase() === 'mi') {  // mi and miw layouts get mixed up so this check is necessary to get the mi layouts coorrectly
-            if ($l == 'search-MI') {
-                $searchLayout = $l;
-            } else if ($l == 'results-MI') {
-                $resultLayout = $l;
-            }
-        } else { // go through layouts and find the search and results layouts
-            if (str_contains($l, 'search')) {
-                $searchLayout = $l;
-            } else if (str_contains($l, 'results')) {
-                $resultLayout = $l;
-            }
-        }
-    }
-
-    $sd->setSearchLayout($searchLayout);
-    $sd->setResultLayout($resultLayout);
-
-}
+use JetBrains\PhpStorm\Pure;
 
 function generateTable($sd, $numRes) {
     //require_once ('functions.php');
@@ -153,7 +127,7 @@ function addFindCriterionIfSet($field, $layoutFields, $findCommand): bool {
 /**
  * Helper for addFindCriterionIfSet()
  */
-function fieldIsSet($field, $layoutFields): bool {
+#[Pure] function fieldIsSet($field, $layoutFields): bool {
     foreach ($layoutFields as $lf) {
         if (formatField($lf) === "Phylum") {
             return true;
@@ -195,14 +169,15 @@ function echoDataTable(string $database, array $allRecords, array $recordFields)
         foreach($fields as $field) {
             $id = htmlspecialchars(formatField($field));
 
-            $href = htmlspecialchars(
-                replaceURIElement(
-                    replaceURIElement(
-                        replaceURIElement(
-                            $_SERVER['REQUEST_URI'], 'Sort', str_replace('#','%23',replaceSpace($field)))
-                        ,'SortOrder', shouldDescend($field) ? 'Descend' : 'Ascend')
-                    ,'Page', $page)
-            );
+            $payloadList = [
+                'Database' => $_GET['Database'],
+                'Sort' => $field,
+                'SortOrder' => $_GET['SortOrder'] ?? 'Descend' == 'Descend' ? 'Ascend' : 'Descend',
+                'Page' => $page,
+            ];
+
+            $href = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) . '?' . http_build_query($payloadList);
+            $href = str_replace('%3A', ':', $href);
 
             $icon_class = $_GET['SortOrder'] ?? '' === 'Descend' ? 'oi-sort-descending' : 'oi-sort-ascending';
 

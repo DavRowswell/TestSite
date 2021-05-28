@@ -17,15 +17,15 @@
 
     $searchDatabases = [];
 
+    # create a DatabaseSearch obj for each db used
     foreach ($databases as $db) {
-        list($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS) = getDBCredentials($db);
-        $fm = new FileMaker($FM_FILE, $FM_HOST, $FM_USER, $FM_PASS);
-        if (FileMaker::isError($fm->listLayouts())) {
-          continue;
+        $databaseSearch = DatabaseSearch::fromDatabaseName($db);
+        if (!$databaseSearch) {
+            continue;
+        } else {
+            array_push($searchDatabases, $databaseSearch);
         }
 
-        $databaseSearch = new DatabaseSearch($fm, $db);
-        array_push($searchDatabases, $databaseSearch);
     }
     // exit;
 ?>
@@ -42,9 +42,8 @@
 
         // generate results from FileMaker query
         foreach ($searchDatabases as $sd) {
-        // determine search and results layouts for given database
-        setLayouts($sd);
-        generateTable($sd, 20);
+            // determine search and results layouts for given database
+            generateTable($sd, 20);
         }
         ?>
 

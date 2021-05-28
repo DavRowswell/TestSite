@@ -25,7 +25,8 @@ $allFieldNames = array_keys($databaseSearch->getSearchLayout()->getFields());
 
 # filter the layouts to those we only want
 $ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
-define("FIELDS", array_diff_key($allFieldNames, $ignoreValues));
+
+define("FIELDS", array_diff($allFieldNames, $ignoreValues));
 
 ?>
 

@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\Pure;
+
 require_once ('constants.php');
 
 /**
@@ -29,27 +31,8 @@ function checkDatabaseField(string $databaseFieldValue, bool $includeAll = false
     }
 }
 
-function replaceURIElement($URI, $element, $input) {
-  if (isset($_GET[$element])) {
-    $elementLeft = strpos($URI, $element);
-    $elementRight = strpos($URI, '&', $elementLeft);
-    $stringRight = "";
-    if ($elementRight) {
-      $stringRight = substr($URI, $elementRight, strlen($URI));
-    }
-    return substr($URI, 0, $elementLeft) 
-    . 
-    $element . '=' . $input . $stringRight;
-  } else {
-    return $URI . '&' . $element . '=' . $input;
-  }
-}
-
-function replaceSpace($element) {
-  return str_replace(" ", "+", $element);
-}
-
-function mapField($field) {
+function mapField($field): string
+{
     switch( strtolower($field)) {
       case 'accession no':
       case 'catalognumber':
@@ -141,7 +124,8 @@ function mapField($field) {
       }
   }
   
-function formatField($field) {
+#[Pure] function formatField($field): string
+{
   $colonPosition = strrpos($field, ":");
   if ($colonPosition) {
     $field = substr($field, $colonPosition + 1);
@@ -149,7 +133,8 @@ function formatField($field) {
   return mapField($field);
 }
 
-function getGenusPage($record) {
+function getGenusPage($record): string
+{
   $order = $record->getField('Order');
   $family = $record->getField('Family');
   $subfamily = $record->getField('Subfamily');
@@ -162,14 +147,16 @@ function getGenusPage($record) {
   return $genusPage;
 }
 
-function getGenusSpecies($record) {
+function getGenusSpecies($record): string
+{
   $genus = $record->getField('Genus');
   $species = $record->getField('Species');
   $genusSpecies = $genus . ' ' . $species ;
   return $genusSpecies;
 }
 
-function getPhotoUrl($identifier) {
+function getPhotoUrl($identifier): string
+{
   if ($_GET['Database'] === 'vwsp') {
     return "https://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$identifier.".jpg";
   }
@@ -198,13 +185,4 @@ function getPhotoUrl($identifier) {
     .htmlspecialchars($identifier).'&-field=Photographs::photoContainer(1)';
   }
 }
-
-function shouldDescend($field) {
-  if (!isset($_GET['SortOrder']) || $_GET['SortOrder'] === '') return false;
-  if (isset($_GET['Sort']) && $_GET['Sort'] === $field && isset($_GET['SortOrder']) && $_GET['SortOrder'] === 'Ascend') return true;
-  return false;
-}
-
-require_once('renderFunctions.php');
-
 

@@ -5,6 +5,7 @@ require_once ('functions.php');
 require_once ('lib/simple_html_dom.php');
 require_once ('DatabaseSearch.php');
 require_once ('credentials_controller.php');
+require_once ('renderFunctions.php');
 
 session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
 session_start();
@@ -31,7 +32,7 @@ $maxResponses = 100;
 $usefulGETFields = array_filter($_GET);
 
 # since we are diffing by keys, we need to set dummy values
-$unUsedGETFields = ['type' => '', 'sort' => '', 'Page' => '', 'SortOrder' => '', 'Database' => ''];
+$unUsedGETFields = ['type' => '', 'Sort' => '', 'Page' => '', 'SortOrder' => '', 'Database' => ''];
 $usefulGETFields = array_diff_key($usefulGETFields, $unUsedGETFields);
 
 $result = $databaseSearch->queryForResults($maxResponses, $usefulGETFields, $_GET['type'] ?? 'and',

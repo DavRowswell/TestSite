@@ -47,22 +47,6 @@ class DatabaseSearch {
         return new self($fileMaker, $databaseName);
     }
 
-    /**
-     * @param $search_layout
-     * @deprecated Layout should be set on constructor and never changed
-     */
-    function setSearchLayout($search_layout) {
-        $this->search_layout = $search_layout;
-    }
-
-    /**
-     * @param $result_layout
-     * @deprecated Layout should be set on constructor and never changed
-     */
-    function setResultLayout($result_layout) {
-        $this->result_layout = $result_layout;
-    }
-
     function getFileMaker(): FileMaker
     {
         return $this->fileMaker;

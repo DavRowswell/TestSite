@@ -54,9 +54,9 @@ function generateTable(DatabaseSearch $databaseSearch, int $numRes) {
         }
 
         $findAllRec = $result->getRecords();
-        require ('partials/allPageController.php');
+        require('partials/all_pageController.php');
         printTable($database, $findAllRec, $resultLayout);
-        require ('partials/allPageController.php');
+        require('partials/all_pageController.php');
     echo '</div>';
 }
 

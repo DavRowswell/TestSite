@@ -8,7 +8,7 @@
 
     HeaderWidget();
 
-    // require_once ('functions.php');
+    // require_once ('utilities.php');
 
     // echo "FM_FILE: $FM_FILE <br>
     //       FM_HOST: $FM_HOST <br>
@@ -96,7 +96,7 @@
     //   exit;
     // }
 
-    require_once ('functions.php');
+    require_once('utilities.php');
 
     ?>
 </head>

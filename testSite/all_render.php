@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once ('FileMaker.php');
-    require_once ('functions.php');
+    require_once('utilities.php');
     require_once ('DatabaseSearch.php');
     require_once ('partials/widgets.php');
     require_once ('credentials_controller.php');

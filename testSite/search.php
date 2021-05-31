@@ -1,7 +1,7 @@
 <?php
 require_once ('FileMaker.php');
 require_once ('credentials_controller.php');
-require_once ('functions.php');
+require_once('utilities.php');
 require_once ('lib/simple_html_dom.php');
 require_once ('constants.php');
 require_once ('DatabaseSearch.php');
@@ -250,7 +250,7 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
                                 }
                                 else if (DATABASE == 'vwsp' || DATABASE == 'bryophytes' || DATABASE == 'fungi'
                                     || DATABASE == 'lichen' || DATABASE == 'algae') {
-                                    $url = getPhotoUrl($record->getField('Accession Number'));
+                                    $url = getPhotoUrl($record->getField('Accession Number'), DATABASE);
                                     $id = 'Accession Number';
                                     $lat = 'Geo_LatDecimal';
                                     $lng = 'Geo_LongDecimal';

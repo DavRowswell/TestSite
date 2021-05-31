@@ -1,11 +1,10 @@
 <?php
 
 require_once ('FileMaker.php');
-require_once ('functions.php');
+require_once('utilities.php');
 require_once ('lib/simple_html_dom.php');
 require_once ('DatabaseSearch.php');
 require_once ('credentials_controller.php');
-require_once ('renderFunctions.php');
 
 session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
 session_start();
@@ -44,8 +43,6 @@ if (FileMaker::isError($result)) {
     exit;
 }
 
-$findAllRec = $result->getRecords();
-
 ?>
 
 <!DOCTYPE html>
@@ -69,26 +66,26 @@ $findAllRec = $result->getRecords();
 
         <!-- main body with table and its widgets -->
         <div class="container-fluid">
-            <?php
-                TableControllerWidget($maxResponses, $result);
-            ?>
-                <!-- Modify Search Button -->
-                <div class="form-group">
-                    <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars(DATABASE);?>>
-                        <?php
-                        foreach ($_GET as $key=>$value) {
-                            if (in_array($key, $layoutFields) || (in_array(str_replace('_', ' ', $key), $layoutFields))) {
-                                echo "<input  type=hidden value=".htmlspecialchars($value)." name=".htmlspecialchars($key).">";
-                            }
+            <?php TableControllerWidget($maxResponses, $result); ?>
+
+            <!-- Modify Search Button -->
+            <div class="form-group">
+                <form method=post action=<?php echo "search.php"."?Database=".htmlspecialchars(DATABASE);?>>
+                    <?php
+                    # will add the search params as hidden inputs to use in future sort or page calls
+                    foreach ($_GET as $key=>$value) {
+                        if (in_array($key, $layoutFields) || (in_array(str_replace('_', ' ', $key), $layoutFields))) {
+                            echo "<input  type=hidden value=".htmlspecialchars($value)." name=".htmlspecialchars($key).">";
                         }
-                        ?>
-                        <button type="submit" value = "Submit" class="btn btn-custom">Modify Search</button>
-                    </form>
-                </div>
+                    }
+                    ?>
+                    <button type="submit" value = "Submit" class="btn btn-custom">Modify Search</button>
+                </form>
+            </div>
 
             <?php
                 # data table
-                echoDataTable($databaseSearch->getName(),$findAllRec,$recFields);
+                $databaseSearch->echoDataTable($result);
 
                 TableControllerWidget($maxResponses, $result);
             ?>

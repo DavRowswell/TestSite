@@ -125,7 +125,7 @@ class DatabaseSearch {
         // Find on all inputs with values
         $findCommand = $this->fileMaker->newFindCommand($this->search_layout->getName());
 
-        $findCommand->setLogicalOperator(operator: strtoupper($logicalOperator));
+        $findCommand->setLogicalOperator(operator: strtolower($logicalOperator) == 'or' ? FILEMAKER_FIND_OR : FILEMAKER_FIND_AND);
 
         /**
          * TODO Fix the Fossils collection, searching is not working! Not even in deployed app.

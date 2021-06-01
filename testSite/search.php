@@ -4,7 +4,6 @@ use airmoi\FileMaker\FileMakerException;
 
 require_once ('credentials_controller.php');
 require_once('utilities.php');
-require_once ('lib/simple_html_dom.php');
 require_once ('constants.php');
 require_once ('DatabaseSearch.php');
 
@@ -69,19 +68,7 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
                         <?php
                             list($layoutFields1, $layoutFields2) = array_chunk(FIELDS, ceil(count(FIELDS) / 2));
                             $count = 0;
-                            foreach ($layoutFields1 as $layoutField) :
-                                $fileMakerField = $databaseSearch->getSearchLayout()->getField($layoutField);
-                                print($fileMakerField->getResult());
-                                try {
-                                    print($fileMakerField->getStyleType());
-                                } catch (FileMakerException $e) {
-                                }
-                                print($fileMakerField->getType());
-                                try {
-                                    print($fileMakerField->getValueList());
-                                } catch (FileMakerException $e) {
-                                }
-                                ?>
+                            foreach ($layoutFields1 as $layoutField) : ?>
                         <div class="row">
                             <!--- Section that is one label and one search box --->
                             <div class="col-sm-3">
@@ -309,24 +296,22 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
                                             <div id = "sample-img" class = "col-xl-6 d-flex justify-content-center">
                                                 <?php
                                                 if (DATABASE == 'entomology') {
-                                                    $genusPage = getGenusPage($record);
-                                                    $genusSpecies = getGenusSpecies($record);
-                                                    $html = file_get_html($genusPage);
-                                                    $species = $html->find('.speciesentry');
+                                                    try {
+                                                        $genusPage = getGenusPage($record);
+                                                    } catch (FileMakerException $e) {
+                                                        $_SESSION['error'] = $e->getMessage();
+                                                        header('Location: error.php');
+                                                        exit;
+                                                    }
+                                                    try {
+                                                        $genusSpecies = getGenusSpecies($record);
+                                                    } catch (FileMakerException $e) {
+                                                        $_SESSION['error'] = $e->getMessage();
+                                                        header('Location: error.php');
+                                                        exit;
+                                                    }
                                                     $semnumber = $record->getField('SEM #');
                                                     $foundImage = false;
-                                                    foreach($species as $spec) {
-                                                        $speciesName = $spec->innertext;
-                                                        if (str_contains($speciesName, $genusSpecies) && str_contains($speciesName, $semnumber)) {
-                                                            $foundImage = true;
-                                                            $images = $spec->find('a');
-                                                            $link = $images[0]->href;
-                                                            $url = str_replace('http:','https:',$genusPage);
-                                                            $final = "".$url.$link;
-                                                            echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img id="sample" class="minHeight" src="'.htmlspecialchars($final) .'" alt="Sample image"></a>';
-                                                            break;
-                                                        }
-                                                    }
                                                 }
                                                 else if (DATABASE == 'fish') {
                                                     $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("card01").'/0';

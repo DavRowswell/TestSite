@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/testSite/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/testSite/vendor/airmoi/filemaker" />
+      <excludeFolder url="file://$MODULE_DIR$/testSite/vendor/sunra/php-simple-html-dom-parser" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

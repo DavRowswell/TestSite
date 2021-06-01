@@ -3,7 +3,7 @@
 use airmoi\FileMaker\FileMakerException;
 use JetBrains\PhpStorm\Pure;
 use airmoi\FileMaker\Object\Record;
-
+use Sunra\PhpSimple\HtmlDomParser;
 require_once ('constants.php');
 
 /**
@@ -105,14 +105,7 @@ function getGenusPage(Record $record): string
 {
     $order = $record->getField('Order');
     $family = $record->getField('Family');
-    $subfamily = $record->getField('Subfamily');
-    $genusPage = 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
-    $html = file_get_html($genusPage);
-    $species = $html->find('.speciesentry');
-    if(count($species) == 0) {
-        $genusPage = 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/'.$subfamily.'/';
-    }
-    return $genusPage;
+    return 'https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$family.'/';
 }
 
 /**

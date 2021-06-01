@@ -3,7 +3,6 @@
 use airmoi\FileMaker\FileMakerException;
 
 require_once('utilities.php');
-require_once ('lib/simple_html_dom.php');
 require_once ('DatabaseSearch.php');
 require_once ('credentials_controller.php');
 

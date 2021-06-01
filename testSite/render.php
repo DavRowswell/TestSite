@@ -1,6 +1,7 @@
 <?php
 
-require_once ('FileMaker.php');
+use airmoi\FileMaker\FileMakerException;
+
 require_once('utilities.php');
 require_once ('lib/simple_html_dom.php');
 require_once ('DatabaseSearch.php');
@@ -13,9 +14,9 @@ define("DATABASE", $_GET['Database'] ?? null);
 
 checkDatabaseField(DATABASE);
 
-$databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
-# check to make sure the database is not false or null
-if (!$databaseSearch) {
+try {
+    $databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
+} catch (FileMakerException $e) {
     $_SESSION['error'] = 'Unsupported database given';
     header('Location: error.php');
     exit;
@@ -34,11 +35,11 @@ $usefulGETFields = array_filter($_GET);
 $unUsedGETFields = ['type' => '', 'Sort' => '', 'Page' => '', 'SortOrder' => '', 'Database' => ''];
 $usefulGETFields = array_diff_key($usefulGETFields, $unUsedGETFields);
 
-$result = $databaseSearch->queryForResults($maxResponses, $usefulGETFields, $_GET['type'] ?? 'and',
-    $_GET['Sort'] ?? null, $_GET['Page'] ?? 1, $_GET['SortOrder'] ?? null);
-
-if (FileMaker::isError($result)) {
-    $_SESSION['error'] = $result->getMessage();
+try {
+    $result = $databaseSearch->queryForResults($maxResponses, $usefulGETFields, $_GET['type'] ?? 'and',
+        $_GET['Sort'] ?? null, $_GET['Page'] ?? 1, $_GET['SortOrder'] ?? null);
+} catch (FileMakerException $e) {
+    $_SESSION['error'] = $e->getMessage();
     header('Location: error.php');
     exit;
 }

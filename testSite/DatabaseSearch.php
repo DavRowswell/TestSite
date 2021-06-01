@@ -1,5 +1,12 @@
 <?php
 
+require_once ('vendor/autoload.php');
+
+use airmoi\FileMaker\FileMaker;
+use airmoi\FileMaker\FileMakerException;
+use airmoi\FileMaker\Object\Layout;
+use airmoi\FileMaker\Object\Result;
+
 /**
  * Class DatabaseSearch
  * Represents a database the client is currently searching in.
@@ -7,21 +14,24 @@
 class DatabaseSearch {
 
     /**
-     * The FileMaker instance conencted to this databse
+     * The FileMaker instance connected to this database
      * @var FileMaker
      */
     private FileMaker $fileMaker;
 
     /**
-     * The name of this databse
+     * The name of this database
      * @var string 
      */
     private string $name;
 
-    private FileMaker_Layout $search_layout;
-    private FileMaker_Layout $result_layout;
-    private FileMaker_Layout $detail_layout;
+    private ?Layout $search_layout;
+    private ?Layout $result_layout;
+    private ?Layout $detail_layout;
 
+    /**
+     * @throws FileMakerException
+     */
     function __construct($fileMaker, $database) {
         $this->fileMaker = $fileMaker;
         $this->name = $database;
@@ -33,6 +43,7 @@ class DatabaseSearch {
      * Creates a object from the database name
      * @param string $databaseName
      * @return DatabaseSearch|false
+     * @throws FileMakerException
      */
     public static function fromDatabaseName(string $databaseName): bool|DatabaseSearch
     {
@@ -57,17 +68,17 @@ class DatabaseSearch {
         return $this->name;
     }
 
-    function getSearchLayout(): FileMaker_Layout
+    function getSearchLayout(): Layout
     {
         return $this->search_layout;
     }
 
-    function getResultLayout(): FileMaker_Layout
+    function getResultLayout(): Layout
     {
         return $this->result_layout;
     }
 
-    public function getDetailLayout(): FileMaker_Layout
+    public function getDetailLayout(): Layout
     {
         return $this->detail_layout;
     }
@@ -78,6 +89,7 @@ class DatabaseSearch {
      *
      * All databases have a search, results and details layout. However, the MIW and MI databases have two of each
      * one for MI and one for MIW on the same database. Therefore the extra if statement.
+     * @throws FileMakerException
      */
     private function setLayouts() {
         # list of layout names!
@@ -116,16 +128,17 @@ class DatabaseSearch {
      * @param string|null $sortQuery
      * @param int $pageNumber used to calculate a multiplier of maxResponseAmount for pagination
      * @param string|null $sortType one of ascend or descend
-     * @return FileMaker_Result|FileMaker_Error Result or Error (Error if no entries for query too)
+     * @return Result Result or Error (Error if no entries for query too)
+     * @throws FileMakerException
      */
     function queryForResults(int $maxResponseAmount, array $getFields, string $logicalOperator, ?string $sortQuery,
-                             int $pageNumber, ?string $sortType): FileMaker_Result|FileMaker_Error
+                             int $pageNumber, ?string $sortType): Result
     {
 
         // Find on all inputs with values
         $findCommand = $this->fileMaker->newFindCommand($this->search_layout->getName());
 
-        $findCommand->setLogicalOperator(operator: strtolower($logicalOperator) == 'or' ? FILEMAKER_FIND_OR : FILEMAKER_FIND_AND);
+        $findCommand->setLogicalOperator(operator: strtolower($logicalOperator) == 'or' ? FileMaker::FIND_OR : FileMaker::FIND_AND);
 
         /**
          * TODO Fix the Fossils collection, searching is not working! Not even in deployed app.
@@ -145,7 +158,7 @@ class DatabaseSearch {
 
                 $findCommand->addFindCriterion(
                     fieldname: $layoutField,
-                    testvalue: $this->name == 'entomology' ? 'Photographed' : '*'
+                    value: $this->name == 'entomology' ? 'Photographed' : '*'
                 );
             }
             # handle accession number 'ID' field
@@ -156,32 +169,32 @@ class DatabaseSearch {
                     case 'fungi'; case 'lichen'; case 'algae':
                         $findCommand->addFindCriterion(
                             fieldname: is_numeric($fieldValue) ? "Accession Numerical" : "Accession Number",
-                            testvalue: $fieldValue
+                            value: $fieldValue
                         );
                         break;
                     case 'fossil'; case 'avian';
                     case 'herpetology'; case 'mammal':
                         $findCommand->addFindCriterion(
                             fieldname: is_numeric($fieldValue) ? "SortNum" : "catalogNumber",
-                            testvalue: $fieldValue
+                            value: $fieldValue
                         );
                         break;
                     case 'mi'; case 'miw':
                         $findCommand->addFindCriterion(
                             fieldname: is_numeric($fieldValue) ? "SortNum" : 'Accession No',
-                            testvalue: $fieldValue,
+                            value: $fieldValue,
                         );
                         break;
                     case 'fish':
                         $findCommand->addFindCriterion(
                             fieldname: 'accessionNo',
-                            testvalue: $fieldValue,
+                            value: $fieldValue,
                         );
                         break;
                     case 'entomology':
                         $findCommand->addFindCriterion(
                             fieldname: 'SEM #',
-                            testvalue: $fieldValue,
+                            value: $fieldValue,
                         );
                         break;
                 }
@@ -220,7 +233,7 @@ class DatabaseSearch {
 
             # handles the order of the sort
             $findCommand->addSortRule(fieldname:  str_replace('+', ' ', $sortBy), precedence: 1,
-                order: $sortType === 'Descend' ? FILEMAKER_SORT_DESCEND : FILEMAKER_SORT_ASCEND);
+                order: $sortType === 'Descend' ? FileMaker::SORT_DESCEND : FileMaker::SORT_ASCEND);
         }
 
         # handle different table pages
@@ -233,9 +246,9 @@ class DatabaseSearch {
 
     /**
      * Echos a data table to show the results for this database search.
-     * @param FileMaker_Result $result
+     * @param Result $result
      */
-    function echoDataTable(FileMaker_Result $result) {
+    function echoDataTable(Result $result) {
 
         # filter out unnecessary fields
         $ignoredFields = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName',

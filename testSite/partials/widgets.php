@@ -1,8 +1,14 @@
 <?php
 
-# UI or header widgets used in HTML files.
+/**
+ * UI or header widgets used in HTML files.
+ * @package Widgets
+ */
 
-# A title banner is a row with a title and a background color
+/**
+ * A title banner is a row with a title and a background color
+ * @param string $databaseName
+ */
 function TitleBanner(string $databaseName) {
     if($databaseName === "mi" || $databaseName === "miw" || $databaseName === "vwsp") {
         if ($databaseName === "mi") { $title = "Dry Marine Invertebrate"; }
@@ -16,7 +22,7 @@ function TitleBanner(string $databaseName) {
             <div class="container-fluid no-padding">
                   <h1>
                       <b>
-                        '. $title .'Search
+                        '. $title .' Search
                       </b>
                   </h1>
             </div>
@@ -24,7 +30,15 @@ function TitleBanner(string $databaseName) {
         ';
 }
 
-# A card widget is a actionable card to represent a database in the main catalog
+/**
+ * A card widget is a actionable card to represent a database in the main catalog
+ *
+ * @param string $title
+ * @param string $img_source
+ * @param string $href
+ * @param string $background_color
+ * @param string $alt
+ */
 function DatabaseCard(string $title, string $img_source, string $href, string $background_color, string $alt='') {
     echo '
         <!--- '. $title .' image and link--->
@@ -41,7 +55,12 @@ function DatabaseCard(string $title, string $img_source, string $href, string $b
         ';
 }
 
-# a page controller has widgets to move around all the possible pages for a table
+/**
+ * A page controller has widgets to move around all the possible pages for a table
+ *
+ * @param $maxResponses
+ * @param $result
+ */
 function TableControllerWidget($maxResponses, $result) {
     $uri = $_SERVER['REQUEST_URI'];
 
@@ -101,7 +120,14 @@ function TableControllerWidget($maxResponses, $result) {
     ';
 }
 
-# echos one or two buttons to travel between pages
+/**
+ * Echos one or two buttons to travel between pages
+ *
+ * @param $pages
+ * @param $parts
+ * @param $amountOfRecords
+ * @param $numRes
+ */
 function NextBackButtons($pages, $parts, $amountOfRecords, $numRes) {
     if (isset($_GET['Page']) && $_GET['Page'] != '') {
         $pageNum = $_GET['Page'];
@@ -124,15 +150,19 @@ function NextBackButtons($pages, $parts, $amountOfRecords, $numRes) {
     }
 }
 
-# echos the footer html
+/**
+ * Common footer html
+ *
+ * @param string $imgSrc
+ */
 function FooterWidget(string $imgSrc) {
     echo '
         <!-- The footer for all pages -->
         <div id="footer" class="row no-gutters" style="margin-top: 15px;">
             <div class="col-sm-12 text-center">
-                <div id="footer-section" style="padding: 15px 0px;">
+                <div id="footer-section" style="padding: 15px 0;">
                     <a href="https://beatymuseum.ubc.ca/">
-                    <img src='.$imgSrc.' width = "300px" length = "150px" alt="Image for the Beaty Biodiversity Museum">
+                    <img src='.$imgSrc.' width = "300px" alt="Image for the Beaty Biodiversity Museum">
                     </a>
                 </div>
             </div>
@@ -140,7 +170,11 @@ function FooterWidget(string $imgSrc) {
     ';
 }
 
-# echos the header html, title will come after 'BBM Database'
+/**
+ * Echos the header html, title will come after 'BBM Database'
+ *
+ * @param string $title
+ */
 function HeaderWidget(string $title = '') {
     echo '
         <title>BBM Database '. $title .'</title>
@@ -169,6 +203,10 @@ function HeaderWidget(string $title = '') {
     ';
 }
 
+/**
+ * The navigation bar widget.
+ * Must be used in a file on the main folder.
+ */
 function Navbar() {
     echo '
         <!-- The navigation bar for all pages. Contains dropdowns with links to all possible databases -->

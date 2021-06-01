@@ -1,5 +1,5 @@
 <?php
-    require_once ('utilities.php');
+    require_once ('../utilities.php');
 
     $qs = $_SERVER['QUERY_STRING'];
     $uri = $_SERVER['REQUEST_URI'];
@@ -64,7 +64,7 @@ a:hover {
             } else {
               $input = '';
             }
-            if (strpos($part, $allPage) === 0 || $input == '') continue;
+            if (str_starts_with($part, $allPage) || $input == '') continue;
         ?>
         <input type="hidden" 
           name="<?php echo htmlspecialchars(str_replace('%3A', ':', str_replace('%2B', '+', $keyVal[0])))?>" 
@@ -88,7 +88,7 @@ a:hover {
 
             $partIndex = 0;
             foreach($parts as $part) {
-              if (strpos($part, $database."Page") !== false) {
+              if (str_contains($part, $database . "Page")) {
                 break;
               }
               $partIndex++;

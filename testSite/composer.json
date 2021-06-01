@@ -1,0 +1,5 @@
+{
+  "require": {
+    "airmoi/filemaker": "^2.2"
+  }
+}

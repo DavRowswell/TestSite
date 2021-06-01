@@ -1,5 +1,7 @@
 <?php
-require_once ('FileMaker.php');
+
+use airmoi\FileMaker\FileMakerException;
+
 require_once ('credentials_controller.php');
 require_once('utilities.php');
 require_once ('lib/simple_html_dom.php');
@@ -13,9 +15,9 @@ define("DATABASE", $_GET['Database'] ?? null);
 
 checkDatabaseField(DATABASE);
 
-$databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
-# check to make sure the databaseSearch is not null or false
-if (!$databaseSearch) {
+try {
+    $databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
+} catch (FileMakerException $e) {
     $_SESSION['error'] = 'Unsupported database given';
     header('Location: error.php');
     exit;
@@ -68,7 +70,18 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
                             list($layoutFields1, $layoutFields2) = array_chunk(FIELDS, ceil(count(FIELDS) / 2));
                             $count = 0;
                             foreach ($layoutFields1 as $layoutField) :
-                        ?>
+                                $fileMakerField = $databaseSearch->getSearchLayout()->getField($layoutField);
+                                print($fileMakerField->getResult());
+                                try {
+                                    print($fileMakerField->getStyleType());
+                                } catch (FileMakerException $e) {
+                                }
+                                print($fileMakerField->getType());
+                                try {
+                                    print($fileMakerField->getValueList());
+                                } catch (FileMakerException $e) {
+                                }
+                                ?>
                         <div class="row">
                             <!--- Section that is one label and one search box --->
                             <div class="col-sm-3">

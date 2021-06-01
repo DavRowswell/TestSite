@@ -1,6 +1,5 @@
 <?php
 
-require_once ('FileMaker.php');
 require_once('utilities.php');
 require_once ('lib/simple_html_dom.php');
 require_once ('credentials_controller.php');
@@ -25,12 +24,6 @@ if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
 
 $result = $findCommand->execute();
 
-if(FileMaker::isError($result)) {
-    $_SESSION['error'] = $result->getMessage();
-    header('Location: error.php');
-    exit;
-}
-
 $allRecordsFound = $result->getRecords();
 
 # we should only get one record back!
@@ -40,9 +33,6 @@ if (sizeof($allRecordsFound) != 1) {
     exit;
 }
 
-/**
- * @var FileMaker_Record $record
- */
 $record = $allRecordsFound[0];
 
 ?>

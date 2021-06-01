@@ -1,6 +1,8 @@
 <?php
 
+use airmoi\FileMaker\FileMakerException;
 use JetBrains\PhpStorm\Pure;
+use airmoi\FileMaker\Object\Record;
 
 require_once ('constants.php');
 
@@ -95,10 +97,11 @@ function mapField(string $field): string
 
 /**
  * Special entomology function to create the records genus page for their website.
- * @param FileMaker_Record $record
+ * @param Record $record
  * @return string
+ * @throws FileMakerException
  */
-function getGenusPage(FileMaker_Record $record): string
+function getGenusPage(Record $record): string
 {
     $order = $record->getField('Order');
     $family = $record->getField('Family');
@@ -114,10 +117,11 @@ function getGenusPage(FileMaker_Record $record): string
 
 /**
  * Special entomology function to create the genus and specie name.
- * @param FileMaker_Record $record
+ * @param Record $record
  * @return string
+ * @throws FileMakerException
  */
-function getGenusSpecies(FileMaker_Record $record): string
+function getGenusSpecies(Record $record): string
 {
     $genus = $record->getField('Genus');
     $species = $record->getField('Species');

@@ -3,7 +3,7 @@
 use airmoi\FileMaker\FileMakerException;
 
 require_once ('credentials_controller.php');
-require_once('utilities.php');
+require_once ('utilities.php');
 require_once ('constants.php');
 require_once ('DatabaseSearch.php');
 
@@ -42,6 +42,9 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
           HeaderWidget('Search');
         ?>
         <link rel="stylesheet" href="css/search.css">
+
+        <!-- scripts -->
+        <script type="text/javascript" src="js/process.js"></script>
     </head>
 
     <body class="container-fluid no-padding">
@@ -62,7 +65,7 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
 
                         <!-- submit button -->
                         <div class="form-group">
-                            <input id="form" class="btn btn-custom" type="button" value="Submit" onclick="Process(clearURL())">
+                            <input id="form" class="btn btn-custom" type="button" value="Submit" onclick="submitForm()">
                         </div>
 
                         <?php
@@ -343,8 +346,5 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
 
         <!-- footer -->
         <?php FooterWidget(imgSrc: 'images/beatyLogo.png'); ?>
-
-        <!-- scripts -->
-        <script src="js/process.js"> </script>
     </body>
 </html>

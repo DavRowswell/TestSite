@@ -3,7 +3,6 @@
 use airmoi\FileMaker\FileMakerException;
 use JetBrains\PhpStorm\Pure;
 use airmoi\FileMaker\Object\Record;
-use Sunra\PhpSimple\HtmlDomParser;
 require_once ('constants.php');
 
 /**

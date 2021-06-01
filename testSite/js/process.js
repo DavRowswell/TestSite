@@ -1,78 +1,36 @@
+/**
+ * Will set some values dynamically used for search and submit the form.
+ * Will also remove any unused fields from the get request.
+ */
+function submitForm() {
 
-function Process() {
-
+    // Set two values dynamically used by the program to search and sort
+    document.getElementById("type").value = document.getElementById("or").checked ? 'or' : 'and';
     if (document.getElementById("imageCheck")) {
-        if (document.getElementById("imageCheck").checked)
-        document.getElementById("hasImage").value = (document.getElementById("imageCheck").checked) ? '*' : '';
+        // need to check if it exists since it is not always used
+        document.getElementById("hasImage").value = document.getElementById("imageCheck").checked ? '*' : '';
+
+        // Disable the imageCheck field if its not checked
+        document.getElementById("imageCheck").disabled = !document.getElementById("imageCheck").checked;
     }
-    if (document.getElementById("or").checked)
-        document.getElementById("type").value = 'or';
-    else 
-        document.getElementById("type").value = 'and';
-    document.getElementById("submit-form").submit();
-}
 
-function allProcess() {
-    document.getElementById("submit-form").submit();
-}
+    // Get all the form text inputs
+    const form = document.getElementById("submit-form");
+    const inputs = form.querySelectorAll("input[type=text]");
 
-function clearURL() {
-
-    var vals = document.getElementById("submit-form");
-    var inputs = vals.querySelectorAll("input[type=text]");
-    if (document.getElementById("imageCheck")) {
-        if (!document.getElementById("imageCheck").checked){
-            document.getElementById("imageCheck").disabled=true;
-        }
-    }
-    for(var i=0;i< inputs.length;i++){
+    // if the input was not used, disable it
+    for(let i=0; i< inputs.length; i++){
         if(inputs[i].value.length === 0){
             inputs[i].disabled = true;
         }
     }
+
+    document.getElementById("submit-form").submit();
 }
 
-
-
-
-document.onkeypress = keyPress;
-
-function keyPress(e){
-  var x = e || window.event;
-  var key = (x.keyCode || x.which);
-  if(key === 13 || key === 3){
-   Process(clearURL());
-  }
-}
-
-window.onpageshow = function(event){
- 
- 
-    var vals = document.getElementById("submit-form");
-    var inputs = vals.querySelectorAll("input[type=text]");
-    
-    for(var i=0;i< inputs.length;i++){
-        if(inputs[i].value.length === 0){
-            inputs[i].disabled = false;
-        }
-    }
-    if (document.getElementById("imageCheck")) {
-        document.getElementById("imageCheck").checked=false;
-        document.getElementById("imageCheck").disabled=false;
-    }
-}
-
-var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
+/**
+ * Submits the form for the all_ package.
+ */
+function All_SubmitForm() {
+    document.getElementById("submit-form").submit();
 }

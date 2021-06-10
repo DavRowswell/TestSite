@@ -1,8 +1,8 @@
 <?php
 
-require_once ('FileMaker.php');
+use airmoi\FileMaker\FileMakerException;
+
 require_once('utilities.php');
-require_once ('lib/simple_html_dom.php');
 require_once ('credentials_controller.php');
 require_once ('constants.php');
 require_once ('DatabaseSearch.php');
@@ -14,7 +14,13 @@ define('DATABASE', $_GET['Database'] ?? null);
 
 checkDatabaseField(DATABASE);
 
-$databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
+try {
+    $databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
+} catch (FileMakerException $e) {
+    $_SESSION['error'] = 'Unsupported database given';
+    header('Location: error.php');
+    exit;
+}
 
 $findCommand = $databaseSearch->getFileMaker()->newFindCommand($databaseSearch->getDetailLayout()->getName());
 
@@ -23,10 +29,10 @@ if (isset($_GET['AccessionNo']) && $_GET['AccessionNo'] !== '') {
     $findCommand->addFindCriterion($databaseSearch->getIDFieldName(), '=='.$_GET['AccessionNo']);
 }
 
-$result = $findCommand->execute();
-
-if(FileMaker::isError($result)) {
-    $_SESSION['error'] = $result->getMessage();
+try {
+    $result = $findCommand->execute();
+} catch (FileMakerException $e) {
+    $_SESSION['error'] = 'Search fields returned an error!';
     header('Location: error.php');
     exit;
 }
@@ -40,9 +46,6 @@ if (sizeof($allRecordsFound) != 1) {
     exit;
 }
 
-/**
- * @var FileMaker_Record $record
- */
 $record = $allRecordsFound[0];
 
 ?>
@@ -138,7 +141,7 @@ $record = $allRecordsFound[0];
                                         echo '<div class="mySlides">';
 
                                         echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
-                                        '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
+                                        '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'" alt="Image of the specimen"></a>';
 
                                     } else {
                                         echo '<div style="height: 300px; text-align:center; line-height:300px;">';
@@ -154,43 +157,17 @@ $record = $allRecordsFound[0];
 
                                 $genusPage = getGenusPage($allRecordsFound[0]);
                                 $genusSpecies = getGenusSpecies($allRecordsFound[0]);
-                                $html = file_get_html($genusPage);
-                                $species = $html->find('.speciesentry');
                                 $semnumber = $allRecordsFound[0]->getField('SEM #');
                                 $foundImage = false;
-
-                                foreach($species as $spec) {
-                                    $speciesName = $spec->innertext;
-                                    if (str_contains($speciesName, $genusSpecies) && str_contains($speciesName, $semnumber)) {
-                                        $foundImage = true;
-                                        $images = $spec->find('a');
-                                        for ($num=0; $num<sizeof($images); $num++){
-                                            $link = $images[$num]->href;
-                                            $url = str_replace('http:','https:',$genusPage);
-
-                                            echo '<div class="mySlides">';
-                                            echo '<a href="'.$url.'" target="_blank" rel="noopener noreferrer">
-                                            <img class="img-fluid minHeight" src ="'.$url.$link.'"> </a>';
-                                            echo '</div>';
-                                        }
-                                        echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
-                                        echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>';
-                                    }
-                                }
 
                                 if($foundImage==false) {
                                     echo '<div style="height: 300px; text-align:center; line-height:300px;">';
                                         $order = $allRecordsFound[0]->getField('Order');
                                         $fam=$allRecordsFound[0]->getField("Family");
-                                        $subfam=$allRecordsFound[0]->getField("Subfamily");
-                                        if ($subfam !== ""){
-                                            echo '<a href="https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$fam.'/'.$subfam.'/" style="text-align:center;"> 
-                                            <button class="btn btn-custom" id="showAll" > See more of '.$subfam.' here!</button> </a>';
-                                        }
-                                        else {
-                                            echo ' <a href="https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$fam.'/" style="text-align:center;"> 
-                                            <role="button" class="btn btn-custom" id="showAll" > See more of '.$fam.' here!</button> </a> ';
-                                        }
+
+                                        echo ' <a href="https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$fam.'/" style="text-align:center;"> 
+                                        <role="button" class="btn btn-custom" id="showAll" > See more of '.$fam.' here!</button> </a> ';
+
                                     echo '</div>';
                                 }
                             }
@@ -262,6 +239,7 @@ $record = $allRecordsFound[0];
                             }
                               if (DATABASE === 'entomology'){
                                 if ($foundImage===true){
+                                    $images = 0;
                                     for ($num=1; $num<=sizeof($images); $num++){
                                       echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
                                     }

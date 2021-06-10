@@ -5,6 +5,9 @@
       <path value="$PROJECT_DIR$/testSite/vendor/composer" />
       <path value="$PROJECT_DIR$/testSite/vendor/airmoi/filemaker" />
       <path value="$PROJECT_DIR$/testSite/vendor/sunra/php-simple-html-dom-parser" />
+      <path value="$PROJECT_DIR$/vendor/sunra/php-simple-html-dom-parser" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/airmoi/filemaker" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

@@ -1,5 +1,5 @@
 <?php
-    require_once ('../utilities.php');
+    require_once('../utilities.php');
 
     $qs = $_SERVER['QUERY_STRING'];
     $uri = $_SERVER['REQUEST_URI'];

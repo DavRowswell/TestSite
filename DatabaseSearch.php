@@ -1,6 +1,6 @@
 <?php
 
-require_once ('vendor/autoload.php');
+require_once('vendor/autoload.php');
 
 use airmoi\FileMaker\FileMaker;
 use airmoi\FileMaker\FileMakerException;
@@ -157,7 +157,7 @@ class DatabaseSearch {
                 $layoutField = 'Photographs::photoFileName' or 'Imaged'; # TODO fix this!
 
                 $findCommand->addFindCriterion(
-                    fieldname: $layoutField,
+                    fieldName: $layoutField,
                     value: $this->name == 'entomology' ? 'Photographed' : '*'
                 );
             }
@@ -168,32 +168,32 @@ class DatabaseSearch {
                     case 'vwsp'; case 'bryophytes';
                     case 'fungi'; case 'lichen'; case 'algae':
                         $findCommand->addFindCriterion(
-                            fieldname: is_numeric($fieldValue) ? "Accession Numerical" : "Accession Number",
+                            fieldName: is_numeric($fieldValue) ? "Accession Numerical" : "Accession Number",
                             value: $fieldValue
                         );
                         break;
                     case 'fossil'; case 'avian';
                     case 'herpetology'; case 'mammal':
                         $findCommand->addFindCriterion(
-                            fieldname: is_numeric($fieldValue) ? "SortNum" : "catalogNumber",
+                            fieldName: is_numeric($fieldValue) ? "SortNum" : "catalogNumber",
                             value: $fieldValue
                         );
                         break;
                     case 'mi'; case 'miw':
                         $findCommand->addFindCriterion(
-                            fieldname: is_numeric($fieldValue) ? "SortNum" : 'Accession No',
+                            fieldName: is_numeric($fieldValue) ? "SortNum" : 'Accession No',
                             value: $fieldValue,
                         );
                         break;
                     case 'fish':
                         $findCommand->addFindCriterion(
-                            fieldname: 'accessionNo',
+                            fieldName: 'accessionNo',
                             value: $fieldValue,
                         );
                         break;
                     case 'entomology':
                         $findCommand->addFindCriterion(
-                            fieldname: 'SEM #',
+                            fieldName: 'SEM #',
                             value: $fieldValue,
                         );
                         break;
@@ -232,7 +232,7 @@ class DatabaseSearch {
             }
 
             # handles the order of the sort
-            $findCommand->addSortRule(fieldname:  str_replace('+', ' ', $sortBy), precedence: 1,
+            $findCommand->addSortRule(fieldName:  str_replace('+', ' ', $sortBy), precedence: 1,
                 order: $sortType === 'Descend' ? FileMaker::SORT_DESCEND : FileMaker::SORT_ASCEND);
         }
 

@@ -4,7 +4,7 @@
     <?php
     session_start();
     require_once ('FileMaker.php');
-    require_once ('partials/widgets.php');
+    require_once('partials/widgets.php');
 
     HeaderWidget();
 
@@ -16,7 +16,7 @@
     //       FM_PASS: $FM_PASS <br>";
 
 
-    require_once ('DatabaseSearch.php');
+    require_once('DatabaseSearch.php');
 
     // list databases
     // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish',

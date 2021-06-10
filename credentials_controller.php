@@ -1,7 +1,7 @@
 
 <?php
 
-require_once ('constants.php');
+require_once('constants.php');
 
 /**
  * Will return the correct DB credentials depending on the database name.

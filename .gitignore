@@ -1,0 +1,5 @@
+#exclude the database information,images and FTP folder
+databases/
+FTP/
+app.ini.php
+vendor/

@@ -89,12 +89,12 @@ $record = $allRecordsFound[0];
                                 <?php else: ?>
                                     <td
                                     <?php
-                                        if (formatField($field) === "Latitude") {echo "id='Latitude'"; $lat = $allRecordsFound[0]->getField($field);}
-                                        if (formatField($field) === "Longitude") {echo "id='Longitude'"; $long = $allRecordsFound[0]->getField($field);}
+                                        if (formatField($field) === "Latitude") {echo "id='Latitude'"; $lat = $record->getField($field);}
+                                        if (formatField($field) === "Longitude") {echo "id='Longitude'"; $long = $record->getField($field);}
                                     ?>
                                     >
                                 <?php endif; ?>
-                                <?php echo $allRecordsFound[0]->getField($field) ?>
+                                <?php echo $record->getField($field) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -125,149 +125,167 @@ $record = $allRecordsFound[0];
                     <div class = "col">
                         <div class = "slideshow-container">
                             <?php
+                            # start without any image found, should be true if at least one found
+                            $foundImage = false;
+
                             if (DATABASE === 'fish') {
 
-                                $numOfCards = $allRecordsFound[0]->getField("iffrCardNb");
+                                # get the image urls from the cards TODO ask what are these cards?
+                                $numOfCards = $record->getField("iffrCardNb");
+                                $specie = $record->getField("Species");
+
+                                $imageUrls = [];
 
                                 for ($num = 1; $num <= $numOfCards; $num++) {
                                     $num_padded = sprintf("%02d", $num);
                                     $cardName = "card".$num_padded;
 
-                                    $url =  'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$allRecordsFound[0]->getField($cardName).'/0';
-                                    $linkToWebsite =  'https://open.library.ubc.ca/collections/fisheries/items/'.$allRecordsFound[0]->getField($cardName);
-
-                                    if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-
-                                        echo '<div class="mySlides">';
-
-                                        echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.
-                                        '<img id = "fish" class="img-fluid minHeight" src="'.htmlspecialchars($url) .'" alt="Image of the specimen"></a>';
-
-                                    } else {
-                                        echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                                        echo '<span style="">No picture found for this record</span>';
+                                    try {
+                                        $cardFieldValue = $record->getField($cardName);
+                                    } catch (FileMakerException $e) {
+                                        continue;
                                     }
-                                    echo '</div>';
-                                }
-                              echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
-                              echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>';
 
+                                    $url =  'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$cardFieldValue.'/0';
+                                    $linkToWebsite =  'https://open.library.ubc.ca/collections/fisheries/items/'.$cardFieldValue;
+
+                                    $imageUrls[$linkToWebsite] = $url;
+                                }
+
+                                # for each image, add it to the slider
+                                foreach ($imageUrls as $webUrl => $imageUrl) {
+                                    if (@getimagesize($imageUrl)[0] > 0 && @getimagesize($imageUrl)[1] > 0) {
+                                        $websiteLink = htmlspecialchars($webUrl);
+                                        $imgLink = htmlspecialchars($imageUrl);
+                                        echo "
+                                            <div class='mySlides'>
+                                                <a href='$websiteLink' target='_blank'><img class='img-fluid' src='$imgLink' alt='Image for $specie'></a>
+                                            </div>
+                                        ";
+                                        $foundImage = true;
+                                    }
+                                }
                             }
                             else if (DATABASE === 'entomology') {
 
-                                $genusPage = getGenusPage($allRecordsFound[0]);
-                                $genusSpecies = getGenusSpecies($allRecordsFound[0]);
-                                $semnumber = $allRecordsFound[0]->getField('SEM #');
-                                $foundImage = false;
+                                try {
+                                    $familyUrl = getGenusPage($record);
+                                    $genus = $record->getField('Genus');
+                                    $specie = $record->getField('Species');
+                                    $fam= $record->getField("Family");
+                                } catch (FileMakerException $e) {
+                                    $_SESSION['error'] = 'There was an error with File Maker Pro fields. Please contact the admin.';
+                                    header('Location: error.php');
+                                    exit;
+                                }
 
-                                if($foundImage==false) {
-                                    echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                                        $order = $allRecordsFound[0]->getField('Order');
-                                        $fam=$allRecordsFound[0]->getField("Family");
+                                # scrap the entomology website for images
+                                # source https://www.ostraining.com/blog/coding/extract-image-php/
+                                $html = file_get_contents($familyUrl);
+                                preg_match_all('|<img.*?src=[\'"](.*?)[\'"].*?>|i',$html, $matches);
+                                $rawImageNameList = $matches[1];
 
-                                        echo ' <a href="https://www.zoology.ubc.ca/entomology/main/'.$order.'/'.$fam.'/" style="text-align:center;"> 
-                                        <role="button" class="btn btn-custom" id="showAll" > See more of '.$fam.' here!</button> </a> ';
+                                # only use those images with the genus and specie name in it
+                                $imageNames = array_filter(
+                                    $rawImageNameList,
+                                    function ($imgUrl) use($genus, $specie) {
+                                        return str_contains($imgUrl, $genus) and str_contains($imgUrl,  $specie);
+                                    }
+                                );
 
-                                    echo '</div>';
+                                if (sizeof($imageNames) > 0) {
+                                    # print each image for the specie in a div with the slides class
+                                    foreach ($imageNames as $imageName) {
+                                        $imageUrl = $familyUrl . $imageName;
+                                        echo "
+                                        <div class='mySlides'>
+                                            <a href='$imageUrl' target='_blank'>
+                                                <img class='img-fluid minHeigh' src='$imageUrl' alt='Image for $genus - $specie'>
+                                            </a>
+                                        </div>
+                                    ";
+                                    }
+                                    $foundImage = true;
+                                }
+
+                                # echo special button to move to entomology website
+                                echo "
+                                        <div class='p-2'>
+                                            <a href=$familyUrl class='text-center' target='_blank'>
+                                                <button class='btn btn-custm' id='showAll'> See more of $fam here! </button>
+                                            </a>
+                                        </div>
+                                    ";
+                            }
+                            elseif (DATABASE == 'avian' or DATABASE == 'herpetology' or DATABASE == 'mammal') {
+                                $tableNamesObj = $record->getRelatedSet('Photographs');
+
+                                $imageUrls = [];
+
+                                // if images, type = 'array'; else 'object'
+                                if (gettype($tableNamesObj) == 'array') {
+                                    foreach ($tableNamesObj as $relatedRow) {
+                                        $possible_answer = $relatedRow->getField('Photographs::photoContainer');
+                                        if (str_contains(strtolower($possible_answer), "jpg")) { // delete this if later
+                                            $possible_answer = "https://collections.zoology.ubc.ca" . $possible_answer;
+                                            $imageUrls[$possible_answer] = $possible_answer;
+                                        }
+                                    }
+                                }
+
+                                foreach ($imageUrls as $imageUrl) {
+                                    $foundImage = true;
+                                    echo "
+                                            <div class='mySlides'>
+                                                <a href='$imageUrl' target='_blank'>
+                                                    <img src='$imageUrl' class='img-fluid minHeight' alt='Species image.'>
+                                                </a>
+                                            </div>
+                                            ";
                                 }
                             }
-                            else {
-                                $validDb = false;
-                                if (DATABASE == 'avian' ||DATABASE == 'herpetology' || DATABASE == 'mammal') {
-                                    $tableNamesObj = $allRecordsFound[0]->getRelatedSet('Photographs');
+                            else if (DATABASE == 'vwsp' or DATABASE == 'bryophytes' or DATABASE == 'fungi' or
+                                DATABASE == 'lichen' or DATABASE == 'algae') {
 
-                                    // if images, type = 'array'; else 'object'
-                                    if (gettype($tableNamesObj)=='array') {
-                                        foreach ($tableNamesObj as $relatedRow) {
-                                            $possible_answer = $relatedRow->getField('Photographs::photoContainer');
-                                            if (str_contains(strtolower($possible_answer), "jpg")){ // delete this if later
-                                                $possible_answer= "https://collections.zoology.ubc.ca".$possible_answer;
-                                                echo '<div class="mySlides">';
-                                                echo '<a href ='.$possible_answer.' target="_blank" rel="noopener noreferrer">'.
-                                                '<img id = "avian" class="img-fluid minHeight" src="'.$possible_answer .'"></a>';
-                                                echo '</div>';
-                                            }
-                                        }
+                                $url = getPhotoUrl($_GET['AccessionNo'], DATABASE);
+                                if (@getimagesize($url)[0] > 0 && @getimagesize($url)[1] > 0) {
+                                    echo '<a href =' . htmlspecialchars($url) . ' target="_blank"> <img class="img-fluid minHeight" src="' . htmlspecialchars($url) . '" alt="Species image."></a>';
+                                    $foundImage = true;
+                                }
+                            }
 
-                                        echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
-                                        echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>';
-                                        $validDb = false;
-                                    } else {
-                                        echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                                        echo '<span style="">No picture found for this record</span>';
-                                        echo '</div>';
-                                    }
-
-                                }
-                                else if (DATABASE == 'vwsp' || DATABASE == 'bryophytes' || DATABASE == 'fungi'
-                                || DATABASE == 'lichen' || DATABASE == 'algae') {
-                                    $url = getPhotoUrl($_GET['AccessionNo'], DATABASE);
-                                    $validDb = true;
-                                }
-                                if ($validDb) {
-                                    if (@getimagesize($url)[0] >0 && @getimagesize($url)[1] > 0) {
-                                        echo '<a href ='. htmlspecialchars($url).' target="_blank" rel="noopener noreferrer">'.'<img class="img-fluid minHeight" src="'.htmlspecialchars($url) .'"></a>';
-                                    } else {
-                                        echo '<div style="height: 300px; text-align:center; line-height:300px;">';
-                                        echo '<span style="">No picture found for this record</span>';
-                                        echo '</div>';
-                                    }
-                                }
+                            # if no image found echo text
+                            if (!$foundImage) {
+                                echo "
+                                        <div class='text-center'>
+                                            <span> No picture found for this record</span>
+                                        </div>
+                                        ";
+                            } else {
+                                # slider controllers to go left or right
+                                echo '<a class="prevbutton" onclick="plusSlides(-1)">&#10094;</a>';
+                                echo '<a class="nextbutton" onclick="plusSlides(1)">&#10095;</a>';
                             }
                             ?>
                         </div>
 
                         <!-- Slideshow UI controller -->
-                        <div style="text-align:center">
-                            <?php // adds the dots to the slideshow
-                              if (DATABASE === 'fish') {
-                                for ($num=1; $num<=$numOfCards; $num++){
-                                  echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
+                        <div class="text-center">
+                            <?php # adds the dots to the slideshow
+                            if ($foundImage) {
+                                if (isset($imageUrls) and sizeof($imageUrls) > 0) {
+                                    for ($num = 1; $num <= sizeof($imageUrls); $num++) {
+                                        echo "<span class='dot' onclick='currentSlide($num)'></span>";
+                                    }
+                                } else if (DATABASE === 'entomology' and isset($imageNames)) {
+                                    for ($num = 1; $num <= sizeof($imageNames); $num++) {
+                                        echo "<span class='dot' onclick='currentSlide($num)'></span>";
+                                    }
                                 }
                             }
-                              if (DATABASE === 'avian' || DATABASE === 'mammal' || DATABASE === 'herpetology') {
-                                $num =1;
-                                foreach ($tableNamesObj as $relatedRow){
-                                  if (gettype($tableNamesObj)=='array') {
-                                    $possible_answer = $relatedRow->getField('Photographs::photoContainer');
-                                    if ((str_contains(strtolower($possible_answer), "jpg"))){  // delete if later
-                                      echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
-                                    }
-                                  }
-                                  $num++;
-                                }
-                            }
-                              if (DATABASE === 'entomology'){
-                                if ($foundImage===true){
-                                    $images = 0;
-                                    for ($num=1; $num<=sizeof($images); $num++){
-                                      echo '<span class="dot" onclick="currentSlide('.$num.')"></span>';
-                                    }
-
-                                }
-                                 }
                             ?>
                         </div>
                     </div>
-                </div>
-
-                <!-- entomology special link to more images -->
-                <div class="row">
-                    <?php
-                    if (DATABASE === 'entomology'){
-                        if ($foundImage===true){
-                            $fam=$allRecordsFound[0]->getField("Family");
-                            $subfam=$allRecordsFound[0]->getField("Subfamily");
-                            if ($subfam!==""){
-                                echo '<a href="'.$url.'" style="text-align:center;"> 
-                                    <button class="btn btn-custom" id="showAll" > See more '.$subfam.' here!</button> </a>';
-                            } else {
-                                echo ' <a href="'.$url.'" style="text-align:center;"> 
-                                    <role="button" class="btn btn-custom" id="showAll" > See more '.$fam.' here!</button> </a> ';
-                            }
-                        }
-                    }
-                    ?>
                 </div>
             </div>
         </div>
@@ -275,6 +293,7 @@ $record = $allRecordsFound[0];
 
     <?php FooterWidget('images/beatyLogo.png') ;?>
 
+    <!-- Scripts to handle slides -->
     <script>
         // js slideshow
         let slideIndex = 1;
@@ -291,23 +310,23 @@ $record = $allRecordsFound[0];
         }
 
         function showSlides(n) {
-        let i;
-        const slides = document.getElementsByClassName("mySlides");
-        const dots = document.getElementsByClassName("dot");
+            let i;
+            const slides = document.getElementsByClassName("mySlides");
+            const dots = document.getElementsByClassName("dot");
 
-        if (n > slides.length) { slideIndex = 1 }
-        if (n < 1) { slideIndex = slides.length }
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
 
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
         }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-
-        slides[slideIndex-1].style.display = "block";
-        dots[slideIndex-1].className += " active";
-      }
     </script>
 
     </body>

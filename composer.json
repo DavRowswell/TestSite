@@ -1,6 +1,5 @@
 {
   "require": {
-    "airmoi/filemaker": "^2.2",
-    "sunra/php-simple-html-dom-parser": "v1.5.2"
+    "airmoi/filemaker": "^2.3"
   }
 }

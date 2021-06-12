@@ -184,15 +184,14 @@ function HeaderWidget(string $title = '') {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <!-- css stylesheets -->
-        <link rel="stylesheet" type="text/css" href="css/open-iconic-master/font/css/open-iconic-bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="css/reset.css">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="css/allPagesCustom.css">
+        <link rel="stylesheet" type="text/css" href="public/css/open-iconic-master/font/css/open-iconic-bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="public/css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="public/css/common.css">
         
         <!-- js scripts -->
-        <script src="js/jquery.js"></script>
-        <script src="js/popper.js"></script>
-        <script src="js/bootstrap.js"></script>
+        <script src="public/js/jquery-3.6.0.min.js"></script>
+        <script src="public/js/bootstrap.bundle.min.js"></script>
         
         <style>
             body {

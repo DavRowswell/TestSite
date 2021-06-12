@@ -41,10 +41,10 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
 
           HeaderWidget('Search');
         ?>
-        <link rel="stylesheet" href="css/search.css">
+        <link rel="stylesheet" href="public/css/search.css">
 
         <!-- scripts -->
-        <script type="text/javascript" src="js/process.js"></script>
+        <script type="text/javascript" src="public/js/process.js"></script>
     </head>
 
     <body class="container-fluid no-padding">
@@ -127,7 +127,7 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
                             if(DATABASE === 'entomology'){
                                 echo '
                                     <div id="entoSite" class="row no-gutters">
-                                        <div class="col-sm-12" style="background: url(images/entomologyBannerImages/rotator.php) no-repeat center center; background-size: 100% auto; text-align: center; color: white;">
+                                        <div class="col-sm-12" style="background: url(public/images/entomologyBannerImages/rotator.php) no-repeat center center; background-size: 100% auto; text-align: center; color: white;">
                                             <div style ="margin-top:30px;margin-bottom:30px;">
                                                 <a href="https://www.zoology.ubc.ca/entomology/" style="text-decoration: none; color: white;">
                                                     <p>Welcome to the</p><h3>SPENCER ENTOMOLOGICAL COLLECTION</h3>
@@ -331,7 +331,7 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
                                             <div id = "sample-map" class = "col-xl-6 d-flex justify-content-center">
                                                 <div id="viewDiv"></div>
                                                 <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
-                                                <script src="js/map.js"></script>
+                                                <script src="public/js/map.js"></script>
                                             </div>
                                         </div>
                                     </div>
@@ -345,6 +345,6 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
         </div>
 
         <!-- footer -->
-        <?php FooterWidget(imgSrc: 'images/beatyLogo.png'); ?>
+        <?php FooterWidget(imgSrc: 'public/images/beatyLogo.png'); ?>
     </body>
 </html>

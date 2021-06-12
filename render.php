@@ -53,7 +53,7 @@ try {
             require_once('partials/widgets.php');
             HeaderWidget('Search Table');
         ?>
-        <link rel="stylesheet" href="css/render.css">
+        <link rel="stylesheet" href="public/css/render.css">
     </head>
 
     <body class="container-fluid no-padding">
@@ -92,6 +92,6 @@ try {
         </div>
 
         <!-- footer -->
-        <?php FooterWidget(imgSrc: 'images/beatyLogo.png'); ?>
+        <?php FooterWidget(imgSrc: 'public/images/beatyLogo.png'); ?>
     </body>
 </html>

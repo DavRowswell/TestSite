@@ -213,7 +213,7 @@
     </div>
 </div>
 <br>
-<?php FooterWidget('images/beatyLogo.png'); ?>
-<script src="js/process.js"> </script>
+<?php FooterWidget('public/images/beatyLogo.png'); ?>
+<script src="public/js/process.js"> </script>
 </body>
 </html>

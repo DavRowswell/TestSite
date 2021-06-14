@@ -6,7 +6,7 @@
 
 $color = match ($_GET['Database']) {
     "avian", "herpetology", "mammal" => "#70382D",
-    "vwsp", "algae", "fungi", "bryphytes", "linchen" => "#3c8a2e",
+    "vwsp", "algae", "fungi", "bryophytes", "lichen" => "#3c8a2e",
     "miw", "mi" => "#ffb652",
     "fish" => "#165788",
     "entomology" => "#824bb0",

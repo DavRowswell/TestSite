@@ -23,6 +23,6 @@
             </div>
         </div>
 
-        <?php FooterWidget('images/beatyLogo.png'); ?>
+        <?php FooterWidget('public/images/beatyLogo.png'); ?>
     </body>
 </html>

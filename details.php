@@ -54,7 +54,7 @@ $record = $allRecordsFound[0];
 <html lang="en">
     <head>
         <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
-        <link rel="stylesheet" href="css/details.css">
+        <link rel="stylesheet" href="public/css/details.css">
         <?php
           require_once('partials/conditionalCSS.php');
           require_once ('partials/widgets.php');
@@ -111,7 +111,7 @@ $record = $allRecordsFound[0];
                         <?php if(isset($lat) && isset($long)) : ?>
                             <div id="viewDiv" style="height: 300px;"></div>
                             <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
-                            <script src="js/map.js"></script>
+                            <script src="public/js/map.js"></script>
                         <?php else: ?>
                             <div style="height: 300px; text-align:center; line-height:300px;">
                                 <span style="">No coordinates for this record</span>
@@ -291,7 +291,7 @@ $record = $allRecordsFound[0];
         </div>
     </div>
 
-    <?php FooterWidget('images/beatyLogo.png') ;?>
+    <?php FooterWidget('public/images/beatyLogo.png') ;?>
 
     <!-- Scripts to handle slides -->
     <script>

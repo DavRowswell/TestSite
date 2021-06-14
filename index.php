@@ -12,7 +12,7 @@
         ?>
 
         <!---Link to the CSS for this page--->
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="public/css/index.css">
     </head>
 
     <body class="container-fluid no-padding">
@@ -42,35 +42,35 @@
                         <?php
                              DatabaseCard(
                                 title: 'Algae',
-                                img_source: 'images/algae.png',
+                                img_source: 'public/images/algae.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=algae',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Bryophytes',
-                                img_source: 'images/bryophytes.png',
+                                img_source: 'public/images/bryophytes.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=bryophytes',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Fungi',
-                                img_source: 'images/fungi.png',
+                                img_source: 'public/images/fungi.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=fungi',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Lichen',
-                                img_source: 'images/lichen.png',
+                                img_source: 'public/images/lichen.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=lichen',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Vascular',
-                                img_source: 'images/herbarium.png',
+                                img_source: 'public/images/herbarium.png',
                                 href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=vwsp',
                                 background_color: '#3c8a2e',
                             )
@@ -91,28 +91,28 @@
                         <?php
                              DatabaseCard(
                                 title: 'Avian',
-                                img_source: 'images/tetrapods.png',
+                                img_source: 'public/images/tetrapods.png',
                                 href: 'search.php?Database=avian',
                                 background_color: '#70382d',
                             );
 
                              DatabaseCard(
                                 title: 'Herpetology',
-                                img_source: 'images/herptology.png',
+                                img_source: 'public/images/herptology.png',
                                 href: 'search.php?Database=herpetology',
                                 background_color: '#70382d',
                             );
 
                              DatabaseCard(
                                 title: 'Mammals',
-                                img_source: 'images/mammal.png',
+                                img_source: 'public/images/mammal.png',
                                 href: 'search.php?Database=mammal',
                                 background_color: '#70382d',
                             );
 
                              DatabaseCard(
                                 title: 'Fish',
-                                img_source: 'images/fish.png',
+                                img_source: 'public/images/fish.png',
                                 href: 'search.php?Database=fish',
                                 background_color: '#165788',
                             );
@@ -133,21 +133,21 @@
                         <?php
                              DatabaseCard(
                                 title: 'Entomology',
-                                img_source: 'images/entomology.png',
+                                img_source: 'public/images/entomology.png',
                                 href: 'search.php?Database=entomology',
                                 background_color: '#824bb0',
                             );
 
                              DatabaseCard(
                                 title: 'Dry Marine Invertebrates',
-                                img_source: 'images/marine-invertebrates-dry.png',
+                                img_source: 'public/images/marine-invertebrates-dry.png',
                                 href: 'search.php?Database=mi',
                                 background_color: '#ffb652',
                             );
 
                              DatabaseCard(
                                 title: 'Wet Marine Invertebrates',
-                                img_source: 'images/marine-invertebrates-wet.png',
+                                img_source: 'public/images/marine-invertebrates-wet.png',
                                 href: 'search.php?Database=miw',
                                 background_color: '#ffb652',
                             );
@@ -169,7 +169,7 @@
                         <?php
                              DatabaseCard(
                                 title: 'Fossils',
-                                img_source: 'images/fossils.png',
+                                img_source: 'public/images/fossils.png',
                                 href: 'search.php?Database=fossil',
                                 background_color: '#bd3632',
                             );
@@ -180,6 +180,6 @@
         </div>
 
         <!--- Code for the footer on each page--->
-        <?php FooterWidget(imgSrc: 'images/beatyLogo.png'); ?>
+        <?php FooterWidget(imgSrc: 'public/images/beatyLogo.png'); ?>
     </body>
 </html>

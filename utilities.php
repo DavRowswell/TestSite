@@ -1,7 +1,6 @@
 <?php
 
 use airmoi\FileMaker\FileMakerException;
-use JetBrains\PhpStorm\Pure;
 use airmoi\FileMaker\Object\Record;
 require_once ('constants.php');
 
@@ -85,7 +84,7 @@ function mapField(string $field): string
  * @param string $field
  * @return string Taxon::family->Family
  */
-#[Pure] function formatField(string $field): string
+function formatField(string $field): string
 {
     $colonPosition = strrpos($field, ":");
     if ($colonPosition) {

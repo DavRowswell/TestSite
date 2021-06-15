@@ -1,7 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\Pure;
-
 /**
  * These functions are all used for the all_render.php file. A feature we will not be working on for a while.
  */
@@ -140,7 +138,7 @@ function addFindCriterionIfSet($field, $layoutFields, $findCommand): bool {
 /**
  * Helper for addFindCriterionIfSet()
  */
-#[Pure] function fieldIsSet($field, $layoutFields): bool {
+function fieldIsSet($field, $layoutFields): bool {
     foreach ($layoutFields as $lf) {
         if (formatField($lf) === "Phylum") {
             return true;

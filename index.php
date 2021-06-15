@@ -4,6 +4,9 @@
     <head>
         <?php
 
+        # require the composer autoloader
+        require_once ('vendor/autoload.php');
+
         // get the widgets
         require_once ('partials/widgets.php');
 
@@ -39,39 +42,39 @@
 
                     <!--- Herbarium links and content--->
                     <div class="column-body">
-                        <?php
+                    <?php
                              DatabaseCard(
                                 title: 'Algae',
                                 img_source: 'public/images/algae.png',
-                                href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=algae',
+                                href: 'search.php?Database=algae',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Bryophytes',
                                 img_source: 'public/images/bryophytes.png',
-                                href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=bryophytes',
+                                href: 'search.php?Database=bryophytes',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Fungi',
                                 img_source: 'public/images/fungi.png',
-                                href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=fungi',
+                                href: 'search.php?Database=fungi',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Lichen',
                                 img_source: 'public/images/lichen.png',
-                                href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=lichen',
+                                href: 'search.php?Database=lichen',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Vascular',
                                 img_source: 'public/images/herbarium.png',
-                                href: 'https://herbweb.botany.ubc.ca/herbarium/search.php?Database=vwsp',
+                                href: 'search.php?Database=vwsp',
                                 background_color: '#3c8a2e',
                             )
                         ?>

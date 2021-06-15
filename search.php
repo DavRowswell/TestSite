@@ -60,8 +60,10 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
                     <!-- form elements -->
                     <div id="form" class = "col-sm-6">
                         <!-- hidden text field containing the database name -->
-                        <input type="text" hidden name="Database"
-                               value=<?php echo htmlspecialchars(DATABASE); ?>>
+                        <label>
+                            <input type="text" hidden name="Database"
+                                   value=<?php echo htmlspecialchars(DATABASE); ?>>
+                        </label>
 
                         <!-- submit button -->
                         <div class="form-group">

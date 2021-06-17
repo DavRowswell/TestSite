@@ -19,7 +19,7 @@ function TitleBanner(string $databaseName) {
     }
 
     echo '
-            <div class="container-fluid no-padding">
+            <div class="container-fluid p-0">
                   <h1>
                       <b>
                         '. $title .' Search
@@ -42,7 +42,7 @@ function TitleBanner(string $databaseName) {
 function DatabaseCard(string $title, string $img_source, string $href, string $background_color, string $alt='') {
     echo '
         <!--- '. $title .' image and link--->
-        <div class="col d-flex justify-content-center">
+        <div class="justify-content-center">
             <a href='. $href .'>
                 <figure class="text-center" style="background: '. $background_color .'">
                     <img class="img-fluid img-sized" src='. $img_source .' alt='. $alt .'>
@@ -157,15 +157,10 @@ function NextBackButtons($pages, $parts, $amountOfRecords, $numRes) {
  */
 function FooterWidget(string $imgSrc) {
     echo '
-        <!-- The footer for all pages -->
-        <div id="footer" class="row no-gutters" style="margin-top: 15px;">
-            <div class="col-sm-12 text-center">
-                <div id="footer-section" style="padding: 15px 0;">
-                    <a href="https://beatymuseum.ubc.ca/">
-                    <img src='.$imgSrc.' width = "300px" alt="Image for the Beaty Biodiversity Museum">
-                    </a>
-                </div>
-            </div>
+        <div class="container-fluid text-center p-0 red-background">
+            <a href="https://beatymuseum.ubc.ca/" role="button">
+                <img src='.$imgSrc.' width="300px" alt="Image for the Beaty Biodiversity Museum" class="m-4">
+            </a>
         </div>
     ';
 }
@@ -176,7 +171,8 @@ function FooterWidget(string $imgSrc) {
  * @param string $title
  */
 function HeaderWidget(string $title = '') {
-    echo '
+
+        echo '
         <title>BBM Database '. $title .'</title>
 
         <!-- meta -->
@@ -186,19 +182,11 @@ function HeaderWidget(string $title = '') {
         <!-- css stylesheets -->
         <link rel="stylesheet" type="text/css" href="public/css/open-iconic-master/font/css/open-iconic-bootstrap.css">
         <link rel="stylesheet" type="text/css" href="public/css/normalize.css">
-        <link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="public/bootstrap-v5/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="public/css/common.css">
         
         <!-- js scripts -->
-        <script src="public/js/jquery-3.6.0.min.js"></script>
-        <script src="public/js/bootstrap.bundle.min.js"></script>
-        
-        <style>
-            body {
-                font-family: Arial, Helvetica, sans-serif;
-            }
-        </style>
-    
+        <script src="public/bootstrap-v5/js/bootstrap.bundle.min.js"></script>
     ';
 }
 
@@ -209,22 +197,23 @@ function HeaderWidget(string $title = '') {
 function Navbar() {
     echo '
         <!-- The navigation bar for all pages. Contains dropdowns with links to all possible databases -->
-        <nav id="header" class="navbar navbar-expand-lg navbar-dark" style="background: #CC2229;">
+        <nav class="navbar navbar-expand-lg navbar-dark red-background">
+            
             <!-- BMD title sends to main page -->
-            <a style="background-color:inherit;" class="navbar-brand" href="index.php"><h3>Beaty Museum Databases</h3></a>
+            <a class="navbar-brand" href="index.php"><h3>Beaty Museum Databases</h3></a>
         
-            <!-- TODO remove this if not important -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <!-- Used for collapse support -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
         
             <!-- Databases navbar dropdown row -->
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
         
                     <!-- Herbarium -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbardrop" href="#">Herbarium <span class="caret"></span></a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Herbarium</a>
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="search.php?Database=algae">Algae</a>
                             <a class="dropdown-item" href="search.php?Database=bryophytes">Bryophytes</a>
@@ -236,7 +225,7 @@ function Navbar() {
         
                     <!-- Vertebrates -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbardrop" href="#">Vertebrates <span class="caret"></span></a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Vertebrates</a>
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="search.php?Database=avian">Avian</a>
                             <a class="dropdown-item" href="search.php?Database=herpetology">Herpetology</a>
@@ -247,7 +236,7 @@ function Navbar() {
         
                     <!-- Invertebrates -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbardrop" href="#">Invertebrates <span class="caret"></span></a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Invertebrates</a>
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="search.php?Database=entomology">Entomology</a>
                             <a class="dropdown-item" href="search.php?Database=miw"> Wet Marine Invertebrates</a>

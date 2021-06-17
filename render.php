@@ -56,7 +56,7 @@ try {
         <link rel="stylesheet" href="public/css/render.css">
     </head>
 
-    <body class="container-fluid no-padding">
+    <body>
 
         <!-- navbar -->
         <?php Navbar(); ?>
@@ -65,7 +65,7 @@ try {
         <?php TitleBanner(databaseName: DATABASE); ?>
 
         <!-- main body with table and its widgets -->
-        <div class="container-fluid">
+        <div class="container-fluid flex-grow-1">
             <?php TableControllerWidget($maxResponses, $result); ?>
 
             <!-- Modify Search Button -->

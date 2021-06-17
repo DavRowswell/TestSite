@@ -7,17 +7,19 @@
         ?>
     </head>
 
-    <body class="d-flex flex-column">
+    <body>
         <?php 
             session_start();
             Navbar();
         ?>
 
-        <div class="d-flex align-items-center text-center vh-100">
-            <div class="container-fluid">
+        <div class="container-fluid d-flex flex-grow-1 justify-content-center align-items-center">
+            <div class="text-center">
                 <?php
-                if (isset($_SESSION['error']))
-                    echo "<p>" . htmlspecialchars($_SESSION['error']) . ".</p>";
+                if (isset($_SESSION['error'])) {
+                    $error_text = htmlspecialchars($_SESSION['error']);
+                    echo "<p>$error_text</p>";
+                }
                 ?>
                 <p><a role="button" class="btn btn-danger" href="index.php">Main Page</a></p>
             </div>

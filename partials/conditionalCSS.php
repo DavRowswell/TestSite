@@ -25,7 +25,7 @@ echo "
             padding: 0 15px;
         }
 
-        input[type='radio'], input[type='button'], a[role='button'] {
+        input[type='radio'], input[type='button'] {
             background: $color;
             border-color: $color;
         }

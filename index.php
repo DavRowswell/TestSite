@@ -18,19 +18,19 @@
         <link rel="stylesheet" href="public/css/index.css">
     </head>
 
-    <body class="container-fluid no-padding">
+    <body>
         <!--- Contains the navbar on the top of every page--->
         <?php Navbar(); ?>
 
         <!--- Div for the main content of the page--->
-        <div id="main">
+        <div class="container-fluid flex-grow-1 p-0">
             <!--- The main title of the page under the navbar--->
-            <div class="container-fluid no-padding">
+            <div class="container-fluid p-0">
                 <h1>Database List</h1>
             </div>
 
             <!--- Row for all the content--->
-            <div class="row no-gutters">
+            <div class="row g-0">
 
                 <!--- First column of databases--->
                 <div class="col-sm-3">
@@ -41,7 +41,7 @@
                     </div>
 
                     <!--- Herbarium links and content--->
-                    <div class="column-body">
+                    <div class="mx-3">
                     <?php
                              DatabaseCard(
                                 title: 'Algae',
@@ -90,7 +90,7 @@
                     </div>
 
                     <!--- Vertebrate image and link content--->
-                    <div class="column-body">
+                    <div class="mx-3">
                         <?php
                              DatabaseCard(
                                 title: 'Avian',
@@ -132,7 +132,7 @@
                     </div>
 
                     <!--- Invertebrate column content--->
-                    <div class="column-body">
+                    <div class="mx-3">
                         <?php
                              DatabaseCard(
                                 title: 'Entomology',
@@ -168,7 +168,7 @@
                     </div>
 
                     <!--- Fossil Content--->
-                    <div class="column-body">
+                    <div class="mx-3">
                         <?php
                              DatabaseCard(
                                 title: 'Fossils',

@@ -2,12 +2,6 @@
     CSS for index.php
 */
 
-
-.column-body {
-    margin-right: 5px;
-    margin-left: 5px;
-}
-
 h1{
     background: #3e3e3f;
     color:  #ffffff;
@@ -20,10 +14,6 @@ h2{
     color:  #ffffff;
     margin: 0px;
     font-size: 1.7em;
-}
-
-.no-padding {
-    padding: 0;
 }
 
 

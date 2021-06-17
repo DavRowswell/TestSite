@@ -1,12 +1,6 @@
 /*
     CSS Style for render.php
  */
-
-
-.no-padding {
-    padding: 0;
-}
-
 .collapsible {
     background-color: #777;
     color: white;

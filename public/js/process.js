@@ -4,16 +4,6 @@
  */
 function submitForm() {
 
-    // Set two values dynamically used by the program to search and sort
-    document.getElementById("type").value = document.getElementById("or").checked ? 'or' : 'and';
-    if (document.getElementById("imageCheck")) {
-        // need to check if it exists since it is not always used
-        document.getElementById("hasImage").value = document.getElementById("imageCheck").checked ? '*' : '';
-
-        // Disable the imageCheck field if its not checked
-        document.getElementById("imageCheck").disabled = !document.getElementById("imageCheck").checked;
-    }
-
     // Get all the form text inputs
     const form = document.getElementById("submit-form");
     const inputs = form.querySelectorAll("input[type=text]");
@@ -25,6 +15,22 @@ function submitForm() {
         }
     }
 
+    document.getElementById("submit-form").submit();
+}
+
+/**
+ * Will submit the form after removing all the inputs.
+ */
+function submitEmptyForm() {
+    const form = document.getElementById("submit-form");
+    const inputs = form.querySelectorAll("input");
+
+    // if the input was not used, disable it
+    for(let i=0; i< inputs.length; i++){
+        inputs[i].disabled = true;
+    }
+
+    document.getElementById('Database').disabled = false;
     document.getElementById("submit-form").submit();
 }
 

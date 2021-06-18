@@ -1,8 +1,8 @@
 <?php
 
 use airmoi\FileMaker\FileMakerException;
+use airmoi\FileMaker\Object\Field;
 
-require_once ('credentials_controller.php');
 require_once ('utilities.php');
 require_once ('constants.php');
 require_once ('DatabaseSearch.php');
@@ -22,12 +22,15 @@ try {
     exit;
 }
 
+# filter the layouts to those we only want
+$ignoreValues = ['SortNum' => '', 'Accession Numerical' => '', 'Imaged' => '', 'IIFRNo' => '',
+    'Photographs::photoFileName' => '', 'Event::eventDate' => '', 'card01' => '', 'Has Image' => '', 'imaged' => ''];
+
 $allFieldNames = array_keys($databaseSearch->getSearchLayout()->getFields());
 
-# filter the layouts to those we only want
-$ignoreValues = ['SortNum', 'Accession Numerical', 'Imaged', 'IIFRNo', 'Photographs::photoFileName', 'Event::eventDate', 'card01', 'Has Image', 'imaged'];
+$allFields = $databaseSearch->getSearchLayout()->getFields();
 
-define("FIELDS", array_diff($allFieldNames, $ignoreValues));
+$allFields = array_diff_key($allFields, $ignoreValues);
 
 ?>
 
@@ -36,10 +39,10 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
     <head>
         <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
         <?php
-          require_once('partials/conditionalCSS.php');
-          require_once('partials/widgets.php');
+            require_once('partials/widgets.php');
 
-          HeaderWidget('Search');
+            HeaderWidget('Search');
+            require_once('partials/conditionalCSS.php');
         ?>
         <link rel="stylesheet" href="public/css/search.css">
 
@@ -51,292 +54,113 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
         <?php Navbar(); ?>
 
         <!-- Page title below navbar -->
-        <?php TitleBanner(databaseName: DATABASE); ?>
+        <?php TitleBanner(databaseName: DATABASE, paddingIndex: 3); ?>
 
         <div class="container-fluid flex-grow-1">
             <form action="render.php" method="get" id="submit-form">
-                <div class ="row">
+                <!-- hidden text field containing the database name -->
+                <label>
+                    <input type="text" hidden id="Database" name="Database" value=<?php echo htmlspecialchars(DATABASE); ?>>
+                </label>
 
-                    <!-- form elements -->
-                    <div id="form" class = "col-sm-6">
-                        <!-- hidden text field containing the database name -->
-                        <label>
-                            <input type="text" hidden name="Database"
-                                   value=<?php echo htmlspecialchars(DATABASE); ?>>
-                        </label>
-
-                        <!-- submit button -->
-                        <div class="form-group">
-                            <input id="form" class="btn btn-custom" type="button" value="Submit" onclick="submitForm()">
+                <!-- search or show all -->
+                <div class="d-flex flex-wrap flex-column flex-md-row justify-content-evenly align-items-center p-1">
+                    <!-- search or advanced search -->
+                    <div class="flex-grow-1 px-sm-5 mb-4 mb-md-0" style="max-width: 75%">
+                        <div class="input-group">
+                            <button type="button" class="btn btn-outline-secondary order-1 order-md-0 conditional-outline-background" data-bs-toggle="collapse" data-bs-target="#advancedSearchDiv">Advanced Search</button>
+                            <!-- small form for taxon search -->
+                            <form action="render.php" method="get" id="taxon-search">
+                                <input type="text" class="form-control form-control-lg order-0 order-md-1" style="min-width: 225px" placeholder="Start a taxon search" name="taxon-search">
+                                <button type="submit" class="btn btn-outline-primary conditional-background order-2 flex-grow-1 flex-md-grow-0"> Search </button>
+                            </form>
                         </div>
-
-                        <?php
-                        list($layoutFields1, $layoutFields2) = array_chunk(FIELDS, ceil(count(FIELDS) / 2));
-                        $count = 0;
-                        foreach ($layoutFields1 as $layoutField) : ?>
-                            <div class="row">
-                                <!--- Section that is one label and one search box --->
-                                <div class="col-sm-3">
-                                    <label for="field-<?php echo $layoutField?>">
-                                        <?php echo htmlspecialchars(formatField($layoutField)) ?>
-                                    </label>
-                                </div>
-
-                                <div class="col-sm-3">
-                                    <input type="text" id="field-<?php echo $layoutField?>"
-                                        <?php
-                                        if (isset($_POST[str_replace(' ', '_', $layoutField)]))
-                                            echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $layoutField)]);
-                                        ?>
-                                           name="<?php echo htmlspecialchars($layoutField) ?>"
-                                           class="form-control"
-                                    >
-                                </div>
-
-                                <!--- End of a single label, input instance --->
-                                <?php if($count < sizeof($layoutFields2)) : ?>
-
-                                    <!--- Section that is one label and one search box --->
-                                    <div class="col-sm-3">
-                                        <label for="field-<?php echo $layoutFields2[$count]?>">
-                                            <?php echo htmlspecialchars(formatField($layoutFields2[$count])) ?>
-                                        </label>
-                                    </div>
-
-                                    <div class="col-sm-3">
-                                        <input type="text" id="field-<?php echo $layoutFields2[$count]?>"
-                                            <?php
-                                            if (isset($_POST[str_replace(' ', '_', $layoutFields2[$count])]))
-                                                echo "value=".htmlspecialchars($_POST[str_replace(' ', '_', $layoutFields2[$count])]);
-                                            ?>
-                                               name="<?php echo htmlspecialchars($layoutFields2[$count]) ?>"
-                                               class="form-control"
-                                        >
-                                    </div>
-
-                                    <!--- End of a single label, input instance --->
-                                <?php endif; ?>
-
-                            </div>
-                            <?php $count++; endforeach; ?>
+                        <div class="form-text">You can search for phylum, class, order, family, etc... </div>
                     </div>
 
-                    <!-- search ops, images, maps, etc -->
-                    <div class="border col-sm-6 px-0">
-                        <!-- special entomology title -->
-                        <div>
+                    <!-- show all button, add mb-4 to align button to search bar -->
+                    <div class="mb-4">
+                        <button id="form" type="button" value="submit" onclick="submitEmptyForm()" class="btn btn-primary btn-lg conditional-background">Show All Records</button>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-around align-items-center px-5 py-3">
+                    <div class="collapse w-100" id="advancedSearchDiv">
+                        <!--
+                            form elements,
+                            using flex and media queries, we have one, two or three columns
+                            refer to the view css to media queries, we followed bootstrap cutoffs
+                         -->
+                        <div class="d-flex flex-column flex-md-row flex-md-wrap justify-content-center align-items-start align-items-md-end">
                             <?php
-                            if(DATABASE === 'entomology'){
-                                echo '
-                                <div id="entoSite" class="row g-0 p-0">
-                                    <div class="col-sm-12" style="background: url(public/images/entomologyBannerImages/rotator.php) no-repeat center center; background-size: 100% auto; text-align: center; color: white;">
-                                        <div class="my-4">
-                                            <a href="https://www.zoology.ubc.ca/entomology/" style="text-decoration: none; color: white;">
-                                                <p>Welcome to the</p>
-                                                <h3>SPENCER ENTOMOLOGICAL COLLECTION</h3>
-                                            </a>
+                            # Loop over all fields and create a field element in the form for each!
+                            $count = 0;
+                            /** @var string $fieldName
+                              * @var Field $field */
+                            foreach ($allFields as $fieldName => $field) : ?>
+
+                                <div class="px-3 py-2 py-md-1 flex-fill responsive-columns">
+                                    <!-- field name and input -->
+                                    <div class="input-group">
+                                        <a data-bs-toggle="collapse" href="#collapsable<?php echo $count?>" role="button">
+                                            <label class="input-group-text conditional-background-light"
+                                                   for="field-<?php echo $fieldName?>">
+                                                <?php echo htmlspecialchars(formatField($fieldName)) ?>
+                                            </label>
+                                        </a>
+                                        <?php
+                                        # Try to get a list of options, if error (aka none available) then no datalist
+                                        try {
+                                            $fieldValues = $field->getValueList();
+                                        } catch (FileMakerException $e) { /* Do nothing */ }
+
+                                        if (isset($fieldValues)) : ?>
+                                            <input class="form-control" list="datalistOptions" placeholder="Type to search" id="field-<?php echo $fieldName?>">
+                                            <datalist id="datalistOptions">
+                                                <?php foreach ($fieldValues as $fieldValue): ?>
+                                                    <option value="<?=$fieldValue?>"></option>
+                                                <?php endforeach; ?>
+                                            </datalist>
+                                        <?php else: ?>
+                                            <input class="form-control" type="<?php echo $field->getResult() ?>" id="field-<?php echo $fieldName?>">
+                                        <?php endif; ?>
+                                    </div>
+                                    <!-- field information -->
+                                    <div class="collapse" id="collapsable<?php echo $count?>">
+                                        <div class="card card-body">
+                                            This is some information for field <?=$fieldName?>!
                                         </div>
                                     </div>
                                 </div>
-                            ';
-                            }
-                            ?>
+                                <?php $count++; endforeach; ?>
                         </div>
 
-                        <!--- start of accordion collapsible--->
-                        <div class="accordion" id="accordionSearchOps">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                                        Search Operators
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="accordionSearchOps">
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <div class="col-sm-1"> == </div>
-                                            <div class="col-sm-11"> match entire field exactly </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-1"> &lt </div>
-                                            <div class="col-sm-11"> find records with values less than to the one specified </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-1"> &lt= </div>
-                                            <div class="col-sm-11">  find records with values less than or equal to the one specified </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-1"> &gt </div>
-                                            <div class="col-sm-11">  find records with values greater than to the one specified </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-1"> &gt= </div>
-                                            <div class="col-sm-11">  find records with values greater than or equal to the one specified </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-1"> ... </div>
-                                            <div class="col-sm-11">  find records with values in a range (Ex. 10...20) </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-1"> * </div>
-                                            <div class="col-sm-11">  match zero or more characters </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-1"> \ </div>
-                                            <div class="col-sm-11">  escape any character </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- search ops and submit button -->
+                        <div class="d-inline-flex justify-content-evenly align-items-center py-4 w-100">
 
-                        <!-- search operators -->
-                        <div class="form-group">
-                            <h4>Search By</h4>
+                            <!-- radio inputs have same name, so that only one can be enabled, and is used in render.php -->
                             <div class="btn-group">
-                                <input type="radio" class="btn-check" name="options-outlined" id="and" checked autocomplete="off">
+                                <span class="input-group-text"> Search with: </span>
+                                <input type="radio" class="btn-check radio-conditional-background" name="operator" id="and" value="and" checked autocomplete="off">
                                 <label class="btn btn-outline-secondary" for="and"> AND </label>
 
-                                <input type="radio" class="btn-check" name="options-outlined" id="or" autocomplete="off">
+                                <input type="radio" class="btn-check radio-conditional-background" name="operator" id="or" value="or" autocomplete="off">
                                 <label class="btn btn-outline-secondary" for="or"> OR </label>
                             </div>
+
+                            <!-- only with image select, tooltip to explain why disabled -->
+                            <div class="form-check form-switch" <?php if (!in_array(DATABASE, kDATABASES_WITH_IMAGES)) echo 'data-bs-toggle="tooltip" title="No images available"' ?>>
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input checkbox-conditional-background" name="hasImage" <?php if (!in_array(DATABASE, kDATABASES_WITH_IMAGES)) echo 'disabled' ?>>
+                                    Only show records that contain an image
+                                </label>
+                            </div>
+
+                            <!-- submit button -->
+                            <div class="form-group">
+                                <button type="submit" onclick="submitForm()" class="btn btn-outline-primary conditional-background"> Advanced Search </button>
+                            </div>
                         </div>
-
-                        <!-- all records button -->
-                        <div class="form-group">
-                            <a href="render.php?Database=<?php echo htmlspecialchars(DATABASE)?>"
-                               role="button" class="btn btn-custom">Show All Records</a>
-                        </div>
-
-                        <!-- only image select -->
-                        <div class="form-group">
-                            <?php if (in_array(DATABASE, kDATABASES_WITH_IMAGES)) : ?>
-                                <div class="col">
-                                    <input type="checkbox" id="imageCheck">
-                                    <label for="imageCheck">
-                                        Only show records that contain an image
-                                    </label>
-                                </div>
-
-                                <!-- Used to set data for the form with the Process() function in js/process.js TODO remove this -->
-                                <input type="hidden" name="hasImage" id="hasImage">
-                            <?php endif; ?>
-                            <!-- also used to set data for the form with the Process() TODO remove this -->
-                            <input type="hidden" name="type" id="type">
-                        </div>
-
-                        <!-- example, shows a different example every time -->
-                        <div>
-                            <?php
-                            if (in_array(DATABASE, kDATABASES_WITH_EXAMPLES)) :
-
-                                $getSampleScript = $databaseSearch->getFileMaker()->newPerformScriptCommand('examples', 'Search Page Sample Selection');
-                                $result = $getSampleScript->execute();
-                                $record = $result->getRecords()[0];
-                                $id = 'accessionNumber';
-                                $lat = 'Geo_LatDecimal';
-                                $lng = 'Geo_LongDecimal';
-                                $genus = 'Genus';
-                                $species = 'Species';
-                                $url = '';
-
-                                if (DATABASE == 'avian' || DATABASE == 'mammal') {
-                                    //$url = getPhotoUrl($record->getRecordID());
-                                    $url = "https://collections.zoology.ubc.ca".$record->getRelatedSet('Photographs')[0]->getField('Photographs::photoContainer');
-                                    $id = 'catalogNumber';
-                                    $lat = 'Geolocation::decimalLatitude';
-                                    $lng = 'Geolocation::decimalLongitude';
-                                    $genus = 'Taxon::genus';
-                                    $species = 'Taxon::specificEpithet';
-                                }
-                                else if (DATABASE == 'vwsp' || DATABASE == 'bryophytes' || DATABASE == 'fungi'
-                                    || DATABASE == 'lichen' || DATABASE == 'algae') {
-                                    $url = getPhotoUrl($record->getField('Accession Number'), DATABASE);
-                                    $id = 'Accession Number';
-                                    $lat = 'Geo_LatDecimal';
-                                    $lng = 'Geo_LongDecimal';
-                                    $genus = 'Genus';
-                                    $species = 'Species';
-                                }
-                                else if (DATABASE == 'entomology') {
-                                    $id = 'SEM #';
-                                    $lat = 'Latitude';
-                                    $lng = 'Longitude';
-                                    $genus = 'Genus';
-                                    $species = 'Species';
-
-                                }
-                                else if (DATABASE == 'fish') {
-                                    $id = 'accessionNo';
-                                    $lat = 'decimalLatitude';
-                                    $lng = 'decimalLongitude';
-                                    $genus = 'nomenNoun';
-                                    $species = 'specificEpithet';
-                                }
-
-                                ?>
-                                <div class = "jumbotron jumbotron-fluid" id = "jumbotron">
-                                    <div class="container-fluid">
-                                        <div class = "row sample">
-                                            <div class = "col d-flex justify-content-center">
-                                                <a id = "catalogNumber" href  =  "details.php?Database=<?php echo htmlspecialchars(DATABASE).
-                                                    '&AccessionNo='.htmlspecialchars($record->getField($id)) ?>">
-                                                    <h4><b><?php echo $record->getField($id)?></b></h4></a>
-                                            </div>
-                                        </div>
-                                        <div class = "row">
-                                            <div class = "col d-flex justify-content-center" id = "taxon">
-                                                <a id = "taxonInfo" href = "render.php?Database=<?php echo htmlspecialchars(DATABASE).
-                                                    '&'.$genus.'='.htmlspecialchars($record->getField($genus)).
-                                                    '&'.$species.'='.htmlspecialchars($record->getField($species)) ?>">
-                                                    <h5><?php echo $record->getField($genus).' '.$record->getField($species);?></h5>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class = "row">
-                                            <div id = "sample-img" class = "col-xl-6 d-flex justify-content-center">
-                                                <?php
-                                                if (DATABASE == 'entomology') {
-                                                    try {
-                                                        $genusPage = getGenusPage($record);
-                                                    } catch (FileMakerException $e) {
-                                                        $_SESSION['error'] = $e->getMessage();
-                                                        header('Location: error.php');
-                                                        exit;
-                                                    }
-                                                    try {
-                                                        $genusSpecies = getGenusSpecies($record);
-                                                    } catch (FileMakerException $e) {
-                                                        $_SESSION['error'] = $e->getMessage();
-                                                        header('Location: error.php');
-                                                        exit;
-                                                    }
-                                                    $semnumber = $record->getField('SEM #');
-                                                    $foundImage = false;
-                                                }
-                                                else if (DATABASE == 'fish') {
-                                                    $url = 'https://open.library.ubc.ca/media/download/jpg/fisheries/'.$record->getField("card01").'/0';
-                                                    $linkToWebsite = 'https://open.library.ubc.ca/collections/fisheries/items/'.$record->getField("card01");
-                                                    echo '<a href ='. htmlspecialchars($linkToWebsite).' target="_blank" rel="noopener noreferrer">'.'<img id="fish-sample" class="minHeight" src="'.htmlspecialchars($url) .'" alt="Sample Image"></a>';
-                                                }
-                                                else {
-                                                    echo '<a href ='. $url.' target="_blank" rel="noopener noreferrer">'.'<img id="sample" class="minHeight" src="'.$url .'" alt="Sample Image"></a>';
-                                                }
-                                                echo '<div hidden = true id = "Latitude">'. $record->getField($lat).'</div>';
-                                                echo '<div hidden = true id = "Longitude">'. $record->getField($lng).'</div>';
-                                                ?>
-                                            </div>
-                                            <div id = "sample-map" class = "col-xl-6 d-flex justify-content-center">
-                                                <div id="viewDiv"></div>
-                                                <script src="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/dojo/dojo.js"></script>
-                                                <script src="public/js/map.js"></script>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-
                     </div>
                 </div>
             </form>
@@ -344,5 +168,13 @@ define("FIELDS", array_diff($allFieldNames, $ignoreValues));
 
         <!-- footer -->
         <?php FooterWidget(imgSrc: 'public/images/beatyLogo.png'); ?>
+
+        <!-- Script to enable tooltips -->
+        <script>
+            let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        </script>
     </body>
 </html>

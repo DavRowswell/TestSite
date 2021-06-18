@@ -25,22 +25,32 @@ try {
 $layoutFields = $databaseSearch->getSearchLayout()->listFields();
 $recFields = $databaseSearch->getResultLayout()->listFields();
 
-$maxResponses = 100;
+$maxResponses = 50;
 
 # remove any empty get fields
 $usefulGETFields = array_filter($_GET);
 
-# since we are diffing by keys, we need to set dummy values
-$unUsedGETFields = ['type' => '', 'Sort' => '', 'Page' => '', 'SortOrder' => '', 'Database' => ''];
-$usefulGETFields = array_diff_key($usefulGETFields, $unUsedGETFields);
+if ($_GET['taxon-search'] ?? null) {
+    try {
+        $result = $databaseSearch->queryTaxonSearch($_GET['taxon-search'], $maxResponses, $_GET['Page'] ?? 1);
+    } catch (FileMakerException $e) {
+        $_SESSION['error'] = $e->getMessage();
+        header('Location: error.php');
+        exit;
+    }
+} else {
+    # since we are diffing by keys, we need to set dummy values
+    $unUsedGETFields = ['operator' => '', 'Sort' => '', 'Page' => '', 'SortOrder' => '', 'Database' => ''];
+    $usefulGETFields = array_diff_key($usefulGETFields, $unUsedGETFields);
 
-try {
-    $result = $databaseSearch->queryForResults($maxResponses, $usefulGETFields, $_GET['type'] ?? 'and',
-        $_GET['Sort'] ?? null, $_GET['Page'] ?? 1, $_GET['SortOrder'] ?? null);
-} catch (FileMakerException $e) {
-    $_SESSION['error'] = $e->getMessage();
-    header('Location: error.php');
-    exit;
+    try {
+        $result = $databaseSearch->queryForResults($maxResponses, $usefulGETFields, $_GET['operator'] ?? 'and',
+            $_GET['Sort'] ?? null, $_GET['Page'] ?? 1, $_GET['SortOrder'] ?? null);
+    } catch (FileMakerException $e) {
+        $_SESSION['error'] = $e->getMessage();
+        header('Location: error.php');
+        exit;
+    }
 }
 
 ?>

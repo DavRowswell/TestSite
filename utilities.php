@@ -7,10 +7,10 @@ require_once ('constants.php');
 /**
  * Checks the value to see if its a valid database.
  * With wrong databases value a error.php page is shown.
- * @param string $databaseFieldValue
+ * @param string|null $databaseFieldValue
  * @param bool $includeAll should the 'all' value be included as valid
  */
-function checkDatabaseField(string $databaseFieldValue, bool $includeAll = false) {
+function checkDatabaseField(?string $databaseFieldValue, bool $includeAll = false) {
     # Check to make sure the database file is loaded or send to error.php
     if (!isset($databaseFieldValue) or $databaseFieldValue == ''){
         $_SESSION['error'] = "No database given";

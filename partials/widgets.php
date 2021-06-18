@@ -8,8 +8,9 @@
 /**
  * A title banner is a row with a title and a background color
  * @param string $databaseName
+ * @param int $paddingIndex
  */
-function TitleBanner(string $databaseName) {
+function TitleBanner(string $databaseName, int $paddingIndex = 2) {
     if($databaseName === "mi" || $databaseName === "miw" || $databaseName === "vwsp") {
         if ($databaseName === "mi") { $title = "Dry Marine Invertebrate"; }
         else if ($databaseName === "vwsp") { $title = "Vascular"; }
@@ -18,16 +19,13 @@ function TitleBanner(string $databaseName) {
         $title = ucfirst($databaseName);
     }
 
-    echo '
-            <div class="container-fluid p-0">
+    echo "
+            <div class='container-fluid p-$paddingIndex conditional-background text-center'>
                   <h1>
-                      <b>
-                        '. $title .' Search
-                      </b>
+                      <b> Welcome to the $title Collection </b>
                   </h1>
             </div>
-        
-        ';
+        ";
 }
 
 /**

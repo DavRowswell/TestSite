@@ -14,20 +14,69 @@ $color = match ($_GET['Database']) {
     default => "#CC2229",
 };
 
+$lightColor = match ($_GET['Database']) {
+    "avian", "herpetology", "mammal" => "#b57164",
+    "vwsp", "algae", "fungi", "bryophytes", "lichen" => "#66e34f",
+    "miw", "mi" => "#ffc77a",
+    "fish" => "#449adb",
+    "entomology" => "#bb80ed",
+    "fossil" => "#f76c68",
+    default => "#ff545b",
+};
+
 echo "
     <style>
-        div h1 {
-            background: $color;
-            color: #ffffff;
-            margin-bottom: 0;
-            margin-right: 0;
-            margin-left: 0;
-            padding: 0 15px;
-        }
-
-        input[type='radio'], input[type='button'] {
-            background: $color;
+        /* Styles for background and border color */
+        .conditional-background {
+            background-color: $color;
+            color: #FFFFFF;
             border-color: $color;
+        }
+        button.conditional-background:hover, button.conditional-background:active {
+            background-color: $lightColor;
+            border-color: $lightColor;
+            box-shadow: 0 0 0 0.2rem $color;
+        }
+        
+        .conditional-background-light {
+            background-color: $lightColor;
+            border-color: $lightColor;
+            color: white;
+        }
+        
+        /* Styles for text color */
+        .conditional-color {
+            color: $color;
+        }
+        
+        /* Change checkbox color to light when unchecked and color when checked
+            https://stackoverflow.com/questions/44263892/how-to-style-a-clicked-button-in-css/44264124
+         */
+        .checkbox-conditional-background:checked,
+        .checkbox-conditional-background:active,
+        input[type='radio']:checked.radio-conditional-background + label,
+        input[type='radio']:active.radio-conditional-background + label {
+            background-color: $color;
+            border-color: $color;
+        }
+        .checkbox-conditional-background:focus, 
+        input[type='radio']:focus.radio-conditional-background + label {
+            box-shadow: 0 0 0 0.2rem $color;
+        }
+        .checkbox-conditional-background, input[type='radio'].radio-conditional-background + label {
+            background-color: $lightColor;
+            border-color: $lightColor;
+            color: #FFFFFF;
+        }
+        
+        /* Styles for a outline only button */
+        .conditional-outline-background {
+            color: $color;
+            outline-color: $color;
+        }
+        .conditional-outline-background:hover, .conditional-outline-background:focus {
+            color: #FFFFFF;
+            background-color: $color;
         }
 
         label.btn-custom, a.btn-custom,
@@ -35,6 +84,11 @@ echo "
             background-color: $color;
             color: #ffffff;
             border-color: $color;
+        }
+        
+        .form-control:focus, .form-control-lg:focus {
+            border-color: $color;
+            box-shadow: 0 0 0 0.2rem $color;
         }
 
         a.btn-custom:hover,
@@ -45,17 +99,6 @@ echo "
         .btn-custom.active:hover {
             background-color: #49241c;
             color: #ffffff;
-        }
-
-        #jumbotron a, #table a{
-            color: $color;
-            text-decoration: none;
-        }
-
-        #jumbotron a:hover, #table a:hover {
-            color: #49241c;
-            text-decoration: none;
-            background-color: inherit;
         }
 
         .previous {

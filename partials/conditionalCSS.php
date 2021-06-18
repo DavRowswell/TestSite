@@ -16,7 +16,7 @@ $color = match ($_GET['Database']) {
 
 $lightColor = match ($_GET['Database']) {
     "avian", "herpetology", "mammal" => "#b57164",
-    "vwsp", "algae", "fungi", "bryophytes", "lichen" => "#66e34f",
+    "vwsp", "algae", "fungi", "bryophytes", "lichen" => "#6bd658",
     "miw", "mi" => "#ffc77a",
     "fish" => "#449adb",
     "entomology" => "#bb80ed",
@@ -42,6 +42,10 @@ echo "
             background-color: $lightColor;
             border-color: $lightColor;
             color: white;
+        }
+        .conditional-background-light:hover {
+            background-color: $color;
+            border-color: $color;
         }
         
         /* Styles for text color */

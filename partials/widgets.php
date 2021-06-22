@@ -5,27 +5,35 @@
  * @package Widgets
  */
 
+require_once ('utilities.php');
+
 /**
  * A title banner is a row with a title and a background color
- * @param string $databaseName
+ * @param string $database
  * @param int $paddingIndex
  */
-function TitleBanner(string $databaseName, int $paddingIndex = 2) {
-    if($databaseName === "mi" || $databaseName === "miw" || $databaseName === "vwsp") {
-        if ($databaseName === "mi") { $title = "Dry Marine Invertebrate"; }
-        else if ($databaseName === "vwsp") { $title = "Vascular"; }
-        else { $title = "Wet Marine Invertebrate"; }
-    } else {
-        $title = ucfirst($databaseName);
-    }
+function TitleBannerSearch(string $database, int $paddingIndex = 2) {
+    $databaseName = getDatabaseName($database);
 
     echo "
             <div class='container-fluid p-$paddingIndex conditional-background text-center'>
                   <h1>
-                      <b> Welcome to the $title Collection </b>
+                      <b> Welcome to the $databaseName Collection </b>
                   </h1>
             </div>
         ";
+}
+
+function TitleBannerRender(string $database, int $recordNumber) {
+    $databaseName = getDatabaseName($database);
+
+    echo "
+        <div class='container-fluid p-2 conditional-background text-center'>
+            <h2>
+            <b>Your $databaseName Collection search found $recordNumber records!</b>
+            </h2>
+        </div>
+    ";
 }
 
 /**
@@ -41,7 +49,7 @@ function DatabaseCard(string $title, string $img_source, string $href, string $b
     echo '
         <!--- '. $title .' image and link--->
         <div class="justify-content-center">
-            <a href='. $href .'>
+            <a href='. $href .' role="button" class="databaseCard">
                 <figure class="text-center" style="background: '. $background_color .'">
                     <img class="img-fluid img-sized" src='. $img_source .' alt='. $alt .'>
                     <figcaption>
@@ -60,92 +68,82 @@ function DatabaseCard(string $title, string $img_source, string $href, string $b
  * @param $result
  */
 function TableControllerWidget($maxResponses, $result) {
-    $uri = $_SERVER['REQUEST_URI'];
-
-    $parts = explode('&', $uri);
+    $noPageUri = removeUrlVar($_SERVER['REQUEST_URI'], 'Page');
 
     $amountOfRecords = $result->getFoundSetCount();
 
+    # amount of pages available
+    $maxPages = ceil($amountOfRecords / $maxResponses);
 
-    $pages = ceil($amountOfRecords / $maxResponses);
+    # get current page number
     $page = 1;
     if (isset($_GET['Page']) && $_GET['Page'] != '') {
         $page = $_GET['Page'];
     }
 
-    $pageInfo = "$amountOfRecords records found in page ".htmlspecialchars($page)." / ".htmlspecialchars($pages);
-    $maxPages = htmlspecialchars($pages);
+    $pageInfo = "$amountOfRecords records found in page ".htmlspecialchars($page)." / ".htmlspecialchars($maxPages);
 
-    echo '
-        <style>
-            a {
-              text-decoration: none;
-              display: inline-block;
-              padding: 8px 16px;
-            }
-            
-            a:hover {
-              background-color: #ddd;
-              color: black;
-            }
-        </style>
-            
-        <form action="render.php" method="get" id="pageForm">
-            <div class="form-row">
-                <!-- text with num of results and pages -->
-                <div class="form-group">
-                    <p>'. $pageInfo .'</p>
-                </div>
-        
-                <!-- buttons to travel to next or previous page -->
-                <div class="form-group">
-                    ';
-    NextBackButtons($pages, $parts, $amountOfRecords, $maxResponses);
-    echo '
-                </div>
-            </div>
-        
-            <div class="form-row">
-                <label for="numberInput">Go to page: </label>
-                <!-- page number input -->
-                <div class="form-group mx-sm-3">
-                    <!-- TODO add value to input as current page -->
-                    <input type="number" name="Page" class="form-control" id="numberInput" min="1" max='. $maxPages .'>
-                </div>
-                <button type="submit" form="pageForm" value="Submit" class="btn btn-custom">Go</button>
-            </div>
-        </form>
-    ';
+    echoPaginationButtons($page, $noPageUri, $maxPages);
+    echo "
+        <div class='form-text'>
+            $pageInfo
+        </div>
+    ";
 }
-
 /**
- * Echos one or two buttons to travel between pages
- *
- * @param $pages
- * @param $parts
- * @param $amountOfRecords
- * @param $numRes
+ * @param int $page current page index
+ * @param string $noPageUri uri without Page field
+ * @param float $maxPages maximum pages possible
  */
-function NextBackButtons($pages, $parts, $amountOfRecords, $numRes) {
-    if (isset($_GET['Page']) && $_GET['Page'] != '') {
-        $pageNum = $_GET['Page'];
-        if ($pageNum > 1) {
-            $parts[sizeof($parts)-1] = 'Page='.($pageNum - 1);
-            $lasturi = implode('&', $parts);
-            echo '<a href=' . htmlspecialchars($lasturi) . ' class="previous round">&#8249</a>';
-        }
-        if ($pageNum < $pages && $pageNum != '') {
-            $parts[sizeof($parts)-1] = 'Page='.($pageNum + 1);
-            $nexturi = implode('&', $parts);
-            echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
-        }
-    } else {
-        if ($amountOfRecords > $numRes){
-            array_push($parts, 'Page=2');
-            $nexturi = implode('&', $parts);
-            echo '<a href=' . htmlspecialchars($nexturi) . ' class="next round">&#8250</a>';
-        }
+function echoPaginationButtons(int $page, string $noPageUri, float $maxPages): void
+{
+    $paginationOptions = array(
+        $page - 10, $page - 5, $page - 2, $page - 1, $page,
+        $page + 1, $page + 2, $page + 5, $page + 10
+    );
+
+    $paginationUrls = array_map(function ($pageNum) use ($noPageUri) {
+        return $noPageUri . '&Page=' . $pageNum;
+    }, $paginationOptions);
+
+    $paginationData = array_combine($paginationOptions, $paginationUrls);
+
+    $pageUrlBack = $noPageUri . '&Page=' . $page - 1;
+    $pageUrlForward = $noPageUri . '&Page=' . $page + 1;
+
+    echo " <ul class='pagination'> ";
+
+    # back button
+    if ($page - 1 <= 0)
+        echo "<li class='page-item disabled'>
+                    <a class='page-link conditional-text-color' href='$pageUrlBack'><span>&laquo;</span></a>
+                </li>";
+    else
+        echo "<li class='page-item'>
+                    <a class='page-link conditional-text-color' href='$pageUrlBack'><span>&laquo;</span></a>
+                </li>";
+
+    # each numbered pagination button
+    foreach ($paginationData as $pageNumber => $pageUrl) {
+        if ($pageNumber == $page)
+            echo "<li class='page-item active'><a class='page-link conditional-text-color' href='$pageUrl'>$pageNumber</a></li>";
+        else if ($pageNumber <= 0 or $pageNumber > $maxPages)
+            echo "<li class='page-item disabled'><a class='page-link conditional-text-color' href='$pageUrl'>$pageNumber</a></li>";
+        else
+            echo "<li class='page-item'><a class='page-link conditional-text-color' href='$pageUrl'>$pageNumber</a></li>";
     }
+
+    # forward button
+    if ($page + 1 > $maxPages)
+        echo "<li class='page-item disabled'>
+                    <a class='page-link conditional-text-color' href='$pageUrlForward'><span>&raquo;</span></a>
+                </li>
+            </ul>";
+    else
+        echo "<li class='page-item'>
+                    <a class='page-link conditional-text-color' href='$pageUrlForward'><span>&raquo;</span></a>
+                </li>
+            </ul>";
 }
 
 /**
@@ -198,7 +196,7 @@ function Navbar() {
         <nav class="navbar navbar-expand-lg navbar-dark red-background">
             
             <!-- BMD title sends to main page -->
-            <a class="navbar-brand" href="index.php"><h3>Beaty Museum Databases</h3></a>
+            <a class="navbar-brand px-3" href="index.php"><h2>Beaty Museum Databases</h2></a>
         
             <!-- Used for collapse support -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

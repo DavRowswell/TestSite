@@ -1,3 +1,15 @@
+/*
+    This file contains css styles for all pages in the BBM database website.
+    Authors:
+    * David Rowswell
+    * JP Garcia
+ */
+
+
+/*
+    Common css used in most if not all pages.
+ */
+
 html,body {
     height: 100%;
     font-family: Arial, Helvetica, sans-serif;
@@ -37,4 +49,72 @@ body {
     width: 100%;
     border-bottom:solid 2px #000000;
     margin-bottom: 16px;
+}
+
+a[role='button'] {
+    text-decoration: none;
+}
+
+/*
+    CSS for index.php
+*/
+
+.collection-header {
+    background: #3e3e3f;
+    color:  #ffffff;
+    margin: 0;
+    padding: 5px 0;
+    font-size: 1.7em;
+}
+
+.collection-title {
+    background: #3e3e3f;
+    color:  #ffffff;
+    padding: 15px;
+    margin-bottom: 0;
+}
+
+
+/*
+    Styles for the databaseCard objects.
+ */
+
+.img-sized {
+    max-height: 105px;
+    max-width: 100px;
+    margin: 12px;
+}
+
+.databaseCard figcaption {
+    background: #3e3e3f;
+    color: #ffffff;
+    padding: 4px;
+}
+
+.databaseCard:hover figcaption {
+    background: #000000;
+}
+
+/*
+    Originally css for search.php however, all original CSS from David was removed as
+    it wasn't necessary and we are using bootstrap classes.
+
+    Now its css for the advanced-search widget.
+
+    responsive column setup, different column depending on width
+    kudos to https://stackoverflow.com/questions/24197007/how-can-i-show-three-columns-per-row for help
+*/
+.responsive-columns {
+    width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+    .responsive-columns {
+        width: 50%;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .responsive-columns {
+        width: 33%;
+    }
 }

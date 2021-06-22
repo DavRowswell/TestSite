@@ -44,48 +44,48 @@ $allFields = array_diff_key($allFields, $ignoreValues);
             HeaderWidget('Search');
             require_once('partials/conditionalCSS.php');
         ?>
-        <link rel="stylesheet" href="public/css/search.css">
-
-        <!-- scripts -->
-        <script type="text/javascript" src="public/js/process.js"></script>
     </head>
 
     <body>
         <?php Navbar(); ?>
 
         <!-- Page title below navbar -->
-        <?php TitleBanner(databaseName: DATABASE, paddingIndex: 3); ?>
+        <?php TitleBannerSearch(database: DATABASE, paddingIndex: 3); ?>
 
         <div class="container-fluid flex-grow-1">
-            <form action="render.php" method="get" id="submit-form">
-                <!-- hidden text field containing the database name -->
-                <label>
-                    <input type="text" hidden id="Database" name="Database" value=<?php echo htmlspecialchars(DATABASE); ?>>
-                </label>
-
-                <!-- search or show all -->
-                <div class="d-flex flex-wrap flex-column flex-md-row justify-content-evenly align-items-center p-1">
-                    <!-- search or advanced search -->
+            <!-- search or show all -->
+            <div class="d-flex flex-wrap flex-column flex-md-row justify-content-evenly align-items-center px-1 py-4">
+                <!-- search or advanced search -->
                     <div class="flex-grow-1 px-sm-5 mb-4 mb-md-0" style="max-width: 75%">
-                        <div class="input-group">
-                            <button type="button" class="btn btn-outline-secondary order-1 order-md-0 conditional-outline-background" data-bs-toggle="collapse" data-bs-target="#advancedSearchDiv">Advanced Search</button>
-                            <!-- small form for taxon search -->
-                            <form action="render.php" method="get" id="taxon-search">
+                        <!-- small form for taxon search -->
+                        <form action="render.php" method="get" id="taxon-search" class="d-inline">
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary order-1 order-md-0 conditional-outline-background" data-bs-toggle="collapse" data-bs-target="#advancedSearchDiv">Advanced Search</button>
                                 <input type="text" class="form-control form-control-lg order-0 order-md-1" style="min-width: 225px" placeholder="Start a taxon search" name="taxon-search">
                                 <button type="submit" class="btn btn-outline-primary conditional-background order-2 flex-grow-1 flex-md-grow-0"> Search </button>
-                            </form>
-                        </div>
-                        <div class="form-text">You can search for phylum, class, order, family, etc... </div>
+                                <!-- hidden text field containing the database name -->
+                                <input type="text" hidden id="Database" name="Database" value=<?php echo htmlspecialchars(DATABASE); ?>>
+                            </div>
+                            <div class="form-text">You can search for phylum, class, order, family, etc... </div>
+                        </form>
                     </div>
 
-                    <!-- show all button, add mb-4 to align button to search bar -->
-                    <div class="mb-4">
-                        <button id="form" type="button" value="submit" onclick="submitEmptyForm()" class="btn btn-primary btn-lg conditional-background">Show All Records</button>
-                    </div>
+                <!-- show all button, add mb-4 to align button to search bar -->
+                <div class="mb-4">
+                    <form action="render.php" method="get">
+                        <input type="text" hidden id="Database" name="Database" value=<?php echo htmlspecialchars(DATABASE); ?>>
+                        <button id="form" type="submit" value="submit" class="btn btn-primary btn-lg conditional-background">Show All Records</button>
+                    </form>
                 </div>
+            </div>
 
+            <div class="collapse w-100" id="advancedSearchDiv">
                 <div class="d-flex justify-content-around align-items-center px-5 py-3">
-                    <div class="collapse w-100" id="advancedSearchDiv">
+                    <form action="render.php" method="get" id="submit-form">
+                        <!-- hidden text field containing the database name -->
+                        <label>
+                            <input type="text" hidden id="Database" name="Database" value=<?php echo htmlspecialchars(DATABASE); ?>>
+                        </label>
                         <!--
                             form elements,
                             using flex and media queries, we have one, two or three columns
@@ -96,7 +96,7 @@ $allFields = array_diff_key($allFields, $ignoreValues);
                             # Loop over all fields and create a field element in the form for each!
                             $count = 0;
                             /** @var string $fieldName
-                              * @var Field $field */
+                             * @var Field $field */
                             foreach ($allFields as $fieldName => $field) : ?>
 
                                 <div class="px-3 py-2 py-md-1 flex-fill responsive-columns">
@@ -104,7 +104,7 @@ $allFields = array_diff_key($allFields, $ignoreValues);
                                     <div class="input-group">
                                         <a data-bs-toggle="collapse" href="#collapsable<?php echo $count?>" role="button">
                                             <label class="input-group-text conditional-background-light"
-                                                   for="field-<?php echo $fieldName?>">
+                                                   for="field-<?php echo htmlspecialchars($fieldName)?>">
                                                 <?php echo htmlspecialchars(formatField($fieldName)) ?>
                                             </label>
                                         </a>
@@ -115,14 +115,18 @@ $allFields = array_diff_key($allFields, $ignoreValues);
                                         } catch (FileMakerException $e) { /* Do nothing */ }
 
                                         if (isset($fieldValues)) : ?>
-                                            <input class="form-control" list="datalistOptions" placeholder="Type to search" id="field-<?php echo $fieldName?>">
+                                            <input class="form-control" list="datalistOptions"
+                                                   placeholder="Type to search" id="field-<?php echo htmlspecialchars($fieldName)?>"
+                                                   name="<?php echo htmlspecialchars($fieldName)?>">
                                             <datalist id="datalistOptions">
                                                 <?php foreach ($fieldValues as $fieldValue): ?>
                                                     <option value="<?=$fieldValue?>"></option>
                                                 <?php endforeach; ?>
                                             </datalist>
                                         <?php else: ?>
-                                            <input class="form-control" type="<?php echo $field->getResult() ?>" id="field-<?php echo $fieldName?>">
+                                            <input class="form-control" type="<?php echo $field->getResult() ?>"
+                                                   id="field-<?php echo htmlspecialchars($fieldName)?>"
+                                                   name="<?php echo htmlspecialchars($fieldName)?>">
                                         <?php endif; ?>
                                     </div>
                                     <!-- field information -->
@@ -161,9 +165,9 @@ $allFields = array_diff_key($allFields, $ignoreValues);
                                 <button type="submit" onclick="submitForm()" class="btn btn-outline-primary conditional-background"> Advanced Search </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
 
         <!-- footer -->
@@ -176,5 +180,7 @@ $allFields = array_diff_key($allFields, $ignoreValues);
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             })
         </script>
+        <!-- scripts for advanced search section -->
+        <script type="text/javascript" src="public/js/advanced-search.js"></script>
     </body>
 </html>

@@ -13,9 +13,6 @@
         HeaderWidget();
 
         ?>
-
-        <!---Link to the CSS for this page--->
-        <link rel="stylesheet" href="public/css/index.css">
     </head>
 
     <body>
@@ -26,7 +23,7 @@
         <div class="container-fluid flex-grow-1 p-0">
             <!--- The main title of the page under the navbar--->
             <div class="container-fluid p-0">
-                <h1>Database List</h1>
+                <h2 class="collection-title"><b>Our Collections</b></h2>
             </div>
 
             <!--- Row for all the content--->
@@ -37,7 +34,7 @@
 
                     <!--- Herbarium title section--->
                     <div class="text-center title-box">
-                        <h2><b>Herbarium</b></h2>
+                        <h3 class="collection-header"><b>Herbarium</b></h3>
                     </div>
 
                     <!--- Herbarium links and content--->
@@ -86,7 +83,7 @@
 
                     <!--- Vertebrate Title Section--->
                     <div class="text-center title-box">
-                        <h2><b>Vertebrate</b></h2>
+                        <h3 class="collection-header"><b>Vertebrate</b></h3>
                     </div>
 
                     <!--- Vertebrate image and link content--->
@@ -128,7 +125,7 @@
 
                     <!--- Invertebrate title section--->
                     <div class="text-center title-box">
-                        <h2><b>Invertebrate</b></h2>
+                        <h3 class="collection-header"><b>Invertebrate</b></h3>
                     </div>
 
                     <!--- Invertebrate column content--->
@@ -164,7 +161,7 @@
 
                     <!--- Fossil title row--->
                     <div class="text-center title-box">
-                        <h2><b>Fossil</b></h2>
+                        <h3 class="collection-header"><b>Fossil</b></h3>
                     </div>
 
                     <!--- Fossil Content--->

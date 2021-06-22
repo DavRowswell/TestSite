@@ -24,18 +24,37 @@ $lightColor = match ($_GET['Database']) {
     default => "#ff545b",
 };
 
+/**
+ * Kudos to https://stackoverflow.com/questions/15202079/convert-hex-color-to-rgb-values-in-php
+ */
+$rgbColor = sscanf($color,  "#%02x%02x%02x");
+
 echo "
     <style>
+    
+        /* text color styling */
+        .conditional-text-color {
+            color: $color;
+        }
+        .conditional-text-color:hover {
+            color: $lightColor;
+        }
+        
+        /* used for hover only conditional background color */
+        .conditional-hover-background:hover {
+            background-color: rgba($rgbColor[0], $rgbColor[1], $rgbColor[2], 0.3);
+        }
+    
         /* Styles for background and border color */
         .conditional-background {
             background-color: $color;
             color: #FFFFFF;
             border-color: $color;
         }
-        button.conditional-background:hover, button.conditional-background:active {
+        button.conditional-background:hover, button.conditional-background:active, button.conditional-background:focus {
             background-color: $lightColor;
             border-color: $lightColor;
-            box-shadow: 0 0 0 0.2rem $color;
+            box-shadow: 0 0 0 0.2rem rgba($rgbColor[0], $rgbColor[1], $rgbColor[2], 0.5);
         }
         
         .conditional-background-light {
@@ -43,7 +62,7 @@ echo "
             border-color: $lightColor;
             color: white;
         }
-        .conditional-background-light:hover {
+        .conditional-background-light:hover, .conditional-background-light:focus, .conditional-background-light:active {
             background-color: $color;
             border-color: $color;
         }
@@ -65,7 +84,7 @@ echo "
         }
         .checkbox-conditional-background:focus, 
         input[type='radio']:focus.radio-conditional-background + label {
-            box-shadow: 0 0 0 0.2rem $color;
+            box-shadow: 0 0 0 0.2rem rgba($rgbColor[0], $rgbColor[1], $rgbColor[2], 0.3);
         }
         .checkbox-conditional-background, input[type='radio'].radio-conditional-background + label {
             background-color: $lightColor;
@@ -90,70 +109,19 @@ echo "
             border-color: $color;
         }
         
+        /* Colors the highlight border of text inputs */
         .form-control:focus, .form-control-lg:focus {
             border-color: $color;
-            box-shadow: 0 0 0 0.2rem $color;
+            box-shadow: 0 0 0 0.2rem rgba($rgbColor[0], $rgbColor[1], $rgbColor[2], 0.3);
         }
-
-        a.btn-custom:hover,
-        label.btn-custom:hover,
-        input.btn-custom:hover,
-        button.btn-custom:hover,
-        .btn-custom.active,
-        .btn-custom.active:hover {
-            background-color: #49241c;
-            color: #ffffff;
-        }
-
-        .previous {
-            background-color: #f1f1f1;
-            color: black;
-            text-decoration: none;
-        }
-
-        .previous:hover {
-            text-decoration: none;
-        }
-
-        .next {
+        
+        /* Special coloring for pagination active */
+        .page-item.active .page-link {
             background-color: $color;
-            color: white;
-            text-decoration: none;
+            border-color: $color;
         }
-
-        .next:hover {
-            background-color: #49241c;
-            color: white;
-            text-decoration: none;
-        }
-
-        .round {
-            border-radius: 50%;
-        }
-
-        th{
-            color: $color;
-        }
-
-        a figcaption{
-            color: $color;
-            text-decoration: none;
-        }
-
-        .imageDiv a:hover {
-            text-decoration: none;
-        }
-
-        .panel .panel-heading a h4{
-            background-color:$color;
-            color: #FFFFFF;
-            text-decoration: none;
-            padding:6px;
-        }
-
-        .panel .panel-heading a:hover, .panel .panel-heading a h4:hover {
-            background-color:#49241c;
-            text-decoration: none;
+        .page-link:focus {
+            box-shadow: 0 0 0 0.2rem rgba($rgbColor[0], $rgbColor[1], $rgbColor[2], 0.3);
         }
 
     </style>

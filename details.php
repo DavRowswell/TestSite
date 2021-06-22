@@ -66,7 +66,7 @@ $record = $allRecordsFound[0];
     <body>
         <?php Navbar(); ?>
 
-        <?php TitleBanner(DATABASE); ?>
+        <?php TitleBannerSearch(DATABASE); ?>
 
         <div class="container-fluid flex-grow-1">
             <div class="row">

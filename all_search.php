@@ -140,7 +140,7 @@
                     </div>
                 <?php } ?>
                 <div class = "col" style="position:relative; top:8px">
-                    <input id="form" class="btn btn-primary" type="button" value="Submit" onclick="All_SubmitForm()">
+                    <input id="form" class="btn btn-primary" type="submit" value="Submit">
                 </div>
         </form>
     </div>
@@ -214,6 +214,5 @@
 </div>
 <br>
 <?php FooterWidget('public/images/beatyLogo.png'); ?>
-<script src="public/js/process.js"> </script>
 </body>
 </html>

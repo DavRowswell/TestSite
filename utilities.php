@@ -58,68 +58,6 @@ function checkDatabaseField(?string $databaseFieldValue, bool $includeAll = fals
     }
 }
 
-
-/**
- * Maps the database field to a more readable field for the web app to use.
- * @param string $field
- * @return string
- */
-function mapField(string $field): string
-{
-    return match (strtolower($field)) {
-        'accession no', 'catalognumber', 'accessionno', 'id' => 'Accession Number',
-        'sem #' => 'SEM Number',
-        'nomennoun' => 'Genus',
-        'specificepithet' => 'Species',
-        'sub sp.' => 'Subspecies',
-        'infraspecificepithet' => 'Infraspecies',
-        'taxonrank' => 'Taxon Rank',
-        'provincestate', 'stateprovince', 'prov/st' => 'Province or State',
-        'location 1', 'verbatimlocality', 'location' => 'Locality',
-        'verbatimelevation' => 'Elevation',
-        'verbatimdepth', 'depth below water' => 'Depth',
-        'geo_longdecimal', 'decimallongitude', 'longitudedecimal' => 'Longitude',
-        'geo_latdecimal', 'decimallatitude', 'latitudedecimal' => 'Latitude',
-        'date collected', 'collection date 1', 'verbatimeventdate', 'eventdate' => 'Collection Date',
-        'year 1' => 'Year',
-        'month 1' => 'Month',
-        'day 1' => 'Day',
-        'identifiedby' => 'Identified By',
-        'typestatus' => 'Type Status',
-        'comments', 'occurrenceremarks', 'fieldnotes' => 'Field Notes',
-        'samplingprotocol' => 'Capture Method',
-        'recordnumber' => 'Collection Number',
-        'previousidentifications' => 'Prev. Identifications',
-        'det by' => 'Determined By',
-        'mushroomobserver' => 'Mushroom Observer',
-        'citations', 'associatedreferences' => 'Associated References',
-        'associatedsequences' => 'Associated Sequences',
-        'reproductivecondition' => 'Reproductive Condition',
-        'organismremark' => 'Organism Remark',
-        'vernacularname' => 'Vernacular Name',
-        'recordedby', 'collected by' => 'Collector',
-        'photofilename', 'iifrno', 'imaged' => 'Has Image',
-        default => ucwords($field),
-    };
-  }
-
-/**
- * With databases using different field naming conventions, some databases
- * use the following format, Taxon::family or Event::year. This function will remove
- * everything before the second semicolon including it, if it exists.
- * It will also map the field using mapField.
- * @param string $field
- * @return string Taxon::family->Family
- */
-function formatField(string $field): string
-{
-    $colonPosition = strrpos($field, ":");
-    if ($colonPosition) {
-        $field = substr($field, $colonPosition + 1);
-    }
-    return mapField($field);
-}
-
 /**
  * Special entomology function to create the records genus page for their website.
  * @param Record $record

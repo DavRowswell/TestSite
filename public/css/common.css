@@ -104,17 +104,36 @@ a[role='button'] {
     responsive column setup, different column depending on width
     kudos to https://stackoverflow.com/questions/24197007/how-can-i-show-three-columns-per-row for help
 */
-.responsive-columns {
+.responsive-columns-3 {
     width: 100%;
 }
 
 @media only screen and (min-width: 768px) {
-    .responsive-columns {
+    .responsive-columns-3 {
         width: 50%;
     }
 }
 @media only screen and (min-width: 992px) {
-    .responsive-columns {
+    .responsive-columns-3 {
         width: 33%;
     }
+}
+
+.responsive-columns-2 {
+    width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+    .responsive-columns-2 {
+        width: 50%;
+    }
+}
+
+/*
+    Styles for the details page.
+ */
+
+/* we fix the height, width is set by parent */
+.arcgis-map {
+    height: 300px;
 }

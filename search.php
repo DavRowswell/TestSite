@@ -6,6 +6,7 @@ use airmoi\FileMaker\Object\Field;
 require_once ('utilities.php');
 require_once ('constants.php');
 require_once ('DatabaseSearch.php');
+require_once ('Specimen.php');
 
 session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
 session_start();
@@ -37,7 +38,6 @@ $allFields = array_diff_key($allFields, $ignoreValues);
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="https://herbweb.botany.ubc.ca/arcgis_js_api/library/4.10/esri/css/main.css">
         <?php
             require_once('partials/widgets.php');
 
@@ -99,13 +99,14 @@ $allFields = array_diff_key($allFields, $ignoreValues);
                              * @var Field $field */
                             foreach ($allFields as $fieldName => $field) : ?>
 
-                                <div class="px-3 py-2 py-md-1 flex-fill responsive-columns">
+                                <div class="px-3 py-2 py-md-1 flex-fill responsive-columns-3">
                                     <!-- field name and input -->
                                     <div class="input-group">
+                                        <!-- field name with a to open collapsed info -->
                                         <a data-bs-toggle="collapse" href="#collapsable<?php echo $count?>" role="button">
                                             <label class="input-group-text conditional-background-light"
                                                    for="field-<?php echo htmlspecialchars($fieldName)?>">
-                                                <?php echo htmlspecialchars(formatField($fieldName)) ?>
+                                                <?php echo htmlspecialchars(Specimen::FormatFieldName($fieldName)) ?>
                                             </label>
                                         </a>
                                         <?php
@@ -130,7 +131,7 @@ $allFields = array_diff_key($allFields, $ignoreValues);
                                         <?php endif; ?>
                                     </div>
                                     <!-- field information -->
-                                    <div class="collapse" id="collapsable<?php echo $count?>">
+                                    <div class="collapse" id="collapsable<?=$count?>">
                                         <div class="card card-body">
                                             This is some information for field <?=$fieldName?>!
                                         </div>

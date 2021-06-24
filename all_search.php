@@ -5,6 +5,7 @@
     session_start();
     require_once ('FileMaker.php');
     require_once ('partials/widgets.php');
+    require_once ('Specimen.php');
 
     HeaderWidget();
 
@@ -125,7 +126,7 @@
                     <div class="row">
                         <div class="col">
                             <label style="position:relative; top:6px" for="field-<?php echo $rf?>">
-                                <?php echo htmlspecialchars(formatField($rf)) ?>
+                                <?php echo htmlspecialchars(Specimen::FormatFieldName($rf)) ?>
                             </label>
                         </div>
                         <div class="col">

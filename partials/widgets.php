@@ -23,7 +23,6 @@ function TitleBannerSearch(string $database, int $paddingIndex = 2) {
             </div>
         ";
 }
-
 function TitleBannerRender(string $database, int $recordNumber) {
     $databaseName = getDatabaseName($database);
 
@@ -32,6 +31,25 @@ function TitleBannerRender(string $database, int $recordNumber) {
             <h2>
             <b>Your $databaseName Collection search found $recordNumber records!</b>
             </h2>
+        </div>
+    ";
+}
+function TitleBannerDetail(string $database, string $accessionNumber, string $backHref) {
+    $databaseName = getDatabaseName($database);
+    echo "
+        <div class='container-fluid p-2 conditional-background row g-0'>
+            <div class='col-1'>
+                <a href='$backHref' class='btn conditional-background-light-no-hover'>Back</a>
+            </div>
+            
+            <div class='col text-center'>
+                <h2>
+                    <b>$databaseName Collection Information for Specimen $accessionNumber</b>
+                </h2>
+            </div>
+            <div class='col-1'>
+                
+            </div>
         </div>
     ";
 }
@@ -176,7 +194,6 @@ function HeaderWidget(string $title = '') {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <!-- css stylesheets -->
-        <link rel="stylesheet" type="text/css" href="public/css/open-iconic-master/font/css/open-iconic-bootstrap.css">
         <link rel="stylesheet" type="text/css" href="public/css/normalize.css">
         <link rel="stylesheet" type="text/css" href="public/bootstrap-v5/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="public/css/common.css">

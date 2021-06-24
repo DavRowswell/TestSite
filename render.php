@@ -8,6 +8,7 @@ require_once ('DatabaseSearch.php');
 require_once ('credentials_controller.php');
 require_once ('TableData.php');
 require_once ('TableRow.php');
+require_once ('Specimen.php');
 
 session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
 session_start();
@@ -77,6 +78,8 @@ if ($_GET['taxon-search'] ?? null) {
         <!-- Page title below navbar -->
         <?php TitleBannerRender(database: DATABASE, recordNumber: $result->getFoundSetCount()); ?>
 
+        <?php $tableData = new TableData($result, $databaseSearch->getResultLayout()->listFields()) ?>
+
         <!-- main body with table and its widgets -->
         <div class="container-fluid flex-grow-1">
 
@@ -133,13 +136,13 @@ if ($_GET['taxon-search'] ?? null) {
                               * @var Field $field */
                             foreach ($searchLayoutFields as $fieldName => $field) : ?>
 
-                                <div class="px-3 py-2 py-md-1 flex-fill responsive-columns">
+                                <div class="px-3 py-2 py-md-1 flex-fill responsive-columns-3">
                                     <!-- field name and input -->
                                     <div class="input-group">
-                                        <a data-bs-toggle="collapse" href="#collapsable<?php echo $count?>" role="button">
+                                        <a data-bs-toggle="collapse" href="#collapsable<?=$count?>" role="button">
                                             <label class="input-group-text conditional-background-light"
                                                    for="field-<?php echo htmlspecialchars($fieldName)?>">
-                                                <?php echo htmlspecialchars(formatField($fieldName)) ?>
+                                                <?php echo htmlspecialchars(Specimen::FormatFieldName($fieldName)) ?>
                                             </label>
                                         </a>
                                         <?php
@@ -167,7 +170,7 @@ if ($_GET['taxon-search'] ?? null) {
                                         <?php endif; ?>
                                     </div>
                                     <!-- field information -->
-                                    <div class="collapse" id="collapsable<?php echo $count?>">
+                                    <div class="collapse" id="collapsable<?=$count?>">
                                         <div class="card card-body">
                                             This is some information for field <?=$fieldName?>!
                                         </div>
@@ -219,22 +222,20 @@ if ($_GET['taxon-search'] ?? null) {
             <!-- edit table columns -->
             <div class="collapse w-100" id="tableColumnFilterDiv">
                 <div class="d-flex flex-wrap flex-row justify-content-around px-5 py-3 gap-3">
-                    <?php foreach ($resultLayoutFieldNames as $fieldName): ?>
+                    <?php foreach ($tableData->getUsefulFields() as $fieldName): ?>
                         <div class="btn-group me-auto">
-                            <span class="input-group-text"><?=htmlspecialchars(formatField($fieldName))?></span>
-                            <input type="radio" name="view<?=htmlspecialchars(formatField($fieldName))?>" id="show<?=htmlspecialchars(formatField($fieldName))?>"
+                            <span class="input-group-text"><?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?></span>
+                            <input type="radio" name="view<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" id="show<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>"
                                    class="btn-check radio-conditional-background" value="show" checked>
-                            <label for="show<?=htmlspecialchars(formatField($fieldName))?>" class="btn btn-outline-secondary">Show</label>
+                            <label for="show<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" class="btn btn-outline-secondary">Show</label>
 
-                            <input type="radio" name="view<?=htmlspecialchars(formatField($fieldName))?>" id="hide<?=htmlspecialchars(formatField($fieldName))?>"
+                            <input type="radio" name="view<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" id="hide<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>"
                                    class="btn-check radio-conditional-background" value="Hide">
-                            <label for="hide<?=htmlspecialchars(formatField($fieldName))?>" class="btn btn-outline-secondary">Hide</label>
+                            <label for="hide<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" class="btn btn-outline-secondary">Hide</label>
                         </div>
                     <?php endforeach; ?>
                 </div>
             </div>
-
-            <?php $tableData = new TableData($result, $databaseSearch->getResultLayout()->listFields()) ?>
 
             <!-- render table with data -->
             <div class="table-responsive">
@@ -256,12 +257,16 @@ if ($_GET['taxon-search'] ?? null) {
                         <?php foreach ($tableData->getTableRows(DATABASE) as $tableRow): ?>
                             <tr class="conditional-hover-background">
                                 <!-- row header with link to go to specimen page -->
-                                <th scope="row">
+                                <th scope="row" class="text-nowrap">
                                     <a href="details.php?Database=<?=$tableRow->getUrl()?>" role="button" class="conditional-text-color">
-                                        <?php if ($tableRow->isHasImage()): ?>
-                                            <span class="oi oi-image"></span>
-                                        <?php endif; ?>
                                         <b><?= $tableRow->getId() ?></b>
+
+                                        <?php if ($tableRow->isHasImage()): ?>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-image " viewBox="0 0 16 16">
+                                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                                <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"/>
+                                            </svg>
+                                        <?php endif; ?>
                                     </a>
                                 </th>
 

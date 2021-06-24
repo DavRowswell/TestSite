@@ -1,5 +1,7 @@
 <?php
 
+require_once ('Specimen.php');
+
 /**
  * These functions are all used for the all_render.php file. A feature we will not be working on for a while.
  */
@@ -85,8 +87,8 @@ function printTable($database, $findAllRec, $resultLayout) {
     foreach($recFields as $i){
         if ($i === 'SortNum' || $i === 'Accession Numerical'  || $i === 'Photographs::photoFileName'){ continue; }
 
-        echo '<th id = '.htmlspecialchars(formatField($i)).'scope="col">';
-        echo '<b>'.htmlspecialchars(formatField($i));
+        echo '<th id = '.htmlspecialchars(Specimen::FormatFieldName($i)).'scope="col">';
+        echo '<b>'.htmlspecialchars(Specimen::FormatFieldName($i));
         echo '</th>';
     }
     echo '</tr>';
@@ -97,7 +99,7 @@ function printTable($database, $findAllRec, $resultLayout) {
         echo '<tr>';
         foreach($recFields as $j){
             if ($j === 'SortNum' || $j === 'Accession Numerical'  || $j === 'Photographs::photoFileName'  ){ continue; }
-            if(formatField($j) == 'Accession Number' || $j === 'SEM #'){
+            if(Specimen::FormatFieldName($j) == 'Accession Number' || $j === 'SEM #'){
                 echo '<td id="data">';
                 echo '<a style="padding: 0px;" href="details.php?Database='.htmlspecialchars($database).
                     '&AccessionNo='.htmlspecialchars($i->getField($j)).'">';
@@ -112,7 +114,7 @@ function printTable($database, $findAllRec, $resultLayout) {
                 }
                 echo '</a>';
                 echo '</td>';
-            } else if (formatField($j) == 'Genus' || formatField($j) == 'Species') {
+            } else if (Specimen::FormatFieldName($j) == 'Genus' || Specimen::FormatFieldName($j) == 'Species') {
                 echo '<td id="data" style="font-style:italic;">'. htmlspecialchars($i->getField($j)).'</td>';
             } else {
                 echo '<td id="data">'. htmlspecialchars($i->getField($j)).'</td>';
@@ -140,7 +142,7 @@ function addFindCriterionIfSet($field, $layoutFields, $findCommand): bool {
  */
 function fieldIsSet($field, $layoutFields): bool {
     foreach ($layoutFields as $lf) {
-        if (formatField($lf) === "Phylum") {
+        if (Specimen::FormatFieldName($lf) === "Phylum") {
             return true;
         }
     }
@@ -151,7 +153,7 @@ function fieldIsSet($field, $layoutFields): bool {
  */
 function addFindCommand($field, $layoutFields, $findCommand) {
     foreach ($layoutFields as $lf) {
-        if ($field === formatField($lf)) {
+        if ($field === Specimen::FormatFieldName($lf)) {
             $findCommand->addFindCriterion($lf, $_GET[$field]);
         }
     }

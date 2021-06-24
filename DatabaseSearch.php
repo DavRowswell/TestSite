@@ -2,6 +2,7 @@
 
 require_once('vendor/autoload.php');
 require_once ('credentials_controller.php');
+require_once ('Specimen.php');
 
 use airmoi\FileMaker\FileMaker;
 use airmoi\FileMaker\FileMakerException;
@@ -214,7 +215,7 @@ class DatabaseSearch {
             $sortBy = $sortQuery;
 
             # accession number sort is different for databases, handle it here
-            if (mapField($sortQuery) === 'Accession Number') {
+            if (Specimen::mapFieldName($sortQuery) === 'Accession Number') {
                 if ($this->name == 'vwsp' or $this->name == 'bryophytes' or
                     $this->name == 'fungi' or $this->name == 'lichen' or $this->name == 'algae') {
                     $sortBy = 'Accession Numerical';
@@ -246,7 +247,7 @@ class DatabaseSearch {
     }
 
     /**
-     * Query FM over all taxon values with same value, and 'OR' operator.
+     * Query FM over all taxon values with same value with an 'OR' operator.
      * @param string $searchText
      * @param int $maxResponseAmount
      * @param int $pageNumber
@@ -258,14 +259,30 @@ class DatabaseSearch {
         $findCommand = $this->fileMaker->newFindCommand($this->search_layout->getName());
         $findCommand->setLogicalOperator(operator: FileMaker::FIND_OR);
 
-        $taxonFields = array(
-            "avian" => array('Taxon::order', 'Taxon::family', 'Taxon::phylum', 'Taxon::genus', 'Taxon::class')
-        );
+        # TODO move this to a database and UI to change options
+        $taxonFields = match ($this->name) {
+            "avian", "herpetology", "mammal" => array('Taxon::order', 'Taxon::family', 'Taxon::phylum', 'Taxon::genus', 'Taxon::class', 'Taxon::specificEpithet', 'Taxon::infraspecificEpithet'),
+            "entomology" => array('Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species', 'Subspecies'),
+            "algae" => array('Phylum', 'Class', 'Genus', 'Species', 'Subspecies'),
+            "bryophytes", "fungi", "lichen", "vwsp" => array('Family', 'Genus', 'Species', 'Subspecies'),
+            "fish" => array('Class', 'Order', 'Family', 'Subfamily', 'nomenNoun', 'specificEpithet'),
+            "miw" => array('Phylum', 'Class', 'Family', 'Genus', 'Species'),
+            "mi" => array('Phylum', 'Class', 'Family', 'Genus', 'Specific epithet'),
+            "fossil" => array('phylum', 'class', 'family', 'genus', 'specificEpithet'),
+        };
 
-        foreach ($taxonFields["avian"] as $field) {
-            $findCommand->addFindCriterion(
-                fieldName: $field, value: $searchText
-            );
+        $searchFieldNames = $this->search_layout->listFields();
+
+        foreach ($taxonFields as $fieldName) {
+
+            # check to make sure the field name is valid in the search layout
+            # if a wrong field name is used a (Table not found) error is thrown by FMP
+            if (in_array($fieldName, $searchFieldNames)) {
+                $findCommand->addFindCriterion(
+                    fieldName: $fieldName, value: $searchText
+                );
+            }
+
         }
 
         $findCommand->setRange(skip: ($pageNumber - 1) * $maxResponseAmount, max: $maxResponseAmount);

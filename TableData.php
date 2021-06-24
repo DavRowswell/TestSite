@@ -6,6 +6,7 @@ use airmoi\FileMaker\Object\Result;
 
 require_once ('utilities.php');
 require_once ('TableRow.php');
+require_once ('Specimen.php');
 
 class TableData
 {
@@ -42,7 +43,7 @@ class TableData
         $data = array();
 
         foreach($this->usefulFields as $field) {
-            $id = htmlspecialchars(formatField($field));
+            $id = htmlspecialchars(Specimen::FormatFieldName($field));
 
             $payloadList = [
                 'Database' => $databaseName,
@@ -79,7 +80,7 @@ class TableData
 
             foreach ($this->usefulFields as $field) {
                 # ID field logic
-                if (formatField($field) === 'Accession Number' or $field === 'SEM #') {
+                if (Specimen::FormatFieldName($field) === 'Accession Number' or $field === 'SEM #') {
                     $url = htmlspecialchars($databaseName) . '&AccessionNo=' . htmlspecialchars($record->getField($field));
                     $id = htmlspecialchars(trim($record->getField($field)));
 
@@ -106,5 +107,22 @@ class TableData
 
         return $rows;
     }
+
+    /**
+     * @return Result
+     */
+    public function getResult(): Result
+    {
+        return $this->result;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUsefulFields(): array
+    {
+        return $this->usefulFields;
+    }
+
 
 }

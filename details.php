@@ -110,7 +110,7 @@ if(isset($_SERVER['HTTP_REFERER'])) {
                                     <?php foreach ($specimen->getImages() as $index => $image): ?>
                                         <div class="carousel-item <?php if ($index == 0) echo 'active' ?>">
                                             <a href="<?=$image->getHref()?>">
-                                                <img src="<?=$image->getUrl()?>" class="d-block w-100" alt="<?=$image->getAlt()?>">
+                                                <img src="<?=$image->getUrl()?>" class="d-block w-100" alt="<?=$image->getAlt()?>" loading="lazy">
                                             </a>
                                         </div>
                                     <?php endforeach; ?>

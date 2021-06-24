@@ -161,7 +161,7 @@ if(isset($_SERVER['HTTP_REFERER'])) {
 
                             <input hidden id="map-latitude" value="<?=$specimen->getLatitude()?>">
                             <input hidden id="map-longitude" value="<?=$specimen->getLongitude()?>">
-                            <script type="text/javascript" src="public/js/map.js"></script>
+                            <script type="text/javascript" src="public/js/map.js?version=1.1"></script>
 
                         <?php else: ?>
                             <h3 class="display-6 mb-0 conditional-color text-center">No coordinates for this record!</h3>

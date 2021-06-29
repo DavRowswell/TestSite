@@ -47,8 +47,10 @@ class Specimen
         $findCommand = $database->getFileMaker()->newFindCommand($database->getDetailLayout()->getName());
 
         # add a search param to the query to exactly '==' equal the accession number
+        # EDIT: == does not work with some since there are extra spaces
+        # Need to use '=' to match whole word not field
         if ($id !== '') {
-            $findCommand->addFindCriterion($database->getIDFieldName(), '==' . $id);
+            $findCommand->addFindCriterion($database->getIDFieldName(), '=' . $id);
         } else {
             throw new AssertionError(message: "Empty ID was given!");
         }
@@ -57,7 +59,12 @@ class Specimen
         $allRecordsFound = $result->getRecords();
 
         if (sizeof($allRecordsFound) != 1) {
-            throw new ErrorException(message: "No records or more than one records found. This is an internal error. Please contact the admin!");
+            # TODO remove this for production
+            $debug = implode(array_map(function(Record $record) {
+                $id = $record->getField('accessionNo');
+                return " - $id - ";
+            }, $allRecordsFound));
+            throw new ErrorException(message: "No records or more than one records found. This is an internal error. Please contact the admin! Id: $id. Records: $debug");
         }
 
         $this->record = $allRecordsFound[0];

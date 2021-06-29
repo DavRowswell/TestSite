@@ -17,7 +17,7 @@
     //       FM_PASS: $FM_PASS <br>";
 
 
-    require_once ('DatabaseSearch.php');
+    require_once ('classes/DatabaseSearch.php');
 
     // list databases
     // $databases = ['algae', 'avian', 'bryophytes', 'entomology', 'fish',

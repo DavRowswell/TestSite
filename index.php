@@ -6,6 +6,12 @@
 
         # require the composer autoloader
         require_once ('vendor/autoload.php');
+        require_once ('my_autoloader.php');
+
+        try {
+            new DatabaseSearch('', '');
+        } catch (TypeError $exception) {
+        }
 
         // get the widgets
         require_once ('partials/widgets.php');
@@ -42,35 +48,35 @@
                     <?php
                              DatabaseCard(
                                 title: 'Algae',
-                                img_source: 'public/images/algae.png',
+                                img_source: 'public/images/collection-logos/algae.png',
                                 href: 'search.php?Database=algae',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Bryophytes',
-                                img_source: 'public/images/bryophytes.png',
+                                img_source: 'public/images/collection-logos/bryophytes.png',
                                 href: 'search.php?Database=bryophytes',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Fungi',
-                                img_source: 'public/images/fungi.png',
+                                img_source: 'public/images/collection-logos/fungi.png',
                                 href: 'search.php?Database=fungi',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Lichen',
-                                img_source: 'public/images/lichen.png',
+                                img_source: 'public/images/collection-logos/lichen.png',
                                 href: 'search.php?Database=lichen',
                                 background_color: '#3c8a2e',
                             );
 
                              DatabaseCard(
                                 title: 'Vascular',
-                                img_source: 'public/images/herbarium.png',
+                                img_source: 'public/images/collection-logos/herbarium.png',
                                 href: 'search.php?Database=vwsp',
                                 background_color: '#3c8a2e',
                             )
@@ -91,28 +97,28 @@
                         <?php
                              DatabaseCard(
                                 title: 'Avian',
-                                img_source: 'public/images/tetrapods.png',
+                                img_source: 'public/images/collection-logos/tetrapods.png',
                                 href: 'search.php?Database=avian',
                                 background_color: '#70382d',
                             );
 
                              DatabaseCard(
                                 title: 'Herpetology',
-                                img_source: 'public/images/herptology.png',
+                                img_source: 'public/images/collection-logos/herptology.png',
                                 href: 'search.php?Database=herpetology',
                                 background_color: '#70382d',
                             );
 
                              DatabaseCard(
                                 title: 'Mammals',
-                                img_source: 'public/images/mammal.png',
+                                img_source: 'public/images/collection-logos/mammal.png',
                                 href: 'search.php?Database=mammal',
                                 background_color: '#70382d',
                             );
 
                              DatabaseCard(
                                 title: 'Fish',
-                                img_source: 'public/images/fish.png',
+                                img_source: 'public/images/collection-logos/fish.png',
                                 href: 'search.php?Database=fish',
                                 background_color: '#165788',
                             );
@@ -133,21 +139,21 @@
                         <?php
                              DatabaseCard(
                                 title: 'Entomology',
-                                img_source: 'public/images/entomology.png',
+                                img_source: 'public/images/collection-logos/entomology.png',
                                 href: 'search.php?Database=entomology',
                                 background_color: '#824bb0',
                             );
 
                              DatabaseCard(
                                 title: 'Dry Marine Invertebrates',
-                                img_source: 'public/images/marine-invertebrates-dry.png',
+                                img_source: 'public/images/collection-logos/marine-invertebrates-dry.png',
                                 href: 'search.php?Database=mi',
                                 background_color: '#ffb652',
                             );
 
                              DatabaseCard(
                                 title: 'Wet Marine Invertebrates',
-                                img_source: 'public/images/marine-invertebrates-wet.png',
+                                img_source: 'public/images/collection-logos/marine-invertebrates-wet.png',
                                 href: 'search.php?Database=miw',
                                 background_color: '#ffb652',
                             );
@@ -169,7 +175,7 @@
                         <?php
                              DatabaseCard(
                                 title: 'Fossils',
-                                img_source: 'public/images/fossils.png',
+                                img_source: 'public/images/collection-logos/fossils.png',
                                 href: 'search.php?Database=fossil',
                                 background_color: '#bd3632',
                             );

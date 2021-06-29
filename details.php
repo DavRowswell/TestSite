@@ -3,10 +3,8 @@
 use airmoi\FileMaker\FileMakerException;
 
 require_once('utilities.php');
-require_once ('credentials_controller.php');
 require_once ('constants.php');
-require_once ('DatabaseSearch.php');
-require_once ('Specimen.php');
+require_once ('my_autoloader.php');
 
 session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
 session_start();
@@ -16,12 +14,17 @@ define('ACCESSIONNUMBER', $_GET['AccessionNo'] ?? null);
 
 checkDatabaseField(DATABASE);
 
-try {
-    $databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
-} catch (FileMakerException $e) {
-    $_SESSION['error'] = 'Unsupported database given';
-    header('Location: error.php');
-    exit;
+if (isset($_SESSION['databaseSearch']) and $_SESSION['databaseSearch']->getName() == DATABASE) {
+    $databaseSearch = $_SESSION['databaseSearch'];
+} else {
+    try {
+        $databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
+        $_SESSION['databaseSearch'] = $databaseSearch;
+    } catch (FileMakerException $e) {
+        $_SESSION['error'] = 'Unsupported database given';
+        header('Location: error.php');
+        exit;
+    }
 }
 
 try {
@@ -33,9 +36,9 @@ try {
 }
 
 # kudos to https://stackoverflow.com/questions/2548566/go-back-to-previous-page/42143843
-$previous = "javascript:history.go(-1)";
+$previousPageLink = "javascript:history.go(-1)";
 if(isset($_SERVER['HTTP_REFERER'])) {
-    $previous = $_SERVER['HTTP_REFERER'];
+    $previousPageLink = $_SERVER['HTTP_REFERER'];
 }
 
 ?>
@@ -55,7 +58,7 @@ if(isset($_SERVER['HTTP_REFERER'])) {
     <body>
         <?php Navbar(); ?>
 
-        <?php TitleBannerDetail(DATABASE, ACCESSIONNUMBER, $previous); ?>
+        <?php TitleBannerDetail(DATABASE, ACCESSIONNUMBER, $previousPageLink); ?>
 
         <div class="container-fluid flex-grow-1">
             <!-- basic info plus images -->

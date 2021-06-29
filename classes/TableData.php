@@ -5,8 +5,7 @@ use airmoi\FileMaker\FileMakerException;
 use airmoi\FileMaker\Object\Result;
 
 require_once ('utilities.php');
-require_once ('TableRow.php');
-require_once ('Specimen.php');
+require_once ('my_autoloader.php');
 
 class TableData
 {
@@ -56,8 +55,6 @@ class TableData
             $href = str_replace('%3A', ':', $href);
 
             $data[$id] = $href;
-
-            $icon_class = $sortOrder === 'Descend' ? 'oi-sort-descending' : 'oi-sort-ascending';
         }
 
         return $data;

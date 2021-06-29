@@ -11,9 +11,3 @@ const kDATABASES = ['algae', 'avian', 'bryophytes', 'entomology', 'fish',
  */
 const kDATABASES_WITH_IMAGES = ['fish', 'avian', 'herpetology', 'mammal', 'vwsp', 'bryophytes',
     'fungi', 'lichen', 'algae'];
-
-/**
- * ALl databases that have examples available
- */
-const kDATABASES_WITH_EXAMPLES = ['fish', 'avian', 'entomology', 'mammal', 'vwsp', 'bryophytes',
-    'fungi', 'lichen', 'algae'];

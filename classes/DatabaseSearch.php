@@ -2,10 +2,11 @@
 
 require_once('vendor/autoload.php');
 require_once ('credentials_controller.php');
-require_once ('Specimen.php');
+require_once ('my_autoloader.php');
 
 use airmoi\FileMaker\FileMaker;
 use airmoi\FileMaker\FileMakerException;
+use airmoi\FileMaker\Object\Field;
 use airmoi\FileMaker\Object\Layout;
 use airmoi\FileMaker\Object\Result;
 
@@ -83,6 +84,17 @@ class DatabaseSearch {
     public function getDetailLayout(): Layout
     {
         return $this->detail_layout;
+    }
+
+    /**
+     * Will clean out the field to now show the ignored fields.
+     * @return Field[]
+     */
+    public function getSearchFields(): array {
+        # TODO move this to database
+        $ignoreValues = ['SortNum' => '', 'Accession Numerical' => '', 'Imaged' => '', 'IIFRNo' => '',
+            'Photographs::photoFileName' => '', 'Event::eventDate' => '', 'card01' => '', 'Has Image' => '', 'imaged' => ''];
+        return array_diff_key($this->search_layout->getFields(), $ignoreValues);
     }
 
     /**

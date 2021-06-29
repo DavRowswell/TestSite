@@ -4,8 +4,7 @@
 use airmoi\FileMaker\FileMakerException;
 use airmoi\FileMaker\Object\Record;
 
-require_once ('DatabaseSearch.php');
-require_once ('Image.php');
+require_once ('my_autoloader.php');
 
 class Specimen
 {

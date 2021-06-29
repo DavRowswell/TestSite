@@ -5,8 +5,7 @@ use airmoi\FileMaker\Object\Field;
 
 require_once ('utilities.php');
 require_once ('constants.php');
-require_once ('DatabaseSearch.php');
-require_once ('Specimen.php');
+require_once ('my_autoloader.php');
 
 session_set_cookie_params(0,'/','.ubc.ca',isset($_SERVER["HTTPS"]), true);
 session_start();
@@ -15,24 +14,18 @@ define("DATABASE", $_GET['Database'] ?? null);
 
 checkDatabaseField(DATABASE);
 
-try {
-    $databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
-} catch (FileMakerException $e) {
-    $_SESSION['error'] = 'Unsupported database given';
-    header('Location: error.php');
-    exit;
+if (isset($_SESSION['databaseSearch']) and ($_SESSION['databaseSearch'])->getName() == DATABASE) {
+    $databaseSearch = $_SESSION['databaseSearch'];
+} else {
+    try {
+        $databaseSearch = DatabaseSearch::fromDatabaseName(DATABASE);
+        $_SESSION['databaseSearch'] = $databaseSearch;
+    } catch (FileMakerException $e) {
+        $_SESSION['error'] = 'Unsupported database given';
+        header('Location: error.php');
+        exit;
+    }
 }
-
-# filter the layouts to those we only want
-$ignoreValues = ['SortNum' => '', 'Accession Numerical' => '', 'Imaged' => '', 'IIFRNo' => '',
-    'Photographs::photoFileName' => '', 'Event::eventDate' => '', 'card01' => '', 'Has Image' => '', 'imaged' => ''];
-
-$allFieldNames = array_keys($databaseSearch->getSearchLayout()->getFields());
-
-$allFields = $databaseSearch->getSearchLayout()->getFields();
-
-$allFields = array_diff_key($allFields, $ignoreValues);
-
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +33,6 @@ $allFields = array_diff_key($allFields, $ignoreValues);
     <head>
         <?php
             require_once('partials/widgets.php');
-
             HeaderWidget('Search');
             require_once('partials/conditionalCSS.php');
         ?>
@@ -97,7 +89,7 @@ $allFields = array_diff_key($allFields, $ignoreValues);
                             $count = 0;
                             /** @var string $fieldName
                              * @var Field $field */
-                            foreach ($allFields as $fieldName => $field) : ?>
+                            foreach ($databaseSearch->getSearchFields() as $fieldName => $field) : ?>
 
                                 <div class="px-3 py-2 py-md-1 flex-fill responsive-columns-3">
                                     <!-- field name and input -->

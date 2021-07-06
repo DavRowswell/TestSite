@@ -111,125 +111,127 @@ if ($_GET['taxon-search'] ?? null) {
                    class="btn btn-outline-secondary conditional-outline-background">New Search</a>
             </div>
 
-            <!-- edit advanced search collapsible -->
-            <div class="collapse w-100" id="advancedSearchDiv">
-                <div class="d-flex justify-content-around align-items-center px-5 py-3">
-                    <form action="render.php" method="get" id="submit-form">
-                        <!-- hidden text field containing the database name -->
-                        <label>
-                            <input type="text" hidden id="Database" name="Database" value=<?php echo htmlspecialchars(DATABASE); ?>>
-                        </label>
-                        <!--
-                            form elements,
-                            using flex and media queries, we have one, two or three columns
-                            refer to the view css to media queries, we followed bootstrap cutoffs
-                         -->
-                        <div class="d-flex flex-column flex-md-row flex-md-wrap justify-content-center align-items-start align-items-md-end">
-                            <?php
-                            # Loop over all fields and create a field element in the form for each!
-                            $count = 0;
-                            /** @var string $fieldName
-                              * @var Field $field */
-                            foreach ($databaseSearch->getSearchLayout()->getFields() as $fieldName => $field) : ?>
+            <div id="menuCollapsable">
+                <!-- edit advanced search collapsible -->
+                <div class="collapse w-100" data-bs-parent="#menuCollapsable" id="advancedSearchDiv">
+                    <div class="d-flex justify-content-around align-items-center px-5 py-3">
+                        <form action="render.php" method="get" id="submit-form">
+                            <!-- hidden text field containing the database name -->
+                            <label>
+                                <input type="text" hidden id="Database" name="Database" value=<?php echo htmlspecialchars(DATABASE); ?>>
+                            </label>
+                            <!--
+                                form elements,
+                                using flex and media queries, we have one, two or three columns
+                                refer to the view css to media queries, we followed bootstrap cutoffs
+                             -->
+                            <div class="d-flex flex-column flex-md-row flex-md-wrap justify-content-center align-items-start align-items-md-end">
+                                <?php
+                                # Loop over all fields and create a field element in the form for each!
+                                $count = 0;
+                                /** @var string $fieldName
+                                 * @var Field $field */
+                                foreach ($databaseSearch->getSearchLayout()->getFields() as $fieldName => $field) : ?>
 
-                                <div class="px-3 py-2 py-md-1 flex-fill responsive-columns-3">
-                                    <!-- field name and input -->
-                                    <div class="input-group">
-                                        <a data-bs-toggle="collapse" href="#collapsable<?=$count?>" role="button">
-                                            <label class="input-group-text conditional-background-light"
-                                                   for="field-<?php echo htmlspecialchars($fieldName)?>">
-                                                <?php echo htmlspecialchars(Specimen::FormatFieldName($fieldName)) ?>
-                                            </label>
-                                        </a>
-                                        <?php
-                                        # Try to get a list of options, if error (aka none available) then no datalist
-                                        try {
-                                            $fieldValues = $field->getValueList();
-                                        } catch (FileMakerException $e) { /* Do nothing */ }
+                                    <div class="px-3 py-2 py-md-1 flex-fill responsive-columns-3">
+                                        <!-- field name and input -->
+                                        <div class="input-group">
+                                            <a data-bs-toggle="collapse" href="#collapsable<?=$count?>" role="button">
+                                                <label class="input-group-text conditional-background-light"
+                                                       for="field-<?php echo htmlspecialchars($fieldName)?>">
+                                                    <?php echo htmlspecialchars(Specimen::FormatFieldName($fieldName)) ?>
+                                                </label>
+                                            </a>
+                                            <?php
+                                            # Try to get a list of options, if error (aka none available) then no datalist
+                                            try {
+                                                $fieldValues = $field->getValueList();
+                                            } catch (FileMakerException $e) { /* Do nothing */ }
 
-                                        if (isset($fieldValues)) : ?>
-                                            <input class="form-control" list="datalistOptions"
-                                                   placeholder="Type to search" id="field-<?php echo htmlspecialchars($fieldName)?>"
-                                                   name="<?php echo htmlspecialchars($fieldName)?>">
-                                            <datalist id="datalistOptions">
-                                                <?php foreach ($fieldValues as $fieldValue): ?>
-                                                    <option value="<?=$fieldValue?>"></option>
-                                                <?php endforeach; ?>
-                                            </datalist>
-                                        <?php else:
-                                            $value = array_key_exists($fieldName, $_GET) ? $_GET[$fieldName] : null;
-                                            ?>
-                                            <input class="form-control" type="<?php echo $field->getResult() ?>"
-                                                   id="field-<?php echo htmlspecialchars($fieldName)?>"
-                                                   name="<?php echo htmlspecialchars($fieldName)?>"
-                                                   value="<?=$value?>">
-                                        <?php endif; ?>
-                                    </div>
-                                    <!-- field information -->
-                                    <div class="collapse" id="collapsable<?=$count?>">
-                                        <div class="card card-body">
-                                            This is some information for field <?=$fieldName?>!
+                                            if (isset($fieldValues)) : ?>
+                                                <input class="form-control" list="datalistOptions"
+                                                       placeholder="Type to search" id="field-<?php echo htmlspecialchars($fieldName)?>"
+                                                       name="<?php echo htmlspecialchars($fieldName)?>">
+                                                <datalist id="datalistOptions">
+                                                    <?php foreach ($fieldValues as $fieldValue): ?>
+                                                        <option value="<?=$fieldValue?>"></option>
+                                                    <?php endforeach; ?>
+                                                </datalist>
+                                            <?php else:
+                                                $value = array_key_exists($fieldName, $_GET) ? $_GET[$fieldName] : null;
+                                                ?>
+                                                <input class="form-control" type="<?php echo $field->getResult() ?>"
+                                                       id="field-<?php echo htmlspecialchars($fieldName)?>"
+                                                       name="<?php echo htmlspecialchars($fieldName)?>"
+                                                       value="<?=$value?>">
+                                            <?php endif; ?>
+                                        </div>
+                                        <!-- field information -->
+                                        <div class="collapse" id="collapsable<?=$count?>">
+                                            <div class="card card-body">
+                                                This is some information for field <?=$fieldName?>!
+                                            </div>
                                         </div>
                                     </div>
+                                    <?php $count++; endforeach; ?>
+                            </div>
+
+                            <!-- search ops and submit button -->
+                            <div class="d-inline-flex justify-content-evenly align-items-center py-4 w-100">
+
+                                <!-- radio inputs have same name, so that only one can be enabled, and is used in render.php -->
+                                <div class="btn-group">
+                                    <span class="input-group-text"> Search with: </span>
+                                    <!-- we go with checked if operator does not exist since that's the default -->
+                                    <input type="radio" class="btn-check radio-conditional-background"
+                                           name="operator" id="and" value="and"
+                                        <?php echo array_key_exists('operator', $_GET) ? $_GET['operator'] == 'and' ? 'checked' : '' : 'checked' ?>
+                                           autocomplete="off">
+                                    <label class="btn btn-outline-secondary" for="and"> AND </label>
+
+                                    <input type="radio" class="btn-check radio-conditional-background"
+                                           name="operator" id="or" value="or"
+                                        <?php echo array_key_exists('operator', $_GET) ? $_GET['operator'] == 'or' ? 'checked' : '' : '' ?>
+                                           autocomplete="off">
+                                    <label class="btn btn-outline-secondary" for="or"> OR </label>
                                 </div>
-                                <?php $count++; endforeach; ?>
-                        </div>
 
-                        <!-- search ops and submit button -->
-                        <div class="d-inline-flex justify-content-evenly align-items-center py-4 w-100">
+                                <!-- only with image select, tooltip to explain why disabled -->
+                                <div class="form-check form-switch" <?php if (!in_array(DATABASE, kDATABASES_WITH_IMAGES)) echo 'data-bs-toggle="tooltip" title="No images available"' ?>>
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input checkbox-conditional-background"
+                                            <?php if (!in_array(DATABASE, kDATABASES_WITH_IMAGES)) echo 'disabled' ?>
+                                            <?php echo array_key_exists('hasImage', $_GET) ? $_GET['hasImage'] == 'on' ? 'checked' : '' : '' ?>
+                                               name="hasImage">
+                                        Only show records that contain an image
+                                    </label>
+                                </div>
 
-                            <!-- radio inputs have same name, so that only one can be enabled, and is used in render.php -->
-                            <div class="btn-group">
-                                <span class="input-group-text"> Search with: </span>
-                                <!-- we go with checked if operator does not exist since that's the default -->
-                                <input type="radio" class="btn-check radio-conditional-background"
-                                       name="operator" id="and" value="and"
-                                       <?php echo array_key_exists('operator', $_GET) ? $_GET['operator'] == 'and' ? 'checked' : '' : 'checked' ?>
-                                       autocomplete="off">
-                                <label class="btn btn-outline-secondary" for="and"> AND </label>
-
-                                <input type="radio" class="btn-check radio-conditional-background"
-                                       name="operator" id="or" value="or"
-                                       <?php echo array_key_exists('operator', $_GET) ? $_GET['operator'] == 'or' ? 'checked' : '' : '' ?>
-                                       autocomplete="off">
-                                <label class="btn btn-outline-secondary" for="or"> OR </label>
+                                <!-- submit button -->
+                                <div class="form-group">
+                                    <button type="submit" onclick="submitForm()" class="btn btn-outline-primary conditional-background"> Advanced Search </button>
+                                </div>
                             </div>
-
-                            <!-- only with image select, tooltip to explain why disabled -->
-                            <div class="form-check form-switch" <?php if (!in_array(DATABASE, kDATABASES_WITH_IMAGES)) echo 'data-bs-toggle="tooltip" title="No images available"' ?>>
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input checkbox-conditional-background"
-                                           <?php if (!in_array(DATABASE, kDATABASES_WITH_IMAGES)) echo 'disabled' ?>
-                                           <?php echo array_key_exists('hasImage', $_GET) ? $_GET['hasImage'] == 'on' ? 'checked' : '' : '' ?>
-                                           name="hasImage">
-                                    Only show records that contain an image
-                                </label>
-                            </div>
-
-                            <!-- submit button -->
-                            <div class="form-group">
-                                <button type="submit" onclick="submitForm()" class="btn btn-outline-primary conditional-background"> Advanced Search </button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
 
-            <!-- edit table columns -->
-            <div class="collapse w-100" id="tableColumnFilterDiv">
-                <div class="d-flex flex-wrap flex-row justify-content-around px-5 py-3 gap-3">
-                    <?php foreach ($tableData->getUsefulFields() as $fieldName): ?>
-                        <div class="btn-group me-auto">
-                            <span class="input-group-text"><?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?></span>
-                            <input type="radio" name="view<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" id="show<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>"
-                                   class="btn-check radio-conditional-background" value="show" checked>
-                            <label for="show<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" class="btn btn-outline-secondary">Show</label>
+                <!-- edit table columns -->
+                <div class="collapse w-100" data-bs-parent="#menuCollapsable" id="tableColumnFilterDiv">
+                    <div class="d-flex flex-wrap flex-row justify-content-around px-5 py-3 gap-3">
+                        <?php foreach ($tableData->getUsefulFields() as $fieldName): ?>
+                            <div class="btn-group me-auto">
+                                <span class="input-group-text"><?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?></span>
+                                <input type="radio" name="view<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" id="show<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>"
+                                       class="btn-check radio-conditional-background" value="show" checked>
+                                <label for="show<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" class="btn btn-outline-secondary">Show</label>
 
-                            <input type="radio" name="view<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" id="hide<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>"
-                                   class="btn-check radio-conditional-background" value="Hide">
-                            <label for="hide<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" class="btn btn-outline-secondary">Hide</label>
-                        </div>
-                    <?php endforeach; ?>
+                                <input type="radio" name="view<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" id="hide<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>"
+                                       class="btn-check radio-conditional-background" value="Hide">
+                                <label for="hide<?=htmlspecialchars(Specimen::FormatFieldName($fieldName))?>" class="btn btn-outline-secondary">Hide</label>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
 

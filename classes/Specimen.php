@@ -91,7 +91,7 @@ class Specimen
             "avian", "herpetology", "mammal" => array("Location::country", "Location::stateProvince", "Location::locality", "Geolocation::verbatimElevation", "Geolocation::decimalLatitude", "Geolocation::decimalLongitude"),
             "fish" => array('country', 'stateProvince', 'verbatimLocality', 'decimalLatitude', 'decimalLongitude'),
             "miw", "mi" => array('country', 'stateProvince', 'Location', 'verbatimDepth', 'DecimalLatitude', 'DecimalLongitude', "Depth below water"),
-            "fossils" => array('country', 'stateProvince', 'locality'),
+            "fossils" => array('Country', 'Province/State', 'City', 'Locality Information'),
             default => array(),
         };
 
@@ -290,7 +290,7 @@ class Specimen
     static function mapFieldName(string $field): string
     {
         return match (strtolower($field)) {
-            'accession no', 'catalognumber', 'accessionno', 'id' => 'Accession Number',
+            'accession no', 'catalognumber', 'accessionno', 'id', 'catalogue number' => 'Accession Number',
             'sem #' => 'SEM Number',
             'nomennoun' => 'Genus',
             'specificepithet' => 'Species',

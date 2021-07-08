@@ -158,9 +158,6 @@ class DatabaseSearch {
          * TODO Fix the Fossils collection, searching is not working! Not even in deployed app.
          */
 
-        # The different strings used in FMP to mean the access number or ID
-        $accessionNumberOptions = ['Accession_Number', 'catalogNumber', 'Accession_No'];
-
         # handle all regular search fields
         foreach ($getFields as $fieldName => $fieldValue) {
 
@@ -176,42 +173,11 @@ class DatabaseSearch {
                 );
             }
             # handle accession number 'ID' field
-            else if (in_array($fieldName, $accessionNumberOptions)) {
-
-                switch ($this->name) {
-                    case 'vwsp'; case 'bryophytes';
-                    case 'fungi'; case 'lichen'; case 'algae':
-                        $findCommand->addFindCriterion(
-                            fieldName: is_numeric($fieldValue) ? "Accession Numerical" : "Accession Number",
-                            value: $fieldValue
-                        );
-                        break;
-                    case 'fossil'; case 'avian';
-                    case 'herpetology'; case 'mammal':
-                        $findCommand->addFindCriterion(
-                            fieldName: is_numeric($fieldValue) ? "SortNum" : "catalogNumber",
-                            value: $fieldValue
-                        );
-                        break;
-                    case 'mi'; case 'miw':
-                        $findCommand->addFindCriterion(
-                            fieldName: is_numeric($fieldValue) ? "SortNum" : 'Accession No',
-                            value: $fieldValue,
-                        );
-                        break;
-                    case 'fish':
-                        $findCommand->addFindCriterion(
-                            fieldName: 'accessionNo',
-                            value: $fieldValue,
-                        );
-                        break;
-                    case 'entomology':
-                        $findCommand->addFindCriterion(
-                            fieldName: 'SEM #',
-                            value: $fieldValue,
-                        );
-                        break;
-                }
+            else if ($fieldName == $this->getIDFieldName()) {
+                $findCommand->addFindCriterion(
+                    fieldName: $this->getIDFieldName(is_numeric($fieldValue)),
+                    value: $fieldValue
+                );
             }
 
             # all other fields just go in as they come
@@ -280,7 +246,7 @@ class DatabaseSearch {
             "fish" => array('Class', 'Order', 'Family', 'Subfamily', 'nomenNoun', 'specificEpithet'),
             "miw" => array('Phylum', 'Class', 'Family', 'Genus', 'Species'),
             "mi" => array('Phylum', 'Class', 'Family', 'Genus', 'Specific epithet'),
-            "fossil" => array('phylum', 'class', 'family', 'genus', 'specificEpithet'),
+            "fossil" => array('Phylum', 'Class', 'Family', 'Genus', 'Kingdom', 'Subphylum', 'Superclass', 'Subclass', 'Order', 'Suborder', 'Species', 'Common Name'),
         };
 
         $searchFieldNames = $this->search_layout->listFields();
@@ -312,10 +278,11 @@ class DatabaseSearch {
     {
         return match ($this->name) {
             'vwsp', 'bryophytes', 'fungi', 'lichen', 'algae' => $isNumeric ? 'Accession Numerical' : 'Accession Number',
-            'fossil', 'avian', 'herpetology', 'mammal' => $isNumeric ? 'SortNum' : 'catalogNumber',
+            'avian', 'herpetology', 'mammal' => $isNumeric ? 'SortNum' : 'catalogNumber',
             'mi', 'miw' => $isNumeric ? 'SortNum' : 'Accession No',
             'fish' => 'accessionNo',
             'entomology' => 'SEM #',
+            'fossil' => 'Catalogue Number'
         };
     }
 }

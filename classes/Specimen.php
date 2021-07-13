@@ -290,7 +290,7 @@ class Specimen
     static function mapFieldName(string $field): string
     {
         return match (strtolower($field)) {
-            'accession no', 'catalognumber', 'accessionno', 'id', 'catalogue number' => 'Accession Number',
+            'accession no', 'catalognumber', 'accessionno', 'catalogue number' => 'Accession Number',
             'sem #' => 'SEM Number',
             'nomennoun' => 'Genus',
             'specificepithet' => 'Species',

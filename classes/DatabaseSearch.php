@@ -280,7 +280,7 @@ class DatabaseSearch {
             'vwsp', 'bryophytes', 'fungi', 'lichen', 'algae' => $isNumeric ? 'Accession Numerical' : 'Accession Number',
             'avian', 'herpetology', 'mammal' => $isNumeric ? 'SortNum' : 'catalogNumber',
             'mi', 'miw' => $isNumeric ? 'SortNum' : 'Accession No',
-            'fish' => 'accessionNo',
+            'fish' => 'ID',
             'entomology' => 'SEM #',
             'fossil' => 'Catalogue Number'
         };

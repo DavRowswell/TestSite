@@ -74,7 +74,7 @@ if ($_GET['taxon-search'] ?? null) {
         <!-- Page title below navbar -->
         <?php TitleBannerRender(database: DATABASE, recordNumber: $result->getFoundSetCount()); ?>
 
-        <?php $tableData = new TableData($result, $databaseSearch->getResultLayout()->listFields()) ?>
+        <?php $tableData = new TableData($result, $databaseSearch) ?>
 
         <!-- main body with table and its widgets -->
         <div class="container-fluid flex-grow-1">
@@ -241,7 +241,7 @@ if ($_GET['taxon-search'] ?? null) {
                 <table class="table table-hover table-striped" id="table">
                     <thead>
                         <tr>
-                            <?php foreach ($tableData->getTableHeads(page: $_GET['Page'] ?? 1, databaseName: DATABASE, requestUri: $_SERVER['REQUEST_URI']) as $id => $href): ?>
+                            <?php foreach ($tableData->getTableHeads(page: $_GET['Page'] ?? 1, requestUri: $_SERVER['REQUEST_URI']) as $id => $href): ?>
                                 <th scope="col" id="<?= $id ?>" class="text-center">
                                     <a href="<?= $href ?>" class="table-col-header conditional-text-color" role="button">
                                         <!-- field name -->
@@ -253,7 +253,7 @@ if ($_GET['taxon-search'] ?? null) {
                     </thead>
                     <tbody>
                         <?php try {
-                            foreach ($tableData->getTableRows(DATABASE) as $tableRow): ?>
+                            foreach ($tableData->getTableRows() as $tableRow): ?>
                                 <tr class="conditional-hover-background">
                                     <!-- row header with link to go to specimen page -->
                                     <th scope="row" class="text-nowrap">

@@ -15,26 +15,27 @@ class TableData
 
     private Result $result;
     private array $usefulFields;
+    private DatabaseSearch $databaseSearch;
 
 
-    public function __construct(Result $result, array $resultLayoutFields)
+    public function __construct(Result $result, DatabaseSearch $databaseSearch)
     {
         $this->result = $result;
+        $this->databaseSearch = $databaseSearch;
 
         # filter out unnecessary fields
-        $this->usefulFields = array_diff($resultLayoutFields, TableData::$ignoredFields);
+        $this->usefulFields = array_diff($this->databaseSearch->getResultLayout()->listFields(), TableData::$ignoredFields);
     }
 
     /**
      * Returns a list of table heads. At the moment it only returns the id and href of
      * each column.
      * @param int $page
-     * @param string $databaseName
      * @param string $requestUri
      * @param string $sortOrder
      * @return array
      */
-    public function getTableHeads(int $page, string $databaseName,
+    public function getTableHeads(int $page,
                                   string $requestUri, string $sortOrder = 'Descend'): array
     {
 
@@ -45,7 +46,7 @@ class TableData
             $id = htmlspecialchars(Specimen::FormatFieldName($field));
 
             $payloadList = [
-                'Database' => $databaseName,
+                'Database' => $this->databaseSearch->getName(),
                 'Sort' => $field,
                 'SortOrder' => $sortOrder === 'Descend' ? 'Ascend' : 'Descend',
                 'Page' => $page,
@@ -63,21 +64,22 @@ class TableData
     /**
      * Returns a list of TableRow objects, each object
      * corresponds to a result object from FMP
-     * @param string $databaseName
      * @return TableRow[]
      * @throws FileMakerException
      */
-    public function getTableRows(string $databaseName): array
+    public function getTableRows(): array
     {
         # a list with tableRow ID => TableRow object
         $rows = array();
+
+        $databaseName = $this->databaseSearch->getName();
 
         foreach ($this->result->getRecords() as $record) {
             $tableRow = new TableRow();
 
             foreach ($this->usefulFields as $field) {
                 # ID field logic
-                if (Specimen::FormatFieldName($field) === 'Accession Number' or $field === 'SEM #') {
+                if ($field == $this->databaseSearch->getIDFieldName()) {
                     $url = htmlspecialchars($databaseName) . '&AccessionNo=' . htmlspecialchars($record->getField($field));
                     $id = htmlspecialchars(trim($record->getField($field)));
 

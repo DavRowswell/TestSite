@@ -197,10 +197,10 @@ if ($_GET['taxon-search'] ?? null) {
                                 </div>
 
                                 <!-- only with image select, tooltip to explain why disabled -->
-                                <div class="form-check form-switch" <?php if (!in_array(DATABASE, kDATABASES_WITH_IMAGES)) echo 'data-bs-toggle="tooltip" title="No images available"' ?>>
+                                <div class="form-check form-switch" <?php if (!$databaseSearch->hasImages()) echo 'data-bs-toggle="tooltip" title="No images available"' ?>>
                                     <label class="form-check-label">
                                         <input type="checkbox" class="form-check-input checkbox-conditional-background"
-                                            <?php if (!in_array(DATABASE, kDATABASES_WITH_IMAGES)) echo 'disabled' ?>
+                                            <?php if (!$databaseSearch->hasImages()) echo 'disabled' ?>
                                             <?php echo array_key_exists('hasImage', $_GET) ? $_GET['hasImage'] == 'on' ? 'checked' : '' : '' ?>
                                                name="hasImage">
                                         Only show records that contain an image

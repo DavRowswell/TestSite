@@ -17,6 +17,13 @@ use airmoi\FileMaker\Object\Result;
 class DatabaseSearch {
 
     /**
+     * A list of all the valid Database names!
+     * @var array|string[]
+     */
+    static array $ValidNames = ['algae', 'avian', 'bryophytes', 'entomology', 'fish',
+    'fossil', 'fungi', 'herpetology', 'lichen', 'mammal', 'mi', 'miw', 'vwsp'];
+
+    /**
      * The FileMaker instance connected to this database
      * @var FileMaker
      */
@@ -61,22 +68,22 @@ class DatabaseSearch {
         return new self($fileMaker, $databaseName);
     }
 
-    function getFileMaker(): FileMaker
+    public function getFileMaker(): FileMaker
     {
         return $this->fileMaker;
     }
 
-    function getName(): string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    function getSearchLayout(): Layout
+    public function getSearchLayout(): Layout
     {
         return $this->search_layout;
     }
 
-    function getResultLayout(): Layout
+    public function getResultLayout(): Layout
     {
         return $this->result_layout;
     }
@@ -84,6 +91,15 @@ class DatabaseSearch {
     public function getDetailLayout(): Layout
     {
         return $this->detail_layout;
+    }
+
+    /**
+     * @return bool True if this database has images available for users to see
+     */
+    public function hasImages(): bool {
+        $databases_with_images = ['fish', 'avian', 'herpetology', 'mammal', 'vwsp', 'bryophytes',
+            'fungi', 'lichen', 'algae'];
+        return in_array($this->name, $databases_with_images);
     }
 
     /**

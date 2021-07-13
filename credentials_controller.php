@@ -1,8 +1,6 @@
 
 <?php
 
-require_once ('constants.php');
-
 /**
  * Will return the correct DB credentials depending on the database name.
  * @param string $databaseName
@@ -12,7 +10,7 @@ function getDBCredentials(string $databaseName): ?array
 {
 
     # check to make sure the given db name is valid
-    if (!in_array($databaseName, kDATABASES)) {
+    if (!in_array($databaseName, DatabaseSearch::$ValidNames)) {
         return null;
     }
 

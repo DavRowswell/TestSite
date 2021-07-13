@@ -2,7 +2,6 @@
 
 use airmoi\FileMaker\FileMakerException;
 use airmoi\FileMaker\Object\Record;
-require_once ('constants.php');
 
 /**
  * Checks the value to see if its a valid database.
@@ -24,7 +23,7 @@ function checkDatabaseField(?string $databaseFieldValue, bool $includeAll = fals
         exit;
     }
     # search in database list
-    else if (!in_array($databaseFieldValue, kDATABASES)) {
+    else if (!in_array($databaseFieldValue, DatabaseSearch::$ValidNames)) {
         $_SESSION['error'] = "Invalid database value given!";
         header('Location: error.php');
         exit;

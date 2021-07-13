@@ -87,14 +87,15 @@ class DatabaseSearch {
     }
 
     /**
-     * Will clean out the field to now show the ignored fields.
-     * @return Field[]
+     * @return string The name of this database in a clean and readable format
      */
-    public function getSearchFields(): array {
-        # TODO move this to database
-        $ignoreValues = ['SortNum' => '', 'Accession Numerical' => '', 'Imaged' => '', 'IIFRNo' => '',
-            'Photographs::photoFileName' => '', 'Event::eventDate' => '', 'card01' => '', 'Has Image' => '', 'imaged' => ''];
-        return array_diff_key($this->search_layout->getFields(), $ignoreValues);
+    public function getCleanName(): string {
+        return match ($this->name) {
+            "mi" => "Dry Marine Invertebrate",
+            "miw" => "Wet Marine Invertebrate",
+            "vwsp" => "Vascular",
+            default => ucfirst($this->name)
+        };
     }
 
     /**
@@ -131,6 +132,17 @@ class DatabaseSearch {
     }
 
     /**
+     * Will clean out the field to now show the ignored fields.
+     * @return Field[]
+     */
+    public function getSearchFields(): array {
+        # TODO move this to database
+        $ignoreValues = ['SortNum' => '', 'Accession Numerical' => '', 'Imaged' => '', 'IIFRNo' => '',
+            'Photographs::photoFileName' => '', 'Event::eventDate' => '', 'card01' => '', 'Has Image' => '', 'imaged' => ''];
+        return array_diff_key($this->search_layout->getFields(), $ignoreValues);
+    }
+
+    /**
      * Will query the FileMakerPro API for a result item. The query takes query fields,
      * and also deals with:
      * - data pagination with the pageNumber field
@@ -145,7 +157,7 @@ class DatabaseSearch {
      * @return Result Result or Error (Error if no entries for query too)
      * @throws FileMakerException
      */
-    function queryForResults(int $maxResponseAmount, array $getFields, string $logicalOperator, ?string $sortQuery,
+    public function queryForResults(int $maxResponseAmount, array $getFields, string $logicalOperator, ?string $sortQuery,
                              int $pageNumber, ?string $sortType): Result
     {
 
@@ -274,7 +286,7 @@ class DatabaseSearch {
      * @param bool $isNumeric
      * @return string
      */
-    function getIDFieldName(bool $isNumeric = false): string
+    public function getIDFieldName(bool $isNumeric = false): string
     {
         return match ($this->name) {
             'vwsp', 'bryophytes', 'fungi', 'lichen', 'algae' => $isNumeric ? 'Accession Numerical' : 'Accession Number',

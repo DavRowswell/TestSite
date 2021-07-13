@@ -42,7 +42,7 @@ if (isset($_SESSION['databaseSearch']) and ($_SESSION['databaseSearch'])->getNam
         <?php Navbar(); ?>
 
         <!-- Page title below navbar -->
-        <?php TitleBannerSearch(database: DATABASE, paddingIndex: 3); ?>
+        <?php TitleBannerSearch(databaseName: $databaseSearch->getCleanName(), paddingIndex: 3); ?>
 
         <div class="container-fluid flex-grow-1">
             <!-- search or show all -->

@@ -9,12 +9,10 @@ require_once ('utilities.php');
 
 /**
  * A title banner is a row with a title and a background color
- * @param string $database
+ * @param string $databaseName
  * @param int $paddingIndex
  */
-function TitleBannerSearch(string $database, int $paddingIndex = 2) {
-    $databaseName = getDatabaseName($database);
-
+function TitleBannerSearch(string $databaseName, int $paddingIndex = 2) {
     echo "
             <div class='container-fluid p-$paddingIndex conditional-background text-center'>
                   <h1>
@@ -23,9 +21,7 @@ function TitleBannerSearch(string $database, int $paddingIndex = 2) {
             </div>
         ";
 }
-function TitleBannerRender(string $database, int $recordNumber) {
-    $databaseName = getDatabaseName($database);
-
+function TitleBannerRender(string $databaseName, int $recordNumber) {
     echo "
         <div class='container-fluid p-2 conditional-background text-center'>
             <h2>
@@ -34,8 +30,7 @@ function TitleBannerRender(string $database, int $recordNumber) {
         </div>
     ";
 }
-function TitleBannerDetail(string $database, string $accessionNumber, string $backHref) {
-    $databaseName = getDatabaseName($database);
+function TitleBannerDetail(string $databaseName, string $accessionNumber, string $backHref) {
     echo "
         <div class='container-fluid p-2 conditional-background row g-0'>
             <div class='col-1'>
@@ -108,6 +103,18 @@ function TableControllerWidget($maxResponses, $result) {
         </div>
     ";
 }
+/**
+ * Will clean out a url from a variable using regex.
+ * Kudos to https://stackoverflow.com/questions/1251582/beautiful-way-to-remove-get-variables-with-php
+ * @param string $url full url to remove var from
+ * @param string $varname url var name to remove
+ * @return string
+ */
+function removeUrlVar(string $url, string $varname): string
+{
+    return preg_replace('/([?&])'.$varname.'=[^&]+(&|$)/','',$url);
+}
+
 /**
  * @param int $page current page index
  * @param string $noPageUri uri without Page field

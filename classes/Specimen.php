@@ -108,7 +108,6 @@ class Specimen
         }
     }
 
-
     /**
      * Depending on the database in use, will try to get specimen images and add them
      * to the objects image list.
@@ -190,10 +189,29 @@ class Specimen
         }
     }
     private function _herbariumImageSetup() {
-        $url = getPhotoUrl(ACCESSIONNUMBER, DATABASE);
+        $url = $this->_getHerbariumImageUrl($this->id, $this->database->getName());
         if (@getimagesize($url)[0] > 0 && @getimagesize($url)[1] > 0) {
             array_push($this->images, new Image(url:$url, href: $url, alt: "Species image"));
         }
+    }
+    private function _getHerbariumImageUrl(string $identifier, string $databaseName): string
+    {
+        if ($databaseName === 'vwsp') {
+            return "https://herbweb.botany.ubc.ca/herbarium/images/vwsp_images/Large_web/".$identifier.".jpg";
+        }
+        else if ($databaseName === 'algae') {
+            return "https://herbweb.botany.ubc.ca/herbarium/images/ubcalgae_images/Large_web/".$identifier.".jpg";
+        }
+        else if ($databaseName === 'lichen') {
+            return "https://herbweb.botany.ubc.ca/herbarium/images/lichen_images/Large_web/".$identifier.".jpg";
+        }
+        else if ($databaseName === 'fungi') {
+            return "https://herbweb.botany.ubc.ca/herbarium/images/fungi_images/Large_web/".$identifier.".jpg";
+        }
+        else if ($databaseName === 'bryophytes') {
+            return "https://herbweb.botany.ubc.ca/herbarium/images/bryophytes_images/Large_web/".$identifier.".jpg";
+        }
+        else return '#';
     }
 
 
@@ -260,7 +278,6 @@ class Specimen
     {
         return $this->locationData;
     }
-
 
 
     /**

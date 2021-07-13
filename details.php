@@ -58,7 +58,7 @@ if(isset($_SERVER['HTTP_REFERER'])) {
     <body>
         <?php Navbar(); ?>
 
-        <?php TitleBannerDetail(DATABASE, ACCESSIONNUMBER, $previousPageLink); ?>
+        <?php TitleBannerDetail($databaseSearch->getCleanName(), ACCESSIONNUMBER, $previousPageLink); ?>
 
         <div class="container-fluid flex-grow-1">
             <!-- basic info plus images -->
